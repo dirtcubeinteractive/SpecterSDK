@@ -6,7 +6,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
+using SpecterSDK.Shared;
 using UnityEngine;
 
 using AuthenticationHeaderValue = System.Net.Http.Headers.AuthenticationHeaderValue;
@@ -65,8 +65,8 @@ namespace SpecterSDK
 
         public SpecterApiClientBase(SpecterConfigData configData)
         {
-            m_HttpClient = new HttpClient();
             m_Config = new SpecterRuntimeConfig(configData);
+            m_HttpClient = new HttpClient();
         }
         
         public static string ToQueryString(object obj, string prefix = null)
@@ -109,7 +109,7 @@ namespace SpecterSDK
 
             if (requestBody != null)
             {
-                var bodyStr = JsonConvert.SerializeObject(requestBody);
+                var bodyStr = SpecterJson.SerializeObject(requestBody);
                 request.Content = new StringContent(bodyStr, Encoding.UTF8, SPApiMediaType.ApplicationJson);
             }
 
@@ -123,7 +123,7 @@ namespace SpecterSDK
                     var errResString = await response.Content.ReadAsStringAsync();
                     Debug.LogError(errResString);
                     
-                    var apiError = JsonConvert.DeserializeObject<SPApiError>(errResString);
+                    var apiError = SpecterJson.DeserializeObject<SPApiError>(errResString);
                     var errResponse = new SPApiResponse<T>()
                     {
                         status = SPApiStatus.Error, 
@@ -139,7 +139,7 @@ namespace SpecterSDK
                 var resString = await response.Content.ReadAsStringAsync();
                 Debug.Log(resString);
                 
-                var apiResponse = JsonConvert.DeserializeObject<SPApiResponse<T>>(resString);
+                var apiResponse = SpecterJson.DeserializeObject<SPApiResponse<T>>(resString);
                 return apiResponse;
             }
             catch (Exception e)

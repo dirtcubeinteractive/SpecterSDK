@@ -6,6 +6,12 @@ namespace SpecterSDK
 {
     public static class Specter
     {
+        #region Path constants
+        
+        public const string CONFIG_DATA_FILE_PATH = "Config/SpecterConfigData";
+        
+        #endregion
+        
         public class SPInitOptions
         {
             public SPEnvironment Environment { get; set; }
@@ -16,7 +22,7 @@ namespace SpecterSDK
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         public static void AutoInitialize()
         {
-            var configData = Resources.Load<SpecterConfigData>(SpecterRuntimeConfig.DATA_FILE_PATH);
+            var configData = Resources.Load<SpecterConfigData>(CONFIG_DATA_FILE_PATH);
             if (!configData.AutoInit)
                 return;
 

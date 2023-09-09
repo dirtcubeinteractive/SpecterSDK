@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf6bc81ee35345da9949ac3adee086aa, type: 3}
   m_Name: SpecterConfigData
   m_EditorClassIdentifier: 
+  m_AutoInit: 1
   m_Environment: 0

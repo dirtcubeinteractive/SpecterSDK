@@ -4,8 +4,6 @@ namespace SpecterSDK
 {
     public class SpecterRuntimeConfig
     {
-        public const string DATA_FILE_PATH = "Specter/SpecterConfigData";
-        
         public readonly string AccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJkM2NlNGY3OS02NzRlLTQ1MDktODdhMC0yMzM0NDFmNjAxNTkiLCJwcm9qZWN0SWQiOiIyNjI3Yjk3ZC0zNTEyLTRhZjQtODhmNS1jZTMyZTRlMDM5ODAiLCJpYXQiOjE2OTQxMTQxMzQsImV4cCI6MTY5NjcwNjEzNH0.ENagA0nHVp9cRgAv5r2WsCXaGOV5_8p5twMjw38mCTM";
         public readonly string EntityToken = "43f0e1380fd1d3850b7b18f201494272";
         
@@ -38,7 +36,6 @@ namespace SpecterSDK
         }
     }
     
-    [CreateAssetMenu(fileName="NewSpecterConfig", menuName="Create Specter Config")]
     public class SpecterConfigData: ScriptableObject
     {
         [SerializeField] private bool m_AutoInit = true;
