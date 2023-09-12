@@ -2,6 +2,8 @@ using UnityEngine;
 
 namespace SpecterSDK
 {
+    using APIClients;
+    
     public class SpecterRuntimeConfig
     {
         public readonly string AccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJkM2NlNGY3OS02NzRlLTQ1MDktODdhMC0yMzM0NDFmNjAxNTkiLCJwcm9qZWN0SWQiOiIyNjI3Yjk3ZC0zNTEyLTRhZjQtODhmNS1jZTMyZTRlMDM5ODAiLCJpYXQiOjE2OTQxMTQxMzQsImV4cCI6MTY5NjcwNjEzNH0.ENagA0nHVp9cRgAv5r2WsCXaGOV5_8p5twMjw38mCTM";

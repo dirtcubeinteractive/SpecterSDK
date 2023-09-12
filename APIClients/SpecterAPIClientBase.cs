@@ -11,7 +11,7 @@ using UnityEngine;
 
 using AuthenticationHeaderValue = System.Net.Http.Headers.AuthenticationHeaderValue;
 
-namespace SpecterSDK
+namespace SpecterSDK.APIClients
 {
     public struct SPApiStatus
     {
@@ -23,6 +23,12 @@ namespace SpecterSDK
         public const string UnprocessableEntity = "unprocessable_entity";
     }
 
+    public enum SPAuthType
+    {
+        None,
+        AccessToken
+    }
+    
     public struct SPApiAuthScheme
     {
         public const string Bearer = "Bearer";
@@ -38,6 +44,15 @@ namespace SpecterSDK
         Development,
         Staging,
         Production
+    }
+
+    [System.Serializable]
+    public class SPApiRequestEntity
+    {
+        public string value { get; set; }
+        public List<string> attributes { get; set; }
+        public int limit { get; set; } = 1;
+        public int? offset { get; set; } = 0;
     }
 
     [System.Serializable]
@@ -60,13 +75,16 @@ namespace SpecterSDK
 
     public class SpecterApiClientBase
     {
-        protected readonly HttpClient m_HttpClient;
+        private static HttpClient m_HttpClient;
+        
         protected readonly SpecterRuntimeConfig m_Config;
 
-        public SpecterApiClientBase(SpecterConfigData configData)
+        public virtual SPAuthType AuthType => SPAuthType.None;
+        
+        public SpecterApiClientBase(SpecterRuntimeConfig config)
         {
-            m_Config = new SpecterRuntimeConfig(configData);
-            m_HttpClient = new HttpClient();
+            m_Config = config;
+            m_HttpClient ??= new HttpClient();
         }
         
         public static string ToQueryString(object obj, string prefix = null)
@@ -97,6 +115,7 @@ namespace SpecterSDK
         public async Task<SPApiResponse<T>> MakeRequestAsync<T>(
             HttpMethod method, 
             string endpoint = "", 
+            SPAuthType authType = SPAuthType.None,
             object requestParams = null, 
             object requestBody = null
             ) where T: class
@@ -105,7 +124,15 @@ namespace SpecterSDK
             var uri = $"{m_Config.BaseUrl}{endpoint}{suffix}";
             
             using var request = new HttpRequestMessage(method, uri);
-            request.Headers.Authorization = new AuthenticationHeaderValue(SPApiAuthScheme.Bearer, m_Config.AccessToken);
+            switch (authType)
+            {
+                case SPAuthType.AccessToken:
+                    request.Headers.Authorization = new AuthenticationHeaderValue(SPApiAuthScheme.Bearer, m_Config.AccessToken);
+                    break;
+                case SPAuthType.None:
+                    break;
+            }
+            
 
             if (requestBody != null)
             {
@@ -149,19 +176,19 @@ namespace SpecterSDK
             }
         }
 
-        public async Task<SPApiResponse<T>> GetAsync<T>(string endpoint, object queryParams) where T: class
+        public async Task<SPApiResponse<T>> GetAsync<T>(string endpoint, SPAuthType authType, object queryParams) where T: class
         {
-            return await MakeRequestAsync<T>(HttpMethod.Get, endpoint, requestParams: queryParams);
+            return await MakeRequestAsync<T>(HttpMethod.Get, endpoint, authType: authType, requestParams: queryParams);
         }
 
-        public async Task<SPApiResponse<T>> PostAsync<T>(string endpoint, object bodyParams) where T : class
+        public async Task<SPApiResponse<T>> PostAsync<T>(string endpoint, SPAuthType authType, object bodyParams) where T : class
         {
-            return await MakeRequestAsync<T>(HttpMethod.Post, endpoint, requestBody: bodyParams);
+            return await MakeRequestAsync<T>(HttpMethod.Post, endpoint, authType: authType, requestBody: bodyParams);
         }
 
-        public async Task<SPApiResponse<T>> PutAsync<T>(string endpoint, object bodyParams) where T : class
+        public async Task<SPApiResponse<T>> PutAsync<T>(string endpoint, SPAuthType authType, object bodyParams) where T : class
         {
-            return await MakeRequestAsync<T>(HttpMethod.Put, endpoint, requestBody: bodyParams);
+            return await MakeRequestAsync<T>(HttpMethod.Put, endpoint, authType: authType, requestBody: bodyParams);
         }
     }
 }

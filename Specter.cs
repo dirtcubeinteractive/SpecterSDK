@@ -4,11 +4,17 @@ using UnityEngine;
 
 namespace SpecterSDK
 {
+    using APIClients;
+    
     public static class Specter
     {
-        #region Path constants
-        
-        public const string CONFIG_DATA_FILE_PATH = "Config/SpecterConfigData";
+        #region Path constants & props
+
+        public const string SDK_DIRNAME = "SpecterSDK";
+        public const string SHARED_DATA_DIRNAME = "SpecterSharedResources";
+        public const string CONFIG_FILENAME = "SpecterConfigData";
+
+        public static string ConfigDataResourcePath => $"{SHARED_DATA_DIRNAME}/{CONFIG_FILENAME}";
         
         #endregion
         
@@ -22,7 +28,13 @@ namespace SpecterSDK
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         public static void AutoInitialize()
         {
-            var configData = Resources.Load<SpecterConfigData>(CONFIG_DATA_FILE_PATH);
+            var configData = Resources.Load<SpecterConfigData>(ConfigDataResourcePath);
+            if (configData == null)
+            {
+                Debug.LogWarning("No Specter config data found. Specter will need to be initialized manually by calling Specter.Initialize()");
+                return;
+            }
+
             if (!configData.AutoInit)
                 return;
 

@@ -11,7 +11,7 @@ namespace SpecterSDK.Editor
         [MenuItem("Specter/Select Specter Config")]
         public static void SelectOrCreateSpecterConfigData()
         {
-            SPEditorUtils.SelectOrCreateScriptableObject<SpecterConfigData>("SpecterConfigData", "SpecterSDK", "Config");
+            Selection.activeObject = SPEditorUtils.LoadOrCreateScriptableObjectResource<SpecterConfigData>(Specter.CONFIG_FILENAME,  parentDirectoryPath: Specter.SDK_DIRNAME, subDirectoryPath: Specter.SHARED_DATA_DIRNAME);
         }
     }
 }
