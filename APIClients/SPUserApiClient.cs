@@ -1,13 +1,29 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using JetBrains.Annotations;
+using Newtonsoft.Json;
 using SpecterSDK.Models;
 
 namespace SpecterSDK.APIClients
 {
+    [System.Serializable]
     public class SPUserGetProfileRequest
     {
         public List<string> attributes { get; set; }
         public List<SPApiRequestEntity> entities { get; set; }
+    }
+
+    [System.Serializable]
+    [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
+    public class SPUserUpdateProfileRequest
+    {
+        public string firstName { get; set; }
+        public string lastName { get; set; }
+        public string email { get; set; }
+        public string birthdate { get; set; }
+        public string customId { get; set; }
+        public bool? isKyc { get; set; }
     }
 
     public class SPUserApi: SpecterApiClientBase
@@ -16,38 +32,27 @@ namespace SpecterSDK.APIClients
 
         public SPUserApi(SpecterRuntimeConfig config) : base(config) {}
 
-        public async void GetProfile(List<string> userAttributes, List<SPApiRequestEntity> userEntities)
+        public async Task<SPApiResponse<SPUserProfileResponseData>> GetProfile(SPUserGetProfileRequest request)
         {
-            string endpoint = "/v1/client/user/profile";
-
-            List<string> attributes = new List<string>()
+            List<string> defaultAttributes = new List<string>()
             {
                 "id",
-                "firstName",
-                "lastName",
                 "username",
-                "customId"
-            };
-            
-            attributes.AddRange(userAttributes ?? new List<string>());
-
-            Dictionary<string, SPApiRequestEntity> entityMap = new Dictionary<string, SPApiRequestEntity>();
-
-            if (userEntities != null)
-            {
-                foreach (var entity in userEntities)
-                {
-                    entityMap[entity.value] = entity;
-                }
-            }
-
-            SPUserGetProfileRequest requestBody = new SPUserGetProfileRequest()
-            {
-                attributes = attributes.Distinct().ToList(),
-                entities = entityMap.Values.ToList()
+                "customId",
             };
 
-            var response = await PostAsync<SPUserProfileResponseData>(endpoint, AuthType, requestBody);
+            request.attributes ??= new List<string>();
+            request.attributes.AddRange(defaultAttributes);
+            request.attributes = request.attributes.Distinct().ToList();
+
+            var response = await PostAsync<SPUserProfileResponseData>("/v1/client/user/profile", AuthType, request);
+            return response;
+        }
+
+        public async Task<SPApiResponse<object>> UpdateProfile(SPUserUpdateProfileRequest request)
+        {
+            var response = await PutAsync<object>("/v1/client/user/update", AuthType, request);
+            return response;
         }
     }
 }

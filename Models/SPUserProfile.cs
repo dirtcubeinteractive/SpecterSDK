@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace SpecterSDK.Models
 {
+    [System.Serializable]
     public class SPUserProfileResponseData
     {
         public string id { get; set; }

@@ -73,7 +73,7 @@ namespace SpecterSDK.APIClients
         public string error { get; set; }
     }
 
-    public class SpecterApiClientBase
+    public abstract class SpecterApiClientBase
     {
         private static HttpClient m_HttpClient;
         
@@ -81,7 +81,7 @@ namespace SpecterSDK.APIClients
 
         public virtual SPAuthType AuthType => SPAuthType.None;
         
-        public SpecterApiClientBase(SpecterRuntimeConfig config)
+        protected SpecterApiClientBase(SpecterRuntimeConfig config)
         {
             m_Config = config;
             m_HttpClient ??= new HttpClient();
@@ -120,6 +120,11 @@ namespace SpecterSDK.APIClients
             object requestBody = null
             ) where T: class
         {
+            if (m_Config == null || m_HttpClient == null)
+            {
+                throw new System.OperationCanceledException("Specter was not initialized correctly. Please call Specter.Initialize or set Specter Config to AutoInit");
+            }
+            
             var suffix = requestParams != null ? $"?{ToQueryString(requestParams)}" : "";
             var uri = $"{m_Config.BaseUrl}{endpoint}{suffix}";
             
