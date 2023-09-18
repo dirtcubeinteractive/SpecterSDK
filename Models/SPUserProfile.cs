@@ -5,7 +5,14 @@ using UnityEngine;
 namespace SpecterSDK.Models
 {
     [System.Serializable]
-    public class SPUserProfileResponseData
+    public class SPAuthUserAccount
+    {
+        public string authProvider { get; set; }
+        public string userId { get; set; }
+    }
+    
+    [System.Serializable]
+    public class SPUserProfile
     {
         public string id { get; set; }
         public string firstName { get; set; }
@@ -17,5 +24,6 @@ namespace SpecterSDK.Models
         public string phone { get; set; }
         public string accessToken { get; set; }
         public string entityToken { get; set; }
+        public List<SPAuthUserAccount> linkedAccounts { get; set; }
     }
 }

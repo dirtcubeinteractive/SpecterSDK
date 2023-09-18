@@ -18,7 +18,8 @@ namespace SpecterSDK
         
         #endregion
         
-        public static SPUserApi User { get; private set; }
+        public static SPAuthApiClient Auth { get; private set; }
+        public static SPUserApiClient User { get; private set; }
         
         public class SPInitOptions
         {
@@ -49,7 +50,8 @@ namespace SpecterSDK
             options ??= new SPInitOptions() { Environment = SPEnvironment.Development };
             Config = new SpecterRuntimeConfig(options.Environment);
 
-            User = new SPUserApi(Config);
+            Auth = new SPAuthApiClient(Config);
+            User = new SPUserApiClient(Config);
         }
     }
 }

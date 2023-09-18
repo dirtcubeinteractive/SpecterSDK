@@ -8,7 +8,7 @@ using SpecterSDK.Models;
 namespace SpecterSDK.APIClients
 {
     [System.Serializable]
-    public class SPUserGetProfileRequest
+    public class SPUserGetProfileRequest : SPApiRequestBase
     {
         public List<string> attributes { get; set; }
         public List<SPApiRequestEntity> entities { get; set; }
@@ -16,7 +16,7 @@ namespace SpecterSDK.APIClients
 
     [System.Serializable]
     [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPUserUpdateProfileRequest
+    public class SPUserUpdateProfileRequest : SPApiRequestBase
     {
         public string firstName { get; set; }
         public string lastName { get; set; }
@@ -26,13 +26,13 @@ namespace SpecterSDK.APIClients
         public bool? isKyc { get; set; }
     }
 
-    public class SPUserApi: SpecterApiClientBase
+    public class SPUserApiClient: SpecterApiClientBase
     {
         public override SPAuthType AuthType => SPAuthType.AccessToken;
 
-        public SPUserApi(SpecterRuntimeConfig config) : base(config) {}
+        public SPUserApiClient(SpecterRuntimeConfig config) : base(config) {}
 
-        public async Task<SPApiResponse<SPUserProfileResponseData>> GetProfile(SPUserGetProfileRequest request)
+        public async Task<SPApiResponse<SPUserProfile>> GetProfile(SPUserGetProfileRequest request)
         {
             List<string> defaultAttributes = new List<string>()
             {
@@ -45,7 +45,7 @@ namespace SpecterSDK.APIClients
             request.attributes.AddRange(defaultAttributes);
             request.attributes = request.attributes.Distinct().ToList();
 
-            var response = await PostAsync<SPUserProfileResponseData>("/v1/client/user/profile", AuthType, request);
+            var response = await PostAsync<SPUserProfile>("/v1/client/user/profile", AuthType, request);
             return response;
         }
 

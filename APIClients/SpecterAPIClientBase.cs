@@ -45,6 +45,9 @@ namespace SpecterSDK.APIClients
         Staging,
         Production
     }
+    
+    [System.Serializable]
+    public abstract class SPApiRequestBase { }
 
     [System.Serializable]
     public class SPApiRequestEntity
