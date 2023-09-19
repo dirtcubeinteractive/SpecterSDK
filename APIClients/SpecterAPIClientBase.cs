@@ -6,8 +6,10 @@ using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using SpecterSDK.Shared;
+using SpecterSDK.APIModels;
+using SpecterSDK.APIModels.Interfaces;
 using UnityEngine;
+using SpecterSDK.Shared;
 
 using AuthenticationHeaderValue = System.Net.Http.Headers.AuthenticationHeaderValue;
 
@@ -39,43 +41,6 @@ namespace SpecterSDK.APIClients
         public const string ApplicationJson = "application/json";
     }
 
-    public enum SPEnvironment
-    {
-        Development,
-        Staging,
-        Production
-    }
-    
-    [System.Serializable]
-    public abstract class SPApiRequestBase { }
-
-    [System.Serializable]
-    public class SPApiRequestEntity
-    {
-        public string value { get; set; }
-        public List<string> attributes { get; set; }
-        public int limit { get; set; } = 1;
-        public int? offset { get; set; } = 0;
-    }
-
-    [System.Serializable]
-    public class SPApiResponse<T> where T: class
-    {
-        public string status { get; set; }
-        public int code { get; set; }
-        public string message { get; set; }
-        public List<SPApiError> errors { get; set; }
-        public T data { get; set; }
-    }
-
-    [System.Serializable]
-    public class SPApiError
-    {
-        public int statusCode { get; set; }
-        public string message { get; set; }
-        public string error { get; set; }
-    }
-
     public abstract class SpecterApiClientBase
     {
         private static HttpClient m_HttpClient;
@@ -89,30 +54,16 @@ namespace SpecterSDK.APIClients
             m_Config = config;
             m_HttpClient ??= new HttpClient();
         }
-        
-        public static string ToQueryString(object obj, string prefix = null)
+
+        protected void ConfigureProjectId(IProjectConfigurable request)
         {
-            if (obj == null)
-                return string.Empty;
-
-            var properties = from p in obj.GetType().GetProperties()
-                where p.GetValue(obj, null) != null
-                select ToQueryStringProperty(p.Name, p.GetValue(obj, null), prefix);
-
-            return string.Join("&", properties.Where(p => !string.IsNullOrEmpty(p)));
-        }
-
-        protected static string ToQueryStringProperty(string name, object value, string prefix)
-        {
-            string key = string.IsNullOrEmpty(prefix) ? Uri.EscapeDataString(name) : $"{prefix}.{Uri.EscapeDataString(name)}";
-
-            if (value is string or ValueType) // Check if it's a value type or string
+            if (string.IsNullOrEmpty(request.projectId))
             {
-                return $"{key}={Uri.EscapeDataString(value.ToString())}";
+                if (string.IsNullOrEmpty(m_Config?.ProjectId))
+                    throw new ArgumentException($"{request.GetType().Name}: Project Id cannot be null or empty");
+                
+                request.projectId = m_Config.ProjectId;
             }
-
-            // If nested object, recursively call to serialize
-            return ToQueryString(value, key);
         }
 
         public async Task<SPApiResponse<T>> MakeRequestAsync<T>(
@@ -128,7 +79,7 @@ namespace SpecterSDK.APIClients
                 throw new System.OperationCanceledException("Specter was not initialized correctly. Please call Specter.Initialize or set Specter Config to AutoInit");
             }
             
-            var suffix = requestParams != null ? $"?{ToQueryString(requestParams)}" : "";
+            var suffix = requestParams != null ? $"?{SpecterJson.ToQueryString(requestParams)}" : "";
             var uri = $"{m_Config.BaseUrl}{endpoint}{suffix}";
             
             using var request = new HttpRequestMessage(method, uri);
@@ -139,6 +90,8 @@ namespace SpecterSDK.APIClients
                     break;
                 case SPAuthType.None:
                     break;
+                default:
+                    throw new NotImplementedException($"Specter SDK unhandled auth type: {authType.ToString()}");
             }
             
 
@@ -184,17 +137,17 @@ namespace SpecterSDK.APIClients
             }
         }
 
-        public async Task<SPApiResponse<T>> GetAsync<T>(string endpoint, SPAuthType authType, object queryParams) where T: class
+        protected async Task<SPApiResponse<T>> GetAsync<T>(string endpoint, SPAuthType authType, object queryParams) where T: class
         {
             return await MakeRequestAsync<T>(HttpMethod.Get, endpoint, authType: authType, requestParams: queryParams);
         }
 
-        public async Task<SPApiResponse<T>> PostAsync<T>(string endpoint, SPAuthType authType, object bodyParams) where T : class
+        protected async Task<SPApiResponse<T>> PostAsync<T>(string endpoint, SPAuthType authType, object bodyParams) where T : class
         {
             return await MakeRequestAsync<T>(HttpMethod.Post, endpoint, authType: authType, requestBody: bodyParams);
         }
 
-        public async Task<SPApiResponse<T>> PutAsync<T>(string endpoint, SPAuthType authType, object bodyParams) where T : class
+        protected async Task<SPApiResponse<T>> PutAsync<T>(string endpoint, SPAuthType authType, object bodyParams) where T : class
         {
             return await MakeRequestAsync<T>(HttpMethod.Put, endpoint, authType: authType, requestBody: bodyParams);
         }

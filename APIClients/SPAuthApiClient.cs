@@ -1,8 +1,9 @@
 using System.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
+using SpecterSDK.APIModels;
+using SpecterSDK.Shared;
 using UnityEngine;
-using SpecterSDK.Models;
 
 namespace SpecterSDK.APIClients
 {
@@ -25,9 +26,12 @@ namespace SpecterSDK.APIClients
 
         public SPAuthApiClient(SpecterRuntimeConfig config) : base(config) {}
 
-        public async Task<SPApiResponse<SPUserProfile>> LoginWithCustomId(SPAuthLoginCustomIdRequest request)
+        public async Task<SPApiResponse<SPUserProfileData>> LoginWithCustomId(SPAuthLoginCustomIdRequest request)
         {
-            var response = await PostAsync<SPUserProfile>("/v1/client/auth/login-custom", AuthType, request);
+            if (string.IsNullOrEmpty(request.projectId))
+                request.projectId = m_Config.ProjectId;
+                
+            var response = await PostAsync<SPUserProfileData>("/v1/client/auth/login-custom", AuthType, request);
             return response;
         }
     }

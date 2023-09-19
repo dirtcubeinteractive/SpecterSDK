@@ -1,8 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
-namespace SpecterSDK.Models
+namespace SpecterSDK.APIModels
 {
     [System.Serializable]
     public class SPAuthUserAccount
@@ -12,7 +10,7 @@ namespace SpecterSDK.Models
     }
     
     [System.Serializable]
-    public class SPUserProfile
+    public class SPUserProfileData : SPModel
     {
         public string id { get; set; }
         public string firstName { get; set; }

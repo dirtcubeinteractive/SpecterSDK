@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using SpecterSDK;
 using SpecterSDK.Editor.Utils;
+using SpecterSDK.Shared;
 
 namespace SpecterSDK.Editor
 {

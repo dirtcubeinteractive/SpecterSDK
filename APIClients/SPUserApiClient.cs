@@ -3,7 +3,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
-using SpecterSDK.Models;
+using SpecterSDK.APIModels;
+using SpecterSDK.Shared;
 
 namespace SpecterSDK.APIClients
 {
@@ -32,7 +33,7 @@ namespace SpecterSDK.APIClients
 
         public SPUserApiClient(SpecterRuntimeConfig config) : base(config) {}
 
-        public async Task<SPApiResponse<SPUserProfile>> GetProfile(SPUserGetProfileRequest request)
+        public async Task<SPApiResponse<SPUserProfileData>> GetProfile(SPUserGetProfileRequest request)
         {
             List<string> defaultAttributes = new List<string>()
             {
@@ -45,7 +46,7 @@ namespace SpecterSDK.APIClients
             request.attributes.AddRange(defaultAttributes);
             request.attributes = request.attributes.Distinct().ToList();
 
-            var response = await PostAsync<SPUserProfile>("/v1/client/user/profile", AuthType, request);
+            var response = await PostAsync<SPUserProfileData>("/v1/client/user/profile", AuthType, request);
             return response;
         }
 

@@ -1,11 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
+using SpecterSDK.APIClients;
+using SpecterSDK.Shared;
 using UnityEngine;
 
 namespace SpecterSDK
 {
-    using APIClients;
-    
     public static class Specter
     {
         #region Path constants & props
@@ -24,9 +22,21 @@ namespace SpecterSDK
         public class SPInitOptions
         {
             public SPEnvironment Environment { get; set; }
+            public string ProjectId { get; set; }
         }
         
         public static SpecterRuntimeConfig Config;
+
+        public static SpecterRuntimeConfig LoadConfig()
+        {
+            var configData = Resources.Load<SpecterConfigData>(ConfigDataResourcePath);
+            if (configData != null) 
+                return new SpecterRuntimeConfig(configData);
+            
+            Debug.LogWarning("No Specter config data found. Specter will need to be initialized manually by calling Specter.Initialize()");
+            return null;
+
+        }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         public static void AutoInitialize()
@@ -41,7 +51,7 @@ namespace SpecterSDK
             if (!configData.AutoInit)
                 return;
 
-            var options = new SPInitOptions() { Environment = configData.Environment };
+            var options = new SPInitOptions() { Environment = configData.Environment, ProjectId = configData.ProjectId };
             Initialize(options);
         }
         
