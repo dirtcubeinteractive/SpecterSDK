@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using NUnit.Framework;
 using SpecterSDK.Shared;
 using Unity.Plastic.Newtonsoft.Json;
 using UnityEditor;
@@ -9,6 +10,11 @@ using UnityEngine;
 
 namespace SpecterSDK.Editor
 {
+    public interface ICreateTaskWindowDelegate
+    {
+        public List<SPAppEvent> GetAppEvents();
+    }
+    
     public class SpecterCreateTaskWindow : SpecterEditorWindow
     {
         private enum RewardClaim
@@ -34,7 +40,7 @@ namespace SpecterSDK.Editor
         [Serializable]
         private class RewardCreateModel
         {
-            public RewardType Type { get; set; }
+            public RewardType Type;
             public int? IntId { get; set; }
             public string Id { get; set; }
             public int Quantity { get; set; }
@@ -43,20 +49,24 @@ namespace SpecterSDK.Editor
         [Serializable]
         private class TaskCreateModel
         {
-            public string Name { get; set; }
-            public string TaskId { get; set; }
-            public TaskType Type { get; set; }
-            public string EventId { get; set; }
-            public string Description { get; set; }
-            public string IconUrl { get; set; }
-            public RewardClaim RewardClaim { get; set; }
-            public bool IsLockedByLevel { get; set; }
-            public SpecterQueryBuilder.Group BusinessLogics { get; set; }
-            public List<object> Config { get; set; }
+            public string Name;
+            public string TaskId;
+            public TaskType Type;
+            public string EventId;
+            public string Description;
+            public string IconUrl;
+            public RewardClaim RewardClaim;
+            public bool IsLockedByLevel;
+            public Dictionary<string, object> BusinessLogics;
+            public List<Dictionary<string, object>> Config;
         }
-        
+
+        private SPCreateTaskAdminRequest m_CreateTask;
         private TaskCreateModel m_Task;
         private List<RewardCreateModel> m_RewardCreateModels;
+        private List<SPAppEvent> m_AppEvents;
+
+        private int m_SelectedEventIndex;
         
         public SpecterQueryBuilder.Group Query => m_QueryBuilder?.Root;
         private SpecterQueryBuilder m_QueryBuilder;
@@ -64,18 +74,23 @@ namespace SpecterSDK.Editor
         private float m_SectionSpacing = 10f;
         private Vector2 m_ScrollPosition;
 
-        public static void ShowWindow()
+        public static void ShowWindow(List<SPAppEvent> appEvents)
         {
             var window = GetWindow<SpecterCreateTaskWindow>("Create Specter Task", true);
             window.minSize = new Vector2(640f, 360f);
+            window.m_AppEvents = appEvents;
+            
+            window.m_Task = new TaskCreateModel();
+            window.m_CreateTask = new SPCreateTaskAdminRequest();
+            window.m_RewardCreateModels = new List<RewardCreateModel>();
+            window.m_QueryBuilder = new SpecterQueryBuilder(scrollable: false);
+            window.m_QueryBuilder.SetParameters(appEvents[0].GetAllParameters());
         }
-        
+
         protected override void OnEnable()
         {
             base.OnEnable();
-            m_Task = new TaskCreateModel();
-            m_RewardCreateModels = new List<RewardCreateModel>();
-            m_QueryBuilder = new SpecterQueryBuilder(scrollable: false);
+            
         }
 
         private void OnGUI()
@@ -93,10 +108,14 @@ namespace SpecterSDK.Editor
                 EditorGUILayout.EndVertical();
             }
             EditorGUILayout.EndScrollView();
-            if (GUILayout.Button("Create", GUILayout.Height(40f)))
-            {
-                Debug.Log(JsonConvert.SerializeObject(m_Task));
-            }
+            DrawButton(CreateTask, "Create", null, GUILayout.Height(40f));
+        }
+
+        private void CreateTask()
+        {
+            m_Task.BusinessLogics = m_QueryBuilder.BuildBusinessLogics();
+            m_Task.Config = m_QueryBuilder.GetConfigs();
+            Debug.Log(JsonConvert.SerializeObject(m_Task, Formatting.Indented));
         }
 
         private void DrawTaskConfig()
@@ -108,22 +127,19 @@ namespace SpecterSDK.Editor
             {
                 EditorGUILayout.BeginHorizontal();
                 {
+                    DrawTextFieldVertical("Task Name", ref m_Task.Name);
+                    DrawTextFieldVertical("Task ID", ref m_Task.TaskId);
                     EditorGUILayout.BeginVertical();
                     {
-                        EditorGUILayout.LabelField("Task Name");
-                        m_Task.Name = EditorGUILayout.TextField(m_Task.Name);
-                    }
-                    EditorGUILayout.EndVertical();
-                    EditorGUILayout.BeginVertical();
-                    {
-                        EditorGUILayout.LabelField("Task ID");
-                        m_Task.TaskId = EditorGUILayout.TextField(m_Task.TaskId);
-                    }
-                    EditorGUILayout.EndVertical();
-                    EditorGUILayout.BeginVertical();
-                    {
-                        EditorGUILayout.LabelField("Event ID");
-                        m_Task.EventId = EditorGUILayout.TextField(m_Task.EventId);
+                        DrawLabelField("Event ID");
+                        EditorGUI.BeginChangeCheck();
+                        m_SelectedEventIndex = EditorGUILayout.Popup(m_SelectedEventIndex, GetEventNames());
+                        if (EditorGUI.EndChangeCheck())
+                        {
+                            m_Task.EventId = m_AppEvents[m_SelectedEventIndex].id;
+                            m_QueryBuilder.SetParameters(m_AppEvents[m_SelectedEventIndex].GetAllParameters());
+                            Repaint();
+                        }
                     }
                     EditorGUILayout.EndVertical();
                 }
@@ -132,15 +148,26 @@ namespace SpecterSDK.Editor
             EditorGUILayout.EndVertical();
         }
 
+        private string[] GetEventNames()
+        {
+            if (m_AppEvents == null || m_AppEvents.Count == 0)
+                return new[] { "None" };
+
+            var eventNames = new List<string>();
+            foreach (var appEvent in m_AppEvents)
+            {
+                eventNames.Add(appEvent.name);
+            }
+
+            return eventNames.ToArray();
+        }
+
         private void DrawRewardConfigs()
         {
             EditorGUILayout.LabelField("REWARD CONFIG", EditorStyles.boldLabel);
             EditorGUILayout.BeginVertical("box");
             {
-                if (GUILayout.Button("Add Reward"))
-                {
-                    m_RewardCreateModels.Add(new RewardCreateModel());
-                }
+                DrawButton(() => m_RewardCreateModels.Add(new RewardCreateModel()), "Add Reward");
                 for (int i = 0; i < m_RewardCreateModels.Count; i++)
                 {
                     DrawRewardConfigRow(m_RewardCreateModels[i]);
@@ -153,18 +180,7 @@ namespace SpecterSDK.Editor
         {
             EditorGUILayout.BeginHorizontal("box");
             {
-                EditorGUILayout.BeginVertical();
-                {
-                    EditorGUILayout.LabelField("Reward Type");
-                    EditorGUI.BeginChangeCheck();
-                    rewardConfig.Type = (RewardType)EditorGUILayout.EnumPopup(rewardConfig.Type);
-                    if (EditorGUI.EndChangeCheck())
-                    {
-                        rewardConfig.Id = null;
-                        rewardConfig.IntId = null;
-                    }
-                }
-                EditorGUILayout.EndVertical();
+                DrawEnumPopupVertical("Reward Type", ref rewardConfig.Type);
                 EditorGUILayout.BeginVertical();
                 {
                     EditorGUILayout.LabelField("Resource Id");

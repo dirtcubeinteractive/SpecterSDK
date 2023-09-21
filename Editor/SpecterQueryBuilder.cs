@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
+using NUnit.Framework;
+using Unity.Plastic.Newtonsoft.Json;
 using UnityEngine;
 using UnityEditor;
+using Formatting = Newtonsoft.Json.Formatting;
 
 namespace SpecterSDK.Editor
 {
@@ -34,13 +36,19 @@ namespace SpecterSDK.Editor
         [Serializable]
         public class Rule
         {
+            public string parameterId;
             public string parameterName;
             public string op = nameof(Operator.equal);
-            public string value;
+            public object value;
 
             public string type = nameof(ParamType.oneshot);
             public bool allTime = true;
             public int numRecords = 0;
+            
+            [Newtonsoft.Json.JsonIgnore]
+            public int selectedParameterIndex { get; set; }
+            [JsonIgnore]
+            public SPParamDataType dataType { get; set; }
         }
 
         [Serializable]
@@ -50,7 +58,20 @@ namespace SpecterSDK.Editor
             public List<object> children = new(); // This can contain either Rule or Group
         }
 
-        public Group Root { get; } = new Group();
+        [Serializable]
+        public class ParamConfig
+        {
+            public string parameterName { get; set; }
+            public string parameterId { get; set; }
+            public string op { get; set; }
+            public string value { get; set; }
+        }
+
+        public Group Root { get; private set; } = new Group();
+        private List<SPAppEventParameter> m_AppEventParameters;
+
+        public HashSet<string> ConfigParamIds = new();
+        public List<Dictionary<string, object>> Configs = new ();
 
         #region GUI variables
 
@@ -66,13 +87,19 @@ namespace SpecterSDK.Editor
         
         public void DrawGUI()
         {
+            if (m_AppEventParameters == null || m_AppEventParameters.Count == 0)
+            {
+                EditorGUILayout.HelpBox("This event has no parameters", MessageType.Info);
+                return;
+            }
+            
             if (useScroll)
                 scrollPosition = GUILayout.BeginScrollView(scrollPosition);
             DrawGroup(Root);
             if (useScroll)
                 GUILayout.EndScrollView();
         }
-        
+
         private void DrawGroup(Group group, Group parentGroup = null)
         {
             if (parentGroup != null)
@@ -110,12 +137,14 @@ namespace SpecterSDK.Editor
             EditorGUILayout.BeginHorizontal();
             {
                 group.combinator = ((Combinator)EditorGUILayout.EnumPopup(System.Enum.Parse<Combinator>(group.combinator.ToUpper()), GUILayout.Width(100))).ToString().ToLower();
+                
+                if(GUILayout.Button("Add Rule", GUILayout.Width(100)))
+                {
+                    var rule = new Rule();
+                    group.children.Add(rule);
+                }
                 if (!isRoot)
                 {
-                    if(GUILayout.Button("Add Rule", GUILayout.Width(100)))
-                    {
-                        group.children.Add(new Rule());
-                    }
                     if(GUILayout.Button("Delete Group", GUILayout.Width(100)))
                     {
                         parentGroup.children.Remove(group);
@@ -148,6 +177,25 @@ namespace SpecterSDK.Editor
             EditorGUILayout.EndVertical();
         }
 
+        private string[] GetParameterNames()
+        {
+            if (m_AppEventParameters == null || m_AppEventParameters.Count == 0)
+                return new[] { "None" };
+
+            var paramNames = new List<string>();
+            foreach (var appEventParam in m_AppEventParameters)
+            {
+                paramNames.Add(appEventParam.name);
+            }
+
+            return paramNames.ToArray();
+        }
+
+        public void SetParameters(List<SPAppEventParameter> eventParams)
+        {
+            m_AppEventParameters = eventParams;
+        }
+
         private void DrawParamFields(Rule rule, Group parentGroup)
         {
             EditorGUILayout.BeginHorizontal(new GUILayoutOption[] { GUILayout.ExpandHeight(false) });
@@ -155,8 +203,15 @@ namespace SpecterSDK.Editor
                 EditorGUILayout.BeginVertical();
                 {
                     EditorGUILayout.LabelField("Param Name");
-                    rule.parameterName = EditorGUILayout.TextField(rule.parameterName, EditorStyles.textField,
-                        new GUILayoutOption[] { GUILayout.ExpandWidth(true) });
+                    EditorGUI.BeginChangeCheck();
+                    rule.selectedParameterIndex = EditorGUILayout.Popup(rule.selectedParameterIndex, GetParameterNames());
+                    if (rule.parameterId == null || EditorGUI.EndChangeCheck())
+                    {
+                        rule.parameterId = m_AppEventParameters[rule.selectedParameterIndex].id;
+                        rule.parameterName = m_AppEventParameters[rule.selectedParameterIndex].name;
+                        rule.dataType = m_AppEventParameters[rule.selectedParameterIndex].dataTypeId;
+                        rule.value = default;
+                    }
                 }
                 EditorGUILayout.EndVertical();
                 GUILayout.Space(5);
@@ -170,7 +225,27 @@ namespace SpecterSDK.Editor
                 EditorGUILayout.BeginVertical();
                 {
                     EditorGUILayout.LabelField("Value");
-                    rule.value = EditorGUILayout.TextField(rule.value);
+                    switch (rule.dataType)
+                    {
+                        case SPParamDataType.String:
+                            rule.value = EditorGUILayout.TextField((string)rule.value);
+                            break;
+                        case SPParamDataType.Integer:
+                            rule.value ??= 0;
+                            rule.value = EditorGUILayout.IntField((int)rule.value);
+                            break;
+                        case SPParamDataType.Boolean:
+                            rule.value ??= false;
+                            rule.value = EditorGUILayout.Toggle((bool)rule.value);
+                            break;
+                        case SPParamDataType.Float:
+                            rule.value ??= 0f;
+                            rule.value = EditorGUILayout.FloatField((float)rule.value);
+                            break;
+                        default:
+                            throw new NotImplementedException($"Work In Progress -- data type {rule.dataType} not implemented");
+                    }
+                    
                 }
                 EditorGUILayout.EndVertical();
                 EditorGUILayout.BeginVertical();
@@ -243,38 +318,77 @@ namespace SpecterSDK.Editor
 
         private string GenerateJSON(Group root)
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(root, Formatting.Indented);
+            var queryDict = new Dictionary<string, object>()
+            {
+                { "businessLogics", BuildBusinessLogics() },
+                { "config", GetConfigs() }
+            };
+            return Newtonsoft.Json.JsonConvert.SerializeObject(queryDict, Formatting.Indented);
         }
-    }
-
-    public class QueryBuilderWindow : EditorWindow
-    {
-        public SpecterQueryBuilder.Group Query => queryBuilder?.Root;
-        private readonly SpecterQueryBuilder queryBuilder = new();
-
-        private SerializedObject serializedObject;
-
-        [MenuItem("Window/Specter/Query Builder")]
-        public static void ShowWindow()
+        
+        public Dictionary<string, object> BuildBusinessLogics()
         {
-            GetWindow<QueryBuilderWindow>("Query Builder");
+            return TransformGroupToDictionary(Root, true);
         }
 
-        private void OnEnable()
+        public List<Dictionary<string, object>> GetConfigs()
         {
-            serializedObject = new SerializedObject(this);
+            return Configs;
+        }
+        
+        private Dictionary<string, object> TransformGroupToDictionary(Group group, bool isRoot)
+        {
+            if (isRoot)
+            {
+                ConfigParamIds.Clear();
+                Configs.Clear();
+            }
+            
+            Dictionary<string, object> result = new Dictionary<string, object>();
+
+            List<object> conditionsList = new List<object>();
+            foreach (var child in group.children)
+            {
+                if (child is Group childGroup)
+                {
+                    conditionsList.Add(TransformGroupToDictionary(childGroup, false));
+                }
+                else if (child is Rule childRule)
+                {
+                    var rule = TransformRuleToDictionary(childRule);
+                    if (rule != null)
+                        conditionsList.Add(rule);
+                }
+            }
+
+            string conditionKey = group.combinator == "and" ? "all" : "any";
+            result[conditionKey] = conditionsList;
+
+            return result;
         }
 
-        private void OnGUI()
+        private Dictionary<string, object> TransformRuleToDictionary(Rule rule)
         {
-            serializedObject.Update();
-            queryBuilder.DrawGUI();
-            serializedObject.ApplyModifiedProperties();
-        }
+            if (ConfigParamIds.Contains(rule.parameterName))
+                return null;
 
-        private void OnDestroy()
-        {
-            serializedObject = null;
+            ConfigParamIds.Add(rule.parameterName);
+            Configs.Add(new Dictionary<string, object>()
+            {
+                { nameof(rule.parameterId), rule.parameterId },
+                { nameof(rule.parameterName), rule.parameterName },
+                { "operator", "equalTo" },
+                { "value", rule.value },
+                { "incrementalType", rule.type == "oneshot" ? "one-shot" : rule.type},
+                { "numberOfRecords", rule.numRecords }
+            });
+            
+            return new Dictionary<string, object>
+            {
+                { "fact", rule.parameterName },
+                { "operator", rule.op },
+                { "value", rule.value }
+            };
         }
     }
 }
