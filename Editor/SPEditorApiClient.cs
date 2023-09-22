@@ -94,7 +94,7 @@ namespace SpecterSDK.Editor
         Bundle
     }
     
-    [Serializable, Newtonsoft.Json.JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
+    [Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
     public class SPTaskRewardConfig
     {
         public int? progressionMarkerId;
@@ -181,7 +181,8 @@ namespace SpecterSDK.Editor
         public Dictionary<string, object> businessLogic { get; set; }
         
         
-        [Newtonsoft.Json.JsonIgnore] public string eventId;
+        [JsonIgnore] 
+        public string eventId;
 
         public SPCreateTaskAdminRequest()
         {
