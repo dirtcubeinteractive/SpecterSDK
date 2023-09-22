@@ -1,10 +1,6 @@
 using System;
-using System.Collections;
-using System.Threading.Tasks;
 using System.Collections.Generic;
-using NUnit.Framework;
-using SpecterSDK.Shared;
-using Unity.Plastic.Newtonsoft.Json;
+using Newtonsoft.Json;
 using UnityEditor;
 using UnityEngine;
 
@@ -17,133 +13,118 @@ namespace SpecterSDK.Editor
     
     public class SpecterCreateTaskWindow : SpecterEditorWindow
     {
-        private enum RewardClaim
-        {
-            OnClaim,
-            Automatic
-        }
+        private const float SECTION_SPACING = 10f;
         
-        private enum TaskType
-        {
-            Static,
-            Dynamic
-        }
-        
-        private enum RewardType
-        {
-            ProgressionMarker,
-            Currency,
-            Item,
-            Bundle
-        }
-
-        [Serializable]
-        private class RewardCreateModel
-        {
-            public RewardType Type;
-            public int? IntId { get; set; }
-            public string Id { get; set; }
-            public int Quantity { get; set; }
-        }
-        
-        [Serializable]
-        private class TaskCreateModel
-        {
-            public string Name;
-            public string TaskId;
-            public TaskType Type;
-            public string EventId;
-            public string Description;
-            public string IconUrl;
-            public RewardClaim RewardClaim;
-            public bool IsLockedByLevel;
-            public Dictionary<string, object> BusinessLogics;
-            public List<Dictionary<string, object>> Config;
-        }
-
         private SPCreateTaskAdminRequest m_CreateTask;
-        private TaskCreateModel m_Task;
-        private List<RewardCreateModel> m_RewardCreateModels;
+        private List<SPTaskRewardConfig> m_RewardConfigs;
         private List<SPAppEvent> m_AppEvents;
-
-        private int m_SelectedEventIndex;
-        
-        public SpecterQueryBuilder.Group Query => m_QueryBuilder?.Root;
         private SpecterQueryBuilder m_QueryBuilder;
-
-        private float m_SectionSpacing = 10f;
+        
         private Vector2 m_ScrollPosition;
+        private int m_SelectedEventIndex;
+        private bool m_CreatingTask;
 
         public static void ShowWindow(List<SPAppEvent> appEvents)
         {
             var window = GetWindow<SpecterCreateTaskWindow>("Create Specter Task", true);
             window.minSize = new Vector2(640f, 360f);
             window.m_AppEvents = appEvents;
-            
-            window.m_Task = new TaskCreateModel();
-            window.m_CreateTask = new SPCreateTaskAdminRequest();
-            window.m_RewardCreateModels = new List<RewardCreateModel>();
-            window.m_QueryBuilder = new SpecterQueryBuilder(scrollable: false);
-            window.m_QueryBuilder.SetParameters(appEvents[0].GetAllParameters());
-        }
-
-        protected override void OnEnable()
-        {
-            base.OnEnable();
-            
+            window.ResetTaskData();
         }
 
         private void OnGUI()
         {
+            bool disableUI = m_AppEvents == null || m_AppEvents.Count == 0;
+            if (disableUI)
+                EditorGUILayout.HelpBox("This Specter project has no events created for tasks. Please configure at least one event to create tasks", MessageType.Error);
             m_ScrollPosition = EditorGUILayout.BeginScrollView(m_ScrollPosition);
             {
                 EditorGUILayout.BeginVertical();
                 {
-                    DrawTaskConfig();
-                    GUILayout.Space(m_SectionSpacing);
-                    DrawRewardConfigs();
-                    GUILayout.Space(m_SectionSpacing);
-                    DrawParamsConfig();
+                    EditorGUI.BeginDisabledGroup(disableUI);
+                    {
+                        DrawTaskConfig();
+                        GUILayout.Space(SECTION_SPACING);
+                        DrawRewardConfigs();
+                        GUILayout.Space(SECTION_SPACING);
+                        DrawParamsConfig();
+                    }
+                    EditorGUI.EndDisabledGroup();
                 }
                 EditorGUILayout.EndVertical();
             }
             EditorGUILayout.EndScrollView();
-            DrawButton(CreateTask, "Create", null, GUILayout.Height(40f));
+            EditorGUI.BeginDisabledGroup(m_CreatingTask || disableUI);
+            {
+                DrawButton(CreateTask, "Create", null, GUILayout.Height(40f));
+            }
+            EditorGUI.EndDisabledGroup();
         }
 
-        private void CreateTask()
+        private async void CreateTask()
         {
-            m_Task.BusinessLogics = m_QueryBuilder.BuildBusinessLogics();
-            m_Task.Config = m_QueryBuilder.GetConfigs();
-            Debug.Log(JsonConvert.SerializeObject(m_Task, Formatting.Indented));
+            m_CreatingTask = true;
+            var selectedEvent = m_AppEvents[m_SelectedEventIndex];
+            
+            m_CreateTask.businessLogic = m_QueryBuilder.BuildBusinessLogics();
+            m_CreateTask.config = m_QueryBuilder.GetConfigs();
+            m_CreateTask.defaultEventId = selectedEvent.type == nameof(SPAppEventType.Default).ToLower() ? m_CreateTask.eventId : null;
+            m_CreateTask.customEventId = selectedEvent.type == nameof(SPAppEventType.Custom).ToLower() ? m_CreateTask.eventId : null;
+
+            try
+            {
+                Debug.Log(JsonConvert.SerializeObject(m_CreateTask, Formatting.Indented));
+                var result = await ApiClient.CreateTask(m_CreateTask);
+                if (result != null)
+                {
+                    ResetTaskData();
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogError(e);
+            }
+            
+            m_CreatingTask = false;
+            Repaint();
+        }
+
+        private void ResetTaskData()
+        {
+            m_SelectedEventIndex = 0;
+            m_CreateTask = new SPCreateTaskAdminRequest();
+            m_RewardConfigs = m_CreateTask.rewardDetails;
+            ResetTaskEventData();
+        }
+
+        private void ResetTaskEventData()
+        {
+            m_QueryBuilder = new SpecterQueryBuilder(scrollable: false);
+            if (m_AppEvents is not { Count: > 0 }) 
+                return;
+            
+            m_CreateTask.eventId = m_AppEvents[m_SelectedEventIndex].id;
+            m_QueryBuilder.SetParameters(m_AppEvents?[m_SelectedEventIndex]?.GetAllParameters() ?? new List<SPAppEventParameter>());
         }
 
         private void DrawTaskConfig()
         {
-            int oriFontSize = GUI.skin.font.fontSize;
-            
             EditorGUILayout.LabelField("TASK CONFIG", EditorStyles.boldLabel);
             EditorGUILayout.BeginVertical("box");
             {
                 EditorGUILayout.BeginHorizontal();
                 {
-                    DrawTextFieldVertical("Task Name", ref m_Task.Name);
-                    DrawTextFieldVertical("Task ID", ref m_Task.TaskId);
-                    EditorGUILayout.BeginVertical();
-                    {
-                        DrawLabelField("Event ID");
-                        EditorGUI.BeginChangeCheck();
-                        m_SelectedEventIndex = EditorGUILayout.Popup(m_SelectedEventIndex, GetEventNames());
-                        if (EditorGUI.EndChangeCheck())
-                        {
-                            m_Task.EventId = m_AppEvents[m_SelectedEventIndex].id;
-                            m_QueryBuilder.SetParameters(m_AppEvents[m_SelectedEventIndex].GetAllParameters());
-                            Repaint();
-                        }
-                    }
-                    EditorGUILayout.EndVertical();
+                    DrawTextFieldVertical("Task Name", ref m_CreateTask.name);
+                    DrawTextFieldVertical("Task ID", ref m_CreateTask.taskId);
+                    DrawPopupVertical("Event ID", ref m_SelectedEventIndex, GetEventNames(), ResetTaskEventData);
                 }
                 EditorGUILayout.EndHorizontal();
+                EditorGUILayout.Space(8f);
+                DrawTextAreaVertical("Task Description", 
+                    ref m_CreateTask.description, 
+                    null, 
+                    new GUIStyle(GUI.skin.textArea) { margin = new RectOffset(5, 5, GUI.skin.textArea.margin.top, GUI.skin.textArea.margin.top) },
+                    GUILayout.Height(60f));
             }
             EditorGUILayout.EndVertical();
         }
@@ -151,7 +132,7 @@ namespace SpecterSDK.Editor
         private string[] GetEventNames()
         {
             if (m_AppEvents == null || m_AppEvents.Count == 0)
-                return new[] { "None" };
+                return Array.Empty<string>();
 
             var eventNames = new List<string>();
             foreach (var appEvent in m_AppEvents)
@@ -167,33 +148,44 @@ namespace SpecterSDK.Editor
             EditorGUILayout.LabelField("REWARD CONFIG", EditorStyles.boldLabel);
             EditorGUILayout.BeginVertical("box");
             {
-                DrawButton(() => m_RewardCreateModels.Add(new RewardCreateModel()), "Add Reward");
-                for (int i = 0; i < m_RewardCreateModels.Count; i++)
+                DrawButton(() => m_RewardConfigs.Add(new SPTaskRewardConfig()), "Add Reward");
+                for (int i = 0; i < m_RewardConfigs.Count; i++)
                 {
-                    DrawRewardConfigRow(m_RewardCreateModels[i]);
+                    DrawRewardConfigRow(m_RewardConfigs[i]);
                 }
             }
             EditorGUILayout.EndVertical();
         }
         
-        private void DrawRewardConfigRow(RewardCreateModel rewardConfig)
+        private void DrawRewardConfigRow(SPTaskRewardConfig rewardConfig)
         {
             EditorGUILayout.BeginHorizontal("box");
             {
-                DrawEnumPopupVertical("Reward Type", ref rewardConfig.Type);
+                DrawEnumPopupVertical("Reward Type", ref rewardConfig.type, () =>
+                {
+                    rewardConfig.progressionMarkerId = null;
+                    rewardConfig.currencyId = null;
+                    rewardConfig.itemId = null;
+                    rewardConfig.bundleId = null;
+                });
                 EditorGUILayout.BeginVertical();
                 {
                     EditorGUILayout.LabelField("Resource Id");
-                    switch (rewardConfig.Type)
+                    switch (rewardConfig.type)
                     {
-                        case RewardType.ProgressionMarker:
-                        case RewardType.Currency:
-                            rewardConfig.IntId ??= -1;
-                            rewardConfig.IntId = EditorGUILayout.IntField(rewardConfig.IntId.Value);
+                        case SPRewardType.ProgressionMarker:
+                            rewardConfig.progressionMarkerId ??= -1;
+                            DrawIntField(ref rewardConfig.progressionMarkerId);
                             break;
-                        case RewardType.Item:
-                        case RewardType.Bundle:
-                            rewardConfig.Id = EditorGUILayout.TextField(rewardConfig.Id);
+                        case SPRewardType.Currency:
+                            rewardConfig.currencyId ??= -1;
+                            DrawIntField(ref rewardConfig.currencyId);
+                            break;
+                        case SPRewardType.Item:
+                            DrawTextField(ref rewardConfig.itemId);
+                            break;
+                        case SPRewardType.Bundle:
+                            DrawTextField(ref rewardConfig.bundleId);
                             break;
                     }
                 }
@@ -201,14 +193,14 @@ namespace SpecterSDK.Editor
                 EditorGUILayout.BeginVertical();
                 {
                     EditorGUILayout.LabelField("Quantity");
-                    rewardConfig.Quantity = EditorGUILayout.IntField(rewardConfig.Quantity);
+                    rewardConfig.quantity = EditorGUILayout.IntField(rewardConfig.quantity);
                 }
                 EditorGUILayout.EndVertical();
                 EditorGUILayout.BeginVertical(GUILayout.MaxHeight(EditorGUIUtility.singleLineHeight * 2));
                 {
                     GUILayout.FlexibleSpace();
                     if (GUILayout.Button("X", EditorStyles.largeLabel))
-                            m_RewardCreateModels.Remove(rewardConfig);
+                            m_RewardConfigs.Remove(rewardConfig);
                 }
                 EditorGUILayout.EndVertical();
             }

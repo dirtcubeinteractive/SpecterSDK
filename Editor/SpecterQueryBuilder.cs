@@ -4,6 +4,7 @@ using NUnit.Framework;
 using Unity.Plastic.Newtonsoft.Json;
 using UnityEngine;
 using UnityEditor;
+using UnityEngine.Serialization;
 using Formatting = Newtonsoft.Json.Formatting;
 
 namespace SpecterSDK.Editor
@@ -38,12 +39,12 @@ namespace SpecterSDK.Editor
         {
             public string parameterId;
             public string parameterName;
-            public string op = nameof(Operator.equal);
+            public string @operator = nameof(Operator.equal);
             public object value;
 
-            public string type = nameof(ParamType.oneshot);
+            public string incrementalType = nameof(ParamType.oneshot);
             public bool allTime = true;
-            public int numRecords = 0;
+            public int numberOfRecords = 0;
             
             [Newtonsoft.Json.JsonIgnore]
             public int selectedParameterIndex { get; set; }
@@ -177,11 +178,13 @@ namespace SpecterSDK.Editor
             EditorGUILayout.EndVertical();
         }
 
+        public void SetParameters(List<SPAppEventParameter> eventParams)
+        {
+            m_AppEventParameters = eventParams;
+        }
+        
         private string[] GetParameterNames()
         {
-            if (m_AppEventParameters == null || m_AppEventParameters.Count == 0)
-                return new[] { "None" };
-
             var paramNames = new List<string>();
             foreach (var appEventParam in m_AppEventParameters)
             {
@@ -189,11 +192,6 @@ namespace SpecterSDK.Editor
             }
 
             return paramNames.ToArray();
-        }
-
-        public void SetParameters(List<SPAppEventParameter> eventParams)
-        {
-            m_AppEventParameters = eventParams;
         }
 
         private void DrawParamFields(Rule rule, Group parentGroup)
@@ -218,7 +216,7 @@ namespace SpecterSDK.Editor
                 EditorGUILayout.BeginVertical();
                 {
                     EditorGUILayout.LabelField("Operator");
-                    rule.op = ((Operator)EditorGUILayout.EnumPopup(Enum.Parse<Operator>(rule.op))).ToString();
+                    rule.@operator = ((Operator)EditorGUILayout.EnumPopup(Enum.Parse<Operator>(rule.@operator))).ToString();
                 }
                 EditorGUILayout.EndVertical();
                 GUILayout.Space(5);
@@ -270,18 +268,18 @@ namespace SpecterSDK.Editor
                     EditorGUILayout.LabelField("Param Type");
                     EditorGUILayout.BeginHorizontal();
                     {
-                        bool oneshot = EditorGUILayout.ToggleLeft("One Shot", rule.type == nameof(ParamType.oneshot), GUILayout.Width(100));
+                        bool oneshot = EditorGUILayout.ToggleLeft("One Shot", rule.incrementalType == nameof(ParamType.oneshot), GUILayout.Width(100));
                         if (oneshot)
-                            rule.type = nameof(ParamType.oneshot);
+                            rule.incrementalType = nameof(ParamType.oneshot);
 
-                        bool cumulative = EditorGUILayout.ToggleLeft("Cumulative", rule.type == nameof(ParamType.cumulative), GUILayout.Width(100));
+                        bool cumulative = EditorGUILayout.ToggleLeft("Cumulative", rule.incrementalType == nameof(ParamType.cumulative), GUILayout.Width(100));
                         if (cumulative)
-                            rule.type = nameof(ParamType.cumulative);
+                            rule.incrementalType = nameof(ParamType.cumulative);
                     }
                     EditorGUILayout.EndHorizontal();
                 }
                 EditorGUILayout.EndVertical();
-                if (rule.type == nameof(ParamType.cumulative))
+                if (rule.incrementalType == nameof(ParamType.cumulative))
                 {
                     GUILayout.Space(20);
                     EditorGUILayout.BeginVertical();
@@ -307,7 +305,7 @@ namespace SpecterSDK.Editor
                         EditorGUILayout.BeginVertical();
                         {
                             EditorGUILayout.LabelField("Num Records");
-                            rule.numRecords = EditorGUILayout.IntField(rule.numRecords);
+                            rule.numberOfRecords = EditorGUILayout.IntField(rule.numberOfRecords);
                         }
                         EditorGUILayout.EndVertical();
                     }
@@ -377,17 +375,27 @@ namespace SpecterSDK.Editor
             {
                 { nameof(rule.parameterId), rule.parameterId },
                 { nameof(rule.parameterName), rule.parameterName },
-                { "operator", "equalTo" },
-                { "value", rule.value },
-                { "incrementalType", rule.type == "oneshot" ? "one-shot" : rule.type},
-                { "numberOfRecords", rule.numRecords }
+                { nameof(rule.@operator), rule.@operator == "equal" ? "equalTo" : ConvertOperator(rule.@operator) },
+                { nameof(rule.value), rule.value },
+                { nameof(rule.incrementalType), rule.incrementalType == "oneshot" ? "one-shot" : rule.incrementalType },
+                { nameof(rule.numberOfRecords), rule.numberOfRecords }
             });
             
             return new Dictionary<string, object>
             {
                 { "fact", rule.parameterName },
-                { "operator", rule.op },
-                { "value", rule.value }
+                { nameof(rule.@operator), ConvertOperator(rule.@operator) },
+                { nameof(rule.value), rule.value }
+            };
+        }
+
+        private string ConvertOperator(string op)
+        {
+            return op switch
+            {
+                nameof(Operator.greaterThanOrEqual) => "greaterThanInclusive",
+                nameof(Operator.lessThanOrEqual) => "lessThanInclusive",
+                _ => op
             };
         }
     }

@@ -1,17 +1,20 @@
 using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using NUnit.Framework;
 using SpecterSDK.APIClients;
-using SpecterSDK.APIModels;
 using SpecterSDK.APIModels.Interfaces;
 using SpecterSDK.Shared;
 using UnityEngine;
+using Newtonsoft.Json;
 
 namespace SpecterSDK.Editor
 {
+    public enum SPAppEventType
+    {
+        Default,
+        Custom
+    }
+    
     [Serializable]
     public class SPAppEvent
     {
@@ -20,8 +23,8 @@ namespace SpecterSDK.Editor
         public List<SPAppEventParameter> defaultParameterDetails { get; set; }
         public List<SPAppEventParameter> customParameterDetails { get; set; }
         
-        [JsonIgnore]
-        public List<SPAppEventParameter> allParameters { get; private set; }
+        [JsonIgnore] public string type { get; set; }
+        [JsonIgnore] public List<SPAppEventParameter> allParameters { get; private set; }
         public List<SPAppEventParameter> GetAllParameters()
         {
             if (allParameters == null)
@@ -54,6 +57,13 @@ namespace SpecterSDK.Editor
         public SPParamDataType dataTypeId { get; set; }
     }
 
+    public enum SPTaskType
+    {
+        Static,
+        Daily,
+        Weekly
+    }
+
     [Serializable]
     public class SPTaskAdminModel
     {
@@ -76,15 +86,26 @@ namespace SpecterSDK.Editor
         public int quantity { get; set; }
     }
 
-    [Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
+    public enum SPRewardType
+    {
+        ProgressionMarker,
+        Currency,
+        Item,
+        Bundle
+    }
+    
+    [Serializable, Newtonsoft.Json.JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
     public class SPTaskRewardConfig
     {
-        public int? progressionMarkerId { get; set; }
-        public int? currencyId { get; set; }
-        public string itemId { get; set; }
-        public string bundleId { get; set; }
+        public int? progressionMarkerId;
+        public int? currencyId;
+        public string itemId;
+        public string bundleId;
         
         public int quantity { get; set; }
+
+        [JsonIgnore]
+        public SPRewardType type;
     }
 
     [Serializable]
@@ -130,20 +151,49 @@ namespace SpecterSDK.Editor
     public class SPCreateTaskAdminRequest : IProjectConfigurable
     {
         public string projectId { get; set; }
-        public string name { get; set; }
-        public string taskId { get; set; }
-        public string defaultEventId { get; set; }
-        public string customEventId { get; set; }
-        public string description { get; set; }
-        public string type { get; set; }
-        public string rewardClaim { get; set; }
-        public bool isLockedByLevel { get; set; }
-        public bool isRecurring { get; set; }
-        public List<SPTaskRewardConfig> rewardDetails { get; set; }
-        public List<object> levelDetails { get; set; }
-        public List<string> tags { get; set; }
+        [JsonRequired]
+        public string name;
+        [JsonRequired]
+        public string taskId;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public string defaultEventId;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public string customEventId;
+
+        [JsonRequired] 
+        public string iconUrl;
+        public string description;
+        [JsonRequired]
+        public string type;
+        [JsonRequired]
+        public string rewardClaim;
+        [JsonRequired]
+        public bool isLockedByLevel;
+        [JsonRequired]
+        public bool isRecurring;
+        [JsonRequired]
+        public List<SPTaskRewardConfig> rewardDetails;
+        [JsonRequired]
+        public List<object> levelDetails;
+        [JsonRequired]
+        public List<string> tags;
         public List<Dictionary<string, object>> config { get; set; }
         public Dictionary<string, object> businessLogic { get; set; }
+        
+        
+        [Newtonsoft.Json.JsonIgnore] public string eventId;
+
+        public SPCreateTaskAdminRequest()
+        {
+            iconUrl = "task-icon.png";
+            type = "static";
+            rewardClaim = "on-claim";
+            isLockedByLevel = false;
+            isRecurring = false;
+            rewardDetails = new List<SPTaskRewardConfig>();
+            levelDetails = new List<object>();
+            tags = new List<string>();
+        }
     }
 
     public class SPEditorApiClient : SpecterApiClientBase
@@ -173,6 +223,14 @@ namespace SpecterSDK.Editor
             ConfigureProjectId(request);
 
             var response = await PostAsync<SPGetTaskListAdminResponseData>("/v1/task/get", AuthType, request);
+            return response.data;
+        }
+
+        public async Task<Dictionary<string, object>> CreateTask(SPCreateTaskAdminRequest request)
+        {
+            ConfigureProjectId(request);
+
+            var response = await PostAsync<Dictionary<string, object>>("/v1/task/create", AuthType, request);
             return response.data;
         }
     }

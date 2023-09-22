@@ -42,12 +42,25 @@ namespace SpecterSDK.Editor
 
             var defaultEventData = await ApiClient.GetDefaultEvents(new SPGetDefaultEventsAdminRequest());
             var customEventData = await ApiClient.GetCustomEvents(new SPGetCustomEventsAdminRequest());
-            
+
             if (customEventData != null)
+            {
+                foreach (var appEvent in customEventData.appEventDetails)
+                {
+                    appEvent.type = nameof(SPAppEventType.Custom).ToLower();
+                }
                 m_AppEvents.AddRange(customEventData.appEventDetails);
+            }
+
             if (defaultEventData != null)
+            {
+                foreach (var appEvent in defaultEventData.appEventDetails)
+                {
+                    appEvent.type = nameof(SPAppEventType.Default).ToLower();
+                }
                 m_AppEvents.AddRange(defaultEventData.appEventDetails);
-            
+            }
+
             Repaint();
             if (m_AppEvents != null)
                 onFetchedEvents?.Invoke();

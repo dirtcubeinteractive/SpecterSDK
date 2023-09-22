@@ -47,6 +47,16 @@ namespace SpecterSDK.Editor
             EditorGUILayout.EndVertical();
         }
 
+        protected virtual void DrawTextAreaVertical(string label, ref string val, Action onTextChanged = null, GUIStyle style = null, params GUILayoutOption[] options)
+        {
+            EditorGUILayout.BeginVertical();
+            {
+                DrawLabelField("Task Description");
+                DrawTextArea(val, onTextChanged, style, options);
+            }
+            EditorGUILayout.EndVertical();
+        }
+
         protected virtual void DrawIntFieldVertical(string label, ref int val, Action onValueChanged = null)
         {
             EditorGUILayout.BeginVertical();
@@ -67,6 +77,16 @@ namespace SpecterSDK.Editor
             EditorGUILayout.EndVertical();
         }
 
+        protected virtual void DrawPopupVertical(string label, ref int selectedIndex, string[] selectionTitles, Action onValueChanged = null)
+        {
+            EditorGUILayout.BeginVertical();
+            {
+                DrawLabelField(label);
+                DrawPopup(ref selectedIndex, selectionTitles, onValueChanged);
+            }
+            EditorGUILayout.EndVertical();
+        }
+
         protected virtual void DrawLabelField(string label, GUIStyle style = null, params GUILayoutOption[] options)
         {
             style ??= EditorStyles.label;
@@ -82,11 +102,35 @@ namespace SpecterSDK.Editor
                 onTextChanged?.Invoke();
         }
 
+        protected virtual void DrawTextArea(string val, Action onTextChanged = null, GUIStyle style = null, params GUILayoutOption[] options)
+        {
+            style ??= EditorStyles.textArea;
+
+            if (options == null || options.Length == 0)
+                options = new GUILayoutOption[] { GUILayout.Height(60f) };
+            
+            EditorGUI.BeginChangeCheck();
+            val = EditorGUILayout.TextArea(val, style, options);
+            if (EditorGUI.EndChangeCheck())
+                onTextChanged?.Invoke();
+        }
+
         protected virtual void DrawIntField(ref int val, Action onValueChanged = null, GUIStyle style = null, params GUILayoutOption[] options)
         {
             style ??= EditorStyles.textField;
             EditorGUI.BeginChangeCheck();
             val = EditorGUILayout.IntField(val, style, options);
+            if (EditorGUI.EndChangeCheck())
+                onValueChanged?.Invoke();
+        }
+        
+        protected virtual void DrawIntField(ref int? val, Action onValueChanged = null, GUIStyle style = null, params GUILayoutOption[] options)
+        {
+            val ??= default;
+            style ??= EditorStyles.textField;
+
+            EditorGUI.BeginChangeCheck();
+            val = EditorGUILayout.IntField(val.Value, style, options);
             if (EditorGUI.EndChangeCheck())
                 onValueChanged?.Invoke();
         }
@@ -98,6 +142,15 @@ namespace SpecterSDK.Editor
             val = (T)EditorGUILayout.EnumPopup(val, style, options);
             if (EditorGUI.EndChangeCheck())
                 onValueChanged?.Invoke();
+        }
+
+        protected virtual void DrawPopup(ref int selectedIndex, string[] selectionTitles, Action onSelectionChanged = null, GUIStyle style = null, params GUILayoutOption[] options)
+        {
+            style ??= EditorStyles.popup;
+            EditorGUI.BeginChangeCheck();
+            selectedIndex = EditorGUILayout.Popup(selectedIndex, selectionTitles, style, options);
+            if (EditorGUI.EndChangeCheck())
+                onSelectionChanged?.Invoke();
         }
     }
 }
