@@ -6,6 +6,7 @@ using SpecterSDK.APIModels.Interfaces;
 using SpecterSDK.Shared;
 using UnityEngine;
 using Newtonsoft.Json;
+using SpecterSDK.APIModels;
 
 namespace SpecterSDK.Editor
 {
@@ -109,6 +110,24 @@ namespace SpecterSDK.Editor
     }
 
     [Serializable]
+    public class SPProgressionAccessControlConfig
+    {
+        [JsonRequired]
+        public string levelSystemId;
+        [JsonRequired]
+        public int level;
+
+        [JsonIgnore] 
+        public int selectedSystemIndex;
+    }
+
+    public class SPMetaConfig
+    {
+        public string key;
+        public string value;
+    }
+
+    [Serializable]
     public abstract class SPGetAppEventsAdminRequest : IProjectConfigurable
     {
         public string projectId { get; set; }
@@ -134,6 +153,46 @@ namespace SpecterSDK.Editor
 
     [Serializable]
     public class SPGetCustomEventsAdminResponseData : SPGetAppEventsAdminResponseData { }
+
+    [Serializable]
+    public class SPGetProgressionSystemsAdminRequest : IProjectConfigurable
+    {
+        public string projectId { get; set; }
+        public List<string> ids { get; set; }
+    }
+
+    [Serializable]
+    public class SPGetProgressionSystemsAdminResponseData
+    {
+        public List<SPProgressionSystemAdminModel> levelDetails;
+    }
+
+    [Serializable]
+    public class SPProgressionSystemAdminModel
+    {
+        public string id;
+        public string levelSystemId;
+        public string name;
+        public int progressionMarkerId;
+        public SPProgressionMarkerAdminModel progressionMarker;
+        public List<SPProgressionSystemLevelAdminModel> levelSystemLevelMapping;
+    }
+
+    [Serializable]
+    public class SPProgressionSystemLevelAdminModel
+    {
+        public string id;
+        public int levelNo;
+        public int parameterValue;
+    }
+
+    [Serializable]
+    public class SPProgressionMarkerAdminModel
+    {
+        public int id;
+        public string progressionMarkerId;
+        public string name;
+    }
 
     [Serializable]
     public class SPGetTaskListAdminRequest : IProjectConfigurable
@@ -174,26 +233,32 @@ namespace SpecterSDK.Editor
         [JsonRequired]
         public List<SPTaskRewardConfig> rewardDetails;
         [JsonRequired]
-        public List<object> levelDetails;
+        public List<SPProgressionAccessControlConfig> levelDetails;
         [JsonRequired]
         public List<string> tags;
+        public Dictionary<string, string> meta;
         public List<Dictionary<string, object>> config { get; set; }
         public Dictionary<string, object> businessLogic { get; set; }
         
         
         [JsonIgnore] 
         public string eventId;
+        [JsonIgnore] 
+        public SPTaskType taskType;
+        [JsonIgnore] 
+        public SPRewardClaim rewardClaimType;
 
         public SPCreateTaskAdminRequest()
         {
             iconUrl = "task-icon.png";
-            type = "static";
+            type = nameof(SPTaskType.Static).ToLower();
             rewardClaim = "on-claim";
             isLockedByLevel = false;
             isRecurring = false;
             rewardDetails = new List<SPTaskRewardConfig>();
-            levelDetails = new List<object>();
+            levelDetails = new List<SPProgressionAccessControlConfig>();
             tags = new List<string>();
+            meta = new Dictionary<string, string>();
         }
     }
 
@@ -219,6 +284,29 @@ namespace SpecterSDK.Editor
             return response.data;
         }
 
+        public async Task<List<SPAppEvent>> GetEvents()
+        {
+            var ConstructEvents = new Func<SPAppEventType, List<SPAppEvent>, List<SPAppEvent>, List<SPAppEvent>>((type, unionEvents, events) =>
+            {
+                foreach (var appEvent in events)
+                    appEvent.type = type.ToString().ToLower();
+                unionEvents.AddRange(events);
+                return unionEvents;
+            });
+
+            var customEventsData = await GetCustomEvents(new SPGetCustomEventsAdminRequest());
+            var defaultEventsData = await GetDefaultEvents(new SPGetDefaultEventsAdminRequest());
+
+            if (customEventsData == null || defaultEventsData == null)
+                return new List<SPAppEvent>();
+                
+            var allEvents = new List<SPAppEvent>();
+            allEvents = ConstructEvents(SPAppEventType.Custom, allEvents, customEventsData.appEventDetails);
+            allEvents = ConstructEvents(SPAppEventType.Default, allEvents, defaultEventsData.appEventDetails);
+
+            return allEvents;
+        }
+
         public async Task<SPGetTaskListAdminResponseData> GetTaskList(SPGetTaskListAdminRequest request)
         {
             ConfigureProjectId(request);
@@ -232,6 +320,14 @@ namespace SpecterSDK.Editor
             ConfigureProjectId(request);
 
             var response = await PostAsync<Dictionary<string, object>>("/v1/task/create", AuthType, request);
+            return response.data;
+        }
+
+        public async Task<SPGetProgressionSystemsAdminResponseData> GetProgressionSystems(SPGetProgressionSystemsAdminRequest request)
+        {
+            ConfigureProjectId(request);
+
+            var response = await PostAsync<SPGetProgressionSystemsAdminResponseData>("/v1/level-system/get", AuthType, request);
             return response.data;
         }
     }

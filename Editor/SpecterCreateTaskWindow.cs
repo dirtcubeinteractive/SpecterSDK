@@ -1,49 +1,99 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
+using NUnit.Framework;
+using SpecterSDK.APIModels;
 using UnityEditor;
 using UnityEngine;
 
 namespace SpecterSDK.Editor
 {
-    public interface ICreateTaskWindowDelegate
-    {
-        public List<SPAppEvent> GetAppEvents();
-    }
-    
     public class SpecterCreateTaskWindow : SpecterEditorWindow
     {
+        private enum State
+        {
+            Ready,
+            Initializing,
+            CreatingTask
+        }
+
+        private const string DEBUG_MODE_WARN = "You are not in Debug Mode. If you click 'Create' your task creation event will be executed";
+        private const string NO_EVENTS_ERROR = "This Specter project has no events created for tasks. Please configure at least one event to create tasks";
         private const float SECTION_SPACING = 10f;
         
         private SPCreateTaskAdminRequest m_CreateTask;
+        
         private List<SPTaskRewardConfig> m_RewardConfigs;
+        private List<SPProgressionAccessControlConfig> m_ProgressionConfigs;
+        private List<SPMetaConfig> m_MetaConfigs;
+        private string m_TagsString;
+
         private List<SPAppEvent> m_AppEvents;
+        private List<SPProgressionSystemAdminModel> m_ProgressionSystems;
+        
         private SpecterQueryBuilder m_QueryBuilder;
         
         private Vector2 m_ScrollPosition;
         private int m_SelectedEventIndex;
-        private bool m_CreatingTask;
+        private bool m_IsDebug;
+        private State m_State;
 
-        public static void ShowWindow(List<SPAppEvent> appEvents)
+        public static void ShowWindow()
         {
             var window = GetWindow<SpecterCreateTaskWindow>("Create Specter Task", true);
-            window.minSize = new Vector2(640f, 360f);
-            window.m_AppEvents = appEvents;
-            window.ResetTaskData();
+            window.minSize = new Vector2(720f, 360f);
+            window.Initialize();
+        }
+
+        private async void Initialize()
+        {
+            m_State = State.Initializing;
+            
+            await FetchEvents();
+            await FetchProgressionSystems();
+            
+            ResetTaskData();
+            m_State = State.Ready;
+            Repaint();
+        }
+
+        private async Task FetchEvents()
+        {
+            var allEvents = await ApiClient.GetEvents();
+            m_AppEvents = allEvents;
+        }
+        
+        private async Task FetchProgressionSystems()
+        {
+            var progressionSystemsData = await ApiClient.GetProgressionSystems(new SPGetProgressionSystemsAdminRequest());
+            m_ProgressionSystems = progressionSystemsData.levelDetails;
         }
 
         private void OnGUI()
         {
+            if (m_State == State.Initializing)
+            {
+                DrawHelpNeutral("Loading data...");
+                return;
+            }
+            
             bool disableUI = m_AppEvents == null || m_AppEvents.Count == 0;
             if (disableUI)
-                EditorGUILayout.HelpBox("This Specter project has no events created for tasks. Please configure at least one event to create tasks", MessageType.Error);
+                DrawError(NO_EVENTS_ERROR);
+            
             m_ScrollPosition = EditorGUILayout.BeginScrollView(m_ScrollPosition);
             {
                 EditorGUILayout.BeginVertical();
                 {
+                    m_IsDebug = EditorGUILayout.ToggleLeft("Debug Mode", m_IsDebug);
                     EditorGUI.BeginDisabledGroup(disableUI);
                     {
                         DrawTaskConfig();
+                        GUILayout.Space(SECTION_SPACING);
+                        DrawCustomDataConfig();
+                        DrawAccessControlConfig();
                         GUILayout.Space(SECTION_SPACING);
                         DrawRewardConfigs();
                         GUILayout.Space(SECTION_SPACING);
@@ -54,7 +104,11 @@ namespace SpecterSDK.Editor
                 EditorGUILayout.EndVertical();
             }
             EditorGUILayout.EndScrollView();
-            EditorGUI.BeginDisabledGroup(m_CreatingTask || disableUI);
+            
+            if (!m_IsDebug)
+                DrawWarning(DEBUG_MODE_WARN);
+            
+            EditorGUI.BeginDisabledGroup(m_State != State.Ready || disableUI);
             {
                 DrawButton(CreateTask, "Create", null, GUILayout.Height(40f));
             }
@@ -63,7 +117,7 @@ namespace SpecterSDK.Editor
 
         private async void CreateTask()
         {
-            m_CreatingTask = true;
+            m_State = State.CreatingTask;
             var selectedEvent = m_AppEvents[m_SelectedEventIndex];
             
             m_CreateTask.businessLogic = m_QueryBuilder.BuildBusinessLogics();
@@ -71,29 +125,75 @@ namespace SpecterSDK.Editor
             m_CreateTask.defaultEventId = selectedEvent.type == nameof(SPAppEventType.Default).ToLower() ? m_CreateTask.eventId : null;
             m_CreateTask.customEventId = selectedEvent.type == nameof(SPAppEventType.Custom).ToLower() ? m_CreateTask.eventId : null;
 
+            if (!m_CreateTask.isLockedByLevel)
+                m_CreateTask.levelDetails.Clear();
+            else
+                m_CreateTask.levelDetails = m_ProgressionConfigs;
+
+            m_CreateTask.rewardDetails = m_RewardConfigs;
+            BuildTags();
+            
             try
             {
+                BuildMetaData();
+                
                 Debug.Log(JsonConvert.SerializeObject(m_CreateTask, Formatting.Indented));
-                var result = await ApiClient.CreateTask(m_CreateTask);
-                if (result != null)
-                {
-                    ResetTaskData();
-                }
+                if (!m_IsDebug)
+                    await SendCreateRequest();
             }
             catch (Exception e)
             {
                 Debug.LogError(e);
             }
             
-            m_CreatingTask = false;
+            m_State = State.Ready;
             Repaint();
+        }
+
+        private void BuildTags()
+        {
+            m_CreateTask.tags.Clear();
+            var tagsString = m_TagsString?.Trim();
+            if (string.IsNullOrEmpty(tagsString))
+                return;
+            
+            var tags = tagsString.Split(',');
+            foreach (var tag in tags)
+            {
+                var addTag = tag.Trim();
+                if (!m_CreateTask.tags.Contains(addTag) && !string.IsNullOrEmpty(addTag))
+                    m_CreateTask.tags.Add(addTag);
+            }
+        }
+
+        private void BuildMetaData()
+        {
+            m_CreateTask.meta.Clear();
+            foreach (var metaConfig in m_MetaConfigs)
+            {
+                if (string.IsNullOrEmpty(metaConfig.key) || string.IsNullOrEmpty(metaConfig.value))
+                    continue;
+                m_CreateTask.meta.Add(metaConfig.key, metaConfig.value);
+            }
+        }
+
+        private async Task SendCreateRequest()
+        {
+            var result = await ApiClient.CreateTask(m_CreateTask);
+            if (result != null)
+            {
+                ResetTaskData();
+            }
         }
 
         private void ResetTaskData()
         {
             m_SelectedEventIndex = 0;
+            m_TagsString = "";
             m_CreateTask = new SPCreateTaskAdminRequest();
-            m_RewardConfigs = m_CreateTask.rewardDetails;
+            m_RewardConfigs = new List<SPTaskRewardConfig>();
+            m_ProgressionConfigs = new List<SPProgressionAccessControlConfig>();
+            m_MetaConfigs = new List<SPMetaConfig>();
             ResetTaskEventData();
         }
 
@@ -125,8 +225,143 @@ namespace SpecterSDK.Editor
                     null, 
                     new GUIStyle(GUI.skin.textArea) { margin = new RectOffset(5, 5, GUI.skin.textArea.margin.top, GUI.skin.textArea.margin.top) },
                     GUILayout.Height(60f));
+                EditorGUILayout.Space(8f);
+                EditorGUILayout.BeginHorizontal();
+                {
+                    DrawEnumPopupVertical("Task Type", ref m_CreateTask.taskType, () =>
+                    {
+                        m_CreateTask.type = m_CreateTask.taskType.ToString().ToLower();
+                    }, null);
+                    EditorGUILayout.Space(5f);
+                    DrawEnumPopupVertical("Reward Grant", ref m_CreateTask.rewardClaimType, () =>
+                    {
+                        m_CreateTask.rewardClaim = m_CreateTask.rewardClaimType == SPRewardClaim.OnClaim
+                            ? "on-claim"
+                            : "automatic";
+                    });
+                    EditorGUILayout.Space(5f);
+                    EditorGUILayout.BeginVertical();
+                    {
+                        m_CreateTask.isLockedByLevel = EditorGUILayout.ToggleLeft("Is Locked By Level", m_CreateTask.isLockedByLevel, GUILayout.MaxWidth(160f));
+                        m_CreateTask.isRecurring = EditorGUILayout.ToggleLeft("Is Recurring", m_CreateTask.isRecurring, GUILayout.MaxWidth(160f));
+                    }
+                    EditorGUILayout.EndVertical();
+                }
+                EditorGUILayout.EndHorizontal();
             }
             EditorGUILayout.EndVertical();
+        }
+
+        private void DrawCustomDataConfig()
+        {
+            DrawLabelField("CUSTOM DATA");
+            EditorGUILayout.BeginVertical("box");
+            {
+                DrawTextFieldVertical("Tags", ref m_TagsString);
+                DrawLabelField("Meta Data");
+                DrawButton(AddMetaField, "Add Meta");
+                for (int i = 0; i < m_MetaConfigs.Count; i++)
+                {
+                    DrawMetaRow(m_MetaConfigs[i]);
+                }
+            }
+            EditorGUILayout.EndVertical();
+        }
+
+        private void AddMetaField()
+        {
+            var meta = new SPMetaConfig();
+            m_MetaConfigs.Add(meta);
+        }
+
+        private void DrawMetaRow(SPMetaConfig metaConfig)
+        {
+            EditorGUILayout.BeginHorizontal("box");
+            {
+                DrawTextFieldVertical("Key", ref metaConfig.key, () =>
+                {
+                    metaConfig.key = metaConfig.key.Trim();
+                });
+                DrawTextFieldVertical("Value", ref metaConfig.value, () =>
+                {
+                    metaConfig.value = metaConfig.value.Trim();
+                });
+                EditorGUILayout.BeginVertical(GUILayout.MaxHeight(EditorGUIUtility.singleLineHeight * 2));
+                {
+                    GUILayout.FlexibleSpace();
+                    DrawButton(
+                        () => m_MetaConfigs.Remove(metaConfig), 
+                        "X", EditorStyles.largeLabel);
+                }
+                EditorGUILayout.EndVertical();
+            }
+            EditorGUILayout.EndHorizontal();
+        }
+
+        private void DrawAccessControlConfig()
+        {
+            if (!m_CreateTask.isLockedByLevel)
+                return;
+
+            if (m_ProgressionSystems == null || m_ProgressionSystems.Count == 0)
+            {
+                return;
+            }
+            
+            GUILayout.Space(SECTION_SPACING);
+            DrawLabelField("ACCESS & ELIGIBILITY", EditorStyles.boldLabel);
+            EditorGUILayout.BeginVertical("box");
+            {
+                DrawButton(AddProgressionConfig, "Add Progression System");
+                for (int i = 0; i < m_ProgressionConfigs.Count; i++)
+                {
+                    DrawProgressionConfigRow(m_ProgressionConfigs[i]);
+                }
+            }
+            EditorGUILayout.EndVertical();
+        }
+
+        private void AddProgressionConfig()
+        {
+            var config = new SPProgressionAccessControlConfig();
+            config.levelSystemId = m_ProgressionSystems[config.selectedSystemIndex].id;
+            config.level = m_ProgressionSystems[config.selectedSystemIndex].levelSystemLevelMapping?[0]?.levelNo ?? 0;
+            m_ProgressionConfigs.Add(config);
+        }
+
+        private void DrawProgressionConfigRow(SPProgressionAccessControlConfig progressionConfig)
+        {
+            EditorGUILayout.BeginHorizontal("box");
+            {
+                DrawPopupVertical("Progression System", 
+                    ref progressionConfig.selectedSystemIndex, 
+                    selectionTitles: GetProgressionSystemNames(), 
+                    onValueChanged: () =>
+                    {
+                        progressionConfig.levelSystemId = m_ProgressionSystems[progressionConfig.selectedSystemIndex].id;
+                    });
+                DrawIntFieldVertical("Level", ref progressionConfig.level);
+                EditorGUILayout.BeginVertical(GUILayout.MaxHeight(EditorGUIUtility.singleLineHeight * 2));
+                {
+                    GUILayout.FlexibleSpace();
+                    DrawButton(
+                        () => m_ProgressionConfigs.Remove(progressionConfig), 
+                        "X", EditorStyles.largeLabel);
+                }
+                EditorGUILayout.EndVertical();
+            }
+            EditorGUILayout.EndHorizontal();
+        }
+
+        private string[] GetProgressionSystemNames()
+        {
+            var names = new List<string>();
+            foreach (SPProgressionSystemAdminModel progressionSystem in m_ProgressionSystems)
+            {
+                names.Add(progressionSystem.name);
+            }
+
+            return names.ToArray();
         }
 
         private string[] GetEventNames()

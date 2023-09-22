@@ -1,11 +1,8 @@
 using System;
 using System.Collections.Generic;
-using NUnit.Framework;
-using Unity.Plastic.Newtonsoft.Json;
 using UnityEngine;
 using UnityEditor;
-using UnityEngine.Serialization;
-using Formatting = Newtonsoft.Json.Formatting;
+using Newtonsoft.Json;
 
 namespace SpecterSDK.Editor
 {
@@ -57,15 +54,6 @@ namespace SpecterSDK.Editor
         {
             public string combinator = nameof(Combinator.AND).ToLower();
             public List<object> children = new(); // This can contain either Rule or Group
-        }
-
-        [Serializable]
-        public class ParamConfig
-        {
-            public string parameterName { get; set; }
-            public string parameterId { get; set; }
-            public string op { get; set; }
-            public string value { get; set; }
         }
 
         public Group Root { get; private set; } = new Group();
@@ -137,7 +125,7 @@ namespace SpecterSDK.Editor
             bool isRoot = parentGroup == null;
             EditorGUILayout.BeginHorizontal();
             {
-                group.combinator = ((Combinator)EditorGUILayout.EnumPopup(System.Enum.Parse<Combinator>(group.combinator.ToUpper()), GUILayout.Width(100))).ToString().ToLower();
+                group.combinator = ((Combinator)EditorGUILayout.EnumPopup(Enum.Parse<Combinator>(group.combinator.ToUpper()), GUILayout.Width(100))).ToString().ToLower();
                 
                 if(GUILayout.Button("Add Rule", GUILayout.Width(100)))
                 {
@@ -160,7 +148,7 @@ namespace SpecterSDK.Editor
                     
                     if(GUILayout.Button("Generate JSON", GUILayout.Width(160)))
                     {
-                        string jsonString = GenerateJSON(Root);
+                        string jsonString = GenerateJSON();
                         Debug.Log(jsonString);
                     }
                 }
@@ -173,7 +161,7 @@ namespace SpecterSDK.Editor
             EditorGUILayout.BeginVertical();
             {
                 DrawParamFields(rule, parentGroup);
-                DrawParamConfig(rule, parentGroup);
+                DrawParamConfig(rule);
             }
             EditorGUILayout.EndVertical();
         }
@@ -259,7 +247,7 @@ namespace SpecterSDK.Editor
             EditorGUILayout.EndHorizontal();
         }
 
-        private void DrawParamConfig(Rule rule, Group parentGroup)
+        private void DrawParamConfig(Rule rule)
         {
             EditorGUILayout.BeginHorizontal(GUILayout.ExpandHeight(false), GUILayout.Width(100));
             {
@@ -314,14 +302,14 @@ namespace SpecterSDK.Editor
             EditorGUILayout.EndHorizontal();
         }
 
-        private string GenerateJSON(Group root)
+        private string GenerateJSON()
         {
             var queryDict = new Dictionary<string, object>()
             {
                 { "businessLogics", BuildBusinessLogics() },
                 { "config", GetConfigs() }
             };
-            return Newtonsoft.Json.JsonConvert.SerializeObject(queryDict, Formatting.Indented);
+            return JsonConvert.SerializeObject(queryDict, Formatting.Indented);
         }
         
         public Dictionary<string, object> BuildBusinessLogics()

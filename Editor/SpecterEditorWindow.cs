@@ -13,6 +13,31 @@ namespace SpecterSDK.Editor
             ApiClient ??= new SPEditorApiClient(Specter.LoadConfig());
         }
 
+        protected virtual void DrawHelpBox(string message, MessageType messageType)
+        {
+            EditorGUILayout.HelpBox(message, messageType);
+        }
+
+        protected virtual void DrawHelpNeutral(string message)
+        {
+            DrawHelpBox(message, MessageType.None);
+        }
+
+        protected virtual void DrawInfo(string message)
+        {
+            DrawHelpBox(message, MessageType.Info);
+        }
+
+        protected virtual void DrawWarning(string message)
+        {
+            DrawHelpBox(message, MessageType.Warning);
+        }
+
+        protected virtual void DrawError(string message)
+        {
+            DrawHelpBox(message, MessageType.Error);
+        }
+        
         protected virtual void DrawTableHeaders(string[] headers, GUIStyle style = null)
         {
             style ??= "box";
@@ -52,7 +77,7 @@ namespace SpecterSDK.Editor
             EditorGUILayout.BeginVertical();
             {
                 DrawLabelField("Task Description");
-                DrawTextArea(val, onTextChanged, style, options);
+                DrawTextArea(ref val, onTextChanged, style, options);
             }
             EditorGUILayout.EndVertical();
         }
@@ -67,12 +92,12 @@ namespace SpecterSDK.Editor
             EditorGUILayout.EndVertical();
         }
 
-        protected virtual void DrawEnumPopupVertical<T>(string label, ref T val, Action onValueChanged = null) where T : Enum
+        protected virtual void DrawEnumPopupVertical<T>(string label, ref T val, Action onValueChanged = null, GUIStyle style = null, params GUILayoutOption[] options) where T : Enum
         {
             EditorGUILayout.BeginVertical();
             {
                 DrawLabelField(label);
-                DrawEnumPopup(ref val, onValueChanged);
+                DrawEnumPopup(ref val, onValueChanged, style, options);
             }
             EditorGUILayout.EndVertical();
         }
@@ -102,7 +127,7 @@ namespace SpecterSDK.Editor
                 onTextChanged?.Invoke();
         }
 
-        protected virtual void DrawTextArea(string val, Action onTextChanged = null, GUIStyle style = null, params GUILayoutOption[] options)
+        protected virtual void DrawTextArea(ref string val, Action onTextChanged = null, GUIStyle style = null, params GUILayoutOption[] options)
         {
             style ??= EditorStyles.textArea;
 

@@ -1,74 +1,52 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEditor;
 
 namespace SpecterSDK.Editor
 {
-    public class SpecterTasksWindow : SpecterEditorWindow, ICreateTaskWindowDelegate
+    public class SpecterTasksAndEventsWindow : SpecterEditorWindow
     {
         private List<SPTaskAdminModel> m_Tasks;
         private List<SPAppEvent> m_AppEvents;
 
-        private readonly string[] m_TabTitles = new string[] { "Tasks", "Events" };
+        private readonly string[] m_TabTitles = { "Tasks", "Events" };
         private int m_SelectedTabIndex;
         
         private Vector2 m_TaskListScrollPos;
         private Vector2 m_EventListScrollPos;
         
-        [MenuItem("Window/Specter/Tasks")]
+        [MenuItem("Specter/Tasks & Events")]
         public static void ShowWindow()
         {
-            var window = GetWindow<SpecterTasksWindow>("Specter Tasks", true);
+            var window = GetWindow<SpecterTasksAndEventsWindow>("Specter Tasks & Events", true);
             window.minSize = new Vector2(720f, 360f);
         }
 
         protected override void OnEnable()
         {
             base.OnEnable();
-            FetchTasks();
+            Initialize();
         }
 
-        private async void FetchTasks()
+        private async void Initialize()
+        {
+            await FetchTasks();
+            await FetchEvents();
+        }
+
+        private async Task FetchTasks()
         {
             m_Tasks = await ApiClient.GetTaskList(new SPGetTaskListAdminRequest());
             Repaint();
         }
         
-        private async void FetchEvents(Action onFetchedEvents = null)
+        private async Task FetchEvents()
         {
-            m_AppEvents = new List<SPAppEvent>();
-
-            var defaultEventData = await ApiClient.GetDefaultEvents(new SPGetDefaultEventsAdminRequest());
-            var customEventData = await ApiClient.GetCustomEvents(new SPGetCustomEventsAdminRequest());
-
-            if (customEventData != null)
-            {
-                foreach (var appEvent in customEventData.appEventDetails)
-                {
-                    appEvent.type = nameof(SPAppEventType.Custom).ToLower();
-                }
-                m_AppEvents.AddRange(customEventData.appEventDetails);
-            }
-
-            if (defaultEventData != null)
-            {
-                foreach (var appEvent in defaultEventData.appEventDetails)
-                {
-                    appEvent.type = nameof(SPAppEventType.Default).ToLower();
-                }
-                m_AppEvents.AddRange(defaultEventData.appEventDetails);
-            }
-
+            m_AppEvents = await ApiClient.GetEvents();
             Repaint();
-            if (m_AppEvents != null)
-                onFetchedEvents?.Invoke();
-        }
-
-        public List<SPAppEvent> GetAppEvents()
-        {
-            return m_AppEvents;
         }
 
         private void OnGUI()
@@ -111,7 +89,7 @@ namespace SpecterSDK.Editor
         {
             DrawTableHeaders(new[] {"ID", "Name", "Rewards" });
         }
-
+        
         private void DrawTasksTable()
         {
             EditorGUILayout.BeginVertical();
@@ -135,7 +113,10 @@ namespace SpecterSDK.Editor
                 EditorGUILayout.EndScrollView();
             }
 
-            DrawButtons(new string[] { "Create New Task", "Refresh"}, ShowCreateTaskWindow, FetchTasks);
+            DrawButtons(new [] { "Create New Task", "Refresh"}, ShowCreateTaskWindow, () =>
+            {
+                FetchTasks().GetAwaiter().OnCompleted(() => Debug.Log("Tasks refreshed!"));
+            });
             GUILayout.Space(5);
             EditorGUILayout.EndVertical();
         }
@@ -143,7 +124,7 @@ namespace SpecterSDK.Editor
         private void DrawButtons(string[] buttonTitles = null, Action createAction = null, Action refreshAction = null)
         {
             if (buttonTitles is not { Length: 2 })
-                buttonTitles = new string[] { "Create", "Refresh" };
+                buttonTitles = new[] { "Create", "Refresh" };
 
             EditorGUILayout.BeginHorizontal();
             {
@@ -165,7 +146,7 @@ namespace SpecterSDK.Editor
 
         private void DrawEmptyState(string message)
         {
-            EditorGUILayout.LabelField(message);
+            DrawLabelField(message);
         }
 
         private void DrawTaskRow(SPTaskAdminModel task)
@@ -182,10 +163,7 @@ namespace SpecterSDK.Editor
 
         private void ShowCreateTaskWindow()
         {
-            if (m_AppEvents == null || m_AppEvents.Count == 0)
-                FetchEvents(() => SpecterCreateTaskWindow.ShowWindow(m_AppEvents));
-            else
-                SpecterCreateTaskWindow.ShowWindow(m_AppEvents);
+            SpecterCreateTaskWindow.ShowWindow();
         }
 
         private void DrawEventsTab()
@@ -201,9 +179,8 @@ namespace SpecterSDK.Editor
             {
                 foreach (var header in headers)
                 {
-                    EditorGUILayout.LabelField(header, EditorStyles.boldLabel);
+                    DrawLabelField(header, EditorStyles.boldLabel);
                 }
-                //GUILayout.FlexibleSpace();
             }
             EditorGUILayout.EndHorizontal();
         }
@@ -231,7 +208,10 @@ namespace SpecterSDK.Editor
                 EditorGUILayout.EndScrollView();
             }
 
-            DrawButtons(new string[] { "Create New Event", "Refresh"}, null, () => FetchEvents());
+            DrawButtons(new [] { "Create New Event", "Refresh"}, null, () =>
+            {
+                FetchEvents().GetAwaiter().OnCompleted(() => Debug.Log("Events refreshed!"));
+            });
             GUILayout.Space(5);
             EditorGUILayout.EndVertical();
         }
@@ -243,7 +223,6 @@ namespace SpecterSDK.Editor
                 EditorGUILayout.SelectableLabel(appEvent.name, EditorStyles.label, GUILayout.Height(EditorGUIUtility.singleLineHeight));
                 EditorGUILayout.SelectableLabel(appEvent.id, EditorStyles.label, GUILayout.Height(EditorGUIUtility.singleLineHeight));
                 EditorGUILayout.SelectableLabel($"{appEvent.GetAllParameters().Count}", EditorStyles.label, GUILayout.Height(EditorGUIUtility.singleLineHeight));
-                //GUILayout.FlexibleSpace();
             }
             EditorGUILayout.EndHorizontal();
         }
