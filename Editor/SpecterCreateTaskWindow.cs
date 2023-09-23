@@ -87,7 +87,12 @@ namespace SpecterSDK.Editor
             {
                 EditorGUILayout.BeginVertical();
                 {
-                    m_IsDebug = EditorGUILayout.ToggleLeft("Debug Mode", m_IsDebug);
+                    EditorGUILayout.BeginHorizontal();
+                    {
+                        m_IsDebug = EditorGUILayout.ToggleLeft("Debug Mode", m_IsDebug, GUILayout.Width(100f));
+                        DrawButton(Initialize, "Refresh Data", null, GUILayout.Width(100f));
+                    }
+                    EditorGUILayout.EndHorizontal();
                     EditorGUI.BeginDisabledGroup(disableUI);
                     {
                         DrawTaskConfig();
@@ -124,6 +129,9 @@ namespace SpecterSDK.Editor
             m_CreateTask.config = m_QueryBuilder.GetConfigs();
             m_CreateTask.defaultEventId = selectedEvent.type == nameof(SPAppEventType.Default).ToLower() ? m_CreateTask.eventId : null;
             m_CreateTask.customEventId = selectedEvent.type == nameof(SPAppEventType.Custom).ToLower() ? m_CreateTask.eventId : null;
+            m_CreateTask.rewardClaim = m_CreateTask.rewardClaimType == SPRewardClaim.OnClaim
+                ? "on-claim"
+                : m_CreateTask.rewardClaimType.ToString().ToLower();
 
             if (!m_CreateTask.isLockedByLevel)
                 m_CreateTask.levelDetails.Clear();
@@ -233,12 +241,7 @@ namespace SpecterSDK.Editor
                         m_CreateTask.type = m_CreateTask.taskType.ToString().ToLower();
                     }, null);
                     EditorGUILayout.Space(5f);
-                    DrawEnumPopupVertical("Reward Grant", ref m_CreateTask.rewardClaimType, () =>
-                    {
-                        m_CreateTask.rewardClaim = m_CreateTask.rewardClaimType == SPRewardClaim.OnClaim
-                            ? "on-claim"
-                            : "automatic";
-                    });
+                    DrawEnumPopupVertical("Reward Grant", ref m_CreateTask.rewardClaimType);
                     EditorGUILayout.Space(5f);
                     EditorGUILayout.BeginVertical();
                     {

@@ -252,7 +252,9 @@ namespace SpecterSDK.Editor
         {
             iconUrl = "task-icon.png";
             type = nameof(SPTaskType.Static).ToLower();
-            rewardClaim = "on-claim";
+
+            var claimType = (SPRewardClaim)Enum.GetValues(typeof(SPRewardType)).GetValue(0);
+            rewardClaim =  claimType == SPRewardClaim.OnClaim ? "on-claim" : claimType.ToString().ToLower();
             isLockedByLevel = false;
             isRecurring = false;
             rewardDetails = new List<SPTaskRewardConfig>();
@@ -279,7 +281,7 @@ namespace SpecterSDK.Editor
         public async Task<SPGetCustomEventsAdminResponseData> GetCustomEvents(SPGetCustomEventsAdminRequest request)
         {
             ConfigureProjectId(request);
-            
+            Debug.Log(request.projectId);
             var response = await PostAsync<SPGetCustomEventsAdminResponseData>("/v1/app-event/get/custom", AuthType, request);
             return response.data;
         }
@@ -310,7 +312,7 @@ namespace SpecterSDK.Editor
         public async Task<SPGetTaskListAdminResponseData> GetTaskList(SPGetTaskListAdminRequest request)
         {
             ConfigureProjectId(request);
-
+            Debug.Log(request.projectId);
             var response = await PostAsync<SPGetTaskListAdminResponseData>("/v1/task/get", AuthType, request);
             return response.data;
         }
