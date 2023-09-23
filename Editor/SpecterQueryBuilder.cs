@@ -42,6 +42,8 @@ namespace SpecterSDK.Editor
             public string incrementalType = nameof(ParamType.oneshot);
             public bool allTime = true;
             public int numberOfRecords = 0;
+            public DateTime? startTime = null;
+            public DateTime? endTime = null;
             
             [Newtonsoft.Json.JsonIgnore]
             public int selectedParameterIndex { get; set; }
@@ -366,7 +368,9 @@ namespace SpecterSDK.Editor
                 { nameof(rule.@operator), rule.@operator == "equal" ? "equalTo" : ConvertOperator(rule.@operator) },
                 { nameof(rule.value), rule.value },
                 { nameof(rule.incrementalType), rule.incrementalType == "oneshot" ? "one-shot" : rule.incrementalType },
-                { nameof(rule.numberOfRecords), rule.numberOfRecords }
+                { nameof(rule.numberOfRecords), rule.numberOfRecords },
+                { nameof(rule.startTime), rule.startTime },
+                { nameof(rule.endTime), rule.endTime }
             });
             
             return new Dictionary<string, object>
