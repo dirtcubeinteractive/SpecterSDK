@@ -68,12 +68,16 @@ namespace SpecterSDK.Editor
     [Serializable]
     public class SPTaskAdminModel
     {
-        public string id { get; set; }
-        public string taskId { get; set; }
-        public string name { get; set; }
-        public string iconUrl { get; set; }
-        
-        public List<SPTaskReward> taskRewards { get; set; }
+        public string id;
+        public string taskId;
+        public string name;
+        public string description;
+        public string iconUrl;
+        public bool isLockedByLevel;
+        public bool isRecurring;
+        public List<Dictionary<string, object>> config;
+        public Dictionary<string, object> businessLogic;
+        public List<SPTaskReward> taskRewards;
     }
 
     [Serializable]

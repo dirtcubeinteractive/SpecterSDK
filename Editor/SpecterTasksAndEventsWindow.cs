@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using UnityEngine;
 using UnityEditor;
 
@@ -156,6 +157,8 @@ namespace SpecterSDK.Editor
                 EditorGUILayout.SelectableLabel(task.taskId, EditorStyles.label, GUILayout.Height(EditorGUIUtility.singleLineHeight));
                 EditorGUILayout.SelectableLabel(task.name, EditorStyles.label, GUILayout.Height(EditorGUIUtility.singleLineHeight));
                 EditorGUILayout.SelectableLabel($"{task.taskRewards.Count}", EditorStyles.label, GUILayout.Height(EditorGUIUtility.singleLineHeight));
+                DrawButton(() => Debug.Log(JsonConvert.SerializeObject(task, Formatting.Indented)), "View");
+                // DrawButton(() => { }, "Edit");
                 GUILayout.FlexibleSpace();
             }
             EditorGUILayout.EndHorizontal();

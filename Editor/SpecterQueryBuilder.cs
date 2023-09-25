@@ -47,8 +47,24 @@ namespace SpecterSDK.Editor
             
             [Newtonsoft.Json.JsonIgnore]
             public int selectedParameterIndex { get; set; }
-            [JsonIgnore]
+            [Newtonsoft.Json.JsonIgnore]
             public SPParamDataType dataType { get; set; }
+        }
+
+        [Serializable]
+        public class SPParamConfig
+        {
+            public string parameterId;
+            public string parameterName;
+            public string incrementalType = nameof(ParamType.oneshot);
+            public int? numberOfRecords;
+            public DateTime? startTime;
+            public DateTime? endTime;
+
+            [JsonIgnore]
+            public bool allTime = true;
+            [JsonIgnore] 
+            public int selectedParameterIndex;
         }
 
         [Serializable]
