@@ -58,13 +58,6 @@ namespace SpecterSDK.Editor
         public SPParamDataType dataTypeId { get; set; }
     }
 
-    public enum SPTaskType
-    {
-        Static,
-        Daily,
-        Weekly
-    }
-
     [Serializable]
     public class SPTaskAdminModel
     {
@@ -77,7 +70,10 @@ namespace SpecterSDK.Editor
         public bool isRecurring;
         public List<Dictionary<string, object>> config;
         public Dictionary<string, object> businessLogic;
-        public List<SPTaskReward> taskRewards;
+        public List<object> currencies;
+        public List<object> bundles;
+        public List<object> items;
+        public List<object> progressionMarkers;
     }
 
     [Serializable]
@@ -91,14 +87,6 @@ namespace SpecterSDK.Editor
         public int quantity { get; set; }
     }
 
-    public enum SPRewardType
-    {
-        ProgressionMarker,
-        Currency,
-        Item,
-        Bundle
-    }
-    
     [Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
     public class SPTaskRewardConfig
     {
@@ -227,9 +215,9 @@ namespace SpecterSDK.Editor
         public string iconUrl;
         public string description;
         [JsonRequired]
-        public string type;
+        public SPTaskType type;
         [JsonRequired]
-        public string rewardClaim;
+        public SPRewardClaimType rewardClaim;
         [JsonRequired]
         public bool isLockedByLevel;
         [JsonRequired]
@@ -243,22 +231,16 @@ namespace SpecterSDK.Editor
         public Dictionary<string, string> meta;
         public List<Dictionary<string, object>> config { get; set; }
         public Dictionary<string, object> businessLogic { get; set; }
-        
-        
+
+
         [JsonIgnore] 
         public string eventId;
-        [JsonIgnore] 
-        public SPTaskType taskType;
-        [JsonIgnore] 
-        public SPRewardClaim rewardClaimType;
 
         public SPCreateTaskAdminRequest()
         {
             iconUrl = "task-icon.png";
-            type = nameof(SPTaskType.Static).ToLower();
-
-            var claimType = (SPRewardClaim)Enum.GetValues(typeof(SPRewardType)).GetValue(0);
-            rewardClaim =  claimType == SPRewardClaim.OnClaim ? "on-claim" : claimType.ToString().ToLower();
+            type = SPTaskType.Static;
+            rewardClaim =  SPRewardClaimType.Automatic;
             isLockedByLevel = false;
             isRecurring = false;
             rewardDetails = new List<SPTaskRewardConfig>();

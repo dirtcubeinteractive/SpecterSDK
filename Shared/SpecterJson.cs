@@ -1,19 +1,44 @@
 using System;
 using System.Linq;
 using Newtonsoft.Json;
+using SpecterSDK.APIModels;
+using SpecterSDK.Shared.SPEnum;
 
 namespace SpecterSDK.Shared
 {
+    public enum SPJsonFormatting
+    {
+        None = Formatting.None,
+        Indented = Formatting.Indented
+    }
+    
     public class SpecterJson
     {
-        protected internal static string SerializeObject(object value)
+        private static JsonSerializerSettings s_SerializerSettings;
+
+        private static JsonSerializerSettings Settings
         {
-            return JsonConvert.SerializeObject(value);
+            get
+            {
+                if (s_SerializerSettings == null)
+                {
+                    s_SerializerSettings = new JsonSerializerSettings();
+                    s_SerializerSettings.Converters.Add(new SPEnumJsonConverter<SPRewardClaimType>());
+                    s_SerializerSettings.Converters.Add(new SPEnumJsonConverter<SPTaskType>());
+                }
+
+                return s_SerializerSettings;
+            }
         }
 
-        protected internal static T DeserializeObject<T>(string value)
+        public static string SerializeObject(object value, SPJsonFormatting formatting = SPJsonFormatting.None)
         {
-            return JsonConvert.DeserializeObject<T>(value);
+            return JsonConvert.SerializeObject(value, (Formatting)formatting, Settings);
+        }
+
+        public static T DeserializeObject<T>(string value)
+        {
+            return JsonConvert.DeserializeObject<T>(value, Settings);
         }
         
         public static string ToQueryString(object obj, string prefix = null)
@@ -39,6 +64,16 @@ namespace SpecterSDK.Shared
 
             // If nested object, recursively call to serialize
             return ToQueryString(value, key);
+        }
+
+        public static void AddConverter(JsonConverter converter)
+        {
+            Settings.Converters.Add(converter);
+        }
+
+        public static void RemoveConverter(JsonConverter converter)
+        {
+            Settings.Converters.Remove(converter);
         }
     }
 }

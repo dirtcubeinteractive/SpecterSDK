@@ -1,9 +1,13 @@
 using System;
+using System.Linq;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
 namespace SpecterSDK.Editor
 {
+    using Shared.SPEnum;
+    
     public abstract class SpecterEditorWindow : EditorWindow
     {
         protected static SPEditorApiClient ApiClient;
@@ -112,6 +116,16 @@ namespace SpecterSDK.Editor
             EditorGUILayout.EndVertical();
         }
 
+        protected virtual void DrawSPEnumPopupVertical<T>(string label, ref T val, Action onValueChanged = null, GUIStyle style = null, params GUILayoutOption[] options) where T : SPEnum<T>
+        {
+            EditorGUILayout.BeginVertical();
+            {
+                DrawLabelField(label);
+                DrawSPEnumPopup(ref val, onValueChanged, style, options);
+            }
+            EditorGUILayout.EndVertical();
+        }
+
         protected virtual void DrawLabelField(string label, GUIStyle style = null, params GUILayoutOption[] options)
         {
             style ??= EditorStyles.label;
@@ -176,6 +190,30 @@ namespace SpecterSDK.Editor
             selectedIndex = EditorGUILayout.Popup(selectedIndex, selectionTitles, style, options);
             if (EditorGUI.EndChangeCheck())
                 onSelectionChanged?.Invoke();
+        }
+
+        protected virtual void DrawSPEnumPopup<T>(ref T val, Action onValueChanged = null, GUIStyle style = null, params GUILayoutOption[] options) where T : SPEnum<T>
+        {
+            style ??= EditorStyles.popup;
+            var enumValues = SPEnum<T>.GetValues<T>().ToList();
+            var index = enumValues.IndexOf(val);
+            EditorGUI.BeginChangeCheck();
+            {
+                index = EditorGUILayout.Popup(index, GetValueNames(enumValues), style, options);
+                val = enumValues[index];
+            }
+            if (EditorGUI.EndChangeCheck())
+                onValueChanged?.Invoke();
+
+            GUIContent[] GetValueNames(List<T> values)
+            {
+                var names = new GUIContent[values.Count];
+                for (int i = 0; i < values.Count; i++)
+                {
+                    names[i] = new GUIContent(values[i].DisplayName);
+                }
+                return names;
+            }
         }
     }
 }

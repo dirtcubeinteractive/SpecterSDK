@@ -2,9 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using NUnit.Framework;
 using SpecterSDK.APIModels;
+using SpecterSDK.Shared;
 using UnityEditor;
 using UnityEngine;
 
@@ -129,9 +128,6 @@ namespace SpecterSDK.Editor
             m_CreateTask.config = m_QueryBuilder.GetConfigs();
             m_CreateTask.defaultEventId = selectedEvent.type == nameof(SPAppEventType.Default).ToLower() ? m_CreateTask.eventId : null;
             m_CreateTask.customEventId = selectedEvent.type == nameof(SPAppEventType.Custom).ToLower() ? m_CreateTask.eventId : null;
-            m_CreateTask.rewardClaim = m_CreateTask.rewardClaimType == SPRewardClaim.OnClaim
-                ? "on-claim"
-                : m_CreateTask.rewardClaimType.ToString().ToLower();
 
             if (!m_CreateTask.isLockedByLevel)
                 m_CreateTask.levelDetails.Clear();
@@ -145,7 +141,7 @@ namespace SpecterSDK.Editor
             {
                 BuildMetaData();
                 
-                Debug.Log(JsonConvert.SerializeObject(m_CreateTask, Formatting.Indented));
+                Debug.Log(SpecterJson.SerializeObject(m_CreateTask, SPJsonFormatting.Indented));
                 if (!m_IsDebug)
                     await SendCreateRequest();
             }
@@ -236,12 +232,9 @@ namespace SpecterSDK.Editor
                 EditorGUILayout.Space(8f);
                 EditorGUILayout.BeginHorizontal();
                 {
-                    DrawEnumPopupVertical("Task Type", ref m_CreateTask.taskType, () =>
-                    {
-                        m_CreateTask.type = m_CreateTask.taskType.ToString().ToLower();
-                    }, null);
+                    DrawSPEnumPopupVertical("Task Type", ref m_CreateTask.type);
                     EditorGUILayout.Space(5f);
-                    DrawEnumPopupVertical("Reward Grant", ref m_CreateTask.rewardClaimType);
+                    DrawSPEnumPopupVertical("Reward Grant", ref m_CreateTask.rewardClaim);
                     EditorGUILayout.Space(5f);
                     EditorGUILayout.BeginVertical();
                     {
