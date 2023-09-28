@@ -129,7 +129,7 @@ namespace SpecterSDK.Editor
     }
 
     [Serializable]
-    public abstract class SPGetAppEventsAdminResponseData
+    public abstract class SPGetAppEventsAdminResponseData : ISpecterApiResponseData
     {
         public List<SPAppEvent> appEventDetails { get; set; }
     }
@@ -154,7 +154,7 @@ namespace SpecterSDK.Editor
     }
 
     [Serializable]
-    public class SPGetProgressionSystemsAdminResponseData
+    public class SPGetProgressionSystemsAdminResponseData : ISpecterApiResponseData
     {
         public List<SPProgressionSystemAdminModel> levelDetails;
     }
@@ -196,7 +196,7 @@ namespace SpecterSDK.Editor
     }
 
     [Serializable]
-    public class SPGetTaskListAdminResponseData : List<SPTaskAdminModel> {  }
+    public class SPGetTaskListAdminResponseData : List<SPTaskAdminModel>, ISpecterApiResponseData {  }
 
     [Serializable]
     public class SPCreateTaskAdminRequest : IProjectConfigurable
@@ -307,7 +307,7 @@ namespace SpecterSDK.Editor
         {
             ConfigureProjectId(request);
 
-            var response = await PostAsync<Dictionary<string, object>>("/v1/task/create", AuthType, request);
+            var response = await PostAsync<SPGeneralResponseDictionaryData>("/v1/task/create", AuthType, request);
             return response.data;
         }
 

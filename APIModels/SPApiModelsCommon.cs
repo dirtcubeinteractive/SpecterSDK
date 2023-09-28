@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using SpecterSDK.APIModels.Interfaces;
 
 namespace SpecterSDK.APIModels
 {
@@ -13,12 +15,9 @@ namespace SpecterSDK.APIModels
         public int limit { get; set; } = 1;
         public int? offset { get; set; } = 0;
     }
-    
-    [System.Serializable]
-    public class SPModel { }
 
     [System.Serializable]
-    public class SPApiResponse<T> where T: class
+    public class SPApiResponse<T> where T: class, ISpecterApiResponseData, new()
     {
         public string status { get; set; }
         public int code { get; set; }
@@ -27,7 +26,10 @@ namespace SpecterSDK.APIModels
         public T data { get; set; }
     }
 
-    [System.Serializable]
+    [Serializable]
+    public class SPGeneralResponseDictionaryData : Dictionary<string, object>, ISpecterApiResponseData { }
+
+    [Serializable]
     public class SPApiError
     {
         public int statusCode { get; set; }

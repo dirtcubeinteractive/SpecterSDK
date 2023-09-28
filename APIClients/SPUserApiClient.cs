@@ -4,20 +4,23 @@ using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
 using SpecterSDK.APIModels;
+using SpecterSDK.APIModels.Interfaces;
 using SpecterSDK.Shared;
+using UnityEngine.SocialPlatforms.Impl;
 
 namespace SpecterSDK.APIClients
 {
-    [System.Serializable]
-    public class SPUserGetProfileRequest : SPApiRequestBase
+    [System.Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
+    public class SPGetUserProfileRequest : SPApiRequestBase
     {
+        public string id { get; set; }
         public List<string> attributes { get; set; }
         public List<SPApiRequestEntity> entities { get; set; }
     }
 
     [System.Serializable]
     [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPUserUpdateProfileRequest : SPApiRequestBase
+    public class SPUpdateUserProfileRequest : SPApiRequestBase
     {
         public string firstName { get; set; }
         public string lastName { get; set; }
@@ -33,7 +36,7 @@ namespace SpecterSDK.APIClients
 
         public SPUserApiClient(SpecterRuntimeConfig config) : base(config) {}
 
-        public async Task<SPApiResponse<SPUserProfileData>> GetProfile(SPUserGetProfileRequest request)
+        public async Task<SPApiResponse<SPUserProfileResponseData>> GetProfile(SPGetUserProfileRequest request)
         {
             List<string> defaultAttributes = new List<string>()
             {
@@ -46,13 +49,13 @@ namespace SpecterSDK.APIClients
             request.attributes.AddRange(defaultAttributes);
             request.attributes = request.attributes.Distinct().ToList();
 
-            var response = await PostAsync<SPUserProfileData>("/v1/client/user/profile", AuthType, request);
+            var response = await PostAsync<SPUserProfileResponseData>("/v1/client/user/profile", AuthType, request);
             return response;
         }
 
-        public async Task<SPApiResponse<object>> UpdateProfile(SPUserUpdateProfileRequest request)
+        public async Task<SPApiResponse<SPGeneralResponseDictionaryData>> UpdateProfile(SPUpdateUserProfileRequest request)
         {
-            var response = await PutAsync<object>("/v1/client/user/update", AuthType, request);
+            var response = await PutAsync<SPGeneralResponseDictionaryData>("/v1/client/user/update", AuthType, request);
             return response;
         }
     }

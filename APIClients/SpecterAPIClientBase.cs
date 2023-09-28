@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
@@ -72,7 +73,7 @@ namespace SpecterSDK.APIClients
             SPAuthType authType = SPAuthType.None,
             object requestParams = null, 
             object requestBody = null
-            ) where T: class
+            ) where T: class, ISpecterApiResponseData, new()
         {
             if (m_Config == null || m_HttpClient == null)
             {
@@ -133,21 +134,39 @@ namespace SpecterSDK.APIClients
             catch (Exception e)
             {
                 Debug.LogError(e.ToString());
-                return null;
+                
+                const string message = "An unexpected error occured";
+                var errResponse = new SPApiResponse<T>()
+                {
+                    status = SPApiStatus.Error,
+                    message = message,
+                    errors = new List<SPApiError>()
+                    {
+                        new()
+                        {
+                            statusCode = 500,
+                            message = message,
+                            error = e.Message
+                        }
+                    },
+                    data = null
+                };
+                
+                return errResponse;
             }
         }
 
-        protected async Task<SPApiResponse<T>> GetAsync<T>(string endpoint, SPAuthType authType, object queryParams) where T: class
+        protected async Task<SPApiResponse<T>> GetAsync<T>(string endpoint, SPAuthType authType, object queryParams) where T: class, ISpecterApiResponseData, new()
         {
             return await MakeRequestAsync<T>(HttpMethod.Get, endpoint, authType: authType, requestParams: queryParams);
         }
 
-        protected async Task<SPApiResponse<T>> PostAsync<T>(string endpoint, SPAuthType authType, object bodyParams) where T : class
+        protected async Task<SPApiResponse<T>> PostAsync<T>(string endpoint, SPAuthType authType, object bodyParams) where T : class, ISpecterApiResponseData, new()
         {
             return await MakeRequestAsync<T>(HttpMethod.Post, endpoint, authType: authType, requestBody: bodyParams);
         }
 
-        protected async Task<SPApiResponse<T>> PutAsync<T>(string endpoint, SPAuthType authType, object bodyParams) where T : class
+        protected async Task<SPApiResponse<T>> PutAsync<T>(string endpoint, SPAuthType authType, object bodyParams) where T : class, ISpecterApiResponseData, new()
         {
             return await MakeRequestAsync<T>(HttpMethod.Put, endpoint, authType: authType, requestBody: bodyParams);
         }
