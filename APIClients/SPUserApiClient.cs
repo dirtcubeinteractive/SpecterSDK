@@ -24,9 +24,9 @@ namespace SpecterSDK.APIClients
     {
         public SpecterUser User;
         
-        protected override void CreateInternal()
+        protected override void LoadFromData(SPUserProfileResponseData data)
         {
-            User = SpecterUser.Create(ResponseRaw.data);
+            User = SpecterUser.CreateFromData(data);
         }
     }
 
@@ -44,7 +44,7 @@ namespace SpecterSDK.APIClients
 
     public class SPUpdateUserProfileResult : SPApiResultBase<SPUpdateUserProfileResult, SPGeneralResponseDictionaryData>
     { 
-        protected override void CreateInternal() { }
+        protected override void LoadFromData(SPGeneralResponseDictionaryData data) { }
     }
 
     public class SPUserApiClient: SpecterApiClientBase
