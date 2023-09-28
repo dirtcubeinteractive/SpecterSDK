@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -65,15 +66,13 @@ namespace SpecterSDK.APIClients
             request.attributes.AddRange(defaultAttributes);
             request.attributes = request.attributes.Distinct().ToList();
 
-            var response = await PostAsync<SPUserProfileResponseData>("/v1/client/user/profile", AuthType, request);
-            var result = SPGetUserProfileResult.Create(response);
+            var result = await PostAsync<SPGetUserProfileResult, SPUserProfileResponseData>("/v1/client/user/profile", AuthType, request);
             return result;
         }
 
         public async Task<SPUpdateUserProfileResult> UpdateProfile(SPUpdateUserProfileRequest request)
         {
-            var response = await PutAsync<SPGeneralResponseDictionaryData>("/v1/client/user/update", AuthType, request);
-            var result = SPUpdateUserProfileResult.Create(response);
+            var result = await PutAsync<SPUpdateUserProfileResult, SPGeneralResponseDictionaryData>("/v1/client/user/update", AuthType, request);
             return result;
         }
     }

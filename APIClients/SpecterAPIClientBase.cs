@@ -67,13 +67,15 @@ namespace SpecterSDK.APIClients
             }
         }
 
-        public async Task<SPApiResponse<TData>> MakeRequestAsync<TData>(
+        public async Task<TResult> MakeRequestAsync<TResult, TData>(
             HttpMethod method, 
             string endpoint = "", 
             SPAuthType authType = SPAuthType.None,
             object requestParams = null, 
             object requestBody = null
-            ) where TData: class, ISpecterApiResponseData, new()
+            ) 
+            where TData: class, ISpecterApiResponseData, new()
+            where TResult: SPApiResultBase<TResult, TData>, new()
         {
             if (m_Config == null || m_HttpClient == null)
             {
@@ -122,14 +124,14 @@ namespace SpecterSDK.APIClients
                         data = null
                     };
 
-                    return errResponse;
+                    return BuildResult<TResult, TData>(errResponse);
                 }
 
                 var resString = await response.Content.ReadAsStringAsync();
                 Debug.Log(resString);
                 
                 var apiResponse = SpecterJson.DeserializeObject<SPApiResponse<TData>>(resString);
-                return apiResponse;
+                return BuildResult<TResult, TData>(apiResponse);
             }
             catch (Exception e)
             {
@@ -152,23 +154,37 @@ namespace SpecterSDK.APIClients
                     data = null
                 };
                 
-                return errResponse;
+                return BuildResult<TResult, TData>(errResponse);
             }
         }
 
-        protected async Task<SPApiResponse<T>> GetAsync<T>(string endpoint, SPAuthType authType, object queryParams) where T: class, ISpecterApiResponseData, new()
+        protected virtual TResult BuildResult<TResult, TData>(SPApiResponse<TData> response)
+        where TData: class, ISpecterApiResponseData, new()
+        where TResult: SPApiResultBase<TResult, TData>, new()
         {
-            return await MakeRequestAsync<T>(HttpMethod.Get, endpoint, authType: authType, requestParams: queryParams);
+            TResult result = SPApiResultBase<TResult, TData>.Create(response);
+            return result;
         }
 
-        protected async Task<SPApiResponse<T>> PostAsync<T>(string endpoint, SPAuthType authType, object bodyParams) where T : class, ISpecterApiResponseData, new()
+        protected async Task<TResult> GetAsync<TResult, TData>(string endpoint, SPAuthType authType, object queryParams) 
+            where TData: class, ISpecterApiResponseData, new()
+            where TResult: SPApiResultBase<TResult, TData>, new()
         {
-            return await MakeRequestAsync<T>(HttpMethod.Post, endpoint, authType: authType, requestBody: bodyParams);
+            return await MakeRequestAsync<TResult, TData>(HttpMethod.Get, endpoint, authType: authType, requestParams: queryParams);
         }
 
-        protected async Task<SPApiResponse<T>> PutAsync<T>(string endpoint, SPAuthType authType, object bodyParams) where T : class, ISpecterApiResponseData, new()
+        protected async Task<TResult> PostAsync<TResult, TData>(string endpoint, SPAuthType authType, object bodyParams)
+            where TData: class, ISpecterApiResponseData, new()
+            where TResult: SPApiResultBase<TResult, TData>, new()
         {
-            return await MakeRequestAsync<T>(HttpMethod.Put, endpoint, authType: authType, requestBody: bodyParams);
+            return await MakeRequestAsync<TResult, TData>(HttpMethod.Post, endpoint, authType: authType, requestBody: bodyParams);
+        }
+
+        protected async Task<TResult> PutAsync<TResult, TData>(string endpoint, SPAuthType authType, object bodyParams)
+            where TData: class, ISpecterApiResponseData, new()
+            where TResult: SPApiResultBase<TResult, TData>, new()
+        {
+            return await MakeRequestAsync<TResult, TData>(HttpMethod.Put, endpoint, authType: authType, requestBody: bodyParams);
         }
     }
 }

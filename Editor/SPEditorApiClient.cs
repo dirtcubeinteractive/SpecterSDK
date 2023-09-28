@@ -59,7 +59,7 @@ namespace SpecterSDK.Editor
     }
 
     [Serializable]
-    public class SPTaskAdminModel
+    public class SPTaskAdminModel : ISpecterApiResponseData
     {
         public string id;
         public string taskId;
@@ -129,22 +129,36 @@ namespace SpecterSDK.Editor
     }
 
     [Serializable]
-    public abstract class SPGetAppEventsAdminResponseData : ISpecterApiResponseData
+    public class SPGetAppEventsAdminResponseData : ISpecterApiResponseData
     {
         public List<SPAppEvent> appEventDetails { get; set; }
     }
     
     [Serializable]
     public class SPGetDefaultEventsAdminRequest : SPGetAppEventsAdminRequest { }
-    
-    [Serializable]
-    public class SPGetDefaultEventsAdminResponseData : SPGetAppEventsAdminResponseData { }
+
+    public class SPGetDefaultEventsAdminResult : SPApiResultBase<SPGetDefaultEventsAdminResult, SPGetAppEventsAdminResponseData>
+    {
+        public List<SPAppEvent> AppEventDetails;
+        
+        protected override void LoadFromData(SPGetAppEventsAdminResponseData data)
+        {
+            AppEventDetails = data.appEventDetails;
+        }
+    }
 
     [Serializable]
     public class SPGetCustomEventsAdminRequest : SPGetAppEventsAdminRequest { }
 
-    [Serializable]
-    public class SPGetCustomEventsAdminResponseData : SPGetAppEventsAdminResponseData { }
+    public class SPGetCustomEventsAdminResult : SPApiResultBase<SPGetCustomEventsAdminResult, SPGetAppEventsAdminResponseData>
+    {
+        public List<SPAppEvent> AppEventDetails;
+        
+        protected override void LoadFromData(SPGetAppEventsAdminResponseData data)
+        {
+            AppEventDetails = data.appEventDetails;
+        }
+    }
 
     [Serializable]
     public class SPGetProgressionSystemsAdminRequest : IProjectConfigurable
@@ -157,6 +171,16 @@ namespace SpecterSDK.Editor
     public class SPGetProgressionSystemsAdminResponseData : ISpecterApiResponseData
     {
         public List<SPProgressionSystemAdminModel> levelDetails;
+    }
+
+    public class SPGetProgressionSystemsAdminResult : SPApiResultBase<SPGetProgressionSystemsAdminResult, SPGetProgressionSystemsAdminResponseData>
+    {
+        public List<SPProgressionSystemAdminModel> LevelDetails;
+        
+        protected override void LoadFromData(SPGetProgressionSystemsAdminResponseData data)
+        {
+            LevelDetails = data.levelDetails;
+        }
     }
 
     [Serializable]
@@ -195,8 +219,15 @@ namespace SpecterSDK.Editor
         public int offset { get; set; }
     }
 
-    [Serializable]
-    public class SPGetTaskListAdminResponseData : List<SPTaskAdminModel>, ISpecterApiResponseData {  }
+    public class SPGetTaskListAdminResult : SPApiResultBase<SPGetTaskListAdminResult, SPResponseDataList<SPTaskAdminModel>>
+    {
+        public List<SPTaskAdminModel> TaskList;
+        
+        protected override void LoadFromData(SPResponseDataList<SPTaskAdminModel> data)
+        {
+            TaskList = data;
+        }
+    }
 
     [Serializable]
     public class SPCreateTaskAdminRequest : IProjectConfigurable
@@ -256,20 +287,20 @@ namespace SpecterSDK.Editor
 
         public SPEditorApiClient(SpecterRuntimeConfig config) : base(config) {  }
 
-        public async Task<SPGetDefaultEventsAdminResponseData> GetDefaultEvents(SPGetDefaultEventsAdminRequest request)
+        public async Task<SPGetDefaultEventsAdminResult> GetDefaultEvents(SPGetDefaultEventsAdminRequest request)
         {
             ConfigureProjectId(request);
 
-            var response = await PostAsync<SPGetDefaultEventsAdminResponseData>("/v1/app-event/get/default", AuthType, request);
-            return response.data;
+            var result = await PostAsync<SPGetDefaultEventsAdminResult, SPGetAppEventsAdminResponseData>("/v1/app-event/get/default", AuthType, request);
+            return result;
         }
         
-        public async Task<SPGetCustomEventsAdminResponseData> GetCustomEvents(SPGetCustomEventsAdminRequest request)
+        public async Task<SPGetCustomEventsAdminResult> GetCustomEvents(SPGetCustomEventsAdminRequest request)
         {
             ConfigureProjectId(request);
             Debug.Log(request.projectId);
-            var response = await PostAsync<SPGetCustomEventsAdminResponseData>("/v1/app-event/get/custom", AuthType, request);
-            return response.data;
+            var result = await PostAsync<SPGetCustomEventsAdminResult, SPGetAppEventsAdminResponseData>("/v1/app-event/get/custom", AuthType, request);
+            return result;
         }
 
         public async Task<List<SPAppEvent>> GetEvents()
@@ -282,41 +313,41 @@ namespace SpecterSDK.Editor
                 return unionEvents;
             });
 
-            var customEventsData = await GetCustomEvents(new SPGetCustomEventsAdminRequest());
-            var defaultEventsData = await GetDefaultEvents(new SPGetDefaultEventsAdminRequest());
+            var customEventsResult = await GetCustomEvents(new SPGetCustomEventsAdminRequest());
+            var defaultEventsResult = await GetDefaultEvents(new SPGetDefaultEventsAdminRequest());
 
-            if (customEventsData == null || defaultEventsData == null)
+            if (customEventsResult == null || defaultEventsResult == null)
                 return new List<SPAppEvent>();
                 
             var allEvents = new List<SPAppEvent>();
-            allEvents = ConstructEvents(SPAppEventType.Custom, allEvents, customEventsData.appEventDetails);
-            allEvents = ConstructEvents(SPAppEventType.Default, allEvents, defaultEventsData.appEventDetails);
+            allEvents = ConstructEvents(SPAppEventType.Custom, allEvents, customEventsResult.AppEventDetails);
+            allEvents = ConstructEvents(SPAppEventType.Default, allEvents, defaultEventsResult.AppEventDetails);
 
             return allEvents;
         }
 
-        public async Task<SPGetTaskListAdminResponseData> GetTaskList(SPGetTaskListAdminRequest request)
+        public async Task<SPGetTaskListAdminResult> GetTaskList(SPGetTaskListAdminRequest request)
         {
             ConfigureProjectId(request);
             Debug.Log(request.projectId);
-            var response = await PostAsync<SPGetTaskListAdminResponseData>("/v1/task/get", AuthType, request);
-            return response.data;
+            var result = await PostAsync<SPGetTaskListAdminResult, SPResponseDataList<SPTaskAdminModel>>("/v1/task/get", AuthType, request);
+            return result;
         }
 
-        public async Task<Dictionary<string, object>> CreateTask(SPCreateTaskAdminRequest request)
+        public async Task<SPGeneralResult> CreateTask(SPCreateTaskAdminRequest request)
         {
             ConfigureProjectId(request);
 
-            var response = await PostAsync<SPGeneralResponseDictionaryData>("/v1/task/create", AuthType, request);
-            return response.data;
+            var result = await PostAsync<SPGeneralResult, SPGeneralResponseDictionaryData>("/v1/task/create", AuthType, request);
+            return result;
         }
 
-        public async Task<SPGetProgressionSystemsAdminResponseData> GetProgressionSystems(SPGetProgressionSystemsAdminRequest request)
+        public async Task<SPGetProgressionSystemsAdminResult> GetProgressionSystems(SPGetProgressionSystemsAdminRequest request)
         {
             ConfigureProjectId(request);
 
-            var response = await PostAsync<SPGetProgressionSystemsAdminResponseData>("/v1/level-system/get", AuthType, request);
-            return response.data;
+            var result = await PostAsync<SPGetProgressionSystemsAdminResult, SPGetProgressionSystemsAdminResponseData>("/v1/level-system/get", AuthType, request);
+            return result;
         }
     }
 }

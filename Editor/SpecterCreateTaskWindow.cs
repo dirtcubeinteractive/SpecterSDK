@@ -66,8 +66,8 @@ namespace SpecterSDK.Editor
         
         private async Task FetchProgressionSystems()
         {
-            var progressionSystemsData = await ApiClient.GetProgressionSystems(new SPGetProgressionSystemsAdminRequest());
-            m_ProgressionSystems = progressionSystemsData.levelDetails;
+            var progressionSystemsResult = await ApiClient.GetProgressionSystems(new SPGetProgressionSystemsAdminRequest());
+            m_ProgressionSystems = progressionSystemsResult.LevelDetails;
         }
 
         private void OnGUI()

@@ -36,7 +36,10 @@ namespace SpecterSDK.APIDataModels
     
     [Serializable]
     public sealed class SPGeneralResponseDictionaryData : Dictionary<string, object>, ISpecterApiResponseData { }
-
+    
+    [Serializable]
+    public sealed class SPResponseDataList<T> : List<T>, ISpecterApiResponseData where T : ISpecterApiResponseData { }
+    
     public abstract class SPApiResultBase<TSelf, TData> 
         where TData: class, ISpecterApiResponseData, new()
         where TSelf: SPApiResultBase<TSelf, TData>, new()
@@ -69,5 +72,15 @@ namespace SpecterSDK.APIDataModels
 
         protected virtual void CreateInternal() { }
         protected abstract void LoadFromData(TData data);
+    }
+
+    public class SPGeneralResult : SPApiResultBase<SPGeneralResult, SPGeneralResponseDictionaryData>
+    {
+        public Dictionary<string, object> ResultDict;
+        
+        protected override void LoadFromData(SPGeneralResponseDictionaryData data)
+        {
+            ResultDict = data;
+        }
     }
 }

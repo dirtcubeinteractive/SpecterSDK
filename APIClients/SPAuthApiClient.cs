@@ -26,13 +26,13 @@ namespace SpecterSDK.APIClients
 
         public SPAuthApiClient(SpecterRuntimeConfig config) : base(config) {}
 
-        public async Task<SPApiResponse<SPAuthenticatedUserResponseData>> LoginWithCustomId(SPAuthLoginCustomIdRequest request)
-        {
-            if (string.IsNullOrEmpty(request.projectId))
-                request.projectId = m_Config.ProjectId;
-                
-            var response = await PostAsync<SPAuthenticatedUserResponseData>("/v1/client/auth/login-custom", AuthType, request);
-            return response;
-        }
+        // public async Task<SPApiResponse<SPAuthenticatedUserResponseData>> LoginWithCustomId(SPAuthLoginCustomIdRequest request)
+        // {
+        //     if (string.IsNullOrEmpty(request.projectId))
+        //         request.projectId = m_Config.ProjectId;
+        //         
+        //     var response = await PostAsync<SPAuthenticatedUserResponseData>("/v1/client/auth/login-custom", AuthType, request);
+        //     return response;
+        // }
     }
 }

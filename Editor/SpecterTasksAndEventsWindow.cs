@@ -40,7 +40,7 @@ namespace SpecterSDK.Editor
 
         private async Task FetchTasks()
         {
-            m_Tasks = await ApiClient.GetTaskList(new SPGetTaskListAdminRequest());
+            m_Tasks = (await ApiClient.GetTaskList(new SPGetTaskListAdminRequest())).TaskList;
             Repaint();
         }
         
