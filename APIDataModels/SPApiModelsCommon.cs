@@ -47,7 +47,6 @@ namespace SpecterSDK.APIDataModels
         protected SPApiResultBase() { }
         
         public SPApiResponse<TData> ResponseRaw { get; set; }
-        public TData DataRaw => ResponseRaw?.data;
         public bool IsError => ResponseRaw?.errors is { Count: > 0 };
 
         /*
