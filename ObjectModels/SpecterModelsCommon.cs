@@ -1,8 +1,7 @@
 namespace SpecterSDK.ObjectModels
 {
+    using Interfaces;
     using APIDataModels.Interfaces;
-    
-    public interface ISpecterObject { }
 
     public abstract class SPObjectBase<TData> : ISpecterObject
         where TData : class, ISpecterApiResponseData, new()

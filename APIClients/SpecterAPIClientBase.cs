@@ -135,7 +135,7 @@ namespace SpecterSDK.APIClients
             {
                 Debug.LogError(e.ToString());
                 
-                const string message = "An unexpected error occured";
+                const string message = "An unexpected exception occured";
                 var errResponse = new SPApiResponse<TData>()
                 {
                     status = SPApiStatus.Error,

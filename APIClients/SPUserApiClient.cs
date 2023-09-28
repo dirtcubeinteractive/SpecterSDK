@@ -48,7 +48,7 @@ namespace SpecterSDK.APIClients
 
         public SPUserApiClient(SpecterRuntimeConfig config) : base(config) {}
 
-        public async Task<SPApiResponse<SPUserProfileResponseData>> GetProfile(SPGetUserProfileRequest request)
+        public async Task<SPGetUserProfileResult> GetProfile(SPGetUserProfileRequest request)
         {
             List<string> defaultAttributes = new List<string>()
             {
@@ -62,7 +62,8 @@ namespace SpecterSDK.APIClients
             request.attributes = request.attributes.Distinct().ToList();
 
             var response = await PostAsync<SPUserProfileResponseData>("/v1/client/user/profile", AuthType, request);
-            return response;
+            var result = SPApiResultBase<SPGetUserProfileResult, SPUserProfileResponseData>.Create(response);
+            return result;
         }
 
         public async Task<SPApiResponse<SPGeneralResponseDictionaryData>> UpdateProfile(SPUpdateUserProfileRequest request)
