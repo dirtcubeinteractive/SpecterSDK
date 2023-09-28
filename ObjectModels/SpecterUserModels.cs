@@ -4,7 +4,7 @@ namespace SpecterSDK.ObjectModels
 {
     using APIDataModels;
     
-    public class SpecterUser : SPObjectBase<SPUserProfileResponseData>
+    public class SpecterUser : SPObjectBase<SpecterUser, SPUserProfileResponseData>
     {
         public string Uuid;
         public string Id;

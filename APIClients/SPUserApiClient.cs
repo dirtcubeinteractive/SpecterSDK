@@ -26,7 +26,7 @@ namespace SpecterSDK.APIClients
         
         protected override void CreateInternal()
         {
-            User = SPObjectBase<SPUserProfileResponseData>.Create<SpecterUser>(ResponseRaw.data);
+            User = SpecterUser.Create(ResponseRaw.data);
         }
     }
 
@@ -40,6 +40,11 @@ namespace SpecterSDK.APIClients
         public string birthdate { get; set; }
         public string customId { get; set; }
         public bool? isKyc { get; set; }
+    }
+
+    public class SPUpdateUserProfileResult : SPApiResultBase<SPUpdateUserProfileResult, SPGeneralResponseDictionaryData>
+    { 
+        protected override void CreateInternal() { }
     }
 
     public class SPUserApiClient: SpecterApiClientBase
@@ -62,14 +67,15 @@ namespace SpecterSDK.APIClients
             request.attributes = request.attributes.Distinct().ToList();
 
             var response = await PostAsync<SPUserProfileResponseData>("/v1/client/user/profile", AuthType, request);
-            var result = SPApiResultBase<SPGetUserProfileResult, SPUserProfileResponseData>.Create(response);
+            var result = SPGetUserProfileResult.Create(response);
             return result;
         }
 
-        public async Task<SPApiResponse<SPGeneralResponseDictionaryData>> UpdateProfile(SPUpdateUserProfileRequest request)
+        public async Task<SPUpdateUserProfileResult> UpdateProfile(SPUpdateUserProfileRequest request)
         {
             var response = await PutAsync<SPGeneralResponseDictionaryData>("/v1/client/user/update", AuthType, request);
-            return response;
+            var result = SPUpdateUserProfileResult.Create(response);
+            return result;
         }
     }
 }

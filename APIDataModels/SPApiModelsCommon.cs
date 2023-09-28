@@ -41,8 +41,12 @@ namespace SpecterSDK.APIDataModels
         where TData: class, ISpecterApiResponseData, new()
         where TSelf: SPApiResultBase<TSelf, TData>, new()
     {
+        protected const string CONSTRUCTOR_USAGE_ERROR = "Constructor is not meant to be used. Override the CreateInternal method instead.";
+        
+        [Obsolete(CONSTRUCTOR_USAGE_ERROR, true)]
+        protected SPApiResultBase() { }
+
         public SPApiResponse<TData> ResponseRaw { get; set; }
-        public TData DataRaw => ResponseRaw?.data;
         public bool IsError => ResponseRaw?.errors is { Count: > 0 };
 
         public static TSelf Create(SPApiResponse<TData> response)

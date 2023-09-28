@@ -3,13 +3,13 @@ namespace SpecterSDK.ObjectModels
     using Interfaces;
     using APIDataModels.Interfaces;
 
-    public abstract class SPObjectBase<TData> : ISpecterObject
+    public abstract class SPObjectBase<TObject, TData> : ISpecterObject
+        where TObject : SPObjectBase<TObject, TData>, new()
         where TData : class, ISpecterApiResponseData, new()
     {
-        public static TSpectorObject Create<TSpectorObject>(TData data)
-            where TSpectorObject : SPObjectBase<TData>, new()
+        public static TObject Create(TData data)
         {
-            var specterObject = new TSpectorObject();
+            var specterObject = new TObject();
             specterObject.Map(data);
             return specterObject;
         }
