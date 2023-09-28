@@ -5,7 +5,7 @@ using SpecterSDK.APIDataModels.Interfaces;
 namespace SpecterSDK.APIDataModels
 {
     [System.Serializable]
-    public abstract class SPApiRequestBase { }
+    public abstract class SPApiRequestBaseData { }
 
     [System.Serializable]
     public class SPApiRequestEntity

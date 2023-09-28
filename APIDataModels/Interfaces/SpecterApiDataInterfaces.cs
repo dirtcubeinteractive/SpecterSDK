@@ -4,7 +4,7 @@ namespace SpecterSDK.APIDataModels.Interfaces
 {
     public interface ISpecterApiResponseData { }
 
-    public interface ISpecterCustomDataObject
+    public interface ISpecterCustomConfiguredData
     {
         public List<string> tags { get; set; }
         public Dictionary<string, string> meta { get; set; }

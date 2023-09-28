@@ -8,7 +8,7 @@ using UnityEngine;
 namespace SpecterSDK.APIClients
 {
     [System.Serializable]
-    public abstract class SPAuthLoginRequestBase : SPApiRequestBase
+    public abstract class SPAuthLoginRequestBase : SPApiRequestBaseData
     {
         public string projectId { get; set; }
         public bool createAccount { get; set; }

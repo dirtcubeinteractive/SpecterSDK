@@ -51,7 +51,7 @@ namespace SpecterSDK.APIDataModels
     }
 
     [Serializable]
-    public class SPTaskResponseData : SPTaskResponseBaseData, ISpecterCustomDataObject
+    public class SPTaskResponseData : SPTaskResponseBaseData, ISpecterCustomConfiguredData
     {
         public List<string> tags { get; set; }
         public Dictionary<string, string> meta { get; set; }

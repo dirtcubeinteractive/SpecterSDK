@@ -13,40 +13,6 @@ namespace SpecterSDK.APIClients
 {
     using ObjectModels;
     
-    [System.Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPGetUserProfileRequest : SPApiRequestBase
-    {
-        public string id { get; set; }
-        public List<string> attributes { get; set; }
-        public List<SPApiRequestEntity> entities { get; set; }
-    }
-    
-    public class SPGetUserProfileResult : SPApiResultBase<SPGetUserProfileResult, SPUserProfileResponseData>
-    {
-        public SpecterUser User;
-        
-        protected override void LoadFromData(SPUserProfileResponseData data)
-        {
-            User = SpecterUser.CreateFromData(data);
-        }
-    }
-
-    [System.Serializable]
-    [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPUpdateUserProfileRequest : SPApiRequestBase
-    {
-        public string firstName { get; set; }
-        public string lastName { get; set; }
-        public string email { get; set; }
-        public string birthdate { get; set; }
-        public string customId { get; set; }
-        public bool? isKyc { get; set; }
-    }
-    
-    public class SPUpdateUserProfileResult : SPApiResultBase<SPUpdateUserProfileResult, SPGeneralResponseDictionaryData>
-    { 
-        protected override void LoadFromData(SPGeneralResponseDictionaryData data) { }
-    }
     public class SPUserApiClient: SpecterApiClientBase
     {
         public override SPAuthType AuthType => SPAuthType.AccessToken;
