@@ -44,9 +44,9 @@ namespace SpecterSDK.APIDataModels
         where TData: class, ISpecterApiResponseData, new()
         where TSelf: SPApiResultBase<TSelf, TData>, new()
     {
-        protected const string CONSTRUCTOR_USAGE_ERROR = "Constructor is not meant to be used. Use Create function & override the LoadFromData instead.";
+        protected const string CONSTRUCTOR_USAGE_WARN = "Constructor is not meant to be used. Use Create function & override the LoadFromData instead.";
         
-        [Obsolete(CONSTRUCTOR_USAGE_ERROR, true)]
+        [Obsolete(CONSTRUCTOR_USAGE_WARN, false)]
         protected SPApiResultBase() { }
         
         public SPApiResponse<TData> ResponseRaw { get; set; }
