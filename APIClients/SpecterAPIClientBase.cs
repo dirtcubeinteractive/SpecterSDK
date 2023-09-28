@@ -7,8 +7,8 @@ using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using SpecterSDK.APIModels;
-using SpecterSDK.APIModels.Interfaces;
+using SpecterSDK.APIDataModels;
+using SpecterSDK.APIDataModels.Interfaces;
 using UnityEngine;
 using SpecterSDK.Shared;
 
@@ -67,13 +67,13 @@ namespace SpecterSDK.APIClients
             }
         }
 
-        public async Task<SPApiResponse<T>> MakeRequestAsync<T>(
+        public async Task<SPApiResponse<TData>> MakeRequestAsync<TData>(
             HttpMethod method, 
             string endpoint = "", 
             SPAuthType authType = SPAuthType.None,
             object requestParams = null, 
             object requestBody = null
-            ) where T: class, ISpecterApiResponseData, new()
+            ) where TData: class, ISpecterApiResponseData, new()
         {
             if (m_Config == null || m_HttpClient == null)
             {
@@ -113,7 +113,7 @@ namespace SpecterSDK.APIClients
                     Debug.LogError(errResString);
                     
                     var apiError = SpecterJson.DeserializeObject<SPApiError>(errResString);
-                    var errResponse = new SPApiResponse<T>()
+                    var errResponse = new SPApiResponse<TData>()
                     {
                         status = SPApiStatus.Error, 
                         errors = new List<SPApiError>() { apiError },
@@ -128,7 +128,7 @@ namespace SpecterSDK.APIClients
                 var resString = await response.Content.ReadAsStringAsync();
                 Debug.Log(resString);
                 
-                var apiResponse = SpecterJson.DeserializeObject<SPApiResponse<T>>(resString);
+                var apiResponse = SpecterJson.DeserializeObject<SPApiResponse<TData>>(resString);
                 return apiResponse;
             }
             catch (Exception e)
@@ -136,7 +136,7 @@ namespace SpecterSDK.APIClients
                 Debug.LogError(e.ToString());
                 
                 const string message = "An unexpected error occured";
-                var errResponse = new SPApiResponse<T>()
+                var errResponse = new SPApiResponse<TData>()
                 {
                     status = SPApiStatus.Error,
                     message = message,

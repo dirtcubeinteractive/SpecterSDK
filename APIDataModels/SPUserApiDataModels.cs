@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using SpecterSDK.APIModels.Interfaces;
+using SpecterSDK.APIDataModels.Interfaces;
 
-namespace SpecterSDK.APIModels
+namespace SpecterSDK.APIDataModels
 {
     // User authentication account data in SDK responses
     [Serializable]

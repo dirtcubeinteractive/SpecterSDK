@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using SpecterSDK.APIClients;
-using SpecterSDK.APIModels.Interfaces;
+using SpecterSDK.APIDataModels.Interfaces;
 using SpecterSDK.Shared;
 using UnityEngine;
 using Newtonsoft.Json;
-using SpecterSDK.APIModels;
+using SpecterSDK.APIDataModels;
 
 namespace SpecterSDK.Editor
 {

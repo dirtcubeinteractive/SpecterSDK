@@ -3,19 +3,31 @@ using System.Linq;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
-using SpecterSDK.APIModels;
-using SpecterSDK.APIModels.Interfaces;
+using SpecterSDK.APIDataModels;
+using SpecterSDK.APIDataModels.Interfaces;
 using SpecterSDK.Shared;
 using UnityEngine.SocialPlatforms.Impl;
 
 namespace SpecterSDK.APIClients
 {
+    using ObjectModels;
+    
     [System.Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
     public class SPGetUserProfileRequest : SPApiRequestBase
     {
         public string id { get; set; }
         public List<string> attributes { get; set; }
         public List<SPApiRequestEntity> entities { get; set; }
+    }
+    
+    public class SPGetUserProfileResult : SPApiResultBase<SPGetUserProfileResult, SPUserProfileResponseData>
+    {
+        public SpecterUser User;
+        
+        protected override void CreateInternal()
+        {
+            User = SPObjectBase<SPUserProfileResponseData>.Create<SpecterUser>(ResponseRaw.data);
+        }
     }
 
     [System.Serializable]

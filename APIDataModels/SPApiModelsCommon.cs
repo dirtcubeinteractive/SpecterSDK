@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using SpecterSDK.APIModels.Interfaces;
+using SpecterSDK.APIDataModels.Interfaces;
 
-namespace SpecterSDK.APIModels
+namespace SpecterSDK.APIDataModels
 {
     [System.Serializable]
     public abstract class SPApiRequestBase { }
@@ -35,5 +35,27 @@ namespace SpecterSDK.APIModels
         public int statusCode { get; set; }
         public string message { get; set; }
         public string error { get; set; }
+    }
+
+    public abstract class SPApiResultBase<TSelf, TData> 
+        where TData: class, ISpecterApiResponseData, new()
+        where TSelf: SPApiResultBase<TSelf, TData>, new()
+    {
+        public SPApiResponse<TData> ResponseRaw { get; set; }
+        public TData DataRaw => ResponseRaw?.data;
+        public bool IsError => ResponseRaw?.errors is { Count: > 0 };
+
+        public static TSelf Create(SPApiResponse<TData> response)
+        {
+            var self = new TSelf
+            {
+                ResponseRaw = response
+            };
+            
+            self.CreateInternal();
+            return self;
+        }
+
+        protected abstract void CreateInternal();
     }
 }

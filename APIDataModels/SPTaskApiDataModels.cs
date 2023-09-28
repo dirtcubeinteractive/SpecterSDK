@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using SpecterSDK.APIModels.Interfaces;
+using SpecterSDK.APIDataModels.Interfaces;
 using SpecterSDK.Shared.SPEnum;
 
-namespace SpecterSDK.APIModels
+namespace SpecterSDK.APIDataModels
 {
     public enum SPRewardType
     {

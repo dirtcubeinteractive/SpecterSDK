@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
-using SpecterSDK.APIModels;
+using SpecterSDK.APIDataModels;
 using SpecterSDK.Shared;
 using UnityEngine;
 
