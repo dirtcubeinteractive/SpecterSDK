@@ -27,35 +27,48 @@ namespace SpecterSDK.APIDataModels
     }
 
     [Serializable]
-    public class SPGeneralResponseDictionaryData : Dictionary<string, object>, ISpecterApiResponseData { }
-
-    [Serializable]
     public class SPApiError
     {
         public int statusCode { get; set; }
         public string message { get; set; }
         public string error { get; set; }
     }
+    
+    [Serializable]
+    public sealed class SPGeneralResponseDictionaryData : Dictionary<string, object>, ISpecterApiResponseData { }
 
     public abstract class SPApiResultBase<TSelf, TData> 
         where TData: class, ISpecterApiResponseData, new()
         where TSelf: SPApiResultBase<TSelf, TData>, new()
     {
+        protected const string CONSTRUCTOR_USAGE_ERROR = "Constructor is not meant to be used. Use Create function & override the LoadFromData instead.";
+        
+        [Obsolete(CONSTRUCTOR_USAGE_ERROR, true)]
+        protected SPApiResultBase() { }
+        
         public SPApiResponse<TData> ResponseRaw { get; set; }
         public TData DataRaw => ResponseRaw?.data;
         public bool IsError => ResponseRaw?.errors is { Count: > 0 };
 
+        /*
+         * PLEASE DISCUSS WITH TEAM IF THIS SHOULD BE KEPT FOR USE
+        public static TSelf Create()
+        {
+            var self = new TSelf();
+            return self;
+        }
+        *
+        */
+        
         public static TSelf Create(SPApiResponse<TData> response)
         {
-            var self = new TSelf
-            {
-                ResponseRaw = response
-            };
-            
-            self.CreateInternal();
+            var self = new TSelf() { ResponseRaw = response};
+            if (response.data != null)
+                self.LoadFromData(response.data);
             return self;
         }
 
-        protected abstract void CreateInternal();
+        protected virtual void CreateInternal() { }
+        protected abstract void LoadFromData(TData data);
     }
 }

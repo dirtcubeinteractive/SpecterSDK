@@ -24,9 +24,9 @@ namespace SpecterSDK.APIClients
     {
         public SpecterUser User;
         
-        protected override void CreateInternal()
+        protected override void LoadFromData(SPUserProfileResponseData data)
         {
-            User = SPObjectBase<SPUserProfileResponseData>.Create<SpecterUser>(ResponseRaw.data);
+            User = SpecterUser.CreateFromData(data);
         }
     }
 
@@ -41,7 +41,11 @@ namespace SpecterSDK.APIClients
         public string customId { get; set; }
         public bool? isKyc { get; set; }
     }
-
+    
+    public class SPUpdateUserProfileResult : SPApiResultBase<SPUpdateUserProfileResult, SPGeneralResponseDictionaryData>
+    { 
+        protected override void LoadFromData(SPGeneralResponseDictionaryData data) { }
+    }
     public class SPUserApiClient: SpecterApiClientBase
     {
         public override SPAuthType AuthType => SPAuthType.AccessToken;
