@@ -4,7 +4,7 @@ using SpecterSDK.APIModels.ClientModels;
 
 namespace SpecterSDK.ObjectModels
 {
-    public class SpecterUser : SpecterObject //SPObjectBase<SpecterUser, SPUserProfileResponseData>
+    public class SpecterUser : SpecterObject
     {
         public string Uuid;
         public string Id;
