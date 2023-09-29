@@ -4,7 +4,7 @@ namespace SpecterSDK.ObjectModels
 {
     using APIDataModels;
     
-    public class SpecterUser : SPObjectBase<SpecterUser, SPUserProfileResponseData>
+    public class SpecterUser : SpecterObject //SPObjectBase<SpecterUser, SPUserProfileResponseData>
     {
         public string Uuid;
         public string Id;
@@ -16,9 +16,9 @@ namespace SpecterSDK.ObjectModels
         public SPAuthContext AuthContext;
         public List<SPAuthAccount> LinkedAccounts;
 
-        public SpecterUser() {}
+        public SpecterUser() { }
 
-        public override void Map(SPUserProfileResponseData data)
+        public SpecterUser(SPUserProfileResponseData data)
         {
             Uuid = data.uuid;
             Id = data.id;
@@ -36,6 +36,25 @@ namespace SpecterSDK.ObjectModels
                 LinkedAccounts.Add(new SPAuthAccount() { AuthProvider = account.authProvider, UserId = account.userId });
             }
         }
+
+        /*public override void Map(SPUserProfileResponseData data)
+        {
+            Uuid = data.uuid;
+            Id = data.id;
+            Username = data.username; 
+            Hash = data.hash;
+            ThumbUrl = data.thumbUrl;
+            Email = data.email; 
+            Phone = data.phone;
+
+            AuthContext = new SPAuthContext() { AccessToken = data.accessToken, EntityToken = data.entityToken };
+            
+            LinkedAccounts = new List<SPAuthAccount>();
+            foreach (var account in data.linkedAccounts)
+            {
+                LinkedAccounts.Add(new SPAuthAccount() { AuthProvider = account.authProvider, UserId = account.userId });
+            }
+        }*/
     }
 
     public class SPAuthContext

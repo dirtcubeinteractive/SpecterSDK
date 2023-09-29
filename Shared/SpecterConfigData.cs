@@ -11,7 +11,7 @@ namespace SpecterSDK.Shared
 
     public class SpecterRuntimeConfig
     {
-        public readonly string AccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJmNzMzNDY2Yy02ODgzLTQ4YjEtYmEzZS01MGY5OGE0YzUwODgiLCJwcm9qZWN0SWQiOiI3ZWJlOTk4Zi1lM2Q5LTQ2MTYtYTQzMS04NjBlYmRjODhiOWUiLCJpYXQiOjE2OTUxMDAzNjgsImV4cCI6MTY5NzY5MjM2OH0.qMYBBnzE_Htcv3M5bh0y51iCEGbXJOKPk7kByn-r2YE";
+        public readonly string AccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJmNzMzNDY2Yy02ODgzLTQ4YjEtYmEzZS01MGY5OGE0YzUwODgiLCJwcm9qZWN0SWQiOiI3ZWJlOTk4Zi1lM2Q5LTQ2MTYtYTQzMS04NjBlYmRjODhiOWUiLCJpYXQiOjE2OTU5ODUzMTYsImV4cCI6MTY5ODU3NzMxNn0.Ej01Wvz_qyOZu1Xn79T0CzIHpUx0mFqovAS_hW95Pv8";
         public readonly string EntityToken = "b2b93f8acc438b00f772b8bb2906e1a5";
         
         private readonly SPEnvironment m_Environment;

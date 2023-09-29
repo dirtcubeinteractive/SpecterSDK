@@ -137,26 +137,26 @@ namespace SpecterSDK.Editor
     [Serializable]
     public class SPGetDefaultEventsAdminRequest : SPGetAppEventsAdminRequest { }
 
-    public class SPGetDefaultEventsAdminResult : SPApiResultBase<SPGetDefaultEventsAdminResult, SPGetAppEventsAdminResponseData>
+    public class SPGetDefaultEventsAdminResult : SpecterApiResultBase<SPGetAppEventsAdminResponseData>
     {
         public List<SPAppEvent> AppEventDetails;
-        
-        protected override void LoadFromData(SPGetAppEventsAdminResponseData data)
+
+        protected override void InitSpecterObjectsInternal()
         {
-            AppEventDetails = data.appEventDetails;
+            AppEventDetails = Response.data.appEventDetails;
         }
     }
 
     [Serializable]
     public class SPGetCustomEventsAdminRequest : SPGetAppEventsAdminRequest { }
 
-    public class SPGetCustomEventsAdminResult : SPApiResultBase<SPGetCustomEventsAdminResult, SPGetAppEventsAdminResponseData>
+    public class SPGetCustomEventsAdminResult : SpecterApiResultBase<SPGetAppEventsAdminResponseData>
     {
         public List<SPAppEvent> AppEventDetails;
-        
-        protected override void LoadFromData(SPGetAppEventsAdminResponseData data)
+
+        protected override void InitSpecterObjectsInternal()
         {
-            AppEventDetails = data.appEventDetails;
+            AppEventDetails = Response.data.appEventDetails;
         }
     }
 
@@ -173,13 +173,13 @@ namespace SpecterSDK.Editor
         public List<SPProgressionSystemAdminModel> levelDetails;
     }
 
-    public class SPGetProgressionSystemsAdminResult : SPApiResultBase<SPGetProgressionSystemsAdminResult, SPGetProgressionSystemsAdminResponseData>
+    public class SPGetProgressionSystemsAdminResult : SpecterApiResultBase<SPGetProgressionSystemsAdminResponseData>
     {
         public List<SPProgressionSystemAdminModel> LevelDetails;
-        
-        protected override void LoadFromData(SPGetProgressionSystemsAdminResponseData data)
+
+        protected override void InitSpecterObjectsInternal()
         {
-            LevelDetails = data.levelDetails;
+            LevelDetails = Response.data.levelDetails;
         }
     }
 
@@ -219,13 +219,13 @@ namespace SpecterSDK.Editor
         public int offset { get; set; }
     }
 
-    public class SPGetTaskListAdminResult : SPApiResultBase<SPGetTaskListAdminResult, SPResponseDataList<SPTaskAdminModel>>
+    public class SPGetTaskListAdminResult : SpecterApiResultBase<SPResponseDataList<SPTaskAdminModel>>
     {
         public List<SPTaskAdminModel> TaskList;
-        
-        protected override void LoadFromData(SPResponseDataList<SPTaskAdminModel> data)
+
+        protected override void InitSpecterObjectsInternal()
         {
-            TaskList = data;
+            TaskList = Response.data;
         }
     }
 

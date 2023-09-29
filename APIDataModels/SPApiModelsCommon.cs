@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using SpecterSDK.APIClients;
 using SpecterSDK.APIDataModels.Interfaces;
 
 namespace SpecterSDK.APIDataModels
@@ -39,48 +40,37 @@ namespace SpecterSDK.APIDataModels
     
     [Serializable]
     public sealed class SPResponseDataList<T> : List<T>, ISpecterApiResponseData where T : ISpecterApiResponseData { }
-    
-    public abstract class SPApiResultBase<TSelf, TData> 
-        where TData: class, ISpecterApiResponseData, new()
-        where TSelf: SPApiResultBase<TSelf, TData>, new()
+
+    public abstract class SpecterApiResultBase<T>
+    where T: class, ISpecterApiResponseData, new()
     {
-        protected const string CONSTRUCTOR_USAGE_WARN = "Constructor is not meant to be used. Use Create function & override the LoadFromData instead.";
+        public virtual bool LoadObjectsOnResponse => true;
         
-        [Obsolete(CONSTRUCTOR_USAGE_WARN, false)]
-        protected SPApiResultBase() { }
-        
-        public SPApiResponse<TData> ResponseRaw { get; set; }
-        public bool IsError => ResponseRaw?.errors is { Count: > 0 };
+        public SPApiResponse<T> Response { get; set; }
+        public string Status => Response?.status;
+        public int StatusCode => Response?.code ?? 500;
+        public string Message => Response?.message;
+        public List<SPApiError> Errors => Response?.errors;
 
-        /*
-         * PLEASE DISCUSS WITH TEAM IF THIS SHOULD BE KEPT FOR USE
-        public static TSelf Create()
+        public bool HasError => Errors is { Count: > 0 } || Status is SPApiStatus.Error;
+
+        public void InitSpecterObjects(bool force = false)
         {
-            var self = new TSelf();
-            return self;
-        }
-        *
-        */
-        
-        public static TSelf Create(SPApiResponse<TData> response)
-        {
-            var self = new TSelf() { ResponseRaw = response};
-            if (response.data != null)
-                self.LoadFromData(response.data);
-            return self;
+            if (!force && !LoadObjectsOnResponse)
+                return;
+            InitSpecterObjectsInternal();
         }
 
-        protected virtual void CreateInternal() { }
-        protected abstract void LoadFromData(TData data);
+        protected abstract void InitSpecterObjectsInternal();
     }
 
-    public class SPGeneralResult : SPApiResultBase<SPGeneralResult, SPGeneralResponseDictionaryData>
+    public class SPGeneralResult : SpecterApiResultBase<SPGeneralResponseDictionaryData>
     {
-        public Dictionary<string, object> ResultDict;
-        
-        protected override void LoadFromData(SPGeneralResponseDictionaryData data)
+        public Dictionary<string, object> ObjectDict;
+
+        protected override void InitSpecterObjectsInternal()
         {
-            ResultDict = data;
+            ObjectDict = Response.data;
         }
     }
 }

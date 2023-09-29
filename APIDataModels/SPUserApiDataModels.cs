@@ -17,13 +17,13 @@ namespace SpecterSDK.APIDataModels
         public List<SPApiRequestEntity> entities { get; set; }
     }
     
-    public class SPGetUserProfileResult : SPApiResultBase<SPGetUserProfileResult, SPUserProfileResponseData>
+    public class SPGetUserProfileResult : SpecterApiResultBase<SPUserProfileResponseData>
     {
-        public SpecterUser User;
-        
-        protected override void LoadFromData(SPUserProfileResponseData data)
+        public SpecterUser User { get; set; }
+
+        protected override void InitSpecterObjectsInternal()
         {
-            User = SpecterUser.CreateFromData(data);
+            User = new SpecterUser(Response.data);
         }
     }
 
@@ -39,9 +39,14 @@ namespace SpecterSDK.APIDataModels
         public bool? isKyc { get; set; }
     }
     
-    public class SPUpdateUserProfileResult : SPApiResultBase<SPUpdateUserProfileResult, SPGeneralResponseDictionaryData>
-    { 
-        protected override void LoadFromData(SPGeneralResponseDictionaryData data) { }
+    public class SPUpdateUserProfileResult : SpecterApiResultBase<SPGeneralResponseDictionaryData> //SPApiResultBase<SPUpdateUserProfileResult, SPGeneralResponseDictionaryData>
+    {
+        public Dictionary<string, object> ObjectDict;
+        
+        protected override void InitSpecterObjectsInternal()
+        {
+            ObjectDict = Response.data;
+        }
     }
 
     #endregion
@@ -76,7 +81,7 @@ namespace SpecterSDK.APIDataModels
 
     // Authenticated user data in SDK responses
     [Serializable]
-    public class SPAuthenticatedUserResponseData : SPUserResponseBaseData
+    public class SPAuthenticatedUserResponseData : SPUserProfileResponseData
     {
     }
 

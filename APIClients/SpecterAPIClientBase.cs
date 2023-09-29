@@ -75,7 +75,7 @@ namespace SpecterSDK.APIClients
             object requestBody = null
             ) 
             where TData: class, ISpecterApiResponseData, new()
-            where TResult: SPApiResultBase<TResult, TData>, new()
+            where TResult: SpecterApiResultBase<TData>, new()
         {
             if (m_Config == null || m_HttpClient == null)
             {
@@ -160,29 +160,32 @@ namespace SpecterSDK.APIClients
 
         protected virtual TResult BuildResult<TResult, TData>(SPApiResponse<TData> response)
         where TData: class, ISpecterApiResponseData, new()
-        where TResult: SPApiResultBase<TResult, TData>, new()
+        where TResult: SpecterApiResultBase<TData>
         {
-            TResult result = SPApiResultBase<TResult, TData>.Create(response);
+            //TResult result = SPApiResultBase<TResult, TData>.Create(response);
+            TResult result = (TResult)Activator.CreateInstance(typeof(TResult));
+            result.Response = response;
+            result.InitSpecterObjects(result.LoadObjectsOnResponse);
             return result;
         }
 
-        protected async Task<TResult> GetAsync<TResult, TData>(string endpoint, SPAuthType authType, object queryParams) 
+        /*protected async Task<TResult> GetAsync<TResult, TData>(string endpoint, SPAuthType authType, object queryParams) 
             where TData: class, ISpecterApiResponseData, new()
             where TResult: SPApiResultBase<TResult, TData>, new()
         {
             return await MakeRequestAsync<TResult, TData>(HttpMethod.Get, endpoint, authType: authType, requestParams: queryParams);
-        }
+        }*/
 
         protected async Task<TResult> PostAsync<TResult, TData>(string endpoint, SPAuthType authType, object bodyParams)
             where TData: class, ISpecterApiResponseData, new()
-            where TResult: SPApiResultBase<TResult, TData>, new()
+            where TResult: SpecterApiResultBase<TData>, new()
         {
             return await MakeRequestAsync<TResult, TData>(HttpMethod.Post, endpoint, authType: authType, requestBody: bodyParams);
         }
 
         protected async Task<TResult> PutAsync<TResult, TData>(string endpoint, SPAuthType authType, object bodyParams)
             where TData: class, ISpecterApiResponseData, new()
-            where TResult: SPApiResultBase<TResult, TData>, new()
+            where TResult: SpecterApiResultBase<TData>, new()
         {
             return await MakeRequestAsync<TResult, TData>(HttpMethod.Put, endpoint, authType: authType, requestBody: bodyParams);
         }
