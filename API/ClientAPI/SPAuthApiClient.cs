@@ -1,14 +1,11 @@
-using System;
 using System.Threading.Tasks;
-using System.Collections;
-using System.Collections.Generic;
-using SpecterSDK.APIDataModels;
-using SpecterSDK.APIDataModels.Interfaces;
+using SpecterSDK.APIModels;
+using SpecterSDK.APIModels.ClientModels;
+using SpecterSDK.APIModels.Interfaces;
 using SpecterSDK.ObjectModels;
 using SpecterSDK.Shared;
-using UnityEngine;
 
-namespace SpecterSDK.APIClients
+namespace SpecterSDK.API.ClientAPI
 {
     [System.Serializable]
     public abstract class SPAuthLoginRequestBase : SPApiRequestBaseData, IProjectConfigurable

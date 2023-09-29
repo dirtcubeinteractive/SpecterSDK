@@ -1,18 +1,12 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using JetBrains.Annotations;
-using Newtonsoft.Json;
-using SpecterSDK.APIDataModels;
-using SpecterSDK.APIDataModels.Interfaces;
+using SpecterSDK.APIModels;
+using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.Shared;
-using UnityEngine.SocialPlatforms.Impl;
 
-namespace SpecterSDK.APIClients
+namespace SpecterSDK.API.ClientAPI
 {
-    using ObjectModels;
-    
     public class SPUserApiClient: SpecterApiClientBase
     {
         public override SPAuthType AuthType => SPAuthType.AccessToken;

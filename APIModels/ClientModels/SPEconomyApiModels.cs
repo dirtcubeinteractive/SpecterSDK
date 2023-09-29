@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using SpecterSDK.APIDataModels.Interfaces;
+using SpecterSDK.APIModels.Interfaces;
 
-namespace SpecterSDK.APIDataModels
+namespace SpecterSDK.APIModels.ClientModels
 {
     #region Response Data Models
 

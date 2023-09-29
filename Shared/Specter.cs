@@ -1,4 +1,4 @@
-using SpecterSDK.APIClients;
+using SpecterSDK.API.ClientAPI;
 using SpecterSDK.Shared;
 using UnityEngine;
 

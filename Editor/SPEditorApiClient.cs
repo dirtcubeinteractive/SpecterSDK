@@ -1,12 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using SpecterSDK.APIClients;
-using SpecterSDK.APIDataModels.Interfaces;
 using SpecterSDK.Shared;
 using UnityEngine;
 using Newtonsoft.Json;
-using SpecterSDK.APIDataModels;
+using SpecterSDK.API;
+using SpecterSDK.API.ClientAPI;
+using SpecterSDK.APIModels;
+using SpecterSDK.APIModels.ClientModels;
+using SpecterSDK.APIModels.Interfaces;
 
 namespace SpecterSDK.Editor
 {

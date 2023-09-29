@@ -1,7 +1,8 @@
 using System;
 using System.Linq;
 using Newtonsoft.Json;
-using SpecterSDK.APIDataModels;
+using SpecterSDK.APIModels;
+using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.Shared.SPEnum;
 
 namespace SpecterSDK.Shared

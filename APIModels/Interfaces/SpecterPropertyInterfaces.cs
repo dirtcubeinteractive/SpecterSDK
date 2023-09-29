@@ -1,4 +1,4 @@
-namespace SpecterSDK.APIDataModels.Interfaces
+namespace SpecterSDK.APIModels.Interfaces
 {
     public interface IProjectConfigurable
     {

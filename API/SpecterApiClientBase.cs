@@ -1,20 +1,16 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using SpecterSDK.APIDataModels;
-using SpecterSDK.APIDataModels.Interfaces;
-using UnityEngine;
+using SpecterSDK.APIModels;
+using SpecterSDK.APIModels.Interfaces;
 using SpecterSDK.Shared;
-
+using UnityEngine;
 using AuthenticationHeaderValue = System.Net.Http.Headers.AuthenticationHeaderValue;
 
-namespace SpecterSDK.APIClients
+namespace SpecterSDK.API
 {
     public struct SPApiStatus
     {

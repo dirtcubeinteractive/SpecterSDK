@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using SpecterSDK.APIClients;
-using SpecterSDK.APIDataModels.Interfaces;
+using SpecterSDK.API;
+using SpecterSDK.APIModels.Interfaces;
 
-namespace SpecterSDK.APIDataModels
+namespace SpecterSDK.APIModels
 {
     [System.Serializable]
     public abstract class SPApiRequestBaseData { }

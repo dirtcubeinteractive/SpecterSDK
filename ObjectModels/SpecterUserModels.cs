@@ -1,9 +1,9 @@
 using System.Collections.Generic;
+using SpecterSDK.APIModels;
+using SpecterSDK.APIModels.ClientModels;
 
 namespace SpecterSDK.ObjectModels
 {
-    using APIDataModels;
-    
     public class SpecterUser : SpecterObject //SPObjectBase<SpecterUser, SPUserProfileResponseData>
     {
         public string Uuid;

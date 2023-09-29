@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace SpecterSDK.APIDataModels.Interfaces
+namespace SpecterSDK.APIModels.Interfaces
 {
     public interface ISpecterApiResponseData { }
 
