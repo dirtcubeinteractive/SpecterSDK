@@ -1,3 +1,4 @@
+using SpecterSDK.ObjectModels;
 using UnityEngine;
 
 namespace SpecterSDK.Shared
@@ -11,9 +12,11 @@ namespace SpecterSDK.Shared
 
     public class SpecterRuntimeConfig
     {
-        public readonly string AccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJmNzMzNDY2Yy02ODgzLTQ4YjEtYmEzZS01MGY5OGE0YzUwODgiLCJwcm9qZWN0SWQiOiI3ZWJlOTk4Zi1lM2Q5LTQ2MTYtYTQzMS04NjBlYmRjODhiOWUiLCJpYXQiOjE2OTU5ODUzMTYsImV4cCI6MTY5ODU3NzMxNn0.Ej01Wvz_qyOZu1Xn79T0CzIHpUx0mFqovAS_hW95Pv8";
-        public readonly string EntityToken = "b2b93f8acc438b00f772b8bb2906e1a5";
+        public static SPAuthContext AuthCredentials;
         
+        public string AccessToken { get; set; }
+        public string EntityToken { get; set; }
+
         private readonly SPEnvironment m_Environment;
         private readonly string m_DevUrl;
         private readonly string m_StagingUrl;
@@ -49,7 +52,14 @@ namespace SpecterSDK.Shared
         (
             data.Environment,
             data.ProjectId
-        ) {}
+        )
+        {
+            if (data.Environment != SPEnvironment.Production && data.UseDebugCredentials)
+            {
+                AccessToken = data.DebugAuthContext.AccessToken;
+                EntityToken = data.DebugAuthContext.EntityToken;
+            }
+        }
     }
     
     public class SpecterConfigData: ScriptableObject
@@ -66,9 +76,18 @@ namespace SpecterSDK.Shared
         [Tooltip("Project ID aka App ID")]
         [SerializeField] private string m_ProjectId;
 
+        [Header("DEBUG & TESTING")]
+        [Tooltip("Set Use Debug Credentials to true if you need to test Specter APIs (only works in Dev/Staging Env)")]
+        [SerializeField] private bool m_UseDebugCredentials;
+        
+        [Tooltip("Debug tokens to test the Specter APIs. These can only be used in Development and Staging Environments")] 
+        [SerializeField] private SPAuthContext m_DebugAuthContext;
+
         public bool AutoInit => m_AutoInit;
         public SPEnvironment Environment => m_Environment;
-
         public string ProjectId => m_ProjectId;
+
+        public bool UseDebugCredentials => m_UseDebugCredentials;
+        public SPAuthContext DebugAuthContext => m_DebugAuthContext;
     }
 }

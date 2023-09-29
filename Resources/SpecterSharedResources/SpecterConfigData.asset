@@ -16,3 +16,7 @@ MonoBehaviour:
   m_Environment: 0
   m_OrganizationId: 
   m_ProjectId: 7ebe998f-e3d9-4616-a431-860ebdc88b9e
+  m_UseDebugCredentials: 0
+  m_DebugAuthContext:
+    AccessToken: 
+    EntityToken: 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using SpecterSDK.APIModels;
 using SpecterSDK.APIModels.ClientModels;
@@ -38,6 +39,7 @@ namespace SpecterSDK.ObjectModels
         }
     }
 
+    [Serializable]
     public class SPAuthContext
     {
         public string AccessToken;
