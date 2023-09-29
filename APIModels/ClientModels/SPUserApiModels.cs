@@ -6,7 +6,7 @@ using SpecterSDK.ObjectModels;
 
 namespace SpecterSDK.APIModels.ClientModels
 {
-    #region Response Data Models
+    #region Api Data Models
 
     // User data in SDK responses
     [Serializable]
@@ -48,7 +48,7 @@ namespace SpecterSDK.APIModels.ClientModels
     
     #endregion
     
-    #region Request Data Models
+    #region Api Call Models
 
     [System.Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
     public class SPGetUserProfileRequest : SPApiRequestBaseData

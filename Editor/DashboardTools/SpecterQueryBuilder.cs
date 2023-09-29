@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEditor;
 using Newtonsoft.Json;
+using SpecterSDK.APIModels.AdminModels;
+using UnityEditor;
+using UnityEngine;
 
-namespace SpecterSDK.Editor
+namespace SpecterSDK.Editor.DashboardTools
 {
     [Serializable]
     public class SpecterQueryBuilder

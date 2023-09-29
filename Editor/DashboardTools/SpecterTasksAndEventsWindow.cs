@@ -1,16 +1,17 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using UnityEngine;
+using SpecterSDK.APIModels.AdminModels;
+using SpecterSDK.Editor.API;
 using UnityEditor;
+using UnityEngine;
 
-namespace SpecterSDK.Editor
+namespace SpecterSDK.Editor.DashboardTools
 {
     public class SpecterTasksAndEventsWindow : SpecterEditorWindow
     {
-        private List<SPTaskAdminModel> m_Tasks;
+        private List<SPTaskAdminData> m_Tasks;
         private List<SPAppEvent> m_AppEvents;
 
         private readonly string[] m_TabTitles = { "Tasks", "Events" };
@@ -150,7 +151,7 @@ namespace SpecterSDK.Editor
             DrawLabelField(message);
         }
 
-        private void DrawTaskRow(SPTaskAdminModel task)
+        private void DrawTaskRow(SPTaskAdminData task)
         {
             EditorGUILayout.BeginHorizontal("box");
             {

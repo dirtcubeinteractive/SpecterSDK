@@ -7,7 +7,7 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
-namespace SpecterSDK.Editor.SPPropertyDrawers
+namespace SpecterSDK.Editor.PropertyDrawers
 {
     public abstract class SPEnumPropertyDrawer<TEnum> : PropertyDrawer
         where TEnum : SPEnum<TEnum>
@@ -24,7 +24,7 @@ namespace SpecterSDK.Editor.SPPropertyDrawers
             EditorGUI.EndChangeCheck();
         }
 
-        private GUIContent[] GetValueNames(List<TEnum> values)
+        private static GUIContent[] GetValueNames(IReadOnlyList<TEnum> values)
         {
             var names = new GUIContent[values.Count];
             for (int i = 0; i < values.Count; i++)

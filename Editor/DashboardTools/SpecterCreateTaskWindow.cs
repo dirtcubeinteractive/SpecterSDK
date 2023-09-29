@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using SpecterSDK.APIModels;
+using SpecterSDK.APIModels.AdminModels;
 using SpecterSDK.APIModels.ClientModels;
+using SpecterSDK.Editor.API;
 using SpecterSDK.Shared;
 using UnityEditor;
 using UnityEngine;
 
-namespace SpecterSDK.Editor
+namespace SpecterSDK.Editor.DashboardTools
 {
     public class SpecterCreateTaskWindow : SpecterEditorWindow
     {
@@ -31,7 +31,7 @@ namespace SpecterSDK.Editor
         private string m_TagsString;
 
         private List<SPAppEvent> m_AppEvents;
-        private List<SPProgressionSystemAdminModel> m_ProgressionSystems;
+        private List<SPProgressionSystemAdminData> m_ProgressionSystems;
         
         private SpecterQueryBuilder m_QueryBuilder;
         
@@ -353,7 +353,7 @@ namespace SpecterSDK.Editor
         private string[] GetProgressionSystemNames()
         {
             var names = new List<string>();
-            foreach (SPProgressionSystemAdminModel progressionSystem in m_ProgressionSystems)
+            foreach (SPProgressionSystemAdminData progressionSystem in m_ProgressionSystems)
             {
                 names.Add(progressionSystem.name);
             }

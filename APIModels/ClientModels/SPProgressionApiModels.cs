@@ -1,0 +1,4 @@
+namespace SpecterSDK.APIModels.ClientModels
+{
+    
+}
