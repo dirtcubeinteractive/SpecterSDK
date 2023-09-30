@@ -2,14 +2,8 @@ using SpecterSDK.APIModels.ClientModels;
 
 namespace SpecterSDK.ObjectModels
 {
-    public class SpecterTask : SpecterObject
+    public class SpecterTask : SpecterResource
     {
-        public string Uuid;
-        public string Id;
-        public string Name;
-        public string Description;
-        public string IconUrl;
-        
         public SpecterTask() { }
         public SpecterTask(SPTaskResponseData data)
         {
@@ -19,5 +13,10 @@ namespace SpecterSDK.ObjectModels
             Description = data.description;
             IconUrl = data.iconUrl;
         }
+    }
+
+    public class SpecterTaskGroup : SpecterResource
+    {
+        
     }
 }

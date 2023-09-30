@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using SpecterSDK.API;
 using SpecterSDK.APIModels;
 using SpecterSDK.APIModels.AdminModels;
-using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.APIModels.Interfaces;
 using SpecterSDK.Shared;
 using UnityEngine;
@@ -13,7 +11,7 @@ using UnityEngine;
 namespace SpecterSDK.Editor.API
 {
     [Serializable]
-    public class SPGetProgressionSystemsAdminRequest : IProjectConfigurable
+    public class SPGetProgressionSystemsAdminRequest : SPApiRequestBaseData, IProjectConfigurable
     {
         public string projectId { get; set; }
         public List<string> ids { get; set; }
@@ -36,7 +34,7 @@ namespace SpecterSDK.Editor.API
     }
 
     [Serializable]
-    public class SPGetTaskListAdminRequest : IProjectConfigurable
+    public class SPGetTaskListAdminRequest : SPApiRequestBaseData, IProjectConfigurable
     {
         public string projectId { get; set; }
         public List<string> ids { get; set; } = new();
@@ -62,16 +60,12 @@ namespace SpecterSDK.Editor.API
 
         public async Task<SPGetDefaultEventsAdminResult> GetDefaultEvents(SPGetDefaultEventsAdminRequest request)
         {
-            ConfigureProjectId(request);
-
             var result = await PostAsync<SPGetDefaultEventsAdminResult, SPGetAppEventsAdminResponseData>("/v1/app-event/get/default", AuthType, request);
             return result;
         }
         
         public async Task<SPGetCustomEventsAdminResult> GetCustomEvents(SPGetCustomEventsAdminRequest request)
         {
-            ConfigureProjectId(request);
-            Debug.Log(request.projectId);
             var result = await PostAsync<SPGetCustomEventsAdminResult, SPGetAppEventsAdminResponseData>("/v1/app-event/get/custom", AuthType, request);
             return result;
         }
@@ -101,24 +95,18 @@ namespace SpecterSDK.Editor.API
 
         public async Task<SPGetTaskListAdminResult> GetTaskList(SPGetTaskListAdminRequest request)
         {
-            ConfigureProjectId(request);
-            Debug.Log(request.projectId);
             var result = await PostAsync<SPGetTaskListAdminResult, SPResponseDataList<SPTaskAdminData>>("/v1/task/get", AuthType, request);
             return result;
         }
 
         public async Task<SPGeneralResult> CreateTask(SPCreateTaskAdminRequest request)
         {
-            ConfigureProjectId(request);
-
             var result = await PostAsync<SPGeneralResult, SPGeneralResponseDictionaryData>("/v1/task/create", AuthType, request);
             return result;
         }
 
         public async Task<SPGetProgressionSystemsAdminResult> GetProgressionSystems(SPGetProgressionSystemsAdminRequest request)
         {
-            ConfigureProjectId(request);
-
             var result = await PostAsync<SPGetProgressionSystemsAdminResult, SPGetProgressionSystemsAdminResponseData>("/v1/level-system/get", AuthType, request);
             return result;
         }

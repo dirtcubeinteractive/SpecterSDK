@@ -10,12 +10,24 @@ namespace SpecterSDK.Shared
         Production
     }
 
+    /// <summary>
+    /// Provides runtime configuration to the SDK based on the provided SpecterConfigData or manual setup
+    /// </summary>
     public class SpecterRuntimeConfig
     {
         public static SPAuthContext AuthCredentials;
 
-        public string AccessToken => AuthCredentials?.AccessToken;
-        public string EntityToken => AuthCredentials?.EntityToken;
+        public string AccessToken 
+        { 
+            get => AuthCredentials?.AccessToken;
+            set => AuthCredentials.AccessToken = value;
+        }
+        
+        public string EntityToken 
+        {
+            get => AuthCredentials?.EntityToken;
+            set => AuthCredentials.EntityToken = value;
+        }
 
         private readonly SPEnvironment m_Environment;
         private readonly string m_DevUrl;
@@ -61,6 +73,9 @@ namespace SpecterSDK.Shared
         }
     }
     
+    /// <summary>
+    /// Defines configuration data for the Specter SDK.
+    /// </summary>
     public class SpecterConfigData: ScriptableObject
     {
         [Tooltip("Auto initialize Specter SDK on launching game or entering Play Mode")]
@@ -91,6 +106,14 @@ namespace SpecterSDK.Shared
         
 #if UNITY_EDITOR
         public static string DebugAuthContextProp_Id => nameof(m_DebugAuthContext);
+        public static string ProjectContextProp_Id => nameof(m_ProjectId);
+
+        public static int PropertyEventKey(string propName) => propName switch
+        {
+            nameof(m_ProjectId) => 1,
+            nameof(m_DebugAuthContext) => 2,
+            _ => 0
+        };
 #endif
     }
 }

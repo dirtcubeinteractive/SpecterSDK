@@ -1,4 +1,6 @@
+using SpecterSDK.ObjectModels;
 using SpecterSDK.Shared;
+using SpecterSDK.Shared.EventSystem;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEditor;
@@ -34,9 +36,13 @@ namespace SpecterSDK.Editor.Inspectors
             SerializedProperty iterator = obj.GetIterator();
             for (bool enterChildren = true; iterator.NextVisible(enterChildren); enterChildren = false)
             {
-                using (new EditorGUI.DisabledScope("m_Script" == iterator.propertyPath))
+                using (new EditorGUI.DisabledScope("m_Script" == iterator.propertyPath || EditorApplication.isPlaying))
                 {
-                    if (iterator.name.Equals(SpecterConfigData.DebugAuthContextProp_Id))
+                    if 
+                    (
+                        iterator.name.Equals(SpecterConfigData.DebugAuthContextProp_Id) ||
+                        iterator.name.Equals(SpecterConfigData.ProjectContextProp_Id)
+                    )
                     {
                         EditorGUI.BeginChangeCheck();
                         {
@@ -44,7 +50,7 @@ namespace SpecterSDK.Editor.Inspectors
                         }
                         if (EditorGUI.EndChangeCheck())
                         {
-                            Debug.Log("Change detected");
+                            SpecterSdkEventHandler.ExecuteEvent(SpecterConfigData.PropertyEventKey(iterator.name), SPSharedEvents.Editor.k_OnVitalConfigPropChanged);
                         }
                     }
                     else

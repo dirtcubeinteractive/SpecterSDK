@@ -2,6 +2,8 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using SpecterSDK.Editor.API;
+using SpecterSDK.Shared;
+using SpecterSDK.Shared.EventSystem;
 using UnityEngine;
 using UnityEditor;
 
@@ -11,11 +13,39 @@ namespace SpecterSDK.Editor
     
     public abstract class SpecterEditorWindow : EditorWindow
     {
-        protected static SPEditorApiClient ApiClient;
+        protected static string ConfigProjectContextPropName => SpecterConfigData.ProjectContextProp_Id;
+        
+        protected SPEditorApiClient ApiClient;
 
         protected virtual void OnEnable()
         {
-            ApiClient ??= new SPEditorApiClient(Specter.LoadConfig());
+            ReloadClient();
+        }
+
+        protected virtual void OnFocus()
+        {
+            SpecterSdkEventHandler.UnregisterEvent(SpecterConfigData.PropertyEventKey(ConfigProjectContextPropName), SPSharedEvents.Editor.k_OnVitalConfigPropChanged, OnProjectIdentifiersChanged);
+            ReloadClient();
+        }
+
+        protected virtual void OnLostFocus()
+        {
+            SpecterSdkEventHandler.RegisterEvent(SpecterConfigData.PropertyEventKey(ConfigProjectContextPropName), SPSharedEvents.Editor.k_OnVitalConfigPropChanged, OnProjectIdentifiersChanged);
+        }
+
+        private void ReloadClient()
+        {
+            if (ApiClient == null)
+            {
+                Debug.Log($"{GetType().Name}: " + (ApiClient == null ? "Initializing Editor Api Client" : "Config changed...Reloading Editor Api Client."));
+                ApiClient = new SPEditorApiClient(Specter.LoadConfig());
+            }
+        }
+
+        protected virtual void OnProjectIdentifiersChanged()
+        {
+            Debug.Log(SPSharedEvents.Editor.k_OnVitalConfigPropChanged);
+            ApiClient = null;
         }
 
         protected virtual void DrawHelpBox(string message, MessageType messageType)

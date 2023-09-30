@@ -17,6 +17,9 @@ namespace SpecterSDK.Shared
         Indented = Formatting.Indented
     }
     
+    /// <summary>
+    /// Provides utility methods for JSON serialization and deserialization using Newtonsoft's JSON.NET library.
+    /// </summary>
     public class SpecterJson
     {
         private static JsonSerializerSettings s_SerializerSettings;
@@ -31,7 +34,13 @@ namespace SpecterSDK.Shared
         {
             return JsonConvert.DeserializeObject<T>(value, Settings);
         }
-        
+
+        /// <summary>
+        /// Converts an object to a query string format.
+        /// </summary>
+        /// <param name="obj">The object to be converted.</param>
+        /// <param name="prefix"></param>
+        /// <returns>A query string representation of the object.</returns>
         public static string ToQueryString(object obj, string prefix = null)
         {
             if (obj == null)

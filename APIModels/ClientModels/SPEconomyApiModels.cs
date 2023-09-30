@@ -19,7 +19,7 @@ namespace SpecterSDK.APIModels.ClientModels
     
     // Currency master data in SDK responses
     [Serializable]
-    public class SPCurrencyResponseData : SPCurrencyResponseBaseData, ISpecterCustomConfiguredData
+    public class SPCurrencyResponseData : SPCurrencyResponseBaseData, ISpecterMasterData
     {
         public List<string> tags { get; set; }
         public Dictionary<string, string> meta { get; set; }
@@ -44,7 +44,7 @@ namespace SpecterSDK.APIModels.ClientModels
 
     // Item master data in SDK responses
     [Serializable]
-    public class SPItemResponseData : SPItemResponseBaseData, ISpecterCustomConfiguredData
+    public class SPItemResponseData : SPItemResponseBaseData, ISpecterMasterData
     {
         public List<string> tags { get; set; }
         public Dictionary<string, string> meta { get; set; }

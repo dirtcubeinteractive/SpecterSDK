@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using SpecterSDK.Shared.Utilities;
 using UnityEngine;
 
-namespace SpecterSDK.Shared.Events
+namespace SpecterSDK.Shared.EventSystem
 {
     // ReSharper disable PossibleNullReferenceException
     

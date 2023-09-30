@@ -7,8 +7,6 @@ namespace SpecterSDK.ObjectModels
 {
     public class SpecterUser : SpecterObject
     {
-        public string Uuid;
-        public string Id;
         public string Username;
         public string Hash;
         public string ThumbUrl;

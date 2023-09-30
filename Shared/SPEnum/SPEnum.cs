@@ -8,6 +8,9 @@ using UnityEngine.UI;
 
 namespace SpecterSDK.Shared.SPEnum
 {
+    /// <summary>
+    /// A strongly-typed enum with additional properties and methods.
+    /// </summary>
     [Serializable]
     public abstract class SPEnum<TEnum> : IComparable
     where TEnum : SPEnum<TEnum>
@@ -15,6 +18,10 @@ namespace SpecterSDK.Shared.SPEnum
         public string Name { get; }
         public int Id { get; }
 
+        /// <summary>
+        /// Retrieves the display name for the current enum value.
+        /// </summary>
+        /// <returns>The display name associated with the enum value.</returns>
         private string m_DisplayName;
         public string DisplayName
         {

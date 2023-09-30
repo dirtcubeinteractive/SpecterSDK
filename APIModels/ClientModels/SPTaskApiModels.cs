@@ -62,12 +62,13 @@ namespace SpecterSDK.APIModels.ClientModels
     }
 
     [Serializable]
-    public class SPTaskResponseData : SPTaskResponseBaseData, ISpecterCustomConfiguredData
+    public class SPTaskResponseData : SPTaskResponseBaseData, ISpecterMasterData
     {
         public List<string> tags { get; set; }
         public Dictionary<string, string> meta { get; set; }
     }
 
+    [Serializable]
     public class SPTaskResponseDataList : SPResponseDataList<SPTaskResponseData> { }
 
     [Serializable]
@@ -82,7 +83,16 @@ namespace SpecterSDK.APIModels.ClientModels
         public int? stageLength { get; set; }
         public bool stageReset { get; set; }
     }
-    
+
+    [Serializable]
+    public class SPTaskGroupResponseData : SPTaskGroupResponseBaseData
+    {
+        
+    }
+
+    [Serializable]
+    public class SPTaskGroupResponseDataList : SPResponseDataList<SPTaskGroupResponseData> { }
+
     #endregion
 
     #region Api Call Models

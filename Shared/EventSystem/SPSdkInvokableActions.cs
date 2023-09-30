@@ -1,7 +1,7 @@
 using System;
 using UnityEngine.Scripting;
 
-namespace SpecterSDK.Shared.Events
+namespace SpecterSDK.Shared.EventSystem
 {
     [Preserve]
     internal abstract class SPSdkInvokableActionBase
