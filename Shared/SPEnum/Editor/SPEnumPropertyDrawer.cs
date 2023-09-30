@@ -1,13 +1,11 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using SpecterBuilder.TestScripts;
-using SpecterSDK.Shared.SPEnum;
+using SpecterSDK.APIModels.ClientModels;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
-namespace SpecterSDK.Editor.PropertyDrawers
+namespace SpecterSDK.Shared.SPEnum.Editor
 {
     public abstract class SPEnumPropertyDrawer<TEnum> : PropertyDrawer
         where TEnum : SPEnum<TEnum>
@@ -34,4 +32,13 @@ namespace SpecterSDK.Editor.PropertyDrawers
             return names;
         }
     }
+    
+    [CustomPropertyDrawer(typeof(SPRewardClaimType))]
+    public class SPRewardClaimTypePropertyDrawer : SPEnumPropertyDrawer<SPRewardClaimType> { }
+    
+    [CustomPropertyDrawer(typeof(SPTaskType))]
+    public class SPTaskTypePropertyDrawer : SPEnumPropertyDrawer<SPTaskType> { }
+    
+    [CustomPropertyDrawer(typeof(SPTaskStatus))]
+    public class SPTaskStatusPropertyDrawer : SPEnumPropertyDrawer<SPTaskStatus> { }
 }
