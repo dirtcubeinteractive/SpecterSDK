@@ -63,15 +63,14 @@ namespace SpecterSDK.API
             }
         }
 
-        public async Task<TResult> MakeRequestAsync<TResult, TData>(
-            HttpMethod method, 
-            string endpoint = "", 
+        private async Task<SPApiResponse<TData>> MakeRequestAsync<TData>(
+            HttpMethod method,
+            string endpoint = "",
             SPAuthType authType = SPAuthType.None,
-            object requestParams = null, 
+            object requestParams = null,
             object requestBody = null
-            ) 
-            where TData: class, ISpecterApiResponseData, new()
-            where TResult: SpecterApiResultBase<TData>, new()
+            )
+        where TData: class, ISpecterApiResponseData, new()
         {
             if (m_Config == null || m_HttpClient == null)
             {
@@ -120,14 +119,14 @@ namespace SpecterSDK.API
                         data = null
                     };
 
-                    return BuildResult<TResult, TData>(errResponse);
+                    return errResponse;
                 }
 
                 var resString = await response.Content.ReadAsStringAsync();
                 Debug.Log(resString);
                 
                 var apiResponse = SpecterJson.DeserializeObject<SPApiResponse<TData>>(resString);
-                return BuildResult<TResult, TData>(apiResponse);
+                return apiResponse;
             }
             catch (Exception e)
             {
@@ -137,6 +136,7 @@ namespace SpecterSDK.API
                 var errResponse = new SPApiResponse<TData>()
                 {
                     status = SPApiStatus.Error,
+                    code = 500,
                     message = message,
                     errors = new List<SPApiError>()
                     {
@@ -150,8 +150,22 @@ namespace SpecterSDK.API
                     data = null
                 };
                 
-                return BuildResult<TResult, TData>(errResponse);
+                return errResponse;
             }
+        }
+
+        public async Task<TResult> MakeRequestAsync<TResult, TData>(
+            HttpMethod method, 
+            string endpoint = "", 
+            SPAuthType authType = SPAuthType.None,
+            object requestParams = null, 
+            object requestBody = null
+            ) 
+            where TData: class, ISpecterApiResponseData, new()
+            where TResult: SpecterApiResultBase<TData>, new()
+        {
+            var response = await MakeRequestAsync<TData>(method, endpoint, authType, requestParams, requestBody);
+            return BuildResult<TResult, TData>(response);
         }
 
         protected virtual TResult BuildResult<TResult, TData>(SPApiResponse<TData> response)

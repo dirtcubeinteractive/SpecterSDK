@@ -1,10 +1,14 @@
 using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using SpecterSDK.APIModels.Interfaces;
+using SpecterSDK.ObjectModels;
 using SpecterSDK.Shared.SPEnum;
 
 namespace SpecterSDK.APIModels.ClientModels
 {
+    #region Api Data Models
+    
     public enum SPRewardType
     {
         ProgressionMarker,
@@ -28,6 +32,13 @@ namespace SpecterSDK.APIModels.ClientModels
         public static readonly SPTaskType Weekly = new SPTaskType(2, nameof(Weekly).ToLower(), nameof(Weekly));
         
         private SPTaskType(int id, string name, string displayName = null) : base(id, name, displayName) { }
+    }
+
+    public sealed class SPTaskStatus : SPEnum<SPTaskStatus>
+    {
+        public static readonly SPTaskStatus Created = new SPTaskStatus(0, "created", nameof(Created));
+        
+        private SPTaskStatus(int id, string name, string displayName = null) : base(id, name, displayName) { }
     }
 
     // Reward data in SDK responses
@@ -57,6 +68,8 @@ namespace SpecterSDK.APIModels.ClientModels
         public Dictionary<string, string> meta { get; set; }
     }
 
+    public class SPTaskResponseDataList : SPResponseDataList<SPTaskResponseData> { }
+
     [Serializable]
     public class SPTaskGroupResponseBaseData : ISpecterApiResponseData
     {
@@ -69,4 +82,33 @@ namespace SpecterSDK.APIModels.ClientModels
         public int? stageLength { get; set; }
         public bool stageReset { get; set; }
     }
+    
+    #endregion
+
+    #region Api Call Models
+
+    [Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
+    public class SPGetTasksRequest: SPApiRequestBaseData, IAttributeConfigurable, IEntityConfigurable
+    {
+        public List<string> taskIds { get; set; }
+        public SPTaskStatus status { get; set; }
+        public List<string> attributes { get; set; }
+        public List<SPApiRequestEntity> entities { get; set; }
+    }
+
+    public class SPGetTasksResult : SpecterApiResultBase<SPTaskResponseDataList>
+    {
+        public List<SpecterTask> Tasks;
+        
+        protected override void InitSpecterObjectsInternal()
+        {
+            Tasks = new List<SpecterTask>();
+            foreach (var taskData in Response.data)
+            {
+                Tasks.Add(new SpecterTask(taskData));
+            }
+        }
+    }
+
+    #endregion
 }

@@ -16,7 +16,7 @@ MonoBehaviour:
   m_Environment: 0
   m_OrganizationId: 
   m_ProjectId: 7ebe998f-e3d9-4616-a431-860ebdc88b9e
-  m_UseDebugCredentials: 0
+  m_UseDebugCredentials: 1
   m_DebugAuthContext:
-    AccessToken: 
-    EntityToken: 
+    AccessToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJmNzMzNDY2Yy02ODgzLTQ4YjEtYmEzZS01MGY5OGE0YzUwODgiLCJwcm9qZWN0SWQiOiI3ZWJlOTk4Zi1lM2Q5LTQ2MTYtYTQzMS04NjBlYmRjODhiOWUiLCJpYXQiOjE2OTU5ODUzMTYsImV4cCI6MTY5ODU3NzMxNn0.Ej01Wvz_qyOZu1Xn79T0CzIHpUx0mFqovAS_hW95Pv8
+    EntityToken: b2b93f8acc438b00f772b8bb2906e1a5

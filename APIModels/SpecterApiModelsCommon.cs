@@ -5,10 +5,10 @@ using SpecterSDK.APIModels.Interfaces;
 
 namespace SpecterSDK.APIModels
 {
-    [System.Serializable]
+    [Serializable]
     public abstract class SPApiRequestBaseData { }
 
-    [System.Serializable]
+    [Serializable]
     public class SPApiRequestEntity
     {
         public string value { get; set; }
@@ -17,7 +17,7 @@ namespace SpecterSDK.APIModels
         public int? offset { get; set; } = 0;
     }
 
-    [System.Serializable]
+    [Serializable]
     public class SPApiResponse<T> where T: class, ISpecterApiResponseData, new()
     {
         public string status { get; set; }
@@ -39,7 +39,7 @@ namespace SpecterSDK.APIModels
     public sealed class SPGeneralResponseDictionaryData : Dictionary<string, object>, ISpecterApiResponseData { }
     
     [Serializable]
-    public sealed class SPResponseDataList<T> : List<T>, ISpecterApiResponseData where T : ISpecterApiResponseData { }
+    public class SPResponseDataList<T> : List<T>, ISpecterApiResponseData where T : ISpecterApiResponseData { }
 
     public abstract class SpecterApiResultBase<T>
     where T: class, ISpecterApiResponseData, new()
@@ -58,7 +58,9 @@ namespace SpecterSDK.APIModels
         {
             if (!force && !LoadObjectsOnResponse)
                 return;
-            InitSpecterObjectsInternal();
+            
+            if (Response.data != null)
+                InitSpecterObjectsInternal();
         }
 
         protected abstract void InitSpecterObjectsInternal();
