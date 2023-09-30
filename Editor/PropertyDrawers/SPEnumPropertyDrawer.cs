@@ -34,7 +34,4 @@ namespace SpecterSDK.Editor.PropertyDrawers
             return names;
         }
     }
-    
-    [CustomPropertyDrawer(typeof(TestSPEnum))]
-    public class TestEnumPropDrawer: SPEnumPropertyDrawer<TestSPEnum> { }
 }

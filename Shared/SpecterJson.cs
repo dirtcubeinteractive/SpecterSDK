@@ -1,9 +1,13 @@
 using System;
+using System.Collections;
 using System.Linq;
+using System.Reflection;
 using Newtonsoft.Json;
 using SpecterSDK.APIModels;
 using SpecterSDK.APIModels.ClientModels;
+using SpecterSDK.Shared.Extensions;
 using SpecterSDK.Shared.SPEnum;
+using UnityEngine;
 
 namespace SpecterSDK.Shared
 {
@@ -16,21 +20,7 @@ namespace SpecterSDK.Shared
     public class SpecterJson
     {
         private static JsonSerializerSettings s_SerializerSettings;
-
-        private static JsonSerializerSettings Settings
-        {
-            get
-            {
-                if (s_SerializerSettings == null)
-                {
-                    s_SerializerSettings = new JsonSerializerSettings();
-                    s_SerializerSettings.Converters.Add(new SPEnumJsonConverter<SPRewardClaimType>());
-                    s_SerializerSettings.Converters.Add(new SPEnumJsonConverter<SPTaskType>());
-                }
-
-                return s_SerializerSettings;
-            }
-        }
+        private static JsonSerializerSettings Settings => s_SerializerSettings ??= InitializeSpecterJsonSerializerSettings();
 
         public static string SerializeObject(object value, SPJsonFormatting formatting = SPJsonFormatting.None)
         {
@@ -75,6 +65,40 @@ namespace SpecterSDK.Shared
         public static void RemoveConverter(JsonConverter converter)
         {
             Settings.Converters.Remove(converter);
+        }
+
+        private static JsonSerializerSettings InitializeSpecterJsonSerializerSettings()
+        {
+            var settings = new JsonSerializerSettings();
+            InitializeCustomJsonConverters(settings);
+            return settings;
+        }
+        
+        public static void InitializeCustomJsonConverters(JsonSerializerSettings settings)
+        {
+            InitializeSpEnumJsonConverters(settings);
+        }
+
+        public static void InitializeSpEnumJsonConverters(JsonSerializerSettings settings)
+        {
+            var spEnumSubTypes = 
+                from Assembly assembly in AppDomain.CurrentDomain.GetAssemblies()
+                from Type type in assembly.GetTypes()
+                where type.IsClass && !type.IsAbstract && type.IsSubclassOfRawGeneric(typeof(SPEnum<>))
+                select type;
+
+            foreach (var subType in spEnumSubTypes)
+            {
+                MethodInfo genericMethodInfo = typeof(SpecterJson).GetMethod(nameof(AddSpEnumJsonConverter), BindingFlags.Static | BindingFlags.NonPublic);
+                MethodInfo addSpEnumConverterMethod = genericMethodInfo!.MakeGenericMethod(subType);
+                addSpEnumConverterMethod.Invoke(null, new object[] { settings });
+            }
+        }
+
+        private static void AddSpEnumJsonConverter<T>(JsonSerializerSettings settings)
+        where T : SPEnum<T>
+        {
+            settings.Converters.Add(new SPEnumJsonConverter<T>());
         }
     }
 }
