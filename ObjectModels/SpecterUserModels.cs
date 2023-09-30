@@ -39,13 +39,6 @@ namespace SpecterSDK.ObjectModels
         }
     }
 
-    [Serializable]
-    public class SPAuthContext
-    {
-        public string AccessToken;
-        public string EntityToken;
-    }
-    
     public class SPAuthAccount
     {
         public string AuthProvider;
