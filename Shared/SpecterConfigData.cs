@@ -89,5 +89,9 @@ namespace SpecterSDK.Shared
 
         public bool UseDebugCredentials => m_UseDebugCredentials;
         public SPAuthContext DebugAuthContext => m_DebugAuthContext;
+        
+#if UNITY_EDITOR
+        public static string DebugAuthContextProp_Id => nameof(m_DebugAuthContext);
+#endif
     }
 }
