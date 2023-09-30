@@ -4,11 +4,11 @@ using SpecterSDK.Shared;
 
 namespace SpecterSDK.API.ClientAPI
 {
-    public class SPTaskApiClient : SpecterApiClientBase
+    public class SPTasksApiClient : SpecterApiClientBase
     {
         public override SPAuthType AuthType => SPAuthType.AccessToken;
         
-        public SPTaskApiClient(SpecterRuntimeConfig config) : base(config) {}
+        public SPTasksApiClient(SpecterRuntimeConfig config) : base(config) {}
 
         public async Task<SPGetTasksResult> GetTasks(SPGetTasksRequest request)
         {

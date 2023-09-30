@@ -1,5 +1,7 @@
+using System;
 using SpecterSDK.API.ClientAPI;
 using SpecterSDK.Shared;
+using UnityEditor;
 using UnityEngine;
 
 namespace SpecterSDK
@@ -16,9 +18,6 @@ namespace SpecterSDK
         
         #endregion
         
-        public static SPAuthApiClient Auth { get; private set; }
-        public static SPUserApiClient User { get; private set; }
-        
         public class SPInitOptions
         {
             public SPEnvironment Environment { get; set; }
@@ -26,6 +25,12 @@ namespace SpecterSDK
         }
         
         public static SpecterRuntimeConfig Config;
+        
+        public static SPAuthApiClient Auth { get; private set; }
+        public static SPUserApiClient User { get; private set; }
+        public static SPTasksApiClient Tasks { get; private set; }
+        
+        public static bool IsInitialized { get; private set; }
 
         public static SpecterRuntimeConfig LoadConfig()
         {
@@ -54,14 +59,56 @@ namespace SpecterSDK
             var options = new SPInitOptions() { Environment = configData.Environment, ProjectId = configData.ProjectId };
             Initialize(options);
         }
+
+        public static void InitializeWithConfig()
+        {
+            Config = LoadConfig();
+            InitializeApi();
+        }
         
         public static void Initialize(SPInitOptions options = null)
         {
             options ??= new SPInitOptions() { Environment = SPEnvironment.Development };
             Config = new SpecterRuntimeConfig(options.Environment);
+            InitializeApi();
+        }
 
+        private static void InitializeApi()
+        {
+            if (Config == null)
+            {
+                throw new InvalidOperationException(
+                    "Specter Runtime Config must be initialized before initializing the SDK Http clients. " +
+                    "Call Specter.Initialize or Specter.InitializeWithConfig or enable Auto Init " +
+                    "in SpecterConfigData Scriptable Object");
+            }
+            
             Auth = new SPAuthApiClient(Config);
             User = new SPUserApiClient(Config);
+            Tasks = new SPTasksApiClient(Config);
+            
+            IsInitialized = true;
+        }
+
+        public static void Reload()
+        {
+#if UNITY_EDITOR
+            if (EditorApplication.isPlaying)
+                return;
+            
+            Dispose();
+            InitializeWithConfig();
+#endif
+        }
+
+        public static void Dispose()
+        {
+            Auth = null;
+            User = null;
+            Tasks = null;
+            Config = null;
+
+            IsInitialized = false;
         }
     }
 }

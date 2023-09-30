@@ -13,9 +13,9 @@ namespace SpecterSDK.Shared
     public class SpecterRuntimeConfig
     {
         public static SPAuthContext AuthCredentials;
-        
-        public string AccessToken { get; set; }
-        public string EntityToken { get; set; }
+
+        public string AccessToken => AuthCredentials?.AccessToken;
+        public string EntityToken => AuthCredentials?.EntityToken;
 
         private readonly SPEnvironment m_Environment;
         private readonly string m_DevUrl;
@@ -45,7 +45,7 @@ namespace SpecterSDK.Shared
             m_ProductionUrl ="https://dev.specterapp.xyz";
 
             m_Environment = environment;
-            ProjectId = projectId;
+            m_ProjectId = projectId;
         }
 
         public SpecterRuntimeConfig(SpecterConfigData data) : this
@@ -56,8 +56,7 @@ namespace SpecterSDK.Shared
         {
             if (data.Environment != SPEnvironment.Production && data.UseDebugCredentials)
             {
-                AccessToken = data.DebugAuthContext.AccessToken;
-                EntityToken = data.DebugAuthContext.EntityToken;
+                AuthCredentials = data.DebugAuthContext;
             }
         }
     }
