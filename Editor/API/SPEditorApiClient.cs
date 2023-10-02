@@ -101,7 +101,7 @@ namespace SpecterSDK.Editor.API
 
         public async Task<SPGeneralResult> CreateTask(SPCreateTaskAdminRequest request)
         {
-            var result = await PostAsync<SPGeneralResult, SPGeneralResponseDictionaryData>("/v1/task/create", AuthType, request);
+            var result = await PostAsync<SPGeneralResult, SPGeneralResponseData>("/v1/task/create", AuthType, request);
             return result;
         }
 

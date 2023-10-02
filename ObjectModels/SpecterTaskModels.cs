@@ -14,6 +14,8 @@ namespace SpecterSDK.ObjectModels
             IconUrl = data.iconUrl;
         }
     }
+    
+    public class SpecterTaskCollection : SpecterObjectList<SpecterTask> { }
 
     public class SpecterTaskGroup : SpecterResource
     {

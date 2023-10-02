@@ -29,7 +29,7 @@ namespace SpecterSDK.Shared
     {
         // Centralized settings to ensure consistent JSON operations across the SDK.
         private static JsonSerializerSettings s_SerializerSettings;
-        private static JsonSerializerSettings Settings => s_SerializerSettings ??= InitializeSpecterJsonSerializerSettings();
+        private static JsonSerializerSettings Settings => s_SerializerSettings ??= InitializeSettingsInternal();
 
         /// <summary>
         /// Serialize an object into a JSON string
@@ -71,6 +71,7 @@ namespace SpecterSDK.Shared
             return string.Join("&", properties.Where(p => !string.IsNullOrEmpty(p)));
         }
 
+        // Function used in recursive ToQueryString call
         protected static string ToQueryStringProperty(string name, object value, string prefix)
         {
             string key = string.IsNullOrEmpty(prefix) ? Uri.EscapeDataString(name) : $"{prefix}.{Uri.EscapeDataString(name)}";
@@ -104,8 +105,18 @@ namespace SpecterSDK.Shared
             Settings.Converters.Remove(converter);
         }
 
+        /// <summary>
+        /// Call Initialize if you do not want Specter Json to lazy init serializer settings.
+        /// Else SpecterJson will initialize settings itself on first time use.
+        /// </summary>
+        /// <returns></returns>
+        public static JsonSerializerSettings InitializeSettings()
+        {
+            return Settings;
+        }
+        
         // Initialize and return default JSON serializer settings for the Specter SDK
-        private static JsonSerializerSettings InitializeSpecterJsonSerializerSettings()
+        private static JsonSerializerSettings InitializeSettingsInternal()
         {
             var settings = new JsonSerializerSettings();
             InitializeCustomJsonConverters(settings);
@@ -123,10 +134,10 @@ namespace SpecterSDK.Shared
         }
 
         /// <summary>
-        /// Discovers and initializes JsonConverters for SPEnum subclasses.
+        /// Discovers and initializes JsonConverters for SPEnum&lt;T&gt; subclasses.
         /// This ensures that any enum-like classes in the SDK are serialized/deserialized correctly.
         /// </summary>
-        /// <param name="settings">Settings to initialize & add converters to</param>
+        /// <param name="settings">Settings to initialize and add converters to</param>
         public static void InitializeSpEnumJsonConverters(JsonSerializerSettings settings)
         {
             var spEnumSubTypes = 

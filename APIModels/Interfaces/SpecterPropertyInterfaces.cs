@@ -22,9 +22,10 @@ namespace SpecterSDK.APIModels.Interfaces
     }
 
     /// <summary>
-    /// Interface for request objects that can be associated with multiple entities.
+    /// Interface for request objects that permit additional entities to be fetched from the server.
     /// Entities can be any data structures or objects that the request's response relates to.
     /// <example>An entity for a progression system is items - the item rewards for each level</example>
+    /// <seealso cref="SPApiRequestEntity"/>
     /// </summary>
     public interface IEntityConfigurable
     {

@@ -10,7 +10,7 @@ namespace SpecterSDK.API.ClientAPI
         
         public SPTasksApiClient(SpecterRuntimeConfig config) : base(config) {}
 
-        public async Task<SPGetTasksResult> GetTasks(SPGetTasksRequest request)
+        public async Task<SPGetTasksResult> GetTasksAsync(SPGetTasksRequest request)
         {
             var result = await PostAsync<SPGetTasksResult, SPTaskResponseDataList>("/v1/client/task/get-tasks", AuthType, request);
             return result;

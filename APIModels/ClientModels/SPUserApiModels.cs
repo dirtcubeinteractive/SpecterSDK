@@ -79,7 +79,7 @@ namespace SpecterSDK.APIModels.ClientModels
         public bool? isKyc { get; set; }
     }
     
-    public class SPUpdateUserProfileResult : SpecterApiResultBase<SPGeneralResponseDictionaryData> //SPApiResultBase<SPUpdateUserProfileResult, SPGeneralResponseDictionaryData>
+    public class SPUpdateUserProfileResult : SpecterApiResultBase<SPGeneralResponseData> //SPApiResultBase<SPUpdateUserProfileResult, SPGeneralResponseDictionaryData>
     {
         public Dictionary<string, object> ObjectDict;
         

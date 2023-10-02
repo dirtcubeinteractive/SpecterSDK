@@ -40,7 +40,7 @@ namespace SpecterSDK.API.ClientAPI
 
         public SPAuthApiClient(SpecterRuntimeConfig config) : base(config) {}
 
-        public async Task<SPAuthLoginResult> LoginWithCustomId(SPAuthLoginCustomIdRequest request)
+        public async Task<SPAuthLoginResult> LoginWithCustomIdAsync(SPAuthLoginCustomIdRequest request)
         {
             var result = await PostAsync<SPAuthLoginResult, SPAuthenticatedUserResponseData>("/v1/client/auth/login-custom", AuthType, request);
             return result;

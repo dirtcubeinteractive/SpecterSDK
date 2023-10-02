@@ -61,7 +61,7 @@ namespace SpecterSDK
         public static SPUserApiClient User { get; private set; }
         
         /// <summary>
-        /// Provides methods to retrieve and manage tasks, grant rewards, and other task related data
+        /// Provides methods to retrieve and manage tasks, grant rewards, and other task related data.
         /// </summary>
         public static SPTasksApiClient Tasks { get; private set; }
         

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,14 +15,14 @@ namespace SpecterSDK.API.ClientAPI
 
         public SPUserApiClient(SpecterRuntimeConfig config) : base(config) {}
 
-        public async Task<SPGetUserProfileResult> GetProfile(SPGetUserProfileRequest request)
+        public async Task<SPGetUserProfileResult> GetProfileAsync(SPGetUserProfileRequest request)
         {
             var defaultAttributes = new List<string>()
             {
                 nameof(SPUserResponseBaseData.uuid),
                 nameof(SPUserResponseBaseData.id),
                 nameof(SPUserResponseBaseData.username),
-                nameof(SPUserResponseBaseData.linkedAccounts)
+                nameof(SPUserResponseBaseData.hash)
             };
 
             request.attributes ??= new List<string>();
@@ -32,9 +33,12 @@ namespace SpecterSDK.API.ClientAPI
             return result;
         }
 
-        public async Task<SPUpdateUserProfileResult> UpdateProfile(SPUpdateUserProfileRequest request)
+        public async Task<SPUpdateUserProfileResult> UpdateProfileAsync(SPUpdateUserProfileRequest request, Action<SPUpdateUserProfileResult> onComplete = null)
         {
-            var result = await PutAsync<SPUpdateUserProfileResult, SPGeneralResponseDictionaryData>("/v1/client/user/update-profile", AuthType, request);
+            var task = PutAsync<SPUpdateUserProfileResult, SPGeneralResponseData>("/v1/client/user/update-profile", AuthType, request);
+            task.GetAwaiter().OnCompleted(() => onComplete?.Invoke(task.Result));
+
+            var result = await task;
             return result;
         }
     }

@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 namespace SpecterSDK.Shared.SPEnum
 {
     /// <summary>
-    /// Provides custom JSON converters for SPEnums.
+    /// Provides custom JSON converter for subclasses of SPEnum&lt;T&gt;.
     /// </summary>
     public class SPEnumJsonConverter<TEnum> : JsonConverter<TEnum>
     where TEnum : SPEnum<TEnum>

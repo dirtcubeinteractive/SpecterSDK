@@ -23,9 +23,4 @@ namespace SpecterSDK.ObjectModels
         public string Description;
         public string IconUrl;
     }
-
-    public class SpecterRewards
-    {
-        
-    }
 }
