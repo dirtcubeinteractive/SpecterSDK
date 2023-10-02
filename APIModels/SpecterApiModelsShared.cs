@@ -85,7 +85,7 @@ namespace SpecterSDK.APIModels
     /// <example>When we only care about a success status in the response</example>>
     /// </summary>
     [Serializable]
-    public sealed class SPGeneralResponseData : SPResponseDataDictionary<string, object> { }
+    public sealed class SPGeneralResponseData : Dictionary<string, object>, ISpecterApiResponseData { }
 
     /// <summary>
     /// Base class for API results returned by the Specter SDK. This class provides a wrapper around
