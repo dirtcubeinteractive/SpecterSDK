@@ -104,16 +104,10 @@ namespace SpecterSDK.APIModels
         // The Specter API response deserialized from the raw http response
         public SPApiResponse<T> Response { get; set; }
         
-        // Convenience property to get the response status. Eg: 'success', 'error', etc.
+        // Convenience properties to quickly access common response data.
         public string Status => Response?.status;
-        
-        // Convenience property to get the http status code
         public int StatusCode => Response?.code ?? 500;
-        
-        // Convenience property to get the response message
         public string Message => Response?.message;
-        
-        // Convenience property to get any response errors
         public List<SPApiError> Errors => Response?.errors;
 
         // Convenience property to check if the response has any error(s)
