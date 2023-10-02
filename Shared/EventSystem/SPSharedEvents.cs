@@ -1,6 +1,9 @@
 namespace SpecterSDK.Shared.EventSystem
 {
-    public class SPSharedEvents
+    /// <summary>
+    /// Internal SDK events. DO NOT CONFUSE WITH Specter Api Events
+    /// </summary>
+    public static class SPSharedEvents
     {
 #if UNITY_EDITOR
         public struct Editor

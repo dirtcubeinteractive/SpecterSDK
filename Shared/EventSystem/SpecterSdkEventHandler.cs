@@ -7,6 +7,9 @@ namespace SpecterSDK.Shared.EventSystem
 {
     // ReSharper disable PossibleNullReferenceException
     
+    /// <summary>
+    /// Internal SDK Event handler. DO NOT CONFUSE WITH Specter Api Events
+    /// </summary>
     public class SpecterSdkEventHandler : MonoBehaviour
     {
         private static readonly Dictionary<object, Dictionary<string, List<SPSdkInvokableActionBase>>> s_EventTable = new();
