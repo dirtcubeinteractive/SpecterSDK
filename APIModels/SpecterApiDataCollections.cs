@@ -12,10 +12,10 @@ namespace SpecterSDK.APIModels
     public class SPResponseDataList<T> : List<T>, ISpecterApiResponseData where T : class, ISpecterApiResponseData, new() { }
     
     /// <summary>
-    /// A dictionary 
+    /// A dictionary of Specter data classes.
     /// </summary>
-    /// <typeparam name="TKey"></typeparam>
-    /// <typeparam name="TVal"></typeparam>
+    /// <typeparam name="TKey">Type of key. Typically 'string'</typeparam>
+    /// <typeparam name="TVal">Type of value - a subclass of <see cref="ISpecterApiResponseData"/></typeparam>
     [Serializable]
     public class SPResponseDataDictionary<TKey, TVal> : Dictionary<TKey, TVal>, ISpecterApiResponseData where TVal : class, ISpecterApiResponseData, new() { }
 }
