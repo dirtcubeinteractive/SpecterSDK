@@ -9,7 +9,7 @@ namespace SpecterSDK.APIModels
     /// </summary>
     /// <typeparam name="T">Type of Specter data contained in the list</typeparam>
     [Serializable]
-    public class SPResponseDataList<T> : List<T>, ISpecterApiResponseData where T : ISpecterApiResponseData { }
+    public class SPResponseDataList<T> : List<T>, ISpecterApiResponseData where T : class, ISpecterApiResponseData, new() { }
     
     /// <summary>
     /// A dictionary 
@@ -17,5 +17,5 @@ namespace SpecterSDK.APIModels
     /// <typeparam name="TKey"></typeparam>
     /// <typeparam name="TVal"></typeparam>
     [Serializable]
-    public class SPResponseDataDictionary<TKey, TVal> : Dictionary<TKey, TVal>, ISpecterApiResponseData where TVal : ISpecterApiResponseData { }
+    public class SPResponseDataDictionary<TKey, TVal> : Dictionary<TKey, TVal>, ISpecterApiResponseData where TVal : class, ISpecterApiResponseData, new() { }
 }
