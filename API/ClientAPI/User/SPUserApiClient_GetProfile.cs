@@ -29,15 +29,17 @@ namespace SpecterSDK.API.ClientAPI.User
     
     public partial class SPUserApiClient
     {
+        private List<string> DefaultAttributes => new()
+        {
+            nameof(SPUserResponseBaseData.uuid),
+            nameof(SPUserResponseBaseData.id),
+            nameof(SPUserResponseBaseData.username),
+            nameof(SPUserResponseBaseData.hash)
+        };
+
         public async Task<SPGetUserProfileResult> GetProfileAsync(SPGetUserProfileRequest request)
         {
-            var defaultAttributes = new List<string>()
-            {
-                nameof(SPUserResponseBaseData.uuid),
-                nameof(SPUserResponseBaseData.id),
-                nameof(SPUserResponseBaseData.username),
-                nameof(SPUserResponseBaseData.hash)
-            };
+            var defaultAttributes = DefaultAttributes;
 
             request.attributes ??= new List<string>();
             request.attributes.AddRange(defaultAttributes);
@@ -49,13 +51,7 @@ namespace SpecterSDK.API.ClientAPI.User
 
         public void GetProfile(SPGetUserProfileRequest request, Action<SPGetUserProfileResult> onComplete)
         {
-            var defaultAttributes = new List<string>()
-            {
-                nameof(SPUserResponseBaseData.uuid),
-                nameof(SPUserResponseBaseData.id),
-                nameof(SPUserResponseBaseData.username),
-                nameof(SPUserResponseBaseData.hash)
-            };
+            var defaultAttributes = DefaultAttributes;
             
             request.attributes ??= new List<string>();
             request.attributes.AddRange(defaultAttributes);
