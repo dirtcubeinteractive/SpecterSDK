@@ -46,48 +46,4 @@ namespace SpecterSDK.APIModels.ClientModels
     }
 
     #endregion
-    
-    #region Api Call Models
-
-    [System.Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPGetUserProfileRequest : SPApiRequestBaseData
-    {
-        public string id { get; set; }
-        public List<string> attributes { get; set; }
-        public List<SPApiRequestEntity> entities { get; set; }
-    }
-    
-    public class SPGetUserProfileResult : SpecterApiResultBase<SPUserProfileResponseData>
-    {
-        public SpecterUser User { get; set; }
-
-        protected override void InitSpecterObjectsInternal()
-        {
-            User = new SpecterUser(Response.data);
-        }
-    }
-
-    [System.Serializable]
-    [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPUpdateUserProfileRequest : SPApiRequestBaseData
-    {
-        public string firstName { get; set; }
-        public string lastName { get; set; }
-        public string email { get; set; }
-        public string birthdate { get; set; }
-        public string customId { get; set; }
-        public bool? isKyc { get; set; }
-    }
-    
-    public class SPUpdateUserProfileResult : SpecterApiResultBase<SPGeneralResponseData> //SPApiResultBase<SPUpdateUserProfileResult, SPGeneralResponseDictionaryData>
-    {
-        public Dictionary<string, object> ObjectDict;
-        
-        protected override void InitSpecterObjectsInternal()
-        {
-            ObjectDict = Response.data;
-        }
-    }
-
-    #endregion
 }

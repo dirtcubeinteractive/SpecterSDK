@@ -1,5 +1,6 @@
 using System;
 using SpecterSDK.API.ClientAPI;
+using SpecterSDK.API.ClientAPI.User;
 using SpecterSDK.ObjectModels;
 using SpecterSDK.Shared;
 using UnityEditor;
