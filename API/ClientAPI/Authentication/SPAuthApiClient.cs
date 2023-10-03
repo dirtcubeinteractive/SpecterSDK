@@ -5,7 +5,7 @@ using SpecterSDK.APIModels.Interfaces;
 using SpecterSDK.ObjectModels;
 using SpecterSDK.Shared;
 
-namespace SpecterSDK.API.ClientAPI
+namespace SpecterSDK.API.ClientAPI.Authentication
 {
     [System.Serializable]
     public abstract class SPAuthLoginRequestBase : SPApiRequestBaseData, IProjectConfigurable
@@ -13,13 +13,7 @@ namespace SpecterSDK.API.ClientAPI
         public string projectId { get; set; }
         public bool createAccount { get; set; }
     }
-    
-    [System.Serializable]
-    public class SPAuthLoginCustomIdRequest : SPAuthLoginRequestBase
-    {
-        public string customId { get; set; }
-    }
-    
+
     public class SPAuthLoginResult : SpecterApiResultBase<SPAuthenticatedUserResponseData>
     {
         public SpecterUser User { get; private set; }
@@ -34,16 +28,10 @@ namespace SpecterSDK.API.ClientAPI
         }
     }
 
-    public class SPAuthApiClient: SpecterApiClientBase
+    public partial class SPAuthApiClient: SpecterApiClientBase
     {
         public override SPAuthType AuthType => SPAuthType.None;
 
         public SPAuthApiClient(SpecterRuntimeConfig config) : base(config) {}
-
-        public async Task<SPAuthLoginResult> LoginWithCustomIdAsync(SPAuthLoginCustomIdRequest request)
-        {
-            var result = await PostAsync<SPAuthLoginResult, SPAuthenticatedUserResponseData>("/v1/client/auth/login-custom", AuthType, request);
-            return result;
-        }
     }
 }

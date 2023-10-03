@@ -1,5 +1,7 @@
 using System;
 using SpecterSDK.API.ClientAPI;
+using SpecterSDK.API.ClientAPI.Authentication;
+using SpecterSDK.API.ClientAPI.Tasks;
 using SpecterSDK.API.ClientAPI.User;
 using SpecterSDK.ObjectModels;
 using SpecterSDK.Shared;

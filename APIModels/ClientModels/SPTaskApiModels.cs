@@ -94,31 +94,4 @@ namespace SpecterSDK.APIModels.ClientModels
     public class SPTaskGroupResponseDataList : SPResponseDataList<SPTaskGroupResponseData> { }
 
     #endregion
-
-    #region Api Call Models
-
-    [Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPGetTasksRequest: SPApiRequestBaseData, IAttributeConfigurable, IEntityConfigurable
-    {
-        public List<string> taskIds { get; set; }
-        public SPTaskStatus status { get; set; }
-        public List<string> attributes { get; set; }
-        public List<SPApiRequestEntity> entities { get; set; }
-    }
-
-    public class SPGetTasksResult : SpecterApiResultBase<SPTaskResponseDataList>
-    {
-        public List<SpecterTask> Tasks;
-        
-        protected override void InitSpecterObjectsInternal()
-        {
-            Tasks = new List<SpecterTask>();
-            foreach (var taskData in Response.data)
-            {
-                Tasks.Add(new SpecterTask(taskData));
-            }
-        }
-    }
-
-    #endregion
 }
