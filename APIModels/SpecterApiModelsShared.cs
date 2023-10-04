@@ -40,6 +40,19 @@ namespace SpecterSDK.APIModels
         /// </summary>
         public int? offset { get; set; } = 0;
     }
+    
+    /// <summary>
+    /// Constants representing various API response statuses.
+    /// </summary>
+    public struct SPApiStatus
+    {
+        public const string Success = "success";
+        public const string Error = "error";
+        public const string Warning = "warning";
+        public const string Pending = "pending";
+        public const string Incomplete = "incomplete";
+        public const string UnprocessableEntity = "unprocessable_entity";
+    }
 
     /// <summary>
     /// Represents the standard structure of an API response from Specter.

@@ -12,46 +12,57 @@ using AuthenticationHeaderValue = System.Net.Http.Headers.AuthenticationHeaderVa
 
 namespace SpecterSDK.API
 {
-    public struct SPApiStatus
-    {
-        public const string Success = "success";
-        public const string Error = "error";
-        public const string Warning = "warning";
-        public const string Pending = "pending";
-        public const string Incomplete = "incomplete";
-        public const string UnprocessableEntity = "unprocessable_entity";
-    }
-
+    /// <summary>
+    /// Enumeration representing the types of authentication used for API requests.
+    /// </summary>
     public enum SPAuthType
     {
         None,
         AccessToken
     }
     
+    /// <summary>
+    /// Constants representing possible authentication schemes used in API requests.
+    /// </summary>
     public struct SPApiAuthScheme
     {
         public const string Bearer = "Bearer";
     }
 
+    /// <summary>
+    /// Constants representing possible MIME types in API calls
+    /// </summary>
     public struct SPApiMediaType
     {
         public const string ApplicationJson = "application/json";
     }
 
+    /// <summary>
+    /// The foundational class for all API interactions in the Specter SDK.
+    /// It abstracts away the common logic and patterns used in making API requests, ensuring a consistent approach and reducing redundancy.
+    /// All API modules in Specter derive from this class.
+    /// </summary>
     public abstract class SpecterApiClientBase
     {
+        // Shared HTTP client instance for making API requests.
         private static HttpClient m_HttpClient;
         
+        // Configuration settings for the Specter runtime.
         protected readonly SpecterRuntimeConfig m_Config;
 
+        // Default authentication type for API requests. Can be overridden in derived classes.
         public virtual SPAuthType AuthType => SPAuthType.None;
         
+        // Constructor that initializes the API client with the provided configuration settings.
         protected SpecterApiClientBase(SpecterRuntimeConfig config)
         {
             m_Config = config;
+            
+            // Initialize the shared Http client only if another API client has not already done so.
             m_HttpClient ??= new HttpClient();
         }
 
+        // Ensures that the project ID is always set for requests that require it.
         private void ConfigureProjectId(IProjectConfigurable request)
         {
             if (string.IsNullOrEmpty(request.projectId))
@@ -63,6 +74,16 @@ namespace SpecterSDK.API
             }
         }
 
+        /// <summary>
+        /// Core method to make API requests. It handles the entire lifecycle of a request, from constructing the URL to handling various response scenarios.
+        /// </summary>
+        /// <param name="method">Http method to use, i.e. GET, POST, etc.</param>
+        /// <param name="endpoint">Url endpoint appended to the configured base Url</param>
+        /// <param name="authType">Authentication mechanism to be set in the request</param>
+        /// <param name="requestParams">Query parameters - only applicable in GET requests</param>
+        /// <param name="requestBody">Body of the request</param>
+        /// <typeparam name="TData">Type of data returned in the <see cref="SPApiResponse{T}"/></typeparam>
+        /// <returns>A deserialized instance of <see cref="SPApiResponse{T}"/></returns>
         private async Task<SPApiResponse<TData>> MakeRequestAsync<TData>(
             HttpMethod method,
             string endpoint = "",
@@ -160,6 +181,11 @@ namespace SpecterSDK.API
             }
         }
 
+        /// <summary>
+        /// An extension of the core request method that further processes the response to return a more specific result type.
+        /// This allows for more specialized post-processing based on the type of request.
+        /// </summary>
+        /// <returns>A processed instance of <see cref="SpecterApiResultBase{T}"/></returns>
         private async Task<TResult> MakeRequestAsync<TResult, TData>(
             HttpMethod method, 
             string endpoint = "", 
@@ -174,6 +200,14 @@ namespace SpecterSDK.API
             return BuildResult<TResult, TData>(response);
         }
 
+        /// <summary>
+        /// Transforms the Specter API response into a game ready result object.
+        /// This provides a consistent way to handle and interpret API responses across the SDK.
+        /// </summary>
+        /// <param name="response">Raw API response</param>
+        /// <typeparam name="TResult">Type of result - a subclass of <see cref="SpecterApiResultBase{T}"/></typeparam>
+        /// <typeparam name="TData">Type of data contained within the API response</typeparam>
+        /// <returns>Constructed API result object</returns>
         protected virtual TResult BuildResult<TResult, TData>(SPApiResponse<TData> response)
         where TData: class, ISpecterApiResponseData, new()
         where TResult: SpecterApiResultBase<TData>
@@ -184,6 +218,7 @@ namespace SpecterSDK.API
             return result;
         }
 
+        // Convenience methods for making specific types of HTTP requests. These abstract away the HTTP verb details, providing a more semantic way to make requests.
         protected async Task<TResult> GetAsync<TResult, TData>(string endpoint, SPAuthType authType, SPApiRequestBaseData queryParams) 
             where TData: class, ISpecterApiResponseData, new()
             where TResult: SpecterApiResultBase<TData>, new()
