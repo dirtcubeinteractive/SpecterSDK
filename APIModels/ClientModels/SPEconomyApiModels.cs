@@ -15,6 +15,9 @@ namespace SpecterSDK.APIModels.ClientModels
         public string name { get; set; }
         public string description { get; set; }
         public string code { get; set; }
+        public string iconUrl { get; set; }
+        public string type { get; set; }
+
     }
     
     // Currency master data in SDK responses
@@ -30,6 +33,11 @@ namespace SpecterSDK.APIModels.ClientModels
     public class SPWalletCurrencyResponseData : SPCurrencyResponseBaseData
     {
         public float balance { get; set; }
+    }
+
+    public class SPWalletCurrencyResponseDataList : SPResponseDataList<SPWalletCurrencyResponseData>
+    {
+
     }
     
     // Base for item data in SDK responses
