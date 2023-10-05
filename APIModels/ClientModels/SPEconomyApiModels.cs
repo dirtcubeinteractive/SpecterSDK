@@ -8,7 +8,7 @@ namespace SpecterSDK.APIModels.ClientModels
 
     // Base for currency data in SDK responses
     [Serializable]
-    public abstract class SPCurrencyResponseBaseData
+    public abstract class SPCurrencyResponseBaseData : ISpecterApiResponseData
     {
         public string uuid { get; set; }
         public string id { get; set; }

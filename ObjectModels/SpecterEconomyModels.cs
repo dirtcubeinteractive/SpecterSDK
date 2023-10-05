@@ -31,7 +31,8 @@ namespace SpecterSDK.ObjectModels
         public SpecterWalletCurrency() { }
         public SpecterWalletCurrency(SPWalletCurrencyResponseData data)
         {
-            
+            Uuid = data.uuid;
+            Id = data.id;
         }
     }
 
