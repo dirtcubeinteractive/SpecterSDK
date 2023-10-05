@@ -10,6 +10,7 @@ namespace SpecterSDK.ObjectModels
     public abstract class SpecterCurrencyBase : SpecterResource
     {
         public string Code;
+        public string Type;
     }
 
     public class SpecterCurrency : SpecterCurrencyBase, ISpecterMasterObject
@@ -33,6 +34,12 @@ namespace SpecterSDK.ObjectModels
         {
             Uuid = data.uuid;
             Id = data.id;
+            Name = data.name;
+            Description = data.description;
+            IconUrl = data.iconUrl;
+            Type = data.type;
+            Code = data.code;
+            Balance = data.balance;
         }
     }
 
