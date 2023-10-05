@@ -5,7 +5,9 @@ using Newtonsoft.Json;
 using SpecterSDK.APIModels.AdminModels;
 using SpecterSDK.Editor.API;
 using UnityEditor;
+using UnityEditor.VersionControl;
 using UnityEngine;
+using Task = System.Threading.Tasks.Task;
 
 namespace SpecterSDK.Editor.DashboardTools
 {
@@ -227,6 +229,7 @@ namespace SpecterSDK.Editor.DashboardTools
                 EditorGUILayout.SelectableLabel(appEvent.name, EditorStyles.label, GUILayout.Height(EditorGUIUtility.singleLineHeight));
                 EditorGUILayout.SelectableLabel(appEvent.id, EditorStyles.label, GUILayout.Height(EditorGUIUtility.singleLineHeight));
                 EditorGUILayout.SelectableLabel($"{appEvent.GetAllParameters().Count}", EditorStyles.label, GUILayout.Height(EditorGUIUtility.singleLineHeight));
+                DrawButton(() => Debug.Log(JsonConvert.SerializeObject(appEvent, Formatting.Indented)), "View");
             }
             EditorGUILayout.EndHorizontal();
         }
