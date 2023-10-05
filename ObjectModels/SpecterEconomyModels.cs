@@ -43,6 +43,14 @@ namespace SpecterSDK.ObjectModels
         }
     }
 
+    public class SpecterWallet : SpecterWalletCurrency
+    {
+        public SpecterWallet(SPWalletCurrencyResponseData data) : base(data)
+        {
+
+        }
+    }
+
     #endregion
 
     #region Items
