@@ -21,7 +21,8 @@ namespace SpecterSDK.ObjectModels
         public SpecterCurrency() { }
         public SpecterCurrency(SPCurrencyResponseData data)
         {
-            
+            Tags = data.tags;
+            Meta = data.meta;
         }
     }
 
