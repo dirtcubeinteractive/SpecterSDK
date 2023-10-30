@@ -1,4 +1,7 @@
 using System;
+using System.Collections.Generic;
+using SpecterSDK.APIModels.ClientModels;
+using SpecterSDK.APIModels.Interfaces;
 
 namespace SpecterSDK.ObjectModels
 {
@@ -36,5 +39,76 @@ namespace SpecterSDK.ObjectModels
         public string Name;
         public string Description;
         public string IconUrl;
+    }
+
+    public enum SpecterResourceLockType
+    {
+        Progression,
+        Item,
+        Bundle
+    }
+
+    [Serializable]
+    public class SpecterUnlockCondition
+    {
+        public SpecterResourceLockType LockType;
+        public string Id;
+        public string Name;
+        public int Value;
+
+        public SpecterUnlockCondition() { }
+
+        public SpecterUnlockCondition(SPUnlockConditionResponseData data)
+        {
+            LockType = data.unlockProgressionSystem != null
+                ? SpecterResourceLockType.Progression
+                : (data.unlockItem != null ? SpecterResourceLockType.Item : SpecterResourceLockType.Bundle);
+            (Id, Name, Value) = LockType switch
+            {
+                SpecterResourceLockType.Progression => (data.unlockProgressionSystem!.id, data.unlockProgressionSystem.name, data.lockedLevelNo),
+                SpecterResourceLockType.Item => (data.unlockItem!.id, data.unlockItem.name, 1),
+                SpecterResourceLockType.Bundle => (data.unlockBundle.id, data.unlockBundle.name, 1),
+                _ => throw new NotImplementedException($"Unlock condition of type {LockType} not implemented. Please report Specter SDK bug")
+            };
+        }
+    }
+
+    public class SpecterServerTime : SpecterResource
+    {
+        public string Abbreviation;
+        public string ClientIp;
+        public DateTime DateTime;
+        public int DayOfWeek;
+        public int DayOfYear;
+        public bool dst;
+        public string dstFrom;
+        public int dstOffset;
+        public string dstUntil;
+        public int rawOffset;
+        public string timezone;
+        public int UnixTime;
+        public DateTime utcDatetime;
+        public string utcOffset;
+        public int weekNumber;
+
+
+        public SpecterServerTime(SPServerTimeData data)
+        {
+            Abbreviation = data.abbreviation;
+            ClientIp = data.clientIp;
+            DateTime = data.datetime;
+            DayOfWeek = data.dayOfWeek;
+            DayOfYear = data.dayOfYear;
+            dst = data.dst;
+            dstFrom = data.dstFrom;
+            dstOffset = data.dstOffset;
+            dstUntil = data.dstUntil;
+            rawOffset = data.rawOffset;
+            timezone = data.timezone;
+            UnixTime = data.unixtime;
+            utcDatetime = data.utcDatetime;
+            utcOffset = data.utcOffset;
+            weekNumber = data.weekNumber;
+        }
     }
 }
