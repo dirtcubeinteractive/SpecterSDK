@@ -44,6 +44,21 @@ namespace SpecterSDK.APIModels.ClientModels
     public class SPAuthenticatedUserResponseData : SPUserProfileResponseData
     {
     }
+    
+    [Serializable]
+    public class SPPlayerDataResponseData : ISpecterApiResponseData
+    {
+        public Dictionary<string, string> playerData { get; set; }
+    }
+
+    [Serializable]
+    public class SPGetPlayerDataResponseData : SPPlayerDataResponseData { }
+    
+    [Serializable]
+    public class SPUpdatePlayerDataResponseData : SPPlayerDataResponseData { }
+    
+    [Serializable]
+    public class SPRemovePlayerDataResponseData : SPPlayerDataResponseData { }
 
     #endregion
 }
