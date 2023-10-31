@@ -3,18 +3,22 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SpecterSDK.APIModels;
+using SpecterSDK.APIModels.ClientModels;
 
 namespace SpecterSDK.API.ClientAPI.Inventory
 {
-
-    [Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPConsumeItemRequest : SPApiRequestBaseData
+    [Serializable]
+    public class SPConsumeItemInfo
     {
-
-        public int quantity { get; set; }
-        public string collectionId { get; set; }
-        public string itemId { get; set; }
-
+        public int amount;
+        public string collectionId;
+        public string id;
+    }
+    
+    [Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
+    public class SPConsumeItemRequest : SPApiEventConfigurableRequestBase
+    {
+        public List<SPConsumeItemInfo> items;
     }
 
     public class SPConsumeItemResult : SpecterApiResultBase<SPGeneralResponseData>
@@ -29,9 +33,9 @@ namespace SpecterSDK.API.ClientAPI.Inventory
 
     public partial class SPInventoryApiClient
     {
-        public async Task<SPGetItemsFromInventoryResult> ConsumeItems(SPGetUserInventoryRequest request)
+        public async Task<SPConsumeItemResult> ConsumeItems(SPGetUserInventoryRequest request)
         {
-            var result = await PostAsync<SPGetItemsFromInventoryResult, SPUserInventoryResponseData>("/v1/client/user/inventory/consume-item", AuthType, request);
+            var result = await PostAsync<SPConsumeItemResult, SPGeneralResponseData>("/v1/client/user/inventory/consume-item", AuthType, request);
             return result;
         }
     }

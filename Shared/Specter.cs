@@ -1,8 +1,14 @@
 using System;
 using SpecterSDK.API.ClientAPI;
+using SpecterSDK.API.ClientAPI.App;
 using SpecterSDK.API.ClientAPI.Authentication;
+using SpecterSDK.API.ClientAPI.Inventory;
+using SpecterSDK.API.ClientAPI.Matches;
+using SpecterSDK.API.ClientAPI.Progression;
+using SpecterSDK.API.ClientAPI.Rewards;
 using SpecterSDK.API.ClientAPI.Tasks;
 using SpecterSDK.API.ClientAPI.User;
+using SpecterSDK.API.ClientAPI.Wallet;
 using SpecterSDK.ObjectModels;
 using SpecterSDK.Shared;
 using UnityEditor;
@@ -53,10 +59,20 @@ namespace SpecterSDK
         /// </summary>
         public static SpecterRuntimeConfig Config;
         
+        public static SPAppApiClient App { get; private set; }
+        
         /// <summary>
         /// Provides methods to authenticate users, manage sessions, and handle user credentials.
         /// </summary>
         public static SPAuthApiClient Auth { get; private set; }
+        
+        public static SPInventoryApiClient Inventory { get; private set; }
+        
+        public static SPMatchesApiClient Matches { get; private set; }
+        
+        public static SPProgressionApiClient Progression { get; private set; }
+        
+        public static SPRewardsApiClient Rewards { get; private set; }
         
         /// <summary>
         /// Provides methods to retrieve and manage user profiles, attributes, and other user-related data.
@@ -68,6 +84,8 @@ namespace SpecterSDK
         /// </summary>
         public static SPTasksApiClient Tasks { get; private set; }
         
+        public static SPWalletApiClient Wallet { get; private set; }
+
         public static bool IsInitialized { get; private set; }
 
         /// <summary>
@@ -158,10 +176,16 @@ namespace SpecterSDK
                     "Call Specter.Initialize or Specter.InitializeWithConfig or enable Auto Init " +
                     "in SpecterConfigData Scriptable Object");
             }
-            
+
+            App = new SPAppApiClient(Config);
             Auth = new SPAuthApiClient(Config);
+            Inventory = new SPInventoryApiClient(Config);
+            Matches = new SPMatchesApiClient(Config);
+            Progression = new SPProgressionApiClient(Config);
+            Rewards = new SPRewardsApiClient(Config);
             User = new SPUserApiClient(Config);
             Tasks = new SPTasksApiClient(Config);
+            Wallet = new SPWalletApiClient(Config);
             
             IsInitialized = true;
         }

@@ -31,4 +31,11 @@ namespace SpecterSDK.APIModels.Interfaces
     {
         public List<SPApiRequestEntity> entities { get; set; }
     }
+
+    public interface ISpecterEventConfigurable
+    {
+        public Dictionary<string, object> customParams { get; set; }
+        public Dictionary<string, object> systemParams { get; set; }
+
+    }
 }

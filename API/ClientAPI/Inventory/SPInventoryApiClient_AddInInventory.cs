@@ -3,18 +3,19 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SpecterSDK.APIModels;
+using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.APIModels.Interfaces;
 
 namespace SpecterSDK.API.ClientAPI.Inventory
 {
     [Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPAddInInventoryRequest : SPApiRequestBaseData , IInventoryRequestConfigurable
+    public class SPAddInInventoryRequest : SPApiEventConfigurableRequestBase
     {
-        public List<Bundle> bundles { get; set; }
-        public List<Item> items { get; set; }
+        public List<SPInventoryApiClient.SPInventoryEntityInfo> bundles { get; set; }
+        public List<SPInventoryApiClient.SPInventoryEntityInfo> items { get; set; }
     }
 
-    public class SPAddItemsInInventoryResult : SpecterApiResultBase<SPGeneralResponseData>
+    public class SPAddInInventoryResult : SpecterApiResultBase<SPGeneralResponseData>
     {
         public Dictionary<string, object> ObjectDict;
 
@@ -25,9 +26,9 @@ namespace SpecterSDK.API.ClientAPI.Inventory
     }
     public partial class SPInventoryApiClient
     {
-        public async Task<SPAddItemsInInventoryResult> AddItemsInInventory(SPAddInInventoryRequest request)
+        public async Task<SPAddInInventoryResult> AddInInventory(SPAddInInventoryRequest request)
         {
-            var result = await PostAsync<SPAddItemsInInventoryResult, SPGeneralResponseData>("/v1/client/inventory/add", AuthType, request);
+            var result = await PostAsync<SPAddInInventoryResult, SPGeneralResponseData>("/v1/client/inventory/add", AuthType, request);
             return result;
         }
     }

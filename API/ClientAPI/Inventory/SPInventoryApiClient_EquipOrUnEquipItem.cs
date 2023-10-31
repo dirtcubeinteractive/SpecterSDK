@@ -6,14 +6,18 @@ using SpecterSDK.APIModels;
 
 namespace SpecterSDK.API.ClientAPI.Inventory
 {
-
     [Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
+    public class SPEquipUnequipItemInfo
+    {
+        public string id;
+        public bool shouldEquip;
+        public int? amount;
+    }
+
+    [Serializable]
     public class SPEquipOrUnEquipRequest : SPApiRequestBaseData
     {
-        public string collectionId { get; set; }
-        public string itemId { get; set; }
-
-        public bool isEquipped { get; set; }
+        public List<SPEquipUnequipItemInfo> items;
     }
 
     public class SPEquipOrUnEquipResult : SpecterApiResultBase<SPGeneralResponseData>
@@ -28,9 +32,9 @@ namespace SpecterSDK.API.ClientAPI.Inventory
 
     public partial class SPInventoryApiClient
     {
-        public async Task<SPGetItemsFromInventoryResult> EquipOrUnEquipItems(SPGetUserInventoryRequest request)
+        public async Task<SPEquipOrUnEquipResult> EquipOrUnEquipItems(SPGetUserInventoryRequest request)
         {
-            var result = await PostAsync<SPGetItemsFromInventoryResult, SPUserInventoryResponseData>("/v1/client/inventory/equip-unequip", AuthType, request);
+            var result = await PostAsync<SPEquipOrUnEquipResult, SPGeneralResponseData>("/v1/client/inventory/equip-unequip", AuthType, request);
             return result;
         }
     }

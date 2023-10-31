@@ -143,4 +143,15 @@ namespace SpecterSDK.APIModels.ClientModels
     }
 
     #endregion
+
+    #region Api Models
+
+    public class SPGetUserInventoryResponseData : ISpecterApiResponseData
+    {
+        public List<SPInventoryItemResponseData> items;
+        public List<SPInventoryBundleResponseData> bundles;
+    }
+
+
+    #endregion
 }

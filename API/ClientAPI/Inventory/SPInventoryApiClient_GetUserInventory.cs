@@ -1,7 +1,10 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SpecterSDK.APIModels;
+using SpecterSDK.APIModels.ClientModels;
+using SpecterSDK.ObjectModels;
 
 namespace SpecterSDK.API.ClientAPI.Inventory
 {
@@ -19,20 +22,22 @@ namespace SpecterSDK.API.ClientAPI.Inventory
         public string bundleId { get; set; }
     }
 
-    public class SPGetItemsFromInventoryResult : SpecterApiResultBase<SPUserInventoryResponseData>
+    public class SPGetUserInventoryResult : SpecterApiResultBase<SPGetUserInventoryResponseData>
     {
-        public SpectorUserInventoryItem spectorUserInventoryItem;
+        public List<SpecterInventoryItem> Items;
+        public List<SpecterInventoryBundle> Bundles;
+        
         protected override void InitSpecterObjectsInternal()
         {
-            spectorUserInventoryItem = new SpectorUserInventoryItem(Response.data);
+            
         }
     }
 
     public partial class SPInventoryApiClient
     {
-        public async Task<SPGetItemsFromInventoryResult> GetItemsFromInventory(SPGetUserInventoryRequest request)
+        public async Task<SPGetUserInventoryResult> GetItemsFromInventory(SPGetUserInventoryRequest request)
         {
-            var result = await PostAsync<SPGetItemsFromInventoryResult, SPUserInventoryResponseData>("/v1/client/inventory/get-inventory", AuthType, request);
+            var result = await PostAsync<SPGetUserInventoryResult, SPGetUserInventoryResponseData>("/v1/client/inventory/get-inventory", AuthType, request);
             return result;
         }
     }

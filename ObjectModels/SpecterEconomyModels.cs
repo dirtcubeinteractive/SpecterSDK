@@ -79,12 +79,12 @@ namespace SpecterSDK.ObjectModels
 
     public abstract class SpecterItemBase : SpecterResource
     {
-        public bool isConsumable;
-        public bool isEquippable;
-        public bool isTradable;
-        public bool isStackable;
-        public bool isRentable;
-        public int maxNumberOfStack;
+        public bool IsConsumable;
+        public bool IsEquippable;
+        public bool IsTradable;
+        public bool IsStackable;
+        public bool IsRentable;
+        public int MaxNumberOfStack;
     }
 
     public class SpecterItem : SpecterItemBase, ISpecterMasterObject
@@ -142,7 +142,24 @@ namespace SpecterSDK.ObjectModels
 
     public class SpecterInventoryItem : SpecterItemBase
     {
+        public string CollectionId;
         public int Amount;
+
+        public SpecterInventoryItem(SPInventoryItemResponseData data)
+        {
+            
+        }
+    }
+
+    public class SpecterInventoryBundle : SpecterItemBase
+    {
+        public string CollectionId;
+        public int Amount;
+
+        public SpecterInventoryBundle(SPInventoryBundleResponseData data)
+        {
+            
+        }
     }
 
     [Serializable]

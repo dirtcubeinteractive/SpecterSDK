@@ -1,8 +1,17 @@
 using System;
+using System.Collections.Generic;
+using Newtonsoft.Json;
 using SpecterSDK.APIModels.Interfaces;
 
 namespace SpecterSDK.APIModels.ClientModels
 {
+    [Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
+    public abstract class SPApiEventConfigurableRequestBase : SPApiRequestBaseData, ISpecterEventConfigurable
+    {
+        public Dictionary<string, object> customParams { get; set; }
+        public Dictionary<string, object> systemParams { get; set; }
+    }
+    
     [Serializable]
     public class SPServerTimeData
     {
