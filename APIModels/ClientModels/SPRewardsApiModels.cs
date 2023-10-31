@@ -1,9 +1,18 @@
 using System;
 using System.Collections.Generic;
 using SpecterSDK.APIModels.Interfaces;
+using SpecterSDK.Shared.SPEnum;
 
 namespace SpecterSDK.APIModels.ClientModels
 {
+    public sealed class SPRewardClaimStatus : SPEnum<SPRewardClaimStatus>
+    {
+        public static readonly SPRewardClaimStatus Pending = new SPRewardClaimStatus(0, nameof(Pending).ToLower(), nameof(Pending));
+        public static readonly SPRewardClaimStatus Completed = new SPRewardClaimStatus(1, nameof(Completed).ToLower(), nameof(Completed));
+        
+        private SPRewardClaimStatus(int id, string name, string displayName = null) : base(id, name, displayName) { }
+    }
+    
     [Serializable]
     public class SPRewardBaseData : ISpecterApiResponseData, ISpecterMasterData
     {
@@ -52,5 +61,20 @@ namespace SpecterSDK.APIModels.ClientModels
         public List<SPInventoryBundleResponseData> bundles { get; set; }
         public List<SPWalletCurrencyResponseData> currencies { get; set; }
         public List<SPUserProgressResponseData> progress { get; set; }
+    }
+
+    [Serializable]
+    public class SPRewardHistoryEntryData : SPRewardBaseData
+    {
+        public SPRewardClaimStatus status { get; set; }
+        public SPRewardClaimType rewardGrant { get; set; }
+    }
+    
+    public class SPGetRewardHistoryResponseData : ISpecterApiResponseData
+    {
+        public List<SPRewardHistoryEntryData> items { get; set; }
+        public List<SPRewardHistoryEntryData> bundles { get; set; }
+        public List<SPRewardHistoryEntryData> currencies { get; set; }
+        public List<SPRewardHistoryEntryData> progressionMarkers { get; set; }
     }
 }

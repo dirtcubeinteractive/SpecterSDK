@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Manish_TestScript.ObjectModels;
 using SpecterSDK.APIModels.ClientModels;
 
 namespace SpecterSDK.ObjectModels
@@ -16,8 +15,8 @@ namespace SpecterSDK.ObjectModels
             Name = data.name;
             Description = data.description;
             IconUrl = data.iconUrl;
-            Tags = new();
-            Meta = new();
+            Tags = new List<string>();
+            Meta = new Dictionary<string, string>();
             Tags = data.tags;
             Meta = data.meta;
         }

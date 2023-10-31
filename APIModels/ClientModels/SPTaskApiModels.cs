@@ -83,12 +83,15 @@ namespace SpecterSDK.APIModels.ClientModels
         public int? stepNumber { get; set; }
         public int? stageLength { get; set; }
         public bool stageReset { get; set; }
+        public List<SPTaskResponseData> tasks { get; set; }
+        public SPRewardDetailsResponseData rewardDetails { get; set; }
     }
 
     [Serializable]
     public class SPTaskGroupResponseData : SPTaskGroupResponseBaseData
     {
-        
+        public SPTaskType taskType { get; set; }
+        public SPTaskGroupType taskGroupType { get; set; }
     }
 
     [Serializable]

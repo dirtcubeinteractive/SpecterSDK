@@ -29,6 +29,20 @@ namespace SpecterSDK.APIModels.ClientModels
         public Dictionary<string, string> meta { get; set; }
     }
     
+    [Serializable]
+    public class SPCurrencyResponseDataList : SPResponseDataList<SPCurrencyResponseData> { }
+    
+    [Serializable]
+    public class SPRealWorldCurrencyResponseData
+    {
+        public string uuid { get; set; }
+        public string id { get; set; }
+        public string name { get; set; }
+        public string code { get; set; }
+        public string symbol { get; set; }
+        public string countryName { get; set; }
+    }
+
     // User wallet currency data in SDK responses
     [Serializable]
     public class SPWalletCurrencyResponseData : SPCurrencyResponseBaseData
@@ -126,17 +140,6 @@ namespace SpecterSDK.APIModels.ClientModels
         public SPCurrencyResponseData virtualCurrency { get; set; }
         // This is an actual currency (eg: USD, INR, etc.)
         public SPRealWorldCurrencyResponseData realWorldCurrency { get; set; }
-    }
-    
-    [Serializable]
-    public class SPRealWorldCurrencyResponseData
-    {
-        public string uuid { get; set; }
-        public string id { get; set; }
-        public string name { get; set; }
-        public string code { get; set; }
-        public string symbol { get; set; }
-        public string countryName { get; set; }
     }
 
     #endregion

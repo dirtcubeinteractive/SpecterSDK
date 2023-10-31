@@ -13,10 +13,24 @@ namespace SpecterSDK.ObjectModels
     {
         public string Code;
         public string Type;
+
+        protected SpecterCurrencyBase(SPCurrencyResponseBaseData data)
+        {
+            Uuid = data.uuid;
+            Id = data.id;
+            Name = data.name;
+            Description = data.description;
+            IconUrl = data.iconUrl;
+            Code = data.code;
+        }
     }
 
-    public class SpecterRealCurrency : SpecterCurrencyBase
+    public class SpecterRealCurrency
     {
+        public string Uuid;
+        public string Id;
+        public string Name;
+        public string Code;
         public string CountryName;
         public string ASCIISymbol;
 
@@ -36,8 +50,7 @@ namespace SpecterSDK.ObjectModels
         public List<string> Tags { get; set; }
         public Dictionary<string, string> Meta { get; set; }
         
-        public SpecterCurrency() { }
-        public SpecterCurrency(SPCurrencyResponseData data)
+        public SpecterCurrency(SPCurrencyResponseData data) : base(data)
         {
             Tags = data.tags;
             Meta = data.meta;
@@ -47,9 +60,7 @@ namespace SpecterSDK.ObjectModels
     public class SpecterWalletCurrency : SpecterCurrencyBase
     {
         public float Balance;
-
-        public SpecterWalletCurrency() { }
-        public SpecterWalletCurrency(SPWalletCurrencyResponseData data)
+        public SpecterWalletCurrency(SPWalletCurrencyResponseData data) : base(data)
         {
             Uuid = data.uuid;
             Id = data.id;
