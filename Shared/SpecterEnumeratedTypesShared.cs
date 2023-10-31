@@ -4,6 +4,15 @@ using SpecterSDK.Shared.SPEnum;
 namespace SpecterSDK.Shared
 {
     [Serializable]
+    public sealed class SPOperations : SPEnum<SPOperations>
+    {
+        public static readonly SPOperations AddOperation = new SPOperations(0, "add", nameof(AddOperation));
+        public static readonly SPOperations SubtractOperation = new SPOperations(1, "subtract", nameof(SubtractOperation));
+
+        private SPOperations(int id, string name, string displayName = null) : base(id, name, displayName) { }
+    }
+    
+    [Serializable]
     public sealed class SPRewardSourceType : SPEnum<SPRewardSourceType>
     {
         public static readonly SPRewardSourceType Task = new SPRewardSourceType(0, nameof(Task).ToLower(), nameof(Task));
