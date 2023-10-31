@@ -33,20 +33,20 @@ namespace SpecterSDK.APIModels.ClientModels
         
         private SPTaskType(int id, string name, string displayName = null) : base(id, name, displayName) { }
     }
+    
+    public sealed class SPTaskGroupType : SPEnum<SPTaskGroupType>
+    {
+        public static readonly SPTaskGroupType Mission = new SPTaskGroupType(0, nameof(Mission).ToLower(), nameof(Mission));
+        public static readonly SPTaskGroupType StepSeries = new SPTaskGroupType(1,"step series", nameof(StepSeries));
+
+        private SPTaskGroupType(int id, string name, string displayName = null) : base(id, name, displayName) { }
+    }
 
     public sealed class SPTaskStatus : SPEnum<SPTaskStatus>
     {
         public static readonly SPTaskStatus Created = new SPTaskStatus(0, "created", nameof(Created));
         
         private SPTaskStatus(int id, string name, string displayName = null) : base(id, name, displayName) { }
-    }
-
-    // Reward data in SDK responses
-    [Serializable]
-    public class SPRewardsResponseData : ISpecterApiResponseData
-    {
-        private List<SPItemResponseData> items { get; set; }
-        private List<SPCurrencyResponseData> currencies { get; set; }
     }
 
     // Base for task data in SDK responses
@@ -58,7 +58,8 @@ namespace SpecterSDK.APIModels.ClientModels
         public string name { get; set; }
         public string description { get; set; }
         public string iconUrl { get; set; }
-        public SPRewardsResponseData rewardDetails { get; set; }
+        public SPRewardClaimType rewardClaim { get; set; }
+        public SPRewardDetailsResponseData rewardDetails { get; set; }
     }
 
     [Serializable]

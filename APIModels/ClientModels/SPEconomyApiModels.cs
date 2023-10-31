@@ -69,9 +69,25 @@ namespace SpecterSDK.APIModels.ClientModels
         public List<string> tags { get; set; }
         public Dictionary<string, string> meta { get; set; }
     }
+
+    [Serializable]
+    public class SPBundleResponseData : SPItemResponseBaseData, ISpecterMasterData
+    {
+        public int? quantity { get; set; }
+        public bool isLocked { get; set; }
+        public int? consumeByCount { get; set; }
+        public int? consumeByTime { get; set; }
+        public List<SPUnlockConditionResponseData> unlockConditions { get; set; }
+        public List<SPPriceResponseData> prices { get; set; }
+        public List<string> tags { get; set; }
+        public Dictionary<string, string> meta { get; set; }
+    }
     
     [Serializable]
     public class SPItemResponseDataList : SPResponseDataList<SPItemResponseData> { }
+    
+    [Serializable]
+    public class SPBundleResponseDataList : SPResponseDataList<SPBundleResponseData> { }
 
     // Store item data in SDK responses
     [Serializable]
@@ -87,7 +103,14 @@ namespace SpecterSDK.APIModels.ClientModels
         public string collectionId { get; set; }
         public int amount { get; set; }
     }
-    
+
+    [Serializable]
+    public class SPInventoryBundleResponseData : SPItemResponseBaseData
+    {
+        public string collectionId { get; set; }
+        public int amount { get; set; }
+    }
+
     [Serializable]
     public class SPPriceResponseData
     {

@@ -12,6 +12,6 @@ namespace SpecterSDK.API.ClientAPI.User
     {
         public override SPAuthType AuthType => SPAuthType.AccessToken;
 
-        public SPUserApiClient(SpecterRuntimeConfig config) : base(config) {}
+        public SPUserApiClient(SpecterRuntimeConfig config) : base(config) { }
     }
 }
