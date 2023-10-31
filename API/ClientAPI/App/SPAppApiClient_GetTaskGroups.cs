@@ -33,7 +33,7 @@ namespace SpecterSDK.API.ClientAPI.App
     {
         public async Task<SPGetTaskGroupsResult> GetTaskGroupAsync(SPGetTaskGroupsRequest request)
         {
-            var result = await PostAsync<SPGetTaskGroupsResult, SPTaskGroupResponseDataList>("/v1/client/tasks/get-groups", AuthType, request);
+            var result = await PostAsync<SPGetTaskGroupsResult, SPTaskGroupResponseDataList>("/v1/client/app/get-task-groups", AuthType, request);
             return result;
         }
     }
