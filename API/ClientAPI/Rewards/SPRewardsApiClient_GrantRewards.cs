@@ -84,11 +84,35 @@ namespace SpecterSDK.API.ClientAPI.Rewards
     {
         public List<SpecterInventoryItem> InventoryItemList;
         public List<SpecterWalletCurrency> WalletCurrencyList;
-        public List<SpecterUserProgress> UserProgressList;
-        
+        public List<SpecterGrantProgressionMarker> ProgressionMarkerList;
+        public List<SpecterInventoryBundle> InventoryBundleList;
+
         protected override void InitSpecterObjectsInternal()
         {
-            
+            InventoryItemList = new List<SpecterInventoryItem>();
+            WalletCurrencyList = new List<SpecterWalletCurrency>();
+            ProgressionMarkerList = new List<SpecterGrantProgressionMarker>();
+            InventoryBundleList = new List<SpecterInventoryBundle>();
+
+            foreach (var inventoryItem in Response.data.items)
+            {
+                InventoryItemList.Add(new SpecterInventoryItem(inventoryItem));
+            }
+
+            foreach (var currency in Response.data.currencies)
+            {
+                WalletCurrencyList.Add(new SpecterWalletCurrency(currency));
+            }
+
+            foreach (var progressionMarker in Response.data.progressionMarkers)
+            {
+                ProgressionMarkerList.Add(new SpecterGrantProgressionMarker(progressionMarker));
+            }
+
+            foreach (var bundle in Response.data.bundles)
+            {
+                InventoryBundleList.Add(new SpecterInventoryBundle(bundle));
+            }
         }
     }
 

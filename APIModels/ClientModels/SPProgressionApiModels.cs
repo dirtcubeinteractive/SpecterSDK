@@ -18,19 +18,33 @@ namespace SpecterSDK.APIModels.ClientModels
         public static readonly SPRewardGrantScheduleType Custom = new SPRewardGrantScheduleType(1, nameof(Custom).ToLower(), nameof(Custom));
         private SPRewardGrantScheduleType(int id, string name, string displayName = null) : base(id, name, displayName) { }
     }
-    
+
     [Serializable]
-    public class SPProgressionMarkerResponseData : ISpecterApiResponseData, ISpecterMasterData
+    public class SPProgressionMarkerResponseBaseData : ISpecterApiResponseData
     {
         public string uuid { get; set; }
         public string id { get; set; }
         public string name { get; set; }
         public string description { get; set; }
         public string iconUrl { get; set; }
+       
+    }
+
+    [Serializable]
+    public class SPProgressionMarkerResponseData : SPProgressionMarkerResponseBaseData , ISpecterMasterData
+    {
         public List<string> tags { get; set; }
         public Dictionary<string, string> meta { get; set; }
     }
-    
+
+    [Serializable]
+    public class SPGrantProgressionMarkerResponseData : SPProgressionMarkerResponseBaseData
+    {
+       public int progressionMarkerAmount { get; set; }
+       public int currentLevelNo { get; set; }
+       public int previousLevelNo { get; set; }
+    }
+
     [Serializable]
     public class SPLevelData : ISpecterApiResponseData
     {
@@ -79,7 +93,7 @@ namespace SpecterSDK.APIModels.ClientModels
         public float progressionMarkerAmount { get; set; }
         public List<SPProgressInfoResponseData> progressInfo { get; set; }
     }
-    
+
     [Serializable]
     public class SPProgressInfoResponseData : ISpecterApiResponseData
     {
@@ -87,8 +101,10 @@ namespace SpecterSDK.APIModels.ClientModels
         public int previousLevelNo { get; set; }
         public int amountToNextLevelNo { get; set; }
         public int currentLevelNo { get; set; }
+        public bool isLevelUp { get; set; }
+
     }
-    
+
     [Serializable]
     public class SPUserProgressDataList : SPResponseDataList<SPUserProgressResponseData> { }
 }

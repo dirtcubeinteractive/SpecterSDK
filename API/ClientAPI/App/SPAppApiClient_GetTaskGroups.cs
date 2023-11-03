@@ -11,6 +11,7 @@ namespace SpecterSDK.API.ClientAPI.App
     [Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
     public class SPGetTaskGroupsRequest : SPApiRequestBaseData
     {
+        public List<SPTaskGroupType> taskGroupTypes { get; set; }
         public List<string> taskGroupIds { get; set; }
         public List<string> attributes { get; set; }
         public List<SPApiRequestEntity> entities { get; set; }
@@ -21,7 +22,7 @@ namespace SpecterSDK.API.ClientAPI.App
         public List<SpecterTaskGroup> TaskGroups;
         protected override void InitSpecterObjectsInternal()
         {
-            TaskGroups = new();
+            TaskGroups = new List<SpecterTaskGroup>();
             foreach (var taskGroup in Response.data)
             {
                 TaskGroups.Add(new SpecterTaskGroup(taskGroup)); 
