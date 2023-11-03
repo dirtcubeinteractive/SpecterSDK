@@ -37,7 +37,7 @@ namespace SpecterSDK.APIModels.ClientModels
     public sealed class SPTaskGroupType : SPEnum<SPTaskGroupType>
     {
         public static readonly SPTaskGroupType Mission = new SPTaskGroupType(0, nameof(Mission).ToLower(), nameof(Mission));
-        public static readonly SPTaskGroupType StepSeries = new SPTaskGroupType(1,"step series", nameof(StepSeries));
+        public static readonly SPTaskGroupType StepSeries = new SPTaskGroupType(1,"step-series", nameof(StepSeries));
 
         private SPTaskGroupType(int id, string name, string displayName = null) : base(id, name, displayName) { }
     }
@@ -45,8 +45,17 @@ namespace SpecterSDK.APIModels.ClientModels
     public sealed class SPTaskStatus : SPEnum<SPTaskStatus>
     {
         public static readonly SPTaskStatus Created = new SPTaskStatus(0, "created", nameof(Created));
-        
+        public static readonly SPTaskStatus AckReceived = new SPTaskStatus(1, "ack-received ", nameof(AckReceived));
+
         private SPTaskStatus(int id, string name, string displayName = null) : base(id, name, displayName) { }
+    }
+
+    public sealed class SPTaskGroupStatus : SPEnum<SPTaskGroupStatus>
+    {
+        public static readonly SPTaskGroupStatus Completed = new SPTaskGroupStatus(0, nameof(Completed).ToLower(), nameof(Completed));
+        public static readonly SPTaskGroupStatus Pending = new SPTaskGroupStatus(1,nameof(Pending).ToLower(), nameof(Pending));
+
+        private SPTaskGroupStatus(int id, string name, string displayName = null) : base(id, name, displayName) { }
     }
 
     // Base for task data in SDK responses
@@ -58,16 +67,28 @@ namespace SpecterSDK.APIModels.ClientModels
         public string name { get; set; }
         public string description { get; set; }
         public string iconUrl { get; set; }
+        public bool isLockedByLevel { get; set; }
         public SPRewardClaimType rewardClaim { get; set; }
         public SPRewardDetailsResponseData rewardDetails { get; set; }
     }
 
     [Serializable]
     public class SPTaskResponseData : SPTaskResponseBaseData, ISpecterMasterData
-    {
+    { 
         public List<string> tags { get; set; }
         public Dictionary<string, string> meta { get; set; }
     }
+
+    [Serializable]
+    public class SPUserTaskResponseData : SPTaskResponseBaseData, ISpecterMasterData
+    {
+        public SPTaskStatus status { get; set; }
+        public List<string> tags { get; set; }
+        public Dictionary<string, string> meta { get; set; }
+    }
+
+    [Serializable]
+    public class SPUserTaskResponseDataList : SPResponseDataList<SPUserTaskResponseData> { }
 
     [Serializable]
     public class SPTaskResponseDataList : SPResponseDataList<SPTaskResponseData> { }
@@ -80,19 +101,31 @@ namespace SpecterSDK.APIModels.ClientModels
         public string name { get; set; }
         public string description { get; set; }
         public string iconUrl { get; set; }
-        public int? stepNumber { get; set; }
         public int? stageLength { get; set; }
         public bool stageReset { get; set; }
-        public List<SPTaskResponseData> tasks { get; set; }
+        public int? stepNumber { get; set; }
         public SPRewardDetailsResponseData rewardDetails { get; set; }
+        public SPTaskType taskType { get; set; }
+        public SPTaskGroupType taskGroupType { get; set; }
     }
 
     [Serializable]
     public class SPTaskGroupResponseData : SPTaskGroupResponseBaseData
     {
-        public SPTaskType taskType { get; set; }
-        public SPTaskGroupType taskGroupType { get; set; }
+        public List<SPTaskResponseData> tasks { get; set; }
     }
+
+    [Serializable]
+    public class SPUserTaskGroupResponseData : SPTaskGroupResponseBaseData
+    {
+        public SPTaskGroupStatus status { get; set; }
+        public int completedTasksCount { get; set;}
+        public int totalTasksCount { get; set;}
+        public List<SPUserTaskResponseData> tasks { get; set; }
+    }
+
+    [Serializable]
+    public class SPUserTaskGroupResponseDataList : SPResponseDataList<SPUserTaskGroupResponseData> { }
 
     [Serializable]
     public class SPTaskGroupResponseDataList : SPResponseDataList<SPTaskGroupResponseData> { }

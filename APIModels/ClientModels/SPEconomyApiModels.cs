@@ -2,9 +2,18 @@ using System;
 using System.Collections.Generic;
 using SpecterSDK.APIModels.Interfaces;
 using SpecterSDK.Shared;
+using SpecterSDK.Shared.SPEnum;
 
 namespace SpecterSDK.APIModels.ClientModels
 {
+    public sealed class SPCurrencyType : SPEnum<SPCurrencyType>
+    {
+        public static readonly SPCurrencyType Real = new SPCurrencyType(0, nameof(Real).ToLower(), nameof(Real));
+        public static readonly SPCurrencyType Virtual = new SPCurrencyType(1, nameof(Virtual).ToLower(), nameof(Virtual));
+
+        private SPCurrencyType(int id, string name, string displayName = null) : base(id, name, displayName) { }
+    }
+
     #region Response Data Models
 
     // Base for currency data in SDK responses
@@ -17,7 +26,7 @@ namespace SpecterSDK.APIModels.ClientModels
         public string description { get; set; }
         public string code { get; set; }
         public string iconUrl { get; set; }
-        public string type { get; set; }
+        public SPCurrencyType type { get; set; }
 
     }
     

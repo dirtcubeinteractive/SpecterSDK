@@ -11,6 +11,11 @@ namespace SpecterSDK.API.ClientAPI.Progression
     public class SPGetUserProgressRequest : SPApiRequestBaseData
     {
         public List<string> progressionMarkerIds { get; set; }
+        public string sortOrder { get; set; }
+        public string sortField { get; set; }
+        public int limit { get; set; }
+        public int offset { get; set; }
+
     }
 
     public class SPGetUserProgressResult : SpecterApiResultBase<SPUserProgressDataList>

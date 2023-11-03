@@ -12,7 +12,7 @@ namespace SpecterSDK.ObjectModels
     public abstract class SpecterCurrencyBase : SpecterResource
     {
         public string Code;
-        public string Type;
+        public SPCurrencyType Type;
 
         protected SpecterCurrencyBase(SPCurrencyResponseBaseData data)
         {
@@ -52,6 +52,8 @@ namespace SpecterSDK.ObjectModels
         
         public SpecterCurrency(SPCurrencyResponseData data) : base(data)
         {
+            Tags = new List<string>();
+            Meta = new Dictionary<string, string>();
             Tags = data.tags;
             Meta = data.meta;
         }

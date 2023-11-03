@@ -30,6 +30,7 @@ namespace SpecterSDK.APIModels.ClientModels
     public class SPCurrencyRewardData : SPRewardBaseData
     {
         public string code { get; set; }
+        public SPCurrencyType type { get; set; }
     }
     
     [Serializable]
@@ -60,7 +61,7 @@ namespace SpecterSDK.APIModels.ClientModels
         public List<SPInventoryItemResponseData> items { get; set; }
         public List<SPInventoryBundleResponseData> bundles { get; set; }
         public List<SPWalletCurrencyResponseData> currencies { get; set; }
-        public List<SPUserProgressResponseData> progress { get; set; }
+        public List<SPGrantProgressionMarkerResponseData> progressionMarkers { get; set; }
     }
 
     [Serializable]
