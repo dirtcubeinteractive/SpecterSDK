@@ -29,7 +29,7 @@ namespace SpecterSDK.APIModels.ClientModels
         public SPCurrencyType type { get; set; }
 
     }
-    
+
     // Currency master data in SDK responses
     [Serializable]
     public class SPCurrencyResponseData : SPCurrencyResponseBaseData, ISpecterMasterData
@@ -37,10 +37,10 @@ namespace SpecterSDK.APIModels.ClientModels
         public List<string> tags { get; set; }
         public Dictionary<string, string> meta { get; set; }
     }
-    
+
     [Serializable]
     public class SPCurrencyResponseDataList : SPResponseDataList<SPCurrencyResponseData> { }
-    
+
     [Serializable]
     public class SPRealWorldCurrencyResponseData
     {
@@ -66,8 +66,8 @@ namespace SpecterSDK.APIModels.ClientModels
     [Serializable]
     public abstract class SPItemResponseBaseData : ISpecterApiResponseData
     {
-        public string id { get; set; }
         public string uuid { get; set; }
+        public string id { get; set; }
         public string name { get; set; }
         public string description { get; set; }
         public string iconUrl { get; set; }
@@ -75,8 +75,8 @@ namespace SpecterSDK.APIModels.ClientModels
         public bool isEquippable { get; set; }
         public bool isTradable { get; set; }
         public bool isStackable { get; set; }
-        public bool isRentable { get; set; }
         public int? maxNumberOfStack { get; set; }
+        public bool isRentable { get; set; }
     }
 
     // Item master data in SDK responses
@@ -105,10 +105,10 @@ namespace SpecterSDK.APIModels.ClientModels
         public List<string> tags { get; set; }
         public Dictionary<string, string> meta { get; set; }
     }
-    
+
     [Serializable]
     public class SPItemResponseDataList : SPResponseDataList<SPItemResponseData> { }
-    
+
     [Serializable]
     public class SPBundleResponseDataList : SPResponseDataList<SPBundleResponseData> { }
 
@@ -118,7 +118,7 @@ namespace SpecterSDK.APIModels.ClientModels
     {
         public string storeId { get; set; }
     }
-    
+
     // User inventory item data in SDK responses
     [Serializable]
     public class SPInventoryItemResponseData : SPItemResponseBaseData
@@ -144,7 +144,7 @@ namespace SpecterSDK.APIModels.ClientModels
         public int discount { get; set; }
         public int bonusCashAllowance { get; set; }
         public int? gamePlatformMasterId { get; set; }
-        
+
         // This is any currency configured on the Specter dashboard
         public SPCurrencyResponseData virtualCurrency { get; set; }
         // This is an actual currency (eg: USD, INR, etc.)

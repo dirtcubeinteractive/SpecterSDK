@@ -26,10 +26,16 @@ namespace SpecterSDK.API.ClientAPI.Inventory
     {
         public List<SpecterInventoryItem> Items;
         public List<SpecterInventoryBundle> Bundles;
-        
+
         protected override void InitSpecterObjectsInternal()
         {
-            
+            Items = new List<SpecterInventoryItem>();
+            foreach (var itemData in Response.data.items)
+                Items.Add(new SpecterInventoryItem(itemData));
+
+            Bundles = new List<SpecterInventoryBundle>();
+            foreach (var bundleData in Response.data.bundles)
+                Bundles.Add(new SpecterInventoryBundle(bundleData));
         }
     }
 
