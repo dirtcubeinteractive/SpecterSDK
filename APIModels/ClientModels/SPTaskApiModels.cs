@@ -60,36 +60,44 @@ namespace SpecterSDK.APIModels.ClientModels
 
     // Base for task data in SDK responses
     [Serializable]
-    public class SPTaskResponseBaseData : ISpecterApiResponseData
+    public class SPTaskResponseBaseData : ISpecterApiResponseData , ISpecterMasterData
     {
         public string uuid { get; set; }
         public string id { get; set; }
         public string name { get; set; }
         public string description { get; set; }
         public string iconUrl { get; set; }
-        public bool isLockedByLevel { get; set; }
         public SPRewardClaimType rewardClaim { get; set; }
         public SPRewardDetailsResponseData rewardDetails { get; set; }
-    }
-
-    [Serializable]
-    public class SPTaskResponseData : SPTaskResponseBaseData, ISpecterMasterData
-    { 
         public List<string> tags { get; set; }
         public Dictionary<string, string> meta { get; set; }
+        
     }
 
     [Serializable]
-    public class SPUserTaskResponseData : SPTaskResponseBaseData, ISpecterMasterData
+    public class SPForceCompleteTaskResponseData : SPTaskResponseBaseData
     {
+        public SPTaskGroupDetailsResponseData taskGroupDetails { get; set; }
+    }
+
+    [Serializable]
+    public class SPTaskResponseData : SPTaskResponseBaseData
+    { 
+        public bool isLockedByLevel { get; set; }
+    }
+
+    [Serializable]
+    public class SPUserTaskResponseData : SPTaskResponseBaseData
+    {
+        public bool isLockedByLevel { get; set; }
         public SPTaskStatus status { get; set; }
-        public List<string> tags { get; set; }
-        public Dictionary<string, string> meta { get; set; }
     }
 
     [Serializable]
     public class SPUserTaskResponseDataList : SPResponseDataList<SPUserTaskResponseData> { }
-
+    
+    [Serializable]
+    public class SPForceCompleteTaskResponseDataList : SPResponseDataList<SPForceCompleteTaskResponseData> { }
     [Serializable]
     public class SPTaskResponseDataList : SPResponseDataList<SPTaskResponseData> { }
 
@@ -107,6 +115,12 @@ namespace SpecterSDK.APIModels.ClientModels
         public SPRewardDetailsResponseData rewardDetails { get; set; }
         public SPTaskType taskType { get; set; }
         public SPTaskGroupType taskGroupType { get; set; }
+    }
+
+    [Serializable]
+    public class SPTaskGroupDetailsResponseData : SPTaskGroupResponseBaseData
+    {
+        
     }
 
     [Serializable]

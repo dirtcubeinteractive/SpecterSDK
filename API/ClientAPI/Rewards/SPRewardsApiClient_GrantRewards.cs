@@ -12,14 +12,14 @@ namespace SpecterSDK.API.ClientAPI.Rewards
     [Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
     public class SPGrantRewardsRequest : SPApiRequestBaseData
     {
-        public List<SPRewardGrantDetails> rewardDetails;
+        public List<SPRewardGrantDetail> rewardDetails;
     }
 
     [Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPRewardGrantDetails
+    public class SPRewardGrantDetail
     {
         public SPRewardSource source;
-        public SPRewardDetail rewards;
+        public SPRewards rewards;
     }
 
     public class SPRewardSource
@@ -63,12 +63,6 @@ namespace SpecterSDK.API.ClientAPI.Rewards
            this.amount = amount;
         }
     }
-
-    [Serializable]
-    public class SPRewardDetail
-    {
-        public SPRewards rewards { get; set; } 
-    }
     
     [Serializable]
     [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
@@ -84,14 +78,14 @@ namespace SpecterSDK.API.ClientAPI.Rewards
     {
         public List<SpecterInventoryItem> InventoryItemList;
         public List<SpecterWalletCurrency> WalletCurrencyList;
-        public List<SpecterGrantProgressionMarker> ProgressionMarkerList;
+        public List<SpecterGrantProgress> GrantedProgressList;
         public List<SpecterInventoryBundle> InventoryBundleList;
 
         protected override void InitSpecterObjectsInternal()
         {
             InventoryItemList = new List<SpecterInventoryItem>();
             WalletCurrencyList = new List<SpecterWalletCurrency>();
-            ProgressionMarkerList = new List<SpecterGrantProgressionMarker>();
+            GrantedProgressList = new List<SpecterGrantProgress>();
             InventoryBundleList = new List<SpecterInventoryBundle>();
 
             foreach (var inventoryItem in Response.data.items)
@@ -104,9 +98,9 @@ namespace SpecterSDK.API.ClientAPI.Rewards
                 WalletCurrencyList.Add(new SpecterWalletCurrency(currency));
             }
 
-            foreach (var progressionMarker in Response.data.progressionMarkers)
+            foreach (var progressionMarker in Response.data.progress)
             {
-                ProgressionMarkerList.Add(new SpecterGrantProgressionMarker(progressionMarker));
+                GrantedProgressList.Add(new SpecterGrantProgress(progressionMarker));
             }
 
             foreach (var bundle in Response.data.bundles)

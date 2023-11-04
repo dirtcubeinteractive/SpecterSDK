@@ -20,25 +20,19 @@ namespace SpecterSDK.APIModels.ClientModels
     }
 
     [Serializable]
-    public class SPProgressionMarkerResponseBaseData : ISpecterApiResponseData
+    public class SPProgressionMarkerResponseData : ISpecterMasterData
     {
         public string uuid { get; set; }
         public string id { get; set; }
         public string name { get; set; }
         public string description { get; set; }
         public string iconUrl { get; set; }
-       
-    }
-
-    [Serializable]
-    public class SPProgressionMarkerResponseData : SPProgressionMarkerResponseBaseData , ISpecterMasterData
-    {
         public List<string> tags { get; set; }
         public Dictionary<string, string> meta { get; set; }
     }
 
     [Serializable]
-    public class SPGrantProgressionMarkerResponseData : SPProgressionMarkerResponseBaseData
+    public class SPGrantProgressResponseData : SPProgressionResponseBaseData
     {
        public int progressionMarkerAmount { get; set; }
        public int currentLevelNo { get; set; }
@@ -101,8 +95,6 @@ namespace SpecterSDK.APIModels.ClientModels
         public int previousLevelNo { get; set; }
         public int amountToNextLevelNo { get; set; }
         public int currentLevelNo { get; set; }
-        public bool isLevelUp { get; set; }
-
     }
 
     [Serializable]

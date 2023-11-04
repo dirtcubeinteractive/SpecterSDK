@@ -23,12 +23,12 @@ namespace SpecterSDK.ObjectModels
         }
     }
 
-    public class SpecterGrantProgressionMarker : SpecterResource
+    public class SpecterGrantProgress : SpecterResource
     {
         public int ProgressionMarkerAmount;
         public int CurrentLevelNo;
         public int PreviousLevelNo; 
-        public SpecterGrantProgressionMarker(SPGrantProgressionMarkerResponseData data)
+        public SpecterGrantProgress(SPGrantProgressResponseData data)
         {
             Uuid = data.uuid;
             Id = data.id;
@@ -124,14 +124,12 @@ namespace SpecterSDK.ObjectModels
         public int AmountToNextLevelNo;
         public int PreviousLevelNo;
         public string ProgressionSystemId;
-        public bool IsLevelUp;
         public SpecterProgressInfo(SPProgressInfoResponseData data)
         {
             CurrentLevelNo = data.currentLevelNo;
             AmountToNextLevelNo = data.amountToNextLevelNo;
             PreviousLevelNo = data.previousLevelNo;
             ProgressionSystemId = data.progressionSystemId;
-            IsLevelUp = data.isLevelUp;
         }
     }
 }

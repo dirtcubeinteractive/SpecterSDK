@@ -5,12 +5,13 @@ using SpecterSDK.ObjectModels.Interfaces;
 
 namespace SpecterSDK.ObjectModels
 {
-    public class SpecterTaskBase : SpecterResource 
+    public class SpecterTaskBase : SpecterResource , ISpecterMasterObject
     {
         public SPRewardClaimType RewardClaim;
         public SpecterReward SpecterReward;
-        public bool IsLockedByLevel;
-
+        public List<string> Tags { get; set; }
+        public Dictionary<string, string> Meta { get; set; }
+        
         public SpecterTaskBase() { }
         public SpecterTaskBase(SPTaskResponseBaseData data)
         {
@@ -20,40 +21,44 @@ namespace SpecterSDK.ObjectModels
             Description = data.description;
             IconUrl = data.iconUrl;
             RewardClaim = data.rewardClaim;
-            IsLockedByLevel = data.isLockedByLevel;
+            Tags = data.tags;
+            Meta = data.meta;
             if (data.rewardDetails != null)
                 SpecterReward = new SpecterReward(data.rewardDetails);
         }
-
     }
 
-    public class SpecterTask : SpecterTaskBase, ISpecterMasterObject
+    public class SpecterForceCompletedTask : SpecterTaskBase
     {
-        public List<string> Tags { get; set; }
-        public Dictionary<string, string> Meta { get; set; }
-        public SpecterTask() { }
-        public SpecterTask(SPTaskResponseData data) : base(data)
+        public SpecterTaskGroupDetails TaskGroupDetails;
+        public SpecterForceCompletedTask() 
         {
-            Tags = new List<string>();
-            Meta = new Dictionary<string, string>();
-            Tags = data.tags;
-            Meta = data.meta;
+        }
+        public SpecterForceCompletedTask(SPForceCompleteTaskResponseData data) : base(data)
+        {
         }
     }
 
-    public class SpecterUserTask : SpecterTaskBase , ISpecterMasterObject
+    public class SpecterTask : SpecterTaskBase
     {
-        public List<string> Tags { get; set; }
-        public Dictionary<string, string> Meta { get; set; }
+        public bool IsLockedByLevel;
+       
+        public SpecterTask() { }
+        public SpecterTask(SPTaskResponseData data) : base(data)
+        {
+            IsLockedByLevel = data.isLockedByLevel;
+        }
+    }
+
+    public class SpecterUserTask : SpecterTaskBase
+    {
+        public bool IsLockedByLevel;
         public SPTaskStatus Status;
         public SpecterUserTask() { }
         public SpecterUserTask(SPUserTaskResponseData data) : base(data)
         {
-            Tags = new List<string>();
-            Meta = new Dictionary<string, string>();
-            Tags = data.tags;
-            Meta = data.meta;
             Status = data.status;
+            IsLockedByLevel = data.isLockedByLevel;
         }
     }
 
@@ -85,6 +90,13 @@ namespace SpecterSDK.ObjectModels
         }
     }
 
+    public class SpecterTaskGroupDetails : SpecterTaskGroupBase
+    {
+        public SpecterTaskGroupDetails(SPTaskGroupDetailsResponseData data) : base(data)
+        {
+            
+        }
+    }
     public class SpecterTaskGroup : SpecterTaskGroupBase
     {
         public List<SpecterTask> Tasks;

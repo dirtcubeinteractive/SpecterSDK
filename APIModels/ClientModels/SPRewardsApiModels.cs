@@ -61,7 +61,7 @@ namespace SpecterSDK.APIModels.ClientModels
         public List<SPInventoryItemResponseData> items { get; set; }
         public List<SPInventoryBundleResponseData> bundles { get; set; }
         public List<SPWalletCurrencyResponseData> currencies { get; set; }
-        public List<SPGrantProgressionMarkerResponseData> progressionMarkers { get; set; }
+        public List<SPGrantProgressResponseData> progress { get; set; }
     }
 
     [Serializable]
