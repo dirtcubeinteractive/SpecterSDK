@@ -14,12 +14,12 @@ namespace SpecterSDK.API.ClientAPI.Progression
         public string progressionMarkerId { get; set; }
     }
 
-    public class SPUpdateProgressionMarkerResult : SpecterApiResultBase<SPUpdatedProgressResponseData>
+    public class SPUpdateProgressionMarkerResult : SpecterApiResultBase<SPUpdatedUserProgressResponseData>
     {
-        public SpecterUpdatedProgress UpdatedProgression;
+        public SpecterUpdatedUserProgress UpdatedProgression;
         protected override void InitSpecterObjectsInternal()
         {
-            UpdatedProgression = new SpecterUpdatedProgress(Response.data);
+            UpdatedProgression = new SpecterUpdatedUserProgress(Response.data);
         }
     }
 
@@ -27,7 +27,7 @@ namespace SpecterSDK.API.ClientAPI.Progression
     {
         public async Task<SPUpdateProgressionMarkerResult> UpdateProgressionMarkerAsync(SPUpdateProgressionMarkerRequest request)
         {
-            var task = await PostAsync<SPUpdateProgressionMarkerResult, SPUpdatedProgressResponseData>("/v1/client/progression/update-marker", AuthType, request);
+            var task = await PostAsync<SPUpdateProgressionMarkerResult, SPUpdatedUserProgressResponseData>("/v1/client/progression/update-marker", AuthType, request);
             return task;
         }
     }

@@ -72,23 +72,27 @@ namespace SpecterSDK.APIModels.ClientModels
     
     [Serializable]
     public class SPProgressionSystemDataList : SPResponseDataList<SPProgressionSystemResponseData> { }
-    
+
     [Serializable]
-    public class SPUserProgressResponseData : SPProgressionResponseBaseData
+    public class SPUserProgressResponseBaseData : SPProgressionResponseBaseData
     {
         public float progressionMarkerAmount { get; set; }
+    }
+
+    [Serializable]
+    public class SPUserProgressResponseData : SPUserProgressResponseBaseData
+    {
         public List<SPUserProgressInfoResponseData> progressInfo { get; set; }
     }
 
     [Serializable]
-    public class SPUpdatedProgressResponseData : SPProgressionResponseBaseData
+    public class SPUpdatedUserProgressResponseData : SPUserProgressResponseBaseData
     {
-        public float progressionMarkerAmount { get; set; }
-        public List<SPProgressInfoResponseData> progressInfo { get; set; }
+        public List<SPUpdatedUserProgressInfoResponseData> progressInfo { get; set; }
     }
 
     [Serializable]
-    public class SPProgressInfoResponseBaseData : ISpecterApiResponseData
+    public class SPUserProgressInfoResponseData : ISpecterApiResponseData
     {
         public string progressionSystemId { get; set; }
         public int previousLevelNo { get; set; }
@@ -97,16 +101,10 @@ namespace SpecterSDK.APIModels.ClientModels
     }
 
     [Serializable]
-    public class SPUserProgressInfoResponseData : SPProgressInfoResponseBaseData
-    {
-    }
-
-    [Serializable]
-    public class SPProgressInfoResponseData : SPProgressInfoResponseBaseData
+    public class SPUpdatedUserProgressInfoResponseData : SPUserProgressInfoResponseData
     {
         public bool isLevelUp { get; set; }
     }
-
 
     [Serializable]
     public class SPUserProgressDataList : SPResponseDataList<SPUserProgressResponseData> { }

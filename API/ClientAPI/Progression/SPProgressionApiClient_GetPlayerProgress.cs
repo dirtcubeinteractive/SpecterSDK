@@ -15,13 +15,11 @@ namespace SpecterSDK.API.ClientAPI.Progression
         public string sortField { get; set; }
         public int limit { get; set; }
         public int offset { get; set; }
-
     }
 
     public class SPGetUserProgressResult : SpecterApiResultBase<SPUserProgressDataList>
     {
         public List<SpecterUserProgress> Progressions;
-
         protected override void InitSpecterObjectsInternal()
         {
             Progressions = new List<SpecterUserProgress>();

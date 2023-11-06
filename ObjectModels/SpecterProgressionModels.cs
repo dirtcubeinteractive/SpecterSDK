@@ -8,7 +8,6 @@ namespace SpecterSDK.ObjectModels
     {
         public List<string> Tags { get; set; }
         public Dictionary<string, string> Meta { get; set; }
-
         public SpecterProgressionMarker(SPProgressionMarkerResponseData data)
         {
             Uuid = data.uuid;
@@ -22,7 +21,6 @@ namespace SpecterSDK.ObjectModels
             Meta = data.meta;
         }
     }
-
 
     public class SpecterLevel : SpecterObject
     {
@@ -77,13 +75,11 @@ namespace SpecterSDK.ObjectModels
             }
         }
     }
-    
-    public class SpecterUserProgress : SpecterResource
+
+    public class SpecterUserProgressBase : SpecterResource
     {
         public float ProgressionMarkerAmount;
-        public List<SpecterUserProgressInfo> ProgressInfos; 
-
-        public SpecterUserProgress(SPUserProgressResponseData data)
+        public SpecterUserProgressBase(SPUserProgressResponseBaseData data)
         {
             Uuid = data.uuid;
             Id = data.id;
@@ -91,6 +87,14 @@ namespace SpecterSDK.ObjectModels
             Description = data.description;
             IconUrl = data.iconUrl;
             ProgressionMarkerAmount = data.progressionMarkerAmount;
+        }
+    }
+    
+    public class SpecterUserProgress : SpecterUserProgressBase
+    {
+        public List<SpecterUserProgressInfo> ProgressInfos; 
+        public SpecterUserProgress(SPUserProgressResponseData data) : base(data)
+        {
             ProgressInfos = new List<SpecterUserProgressInfo>();
             foreach (var progression in data.progressInfo)
             {
@@ -99,34 +103,26 @@ namespace SpecterSDK.ObjectModels
         }
     }
 
-    public class SpecterUpdatedProgress : SpecterResource
+    public class SpecterUpdatedUserProgress : SpecterUserProgressBase
     {
-        public float ProgressionMarkerAmount;
-        public List<SpecterProgressInfo> ProgressInfos;
-        public SpecterUpdatedProgress(SPUpdatedProgressResponseData data)
+        public List<SpecterUpdatedUserProgressInfo> ProgressInfos;
+        public SpecterUpdatedUserProgress(SPUpdatedUserProgressResponseData data) : base(data)
         {
-            Uuid = data.uuid;
-            Id = data.id;
-            Name = data.name;
-            Description = data.description;
-            IconUrl = data.iconUrl;
-            ProgressionMarkerAmount = data.progressionMarkerAmount;
-            ProgressInfos = new List<SpecterProgressInfo>();
+            ProgressInfos = new List<SpecterUpdatedUserProgressInfo>();
             foreach (var progression in data.progressInfo)
             {
-                ProgressInfos.Add(new SpecterProgressInfo(progression));
+                ProgressInfos.Add(new SpecterUpdatedUserProgressInfo(progression));
             }
         }
-
-
     }
-    public class SpecterProgressInfoBase : SpecterObject
+
+    public class SpecterUserProgressInfo : SpecterObject
     {
         public int CurrentLevelNo;
         public int AmountToNextLevelNo;
         public int PreviousLevelNo;
         public string ProgressionSystemId;
-        public SpecterProgressInfoBase(SPProgressInfoResponseBaseData data)
+        public SpecterUserProgressInfo(SPUserProgressInfoResponseData data)
         {
             CurrentLevelNo = data.currentLevelNo;
             AmountToNextLevelNo = data.amountToNextLevelNo;
@@ -134,18 +130,10 @@ namespace SpecterSDK.ObjectModels
             ProgressionSystemId = data.progressionSystemId;
         }
     }
-
-    public class SpecterUserProgressInfo : SpecterProgressInfoBase
-    {
-        public SpecterUserProgressInfo(SPUserProgressInfoResponseData data) : base(data)
-        {
-        }
-    }
-
-    public class SpecterProgressInfo : SpecterProgressInfoBase
+    public class SpecterUpdatedUserProgressInfo : SpecterUserProgressInfo
     {
         public bool IsLevelUp;
-        public SpecterProgressInfo(SPProgressInfoResponseData data) : base(data)
+        public SpecterUpdatedUserProgressInfo(SPUpdatedUserProgressInfoResponseData data) : base(data)
         {
             IsLevelUp = data.isLevelUp;
         }

@@ -78,14 +78,14 @@ namespace SpecterSDK.API.ClientAPI.Rewards
     {
         public List<SpecterInventoryItem> InventoryItemList;
         public List<SpecterWalletCurrency> WalletCurrencyList;
-        public List<SpecterUpdatedProgress> Progressions;
+        public List<SpecterUpdatedUserProgress> Progressions;
         public List<SpecterInventoryBundle> InventoryBundleList;
 
         protected override void InitSpecterObjectsInternal()
         {
             InventoryItemList = new List<SpecterInventoryItem>();
             WalletCurrencyList = new List<SpecterWalletCurrency>();
-            Progressions = new List<SpecterUpdatedProgress>();
+            Progressions = new List<SpecterUpdatedUserProgress>();
             InventoryBundleList = new List<SpecterInventoryBundle>();
 
             foreach (var inventoryItem in Response.data.items)
@@ -100,7 +100,7 @@ namespace SpecterSDK.API.ClientAPI.Rewards
 
             foreach (var progress in Response.data.progress)
             {
-                Progressions.Add(new SpecterUpdatedProgress(progress));
+                Progressions.Add(new SpecterUpdatedUserProgress(progress));
             }
 
             foreach (var bundle in Response.data.bundles)

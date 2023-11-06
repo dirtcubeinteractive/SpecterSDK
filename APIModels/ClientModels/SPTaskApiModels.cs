@@ -60,7 +60,7 @@ namespace SpecterSDK.APIModels.ClientModels
 
     // Base for task data in SDK responses
     [Serializable]
-    public class SPTaskResponseBaseData : ISpecterApiResponseData , ISpecterMasterData
+    public class SPTaskResponseData : ISpecterApiResponseData , ISpecterMasterData
     {
         public string uuid { get; set; }
         public string id { get; set; }
@@ -71,25 +71,17 @@ namespace SpecterSDK.APIModels.ClientModels
         public SPRewardDetailsResponseData rewardDetails { get; set; }
         public List<string> tags { get; set; }
         public Dictionary<string, string> meta { get; set; }
-        
     }
 
     [Serializable]
-    public class SPForceCompleteTaskResponseData : SPTaskResponseBaseData
+    public class SPForceCompleteTaskResponseData : SPTaskResponseData
     {
         public SPTaskGroupDetailsResponseData taskGroupDetails { get; set; }
     }
 
     [Serializable]
-    public class SPTaskResponseData : SPTaskResponseBaseData
-    { 
-        public bool isLockedByLevel { get; set; }
-    }
-
-    [Serializable]
-    public class SPUserTaskResponseData : SPTaskResponseBaseData
+    public class SPUserTaskResponseData : SPTaskResponseData
     {
-        public bool isLockedByLevel { get; set; }
         public SPTaskStatus status { get; set; }
     }
 

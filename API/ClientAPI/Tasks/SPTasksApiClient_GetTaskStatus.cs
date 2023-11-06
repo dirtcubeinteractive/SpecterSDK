@@ -20,13 +20,13 @@ namespace SpecterSDK.API.ClientAPI.Tasks
 
     public class SPGetTaskStatusResult : SpecterApiResultBase<SPUserTaskResponseDataList>
     {
-        public List<SpecterUserTask> UserTasks;
+        public List<SpecterTask> Tasks;
         protected override void InitSpecterObjectsInternal()
         {
-            UserTasks = new List<SpecterUserTask>();
+            Tasks = new List<SpecterTask>();
             foreach (var taskData in Response.data)
             {
-                UserTasks.Add(new SpecterUserTask(taskData));
+                Tasks.Add(new SpecterTask(taskData));
             }
         }
     }
