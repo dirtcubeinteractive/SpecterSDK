@@ -30,4 +30,16 @@ namespace SpecterSDK.Shared
         
         public SPPriceTypes(int id, string name, string displayName = null) : base(id, name, displayName) { }
     }
+
+    //-- Sanjay's code
+    [Serializable]
+    public class SPRewardGrantType : SPEnum<SPRewardGrantType>
+    {
+        public static readonly SPRewardGrantType Client = new SPRewardGrantType(0, nameof(Client).ToLower(), nameof(Client));
+      
+        public static readonly SPRewardGrantType Server = new SPRewardGrantType(0, nameof(Client).ToLower(), nameof(Client));
+
+        public SPRewardGrantType(int id, string name, string displayName = null) : base(id, name, displayName) { }
+
+    }
 }

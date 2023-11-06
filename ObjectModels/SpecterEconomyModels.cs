@@ -49,7 +49,7 @@ namespace SpecterSDK.ObjectModels
     {
         public List<string> Tags { get; set; }
         public Dictionary<string, string> Meta { get; set; }
-        
+
         public SpecterCurrency(SPCurrencyResponseData data) : base(data)
         {
             Tags = new List<string>();
@@ -86,20 +86,20 @@ namespace SpecterSDK.ObjectModels
         public bool IsTradable;
         public bool IsStackable;
         public bool IsRentable;
-        public int MaxNumberOfStack;
+        public int? MaxNumberOfStack;
     }
 
     public class SpecterItem : SpecterItemBase, ISpecterMasterObject
     {
-        public int quantity;
-        public bool isLocked;
-        public int consumeByCount;
-        public int consumeByTime;
-        public List<SpecterPrice> prices;
-        public List<SpecterUnlockCondition> unlockConditions;
+        public int Quantity;
+        public bool IsLocked;
+        public int ConsumeByCount;
+        public int ConsumeByTime;
+        public List<SpecterPrice> Prices;
+        public List<SpecterUnlockCondition> UnlockConditions;
         public List<string> Tags { get; set; }
         public Dictionary<string, string> Meta { get; set; }
-        
+
         public SpecterItem() { }
         public SpecterItem(SPItemResponseData data)
         {
@@ -111,21 +111,21 @@ namespace SpecterSDK.ObjectModels
             Tags = data.tags;
             Meta = data.meta;
 
-            unlockConditions = new List<SpecterUnlockCondition>();
+            UnlockConditions = new List<SpecterUnlockCondition>();
             if (data.unlockConditions != null)
             {
                 foreach (var conditionData in data.unlockConditions)
                 {
-                    unlockConditions.Add(new SpecterUnlockCondition(conditionData));
+                    UnlockConditions.Add(new SpecterUnlockCondition(conditionData));
                 }
             }
 
-            prices = new List<SpecterPrice>();
+            Prices = new List<SpecterPrice>();
             if (data.prices != null)
             {
                 foreach (var price in data.prices)
                 {
-                    prices.Add(new SpecterPrice(price));
+                    Prices.Add(new SpecterPrice(price));
                 }
             }
         }
@@ -134,7 +134,7 @@ namespace SpecterSDK.ObjectModels
     public class SpecterStoreItem : SpecterItem
     {
         public string StoreId;
-        
+
         public SpecterStoreItem() : base() { }
         public SpecterStoreItem(SPStoreItemResponseData data) : base(data)
         {
@@ -149,7 +149,20 @@ namespace SpecterSDK.ObjectModels
 
         public SpecterInventoryItem(SPInventoryItemResponseData data)
         {
-            
+            Uuid = data.uuid;
+            Id = data.id;
+            Name = data.name;
+            Description = data.description;
+            IconUrl = data.iconUrl;
+            IsConsumable = data.isConsumable;
+            IsEquippable = data.isEquippable;
+            IsTradable = data.isTradable;
+            IsStackable = data.isStackable;
+            IsRentable = data.isRentable;
+            MaxNumberOfStack = data.maxNumberOfStack;
+
+            CollectionId = data.collectionId;
+            Amount = data.amount;
         }
     }
 
@@ -160,7 +173,23 @@ namespace SpecterSDK.ObjectModels
 
         public SpecterInventoryBundle(SPInventoryBundleResponseData data)
         {
-            
+
+            Uuid = data.uuid;
+            Id = data.id;
+            Name = data.name;
+            Description = data.description;
+            IconUrl = data.iconUrl;
+            IsConsumable = data.isConsumable;
+            IsEquippable = data.isEquippable;
+            IsTradable = data.isTradable;
+            IsStackable = data.isStackable;
+            IsRentable = data.isRentable;
+            MaxNumberOfStack = data.maxNumberOfStack;
+
+            CollectionId = data.collectionId;
+            Amount = data.amount;
+
+
         }
     }
 

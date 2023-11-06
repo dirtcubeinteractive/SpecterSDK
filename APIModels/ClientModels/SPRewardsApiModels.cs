@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using SpecterSDK.APIModels.Interfaces;
+using SpecterSDK.Shared;
 using SpecterSDK.Shared.SPEnum;
 
 namespace SpecterSDK.APIModels.ClientModels
@@ -68,7 +69,12 @@ namespace SpecterSDK.APIModels.ClientModels
     public class SPRewardHistoryEntryData : SPRewardBaseData
     {
         public SPRewardClaimStatus status { get; set; }
-        public SPRewardClaimType rewardGrant { get; set; }
+
+        //-- Sanjay's code
+        public SPRewardGrantType rewardGrant { get; set; }
+        public SPRewardSourceType sourceType { get; set; }
+        public string sourceId { get; set; }
+
     }
     
     public class SPGetRewardHistoryResponseData : ISpecterApiResponseData
@@ -76,6 +82,6 @@ namespace SpecterSDK.APIModels.ClientModels
         public List<SPRewardHistoryEntryData> items { get; set; }
         public List<SPRewardHistoryEntryData> bundles { get; set; }
         public List<SPRewardHistoryEntryData> currencies { get; set; }
-        public List<SPRewardHistoryEntryData> progressionMarkers { get; set; }
+        public List<SPRewardHistoryEntryData> progress { get; set; }
     }
 }
