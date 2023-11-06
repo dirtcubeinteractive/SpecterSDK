@@ -23,24 +23,6 @@ namespace SpecterSDK.ObjectModels
         }
     }
 
-    public class SpecterGrantProgress : SpecterResource
-    {
-        public int ProgressionMarkerAmount;
-        public int CurrentLevelNo;
-        public int PreviousLevelNo; 
-        public SpecterGrantProgress(SPGrantProgressResponseData data)
-        {
-            Uuid = data.uuid;
-            Id = data.id;
-            Name = data.name;
-            Description = data.description;
-            IconUrl = data.iconUrl;
-            ProgressionMarkerAmount = data.progressionMarkerAmount;
-            CurrentLevelNo = data.currentLevelNo;
-            PreviousLevelNo = data.previousLevelNo;
-        }
-    }
-
 
     public class SpecterLevel : SpecterObject
     {
@@ -99,7 +81,7 @@ namespace SpecterSDK.ObjectModels
     public class SpecterUserProgress : SpecterResource
     {
         public float ProgressionMarkerAmount;
-        public List<SpecterProgressInfo> ProgressInfos; 
+        public List<SpecterUserProgressInfo> ProgressInfos; 
 
         public SpecterUserProgress(SPUserProgressResponseData data)
         {
@@ -109,22 +91,42 @@ namespace SpecterSDK.ObjectModels
             Description = data.description;
             IconUrl = data.iconUrl;
             ProgressionMarkerAmount = data.progressionMarkerAmount;
-            ProgressInfos = new List<SpecterProgressInfo>();
+            ProgressInfos = new List<SpecterUserProgressInfo>();
+            foreach (var progression in data.progressInfo)
+            {
+                ProgressInfos.Add(new SpecterUserProgressInfo(progression));
+            }
+        }
+    }
 
+    public class SpecterUpdatedProgress : SpecterResource
+    {
+        public float ProgressionMarkerAmount;
+        public List<SpecterProgressInfo> ProgressInfos;
+        public SpecterUpdatedProgress(SPUpdatedProgressResponseData data)
+        {
+            Uuid = data.uuid;
+            Id = data.id;
+            Name = data.name;
+            Description = data.description;
+            IconUrl = data.iconUrl;
+            ProgressionMarkerAmount = data.progressionMarkerAmount;
+            ProgressInfos = new List<SpecterProgressInfo>();
             foreach (var progression in data.progressInfo)
             {
                 ProgressInfos.Add(new SpecterProgressInfo(progression));
             }
         }
+
+
     }
-    
-    public class SpecterProgressInfo : SpecterObject
+    public class SpecterProgressInfoBase : SpecterObject
     {
         public int CurrentLevelNo;
         public int AmountToNextLevelNo;
         public int PreviousLevelNo;
         public string ProgressionSystemId;
-        public SpecterProgressInfo(SPProgressInfoResponseData data)
+        public SpecterProgressInfoBase(SPProgressInfoResponseBaseData data)
         {
             CurrentLevelNo = data.currentLevelNo;
             AmountToNextLevelNo = data.amountToNextLevelNo;
@@ -132,4 +134,21 @@ namespace SpecterSDK.ObjectModels
             ProgressionSystemId = data.progressionSystemId;
         }
     }
+
+    public class SpecterUserProgressInfo : SpecterProgressInfoBase
+    {
+        public SpecterUserProgressInfo(SPUserProgressInfoResponseData data) : base(data)
+        {
+        }
+    }
+
+    public class SpecterProgressInfo : SpecterProgressInfoBase
+    {
+        public bool IsLevelUp;
+        public SpecterProgressInfo(SPProgressInfoResponseData data) : base(data)
+        {
+            IsLevelUp = data.isLevelUp;
+        }
+    }
+
 }
