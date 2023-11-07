@@ -1,16 +1,51 @@
+using System;
 using System.Threading.Tasks;
 using SpecterSDK.APIModels;
 using SpecterSDK.APIModels.ClientModels;
-using SpecterSDK.ObjectModels;
 
 namespace SpecterSDK.API.ClientAPI.App
 {
+
+    public class SPGetServerTimeRequest : SPApiRequestBaseData
+    {
+
+    }
+
     public class SPGetServerTimeResult : SpecterApiResultBase<SPGetServerTimeResponseData>
     {
-        public SpecterServerTime ServerTime;
+        public string Abbreviation;
+        public string ClientIp;
+        public DateTime DateTime;
+        public int DayOfWeek;
+        public int DayOfYear;
+        public bool dst;
+        public string dstFrom;
+        public int dstOffset;
+        public string dstUntil;
+        public int rawOffset;
+        public string timezone;
+        public int UnixTime;
+        public DateTime utcDatetime;
+        public string utcOffset;
+        public int weekNumber;
+
         protected override void InitSpecterObjectsInternal()
-        {
-            ServerTime = new SpecterServerTime(Response.data.serverTime);
+        {           
+            Abbreviation = Response.data.abbreviation;
+            ClientIp = Response.data.clientIp;
+            DateTime = Response.data.datetime;
+            DayOfWeek = Response.data.dayOfWeek;
+            DayOfYear = Response.data.dayOfYear;
+            dst = Response.data.dst;
+            dstFrom = Response.data.dstFrom;
+            dstOffset = Response.data.dstOffset;
+            dstUntil = Response.data.dstUntil;
+            rawOffset = Response.data.rawOffset;
+            timezone = Response.data.timezone;
+            UnixTime = Response.data.unixtime;
+            utcDatetime = Response.data.utcDatetime;
+            utcOffset = Response.data.utcOffset;
+            weekNumber = Response.data.weekNumber;
         }
     }
 

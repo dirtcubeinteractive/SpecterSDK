@@ -13,7 +13,7 @@ namespace SpecterSDK.APIModels.ClientModels
     }
     
     [Serializable]
-    public class SPServerTimeData
+    public class SPGetServerTimeResponseData : ISpecterApiResponseData
     {
         public string abbreviation { get; set; }
         public string clientIp { get; set; }
@@ -30,12 +30,6 @@ namespace SpecterSDK.APIModels.ClientModels
         public DateTime utcDatetime { get; set; }
         public string utcOffset { get; set; }
         public int weekNumber { get; set; }
-    }
-    
-    [Serializable]
-    public class SPGetServerTimeResponseData : ISpecterApiResponseData
-    {
-        public SPServerTimeData serverTime { get; set; }
     }
 
     [Serializable]

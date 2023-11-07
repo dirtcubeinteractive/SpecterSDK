@@ -73,42 +73,4 @@ namespace SpecterSDK.ObjectModels
         }
     }
 
-    public class SpecterServerTime : SpecterResource
-    {
-        public string Abbreviation;
-        public string ClientIp;
-        public DateTime DateTime;
-        public int DayOfWeek;
-        public int DayOfYear;
-        public bool dst;
-        public string dstFrom;
-        public int dstOffset;
-        public string dstUntil;
-        public int rawOffset;
-        public string timezone;
-        public int UnixTime;
-        public DateTime utcDatetime;
-        public string utcOffset;
-        public int weekNumber;
-
-
-        public SpecterServerTime(SPServerTimeData data)
-        {
-            Abbreviation = data.abbreviation;
-            ClientIp = data.clientIp;
-            DateTime = data.datetime;
-            DayOfWeek = data.dayOfWeek;
-            DayOfYear = data.dayOfYear;
-            dst = data.dst;
-            dstFrom = data.dstFrom;
-            dstOffset = data.dstOffset;
-            dstUntil = data.dstUntil;
-            rawOffset = data.rawOffset;
-            timezone = data.timezone;
-            UnixTime = data.unixtime;
-            utcDatetime = data.utcDatetime;
-            utcOffset = data.utcOffset;
-            weekNumber = data.weekNumber;
-        }
-    }
 }
