@@ -33,8 +33,8 @@ namespace SpecterSDK.Shared.SPEnum.Editor
         }
     }
     
-    [CustomPropertyDrawer(typeof(SPRewardClaimType))]
-    public class SPRewardClaimTypePropertyDrawer : SPEnumPropertyDrawer<SPRewardClaimType> { }
+    [CustomPropertyDrawer(typeof(SPRewardGrantType))]
+    public class SPRewardGrantTypePropertyDrawer : SPEnumPropertyDrawer<SPRewardGrantType> { }
     
     [CustomPropertyDrawer(typeof(SPTaskType))]
     public class SPTaskTypePropertyDrawer : SPEnumPropertyDrawer<SPTaskType> { }

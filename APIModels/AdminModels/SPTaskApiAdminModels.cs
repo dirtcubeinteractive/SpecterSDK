@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.APIModels.Interfaces;
+using SpecterSDK.Shared;
 
 namespace SpecterSDK.APIModels.AdminModels
 {
@@ -56,7 +57,7 @@ namespace SpecterSDK.APIModels.AdminModels
         [JsonRequired]
         public SPTaskType type;
         [JsonRequired]
-        public SPRewardClaimType rewardClaim;
+        public SPRewardGrantType rewardGrantType;
         [JsonRequired]
         public bool isLockedByLevel;
         [JsonRequired]
@@ -79,7 +80,7 @@ namespace SpecterSDK.APIModels.AdminModels
         {
             iconUrl = "task-icon.png";
             type = SPTaskType.Static;
-            rewardClaim =  SPRewardClaimType.Automatic;
+            rewardGrantType = SPRewardGrantType.Client;
             isLockedByLevel = false;
             isRecurring = false;
             rewardDetails = new List<SPTaskRewardConfig>();
