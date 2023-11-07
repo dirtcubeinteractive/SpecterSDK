@@ -16,7 +16,7 @@ namespace SpecterSDK.API.ClientAPI.User
     }
 
     [Serializable]
-    public class SPResetUserRequestEntity : SPApiRequestEntity    // Name has to change  
+    public class SPResetUserRequestEntity : SPApiRequestEntity    
     {  
         public List<string> ids { get; set; }
     }
@@ -26,7 +26,6 @@ namespace SpecterSDK.API.ClientAPI.User
     [Serializable]
     public class SPResetUserResult : SpecterApiResultBase<ResetUserResponseData>    
     {
-       // public Dictionary<string, object> ObjectDict;
         public List<string> Object;
         protected override void InitSpecterObjectsInternal()
         {

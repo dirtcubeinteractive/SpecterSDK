@@ -2,12 +2,13 @@ using System.Collections.Generic;
 using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.APIModels.Interfaces;
 using SpecterSDK.ObjectModels.Interfaces;
+using SpecterSDK.Shared;
 
 namespace SpecterSDK.ObjectModels
 {
     public class SpecterTask : SpecterResource , ISpecterMasterObject
     {
-        public SPRewardClaimType RewardClaim;
+        public SPRewardGrantType RewardGrantType;
         public SpecterReward SpecterReward;
         public List<string> Tags { get; set; }
         public Dictionary<string, string> Meta { get; set; }
@@ -19,7 +20,7 @@ namespace SpecterSDK.ObjectModels
             Name = data.name;
             Description = data.description;
             IconUrl = data.iconUrl;
-            RewardClaim = data.rewardClaim;
+            RewardGrantType = data.rewardGrant;
             Tags = new List<string>();
             Meta = new Dictionary<string, string>();
             Tags = data.tags;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using SpecterSDK.APIModels.Interfaces;
 using SpecterSDK.ObjectModels;
+using SpecterSDK.Shared;
 using SpecterSDK.Shared.SPEnum;
 
 namespace SpecterSDK.APIModels.ClientModels
@@ -67,7 +68,7 @@ namespace SpecterSDK.APIModels.ClientModels
         public string name { get; set; }
         public string description { get; set; }
         public string iconUrl { get; set; }
-        public SPRewardClaimType rewardClaim { get; set; }
+        public SPRewardGrantType rewardGrant { get; set; }
         public SPRewardDetailsResponseData rewardDetails { get; set; }
         public List<string> tags { get; set; }
         public Dictionary<string, string> meta { get; set; }
@@ -125,8 +126,6 @@ namespace SpecterSDK.APIModels.ClientModels
     public class SPUserTaskGroupResponseData : SPTaskGroupResponseBaseData
     {
         public SPTaskGroupStatus status { get; set; }
-        public int completedTasksCount { get; set;}
-        public int totalTasksCount { get; set;}
         public List<SPUserTaskResponseData> tasks { get; set; }
     }
 

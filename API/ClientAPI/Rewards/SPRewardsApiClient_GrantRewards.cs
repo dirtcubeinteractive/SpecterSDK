@@ -98,7 +98,7 @@ namespace SpecterSDK.API.ClientAPI.Rewards
                 WalletCurrencyList.Add(new SpecterWalletCurrency(currency));
             }
 
-            foreach (var progress in Response.data.progress)
+            foreach (var progress in Response.data.progressionMarkers)
             {
                 Progressions.Add(new SpecterUpdatedUserProgress(progress));
             }

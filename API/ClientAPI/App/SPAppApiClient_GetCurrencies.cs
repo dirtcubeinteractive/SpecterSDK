@@ -12,11 +12,9 @@ namespace SpecterSDK.API.ClientAPI.App
     [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
     public class SPGetCurrenciesRequest : SPApiRequestBaseData
     {
-        public List<string> ids { get; set; } 
+        public List<string> currencyIds { get; set; } 
         public SPCurrencyType type { get; set; }
         public string search { get; set; }
-        public string sortOrder { get; set; }
-        public string sortField { get; set; }
         public int limit { get; set; }
         public int offset { get; set; }
     }
