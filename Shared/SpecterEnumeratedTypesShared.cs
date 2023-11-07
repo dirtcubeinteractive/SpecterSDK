@@ -17,7 +17,7 @@ namespace SpecterSDK.Shared
     {
         public static readonly SPRewardSourceType Task = new SPRewardSourceType(0, nameof(Task).ToLower(), nameof(Task));
         public static readonly SPRewardSourceType TaskGroup = new SPRewardSourceType(1, nameof(TaskGroup).ToLower(), nameof(TaskGroup));
-        public static readonly SPRewardSourceType LevelUp = new SPRewardSourceType(1, nameof(LevelUp).ToLower(), nameof(LevelUp));
+        public static readonly SPRewardSourceType LevelUp = new SPRewardSourceType(2, nameof(LevelUp).ToLower(), nameof(LevelUp));
         private SPRewardSourceType(int id, string name, string displayName = null) : base(id, name, displayName) { }
     }
     
@@ -31,13 +31,12 @@ namespace SpecterSDK.Shared
         public SPPriceTypes(int id, string name, string displayName = null) : base(id, name, displayName) { }
     }
 
-    //-- Sanjay's code
     [Serializable]
     public class SPRewardGrantType : SPEnum<SPRewardGrantType>
     {
         public static readonly SPRewardGrantType Client = new SPRewardGrantType(0, nameof(Client).ToLower(), nameof(Client));
       
-        public static readonly SPRewardGrantType Server = new SPRewardGrantType(0, nameof(Client).ToLower(), nameof(Client));
+        public static readonly SPRewardGrantType Server = new SPRewardGrantType(1, nameof(Server).ToLower(), nameof(Server));
 
         public SPRewardGrantType(int id, string name, string displayName = null) : base(id, name, displayName) { }
 

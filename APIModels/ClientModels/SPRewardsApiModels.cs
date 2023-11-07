@@ -69,8 +69,6 @@ namespace SpecterSDK.APIModels.ClientModels
     public class SPRewardHistoryEntryData : SPRewardBaseData
     {
         public SPRewardClaimStatus status { get; set; }
-
-        //-- Sanjay's code
         public SPRewardGrantType rewardGrant { get; set; }
         public SPRewardSourceType sourceType { get; set; }
         public string sourceId { get; set; }
@@ -82,6 +80,6 @@ namespace SpecterSDK.APIModels.ClientModels
         public List<SPRewardHistoryEntryData> items { get; set; }
         public List<SPRewardHistoryEntryData> bundles { get; set; }
         public List<SPRewardHistoryEntryData> currencies { get; set; }
-        public List<SPRewardHistoryEntryData> progress { get; set; }
+        public List<SPRewardHistoryEntryData> progressionMarkers { get; set; }
     }
 }
