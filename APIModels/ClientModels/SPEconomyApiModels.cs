@@ -38,6 +38,13 @@ namespace SpecterSDK.APIModels.ClientModels
         public Dictionary<string, string> meta { get; set; }
     }
 
+
+    public class SPStoreCurrencyData : SPCurrencyResponseData
+    {
+        public List<SPPriceResponseData> prices { get; set; }
+
+    }
+
     [Serializable]
     public class SPCurrencyResponseDataList : SPResponseDataList<SPCurrencyResponseData> { }
 
@@ -79,6 +86,7 @@ namespace SpecterSDK.APIModels.ClientModels
         public bool isRentable { get; set; }
     }
 
+
     // Item master data in SDK responses
     [Serializable]
     public class SPItemResponseData : SPItemResponseBaseData, ISpecterMasterData
@@ -88,11 +96,15 @@ namespace SpecterSDK.APIModels.ClientModels
         public int? consumeByCount { get; set; }
         public int? consumeByTime { get; set; }
         public List<SPUnlockConditionResponseData> unlockConditions { get; set; }
-        public List<SPPriceResponseData> prices { get; set; }
         public List<string> tags { get; set; }
         public Dictionary<string, string> meta { get; set; }
     }
 
+
+    public class SPItemPriceResponseData : SPItemResponseData
+    {
+        public List<SPPriceResponseData> prices { get; set; }
+    }
     [Serializable]
     public class SPBundleResponseData : SPItemResponseBaseData, ISpecterMasterData
     {
@@ -100,21 +112,41 @@ namespace SpecterSDK.APIModels.ClientModels
         public bool isLocked { get; set; }
         public int? consumeByCount { get; set; }
         public int? consumeByTime { get; set; }
+        public string TypeId { get; set; }
         public List<SPUnlockConditionResponseData> unlockConditions { get; set; }
-        public List<SPPriceResponseData> prices { get; set; }
         public List<string> tags { get; set; }
         public Dictionary<string, string> meta { get; set; }
     }
 
-    [Serializable]
-    public class SPItemResponseDataList : SPResponseDataList<SPItemResponseData> { }
+    public class SPBundlePriceResponseData : SPBundleResponseData
+    {
+        public List<SPPriceResponseData> prices { get; set; }
+    }
+
+
+
+    public class SPBundleContentResponseData : SPBundlePriceResponseData
+    {
+        public SPBundleContent Contents { get; set; }
+    }
+
+    public class SPBundleContent
+    {
+        public List<SPItemResponseData> Items { get; set; }
+        public List<SPBundleResponseData> Bundles { get; set; }
+        public List<SPCurrencyResponseData> Currencies { get; set; }
+    }
 
     [Serializable]
-    public class SPBundleResponseDataList : SPResponseDataList<SPBundleResponseData> { }
+    public class SPItemResponseDataList : SPResponseDataList<SPItemPriceResponseData> { }
+
+    [Serializable]
+    public class SPBundleResponseDataList : SPResponseDataList<SPBundleContentResponseData> { }
+
 
     // Store item data in SDK responses
     [Serializable]
-    public class SPStoreItemResponseData : SPItemResponseData
+    public class SPStoreItemResponseData : SPItemPriceResponseData
     {
         public string storeId { get; set; }
     }

@@ -101,7 +101,51 @@ namespace SpecterSDK.ObjectModels
         public Dictionary<string, string> Meta { get; set; }
 
         public SpecterItem() { }
-        public SpecterItem(SPItemResponseData data)
+        public SpecterItem(SPItemPriceResponseData data)
+        {
+            Uuid = data.uuid;
+            Id = data.id;
+            Name = data.name;
+            Description = data.description;
+            IconUrl = data.iconUrl;
+            Tags = data.tags;
+            Meta = data.meta;
+
+            UnlockConditions = new List<SpecterUnlockCondition>();
+            if (data.unlockConditions != null)
+            {
+                foreach (var conditionData in data.unlockConditions)
+                {
+                    UnlockConditions.Add(new SpecterUnlockCondition(conditionData));
+                }
+            }
+
+            Prices = new List<SpecterPrice>();
+            if (data.prices != null)
+            {
+                foreach (var price in data.prices)
+                {
+                    Prices.Add(new SpecterPrice(price));
+                }
+            }
+        }
+    }
+
+
+    public class SpecterBundle : SpecterItemBase, ISpecterMasterObject
+    {
+        public int Quantity;
+        public bool IsLocked;
+        public int ConsumeByCount;
+        public int ConsumeByTime;
+        public List<SpecterPrice> Prices;
+        public List<SpecterUnlockCondition> UnlockConditions;
+        public List<string> Tags { get; set; }
+        public Dictionary<string, string> Meta { get; set; }
+
+        public SpecterBundle() { }
+
+        public SpecterBundle(SPBundleContentResponseData data)
         {
             Uuid = data.uuid;
             Id = data.id;
