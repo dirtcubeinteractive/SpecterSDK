@@ -59,6 +59,22 @@ namespace SpecterSDK.ObjectModels
         }
     }
 
+    public class SpecterStoreCurrency : SpecterCurrency
+    {
+        public int Quantity;
+        public List<SpecterPrice> Prices;
+    
+        public SpecterStoreCurrency(SPStoreCurrencyResponseData data) : base(data)
+        {
+            Quantity = data.quantity;
+            Prices = new List<SpecterPrice>();
+            foreach (var price in data.prices)
+            {
+                Prices.Add(new SpecterPrice(price));
+            }
+        }
+    }
+
     public class SpecterWalletCurrency : SpecterCurrencyBase
     {
         public float Balance;
@@ -129,10 +145,9 @@ namespace SpecterSDK.ObjectModels
                 }
             }
         }
-    }
+    } 
 
-
-    public class SpecterBundle : SpecterItemBase, ISpecterMasterObject
+    public class SpecterBundleBase : SpecterItemBase , ISpecterMasterObject
     {
         public int Quantity;
         public bool IsLocked;
@@ -142,7 +157,10 @@ namespace SpecterSDK.ObjectModels
         public List<SpecterUnlockCondition> UnlockConditions;
         public List<string> Tags { get; set; }
         public Dictionary<string, string> Meta { get; set; }
+    }
 
+    public class SpecterBundle : SpecterBundleBase
+    {
         public SpecterBundle() { }
 
         public SpecterBundle(SPBundleContentResponseData data)
@@ -175,14 +193,37 @@ namespace SpecterSDK.ObjectModels
         }
     }
 
-    public class SpecterStoreItem : SpecterItem
+    public class SpecterStoreBundle : SpecterBundleBase
     {
-        public string StoreId;
+        public SpecterStoreBundle() { }
 
-        public SpecterStoreItem() : base() { }
-        public SpecterStoreItem(SPStoreItemResponseData data) : base(data)
+        public SpecterStoreBundle(SPBundlePriceResponseData data)
         {
-            StoreId = data.storeId;
+            Uuid = data.uuid;
+            Id = data.id;
+            Name = data.name;
+            Description = data.description;
+            IconUrl = data.iconUrl;
+            Tags = data.tags;
+            Meta = data.meta;
+
+            UnlockConditions = new List<SpecterUnlockCondition>();
+            if (data.unlockConditions != null)
+            {
+                foreach (var conditionData in data.unlockConditions)
+                {
+                    UnlockConditions.Add(new SpecterUnlockCondition(conditionData));
+                }
+            }
+
+            Prices = new List<SpecterPrice>();
+            if (data.prices != null)
+            {
+                foreach (var price in data.prices)
+                {
+                    Prices.Add(new SpecterPrice(price));
+                }
+            }
         }
     }
 

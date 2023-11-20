@@ -39,10 +39,10 @@ namespace SpecterSDK.APIModels.ClientModels
     }
 
 
-    public class SPStoreCurrencyData : SPCurrencyResponseData
+    public class SPStoreCurrencyResponseData : SPCurrencyResponseData
     {
+        public int quantity { get; set; }
         public List<SPPriceResponseData> prices { get; set; }
-
     }
 
     [Serializable]
@@ -100,11 +100,11 @@ namespace SpecterSDK.APIModels.ClientModels
         public Dictionary<string, string> meta { get; set; }
     }
 
-
     public class SPItemPriceResponseData : SPItemResponseData
     {
         public List<SPPriceResponseData> prices { get; set; }
     }
+
     [Serializable]
     public class SPBundleResponseData : SPItemResponseBaseData, ISpecterMasterData
     {
@@ -123,10 +123,9 @@ namespace SpecterSDK.APIModels.ClientModels
         public List<SPPriceResponseData> prices { get; set; }
     }
 
-
-
     public class SPBundleContentResponseData : SPBundlePriceResponseData
     {
+
         public SPBundleContent Contents { get; set; }
     }
 
@@ -146,9 +145,9 @@ namespace SpecterSDK.APIModels.ClientModels
 
     // Store item data in SDK responses
     [Serializable]
-    public class SPStoreItemResponseData : SPItemPriceResponseData
+    public class SPStoreItemResponseData : SPItemResponseData
     {
-        public string storeId { get; set; }
+
     }
 
     // User inventory item data in SDK responses
@@ -167,7 +166,7 @@ namespace SpecterSDK.APIModels.ClientModels
     }
 
     [Serializable]
-    public class SPPriceResponseData
+    public class SPPriceResponseData    
     {
         public string uuid { get; set; }
         public string id { get; set; }

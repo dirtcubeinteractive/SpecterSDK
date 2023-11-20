@@ -54,7 +54,7 @@ namespace SpecterSDK.ObjectModels
         public SpecterResourceLockType LockType;
         public string Id;
         public string Name;
-        public int Value;
+        public int? Value;
 
         public SpecterUnlockCondition() { }
 

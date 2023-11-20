@@ -35,7 +35,7 @@ namespace SpecterSDK.APIModels.ClientModels
     [Serializable]
     public class SPUnlockConditionResponseData
     {
-        public int lockedLevelNo { get; set; }
+        public int? lockedLevelNo { get; set; }
         public SPUnlockResourceData unlockItem { get; set; }
         public SPUnlockResourceData unlockBundle { get; set; }
         public SPUnlockResourceData unlockProgressionSystem { get; set; }
