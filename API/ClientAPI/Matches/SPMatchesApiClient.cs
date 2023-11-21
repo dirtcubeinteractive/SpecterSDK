@@ -8,6 +8,7 @@ namespace SpecterSDK.API.ClientAPI.Matches
     public class SPMatchSessionRequestBaseData : SPApiRequestBaseData
     {
         public string matchId;
+        public string competitionId;
         public List<SPMatchUserInfo> userInfo;
     }
     
