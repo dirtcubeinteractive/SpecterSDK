@@ -11,7 +11,7 @@ namespace SpecterSDK.API.ClientAPI.App
 {
 
     [Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPGetItemsRequest : SPApiRequestBaseData, IAttributeConfigurable, IEntityConfigurable
+    public class SPGetItemsRequest : SPApiRequestBaseData, IAttributeConfigurable
     {
         public List<string> itemIds { get; set; }
 
@@ -27,7 +27,6 @@ namespace SpecterSDK.API.ClientAPI.App
         public string sortField { get; set; }
 
         public string sortOrder { get; set; }
-        public List<SPApiRequestEntity> entities { get; set; }
     }
 
     public class SPGetItemsResult : SpecterApiResultBase<SPItemResponseDataList>

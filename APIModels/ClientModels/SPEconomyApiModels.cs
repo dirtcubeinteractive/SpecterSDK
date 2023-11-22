@@ -89,43 +89,53 @@ namespace SpecterSDK.APIModels.ClientModels
 
     // Item master data in SDK responses
     [Serializable]
-    public class SPItemResponseData : SPItemResponseBaseData, ISpecterMasterData
+    public class SPItemResponseData : SPItemResponseBaseData
     {
         public int? quantity { get; set; }
         public bool isLocked { get; set; }
         public int? consumeByCount { get; set; }
         public int? consumeByTime { get; set; }
+    }
+
+    public class SPItemResponseExtendedData : SPItemResponseData, ISpecterMasterData
+    {
         public List<SPUnlockConditionResponseData> unlockConditions { get; set; }
         public List<string> tags { get; set; }
         public Dictionary<string, string> meta { get; set; }
+
     }
 
-    public class SPItemPriceResponseData : SPItemResponseData
+    public class SPItemPriceResponseData : SPItemResponseExtendedData
     {
         public List<SPPriceResponseData> prices { get; set; }
     }
 
     [Serializable]
-    public class SPBundleResponseData : SPItemResponseBaseData, ISpecterMasterData
+    public class SPBundleResponseData : SPItemResponseBaseData
     {
         public int? quantity { get; set; }
         public bool isLocked { get; set; }
+        public bool? isManual { get; set; }
         public int? consumeByCount { get; set; }
         public int? consumeByTime { get; set; }
-        public string TypeId { get; set; }
+
+    }
+
+    public class SPBundleResponseExtendedData : SPBundleResponseData, ISpecterMasterData
+    {
         public List<SPUnlockConditionResponseData> unlockConditions { get; set; }
         public List<string> tags { get; set; }
         public Dictionary<string, string> meta { get; set; }
     }
 
-    public class SPBundlePriceResponseData : SPBundleResponseData
+
+    public class SPBundlePriceResponseData : SPBundleResponseExtendedData
     {
         public List<SPPriceResponseData> prices { get; set; }
     }
 
     public class SPBundleContentResponseData : SPBundlePriceResponseData
     {
-
         public SPBundleContent Contents { get; set; }
     }
 
@@ -133,7 +143,7 @@ namespace SpecterSDK.APIModels.ClientModels
     {
         public List<SPItemResponseData> Items { get; set; }
         public List<SPBundleResponseData> Bundles { get; set; }
-        public List<SPCurrencyResponseData> Currencies { get; set; }
+        public List<SPCurrencyResponseBaseData> Currencies { get; set; }
     }
 
     [Serializable]
@@ -166,7 +176,7 @@ namespace SpecterSDK.APIModels.ClientModels
     }
 
     [Serializable]
-    public class SPPriceResponseData    
+    public class SPPriceResponseData
     {
         public string uuid { get; set; }
         public string id { get; set; }

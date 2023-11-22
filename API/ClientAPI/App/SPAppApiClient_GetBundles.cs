@@ -13,12 +13,16 @@ namespace SpecterSDK.API.ClientAPI.App
     [Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
     public class SPGetBundlesRequest : SPApiRequestBaseData
     {
-        public List<string> itemIds { get; set; }
+        public List<string> bundleIds { get; set; }
 
+        public List<string> attributes { get; set; }
+
+        public bool? isLocked { get; set; }
         public int? offset { get; set; }
 
         public int? limit { get; set; }
 
+        public string search { get; set; }
     }
 
     public class SPGetBundlesResult : SpecterApiResultBase<SPBundleResponseDataList>
@@ -37,11 +41,11 @@ namespace SpecterSDK.API.ClientAPI.App
 
     public partial class SPAppApiClient
     {
-        // public async Task<SPGetBundlesRsult> GetBundlesAsync(SPGetItemsRequest request)
-        // {
-        //     var result = await PostAsync<SPGetBundlesRsult, SPBundleResponseDataList>("/v1/client/app/get-bundles", AuthType, request);
-        //     return result;
-        // }
+        public async Task<SPGetBundlesResult> GetBundlesAsync(SPGetItemsRequest request)
+        {
+            var result = await PostAsync<SPGetBundlesResult, SPBundleResponseDataList>("/v1/client/app/get-bundles", AuthType, request);
+            return result;
+        }
     }
 
 }
