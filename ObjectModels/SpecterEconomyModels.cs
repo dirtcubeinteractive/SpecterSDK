@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace SpecterSDK.ObjectModels
 {
-    #region Currencies
+    #region Specter Currencies
 
     public abstract class SpecterCurrencyBase : SpecterResource
     {
@@ -22,6 +22,7 @@ namespace SpecterSDK.ObjectModels
             Description = data.description;
             IconUrl = data.iconUrl;
             Code = data.code;
+            Type = data.type;
         }
     }
 
@@ -75,6 +76,16 @@ namespace SpecterSDK.ObjectModels
         }
     }
 
+    public class SpecterBundleCurrency : SpecterCurrencyBase
+    {
+        public int Quantity;
+
+        public SpecterBundleCurrency(SPBundleCurrencyResponseData data) : base(data)
+        {
+            Quantity = data.quantity;
+        }
+    }
+
     public class SpecterWalletCurrency : SpecterCurrencyBase
     {
         public float Balance;
@@ -93,7 +104,7 @@ namespace SpecterSDK.ObjectModels
 
     #endregion
 
-    #region Items
+    #region Specter Items
 
     public abstract class SpecterItemBase : SpecterResource
     {
@@ -103,6 +114,22 @@ namespace SpecterSDK.ObjectModels
         public bool IsStackable;
         public bool IsRentable;
         public int? MaxNumberOfStack;
+
+        public SpecterItemBase(SPItemResponseBaseData data)
+        {
+            Uuid = data.uuid;
+            Id = data.id;
+            Name = data.name;
+            Description = data.description;
+            IconUrl = data.iconUrl;
+
+            IsConsumable = data.isConsumable;
+            IsEquippable = data.isEquippable;
+            IsTradable = data.isTradable;
+            IsStackable = data.isStackable;
+            IsRentable = data.isRentable;
+            MaxNumberOfStack = data.maxNumberOfStack;
+        }
     }
 
 
@@ -112,6 +139,14 @@ namespace SpecterSDK.ObjectModels
         public bool IsLocked;
         public int? ConsumeByCount;
         public int? ConsumeByTime;
+
+        public SpecterItemData(SPItemResponseData data) : base(data)
+        {
+            Quantity = data.quantity;
+            IsLocked = data.isLocked;
+            ConsumeByCount = data.consumeByCount;
+            ConsumeByTime = data.consumeByTime;
+        }
     }
     public class SpecterItem : SpecterItemData, ISpecterMasterObject
     {
@@ -121,26 +156,8 @@ namespace SpecterSDK.ObjectModels
         public List<string> Tags { get; set; }
         public Dictionary<string, string> Meta { get; set; }
 
-        public SpecterItem() { }
-        public SpecterItem(SPItemPriceResponseData data)
+        public SpecterItem(SPItemPriceResponseData data) : base(data)
         {
-            Uuid = data.uuid;
-            Id = data.id;
-            Name = data.name;
-            Description = data.description;
-            IconUrl = data.iconUrl;
-
-            IsConsumable = data.isConsumable;
-            IsEquippable = data.isEquippable;
-            IsTradable = data.isTradable;
-            IsStackable = data.isStackable;
-            IsRentable = data.isRentable;
-            MaxNumberOfStack = data.maxNumberOfStack;
-
-            Quantity = data.quantity;
-            IsLocked = data.isLocked;
-            ConsumeByCount = data.consumeByCount;
-            ConsumeByTime = data.consumeByTime;
 
             Prices = new List<SpecterPrice>();
             if (data.prices != null)
@@ -164,7 +181,8 @@ namespace SpecterSDK.ObjectModels
             Meta = data.meta;
         }
     }
-
+    #endregion
+    #region Specter Bundles
     public class SpecterBundleBase : SpecterItemBase
     {
         public int? Quantity;
@@ -173,6 +191,14 @@ namespace SpecterSDK.ObjectModels
         public int? ConsumeByCount;
         public int? ConsumeByTime;
 
+        public SpecterBundleBase(SPBundleResponseData data) : base(data)
+        {
+            Quantity = data.quantity;
+            IsLocked = data.isLocked;
+            isManual = data.isManual;
+            ConsumeByCount = data.consumeByCount;
+            ConsumeByTime = data.consumeByTime;
+        }
     }
 
     public class SpecterBundleData : SpecterBundleBase, ISpecterMasterObject
@@ -181,112 +207,96 @@ namespace SpecterSDK.ObjectModels
         public List<SpecterUnlockCondition> UnlockConditions;
         public List<string> Tags { get; set; }
         public Dictionary<string, string> Meta { get; set; }
-        public SpecterBundleContent SpecterBundleContent;
+
+        public SpecterBundleData(SPBundlePriceResponseData data) : base(data)
+        {
+            Prices = new List<SpecterPrice>();
+            if (data.prices != null)
+            {
+                foreach (var price in data.prices)
+                {
+                    Prices.Add(new SpecterPrice(price));
+                }
+            }
+            UnlockConditions = new List<SpecterUnlockCondition>();
+            if (data.unlockConditions != null)
+            {
+                foreach (var conditionData in data.unlockConditions)
+                {
+                    UnlockConditions.Add(new SpecterUnlockCondition(conditionData));
+                }
+            }
+
+            Tags = data.tags;
+            Meta = data.meta;
+
+        }
     }
 
     public class SpecterBundle : SpecterBundleData
     {
-        public SpecterBundle() { }
+        public SpecterBundleContent SpecterBundleContent;
 
-        public SpecterBundle(SPBundleContentResponseData data)
+        public SpecterBundle(SPBundleContentResponseData data) : base(data)
         {
-            Uuid = data.uuid;
-            Id = data.id;
-            Name = data.name;
-            Description = data.description;
-            IconUrl = data.iconUrl;
-
-            IsConsumable = data.isConsumable;
-            IsEquippable = data.isEquippable;
-            IsTradable = data.isTradable;
-            IsStackable = data.isStackable;
-            IsRentable = data.isRentable;
-            MaxNumberOfStack = data.maxNumberOfStack;
-
-            Quantity = data.quantity;
-            IsLocked = data.isLocked;
-            isManual = data.isManual;
-            ConsumeByCount = data.consumeByCount;
-            ConsumeByTime = data.consumeByTime;
-
-
-
-            Prices = new List<SpecterPrice>();
-            if (data.prices != null)
-            {
-                foreach (var price in data.prices)
-                {
-                    Prices.Add(new SpecterPrice(price));
-                }
-            }
-            UnlockConditions = new List<SpecterUnlockCondition>();
-            if (data.unlockConditions != null)
-            {
-                foreach (var conditionData in data.unlockConditions)
-                {
-                    UnlockConditions.Add(new SpecterUnlockCondition(conditionData));
-                }
-            }
-
-            Tags = data.tags;
-            Meta = data.meta;
-
             SpecterBundleContent = new SpecterBundleContent(data.Contents);
         }
     }
 
-    public class SpecterStoreBundle : SpecterBundleData
+    public class SpecterBundleContent
     {
-        public SpecterStoreBundle() { }
+        public List<SpecterItemData> Items;
+        public List<SpecterBundleBase> Bundles;
+        public List<SpecterBundleCurrency> Currencies;
 
-        public SpecterStoreBundle(SPBundlePriceResponseData data)
+        public SpecterBundleContent(SPBundleContent data)
         {
-            Uuid = data.uuid;
-            Id = data.id;
-            Name = data.name;
-            Description = data.description;
-            IconUrl = data.iconUrl;
-            Tags = data.tags;
-            Meta = data.meta;
-
-            UnlockConditions = new List<SpecterUnlockCondition>();
-            if (data.unlockConditions != null)
+            Items = new List<SpecterItemData>();
+            if (data.Items != null)
             {
-                foreach (var conditionData in data.unlockConditions)
-                {
-                    UnlockConditions.Add(new SpecterUnlockCondition(conditionData));
-                }
+                foreach (var item in data.Items)
+                    Items.Add(new SpecterItemData(item));
             }
 
-            Prices = new List<SpecterPrice>();
-            if (data.prices != null)
+
+            Bundles = new List<SpecterBundleBase>();
+            if (data.Bundles != null)
             {
-                foreach (var price in data.prices)
-                {
-                    Prices.Add(new SpecterPrice(price));
-                }
+                foreach (var bundle in data.Bundles)
+                    Bundles.Add(new SpecterBundleBase(bundle));
+            }
+
+            Currencies = new List<SpecterBundleCurrency>();
+            if (data.Currencies != null)
+            {
+                foreach (var currency in data.Currencies)
+                    Currencies.Add(new SpecterBundleCurrency(currency));
             }
         }
+
     }
 
+    #endregion
+
+    #region Specter Inventory
     public class SpecterInventoryItem : SpecterItemBase
     {
         public string CollectionId;
         public int Amount;
 
-        public SpecterInventoryItem(SPInventoryItemResponseData data)
+        public SpecterInventoryItem(SPInventoryItemResponseData data) : base(data)
         {
-            Uuid = data.uuid;
-            Id = data.id;
-            Name = data.name;
-            Description = data.description;
-            IconUrl = data.iconUrl;
-            IsConsumable = data.isConsumable;
-            IsEquippable = data.isEquippable;
-            IsTradable = data.isTradable;
-            IsStackable = data.isStackable;
-            IsRentable = data.isRentable;
-            MaxNumberOfStack = data.maxNumberOfStack;
+            // Uuid = data.uuid;
+            // Id = data.id;
+            // Name = data.name;
+            // Description = data.description;
+            // IconUrl = data.iconUrl;
+            // IsConsumable = data.isConsumable;
+            // IsEquippable = data.isEquippable;
+            // IsTradable = data.isTradable;
+            // IsStackable = data.isStackable;
+            // IsRentable = data.isRentable;
+            // MaxNumberOfStack = data.maxNumberOfStack;
 
             CollectionId = data.collectionId;
             Amount = data.amount;
@@ -298,20 +308,20 @@ namespace SpecterSDK.ObjectModels
         public string CollectionId;
         public int Amount;
 
-        public SpecterInventoryBundle(SPInventoryBundleResponseData data)
+        public SpecterInventoryBundle(SPInventoryBundleResponseData data) : base(data)
         {
 
-            Uuid = data.uuid;
-            Id = data.id;
-            Name = data.name;
-            Description = data.description;
-            IconUrl = data.iconUrl;
-            IsConsumable = data.isConsumable;
-            IsEquippable = data.isEquippable;
-            IsTradable = data.isTradable;
-            IsStackable = data.isStackable;
-            IsRentable = data.isRentable;
-            MaxNumberOfStack = data.maxNumberOfStack;
+            // Uuid = data.uuid;
+            // Id = data.id;
+            // Name = data.name;
+            // Description = data.description;
+            // IconUrl = data.iconUrl;
+            // IsConsumable = data.isConsumable;
+            // IsEquippable = data.isEquippable;
+            // IsTradable = data.isTradable;
+            // IsStackable = data.isStackable;
+            // IsRentable = data.isRentable;
+            // MaxNumberOfStack = data.maxNumberOfStack;
 
             CollectionId = data.collectionId;
             Amount = data.amount;
@@ -319,7 +329,8 @@ namespace SpecterSDK.ObjectModels
 
         }
     }
-
+    #endregion
+    #region Specter Price
     [Serializable]
     public class SpecterPrice : SpecterObject
     {
@@ -344,109 +355,6 @@ namespace SpecterSDK.ObjectModels
             RealCurrency = data.realWorldCurrency != null ? new SpecterRealCurrency(data.realWorldCurrency) : null;
         }
     }
-
-
-    public class SpecterBundleContent
-    {
-        public List<SpecterItemContent> Items;
-        public List<SpecterInnerBundleContent> Bundles;
-        public List<SpecterCurrencyContent> Currencies;
-
-        public SpecterBundleContent(SPBundleContent data)
-        {
-            Items = new List<SpecterItemContent>();
-            if (data.Items != null)
-            {
-                foreach (var item in data.Items)
-                {
-                    Items.Add(new SpecterItemContent(item));
-                }
-            }
-
-
-            Bundles = new List<SpecterInnerBundleContent>();
-            if (data.Bundles != null)
-            {
-                foreach (var bundle in data.Bundles)
-                {
-                    Bundles.Add(new SpecterInnerBundleContent(bundle));
-                }
-            }
-
-            Currencies = new List<SpecterCurrencyContent>();
-            if (data.Currencies != null)
-            {
-                foreach (var currency in data.Currencies)
-                {
-                    Currencies.Add(new SpecterCurrencyContent(currency));
-                }
-            }
-        }
-
-    }
-
-
-    public class SpecterItemContent : SpecterItemData
-    {
-        public SpecterItemContent(SPItemResponseData data)
-        {
-            Uuid = data.uuid;
-            Id = data.id;
-            Name = data.name;
-            Description = data.description;
-            IconUrl = data.iconUrl;
-
-            IsConsumable = data.isConsumable;
-            IsEquippable = data.isEquippable;
-            IsTradable = data.isTradable;
-            IsStackable = data.isStackable;
-            IsRentable = data.isRentable;
-            MaxNumberOfStack = data.maxNumberOfStack;
-
-            Quantity = data.quantity;
-            IsLocked = data.isLocked;
-            ConsumeByCount = data.consumeByCount;
-            ConsumeByTime = data.consumeByTime;
-        }
-    }
-
-    public class SpecterInnerBundleContent : SpecterBundleBase
-    {
-        public SpecterInnerBundleContent(SPBundleResponseData data)
-        {
-            Uuid = data.uuid;
-            Id = data.id;
-            Name = data.name;
-            Description = data.description;
-            IconUrl = data.iconUrl;
-
-            IsConsumable = data.isConsumable;
-            IsEquippable = data.isEquippable;
-            IsTradable = data.isTradable;
-            IsStackable = data.isStackable;
-            IsRentable = data.isRentable;
-            MaxNumberOfStack = data.maxNumberOfStack;
-
-            Quantity = data.quantity;
-            IsLocked = data.isLocked;
-            isManual = data.isManual;
-            ConsumeByCount = data.consumeByCount;
-            ConsumeByTime = data.consumeByTime;
-        }
-    }
-
-    public class SpecterCurrencyContent : SpecterCurrencyBase
-    {
-        public SpecterCurrencyContent(SPCurrencyResponseBaseData data) : base(data)
-        {
-            Uuid = data.uuid;
-            Id = data.id;
-            Name = data.name;
-            Description = data.description;
-            IconUrl = data.iconUrl;
-            Code = data.code;
-        }
-    }
-
     #endregion
+
 }

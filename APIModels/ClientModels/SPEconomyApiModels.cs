@@ -6,6 +6,9 @@ using SpecterSDK.Shared.SPEnum;
 
 namespace SpecterSDK.APIModels.ClientModels
 {
+
+    #region Currency Response Data Models
+
     public sealed class SPCurrencyType : SPEnum<SPCurrencyType>
     {
         public static readonly SPCurrencyType Real = new SPCurrencyType(0, nameof(Real).ToLower(), nameof(Real));
@@ -14,7 +17,6 @@ namespace SpecterSDK.APIModels.ClientModels
         private SPCurrencyType(int id, string name, string displayName = null) : base(id, name, displayName) { }
     }
 
-    #region Response Data Models
 
     // Base for currency data in SDK responses
     [Serializable]
@@ -45,6 +47,11 @@ namespace SpecterSDK.APIModels.ClientModels
         public List<SPPriceResponseData> prices { get; set; }
     }
 
+    public class SPBundleCurrencyResponseData : SPCurrencyResponseBaseData
+    {
+        public int quantity { get; set; }
+    }
+
     [Serializable]
     public class SPCurrencyResponseDataList : SPResponseDataList<SPCurrencyResponseData> { }
 
@@ -69,7 +76,11 @@ namespace SpecterSDK.APIModels.ClientModels
     [Serializable]
     public class SPWalletCurrencyResponseDataList : SPResponseDataList<SPWalletCurrencyResponseData> { }
 
+    #endregion
+
     // Base for item data in SDK responses
+
+    #region Item Response Data Models
     [Serializable]
     public abstract class SPItemResponseBaseData : ISpecterApiResponseData
     {
@@ -111,6 +122,12 @@ namespace SpecterSDK.APIModels.ClientModels
     }
 
     [Serializable]
+    public class SPItemResponseDataList : SPResponseDataList<SPItemPriceResponseData> { }
+
+    #endregion
+
+    #region Bundle Response Data Models
+    [Serializable]
     public class SPBundleResponseData : SPItemResponseBaseData
     {
         public int? quantity { get; set; }
@@ -143,24 +160,30 @@ namespace SpecterSDK.APIModels.ClientModels
     {
         public List<SPItemResponseData> Items { get; set; }
         public List<SPBundleResponseData> Bundles { get; set; }
-        public List<SPCurrencyResponseBaseData> Currencies { get; set; }
+        public List<SPBundleCurrencyResponseData> Currencies { get; set; }
     }
 
-    [Serializable]
-    public class SPItemResponseDataList : SPResponseDataList<SPItemPriceResponseData> { }
+
 
     [Serializable]
     public class SPBundleResponseDataList : SPResponseDataList<SPBundleContentResponseData> { }
 
+    #endregion
 
     // Store item data in SDK responses
+
+    #region Store Response Data Models
     [Serializable]
     public class SPStoreItemResponseData : SPItemResponseData
     {
 
     }
 
+    #endregion
+
     // User inventory item data in SDK responses
+
+    #region Inventory Response Data Models
     [Serializable]
     public class SPInventoryItemResponseData : SPItemResponseBaseData
     {
@@ -175,6 +198,15 @@ namespace SpecterSDK.APIModels.ClientModels
         public int amount { get; set; }
     }
 
+    public class SPGetUserInventoryResponseData : ISpecterApiResponseData
+    {
+        public List<SPInventoryItemResponseData> items;
+        public List<SPInventoryBundleResponseData> bundles;
+    }
+    #endregion
+
+
+    #region Price Response Data Models
     [Serializable]
     public class SPPriceResponseData
     {
@@ -191,17 +223,5 @@ namespace SpecterSDK.APIModels.ClientModels
         // This is an actual currency (eg: USD, INR, etc.)
         public SPRealWorldCurrencyResponseData realWorldCurrency { get; set; }
     }
-
-    #endregion
-
-    #region Api Models
-
-    public class SPGetUserInventoryResponseData : ISpecterApiResponseData
-    {
-        public List<SPInventoryItemResponseData> items;
-        public List<SPInventoryBundleResponseData> bundles;
-    }
-
-
     #endregion
 }
