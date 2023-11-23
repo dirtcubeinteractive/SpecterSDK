@@ -5,7 +5,7 @@ using SpecterSDK.Shared;
 
 namespace SpecterSDK.ObjectModels
 {
-    public class SpecterGame : SpecterResource , ISpecterMasterObject
+    public class SpecterGame : SpecterResource, ISpecterMasterObject
     {
         public string HowTo;
         public List<string> Tags { get; set; }
@@ -14,7 +14,7 @@ namespace SpecterSDK.ObjectModels
         public List<string> ScreenShotUrls;
         public List<string> PreviewVideoUrls;
         public string MinimumAppVersion;
-        public bool IsGameScreenOrientationLandscape;
+        public bool? IsGameScreenOrientationLandscape;
         public int NumberOfMatchesCreated;
         public bool IsApp;
         public bool IsDraft;
@@ -75,12 +75,12 @@ namespace SpecterSDK.ObjectModels
     public class SpecterGamePlatform
     {
         public int Id;
-        public string Name; 
+        public string Name;
         public string AssetBundleUrl;
         public string AssetBundleVersion;
         public string MinimumGameVersion;
         public int GamePlatformMasterId;
-        
+
         public SpecterGamePlatform(SPGamePlatformResponseData data)
         {
             Id = data.id;
@@ -105,7 +105,7 @@ namespace SpecterSDK.ObjectModels
             Code = data.code;
         }
     }
-    
+
     public class SpecterGameGenre
     {
         public int Id;
@@ -129,7 +129,7 @@ namespace SpecterSDK.ObjectModels
         public int DefaultOutcomeValue;
         public SpecterGameMatchFormat MatchFormatType;
         public SpecterGameMatchOutcome MatchOutcomeType;
-        
+
         public SpecterGameMatch(SPGameMatchResponseData data)
         {
             Uuid = data.uuid;
@@ -147,7 +147,7 @@ namespace SpecterSDK.ObjectModels
         }
     }
 
-    public class SpecterGameMatchFormat 
+    public class SpecterGameMatchFormat
     {
         public int Id;
         public string Name;
@@ -158,7 +158,7 @@ namespace SpecterSDK.ObjectModels
             Name = data.name;
         }
     }
-    
+
     public class SpecterGameMatchOutcome
     {
         public int Id;
@@ -170,5 +170,5 @@ namespace SpecterSDK.ObjectModels
             Name = data.name;
         }
     }
-    
+
 }

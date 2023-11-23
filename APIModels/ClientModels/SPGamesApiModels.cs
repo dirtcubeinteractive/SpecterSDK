@@ -6,9 +6,9 @@ using SpecterSDK.APIModels.Interfaces;
 namespace SpecterSDK.APIModels.ClientModels
 {
     #region Api Data Models
-    
+
     [Serializable]
-    public class SPGameResponseData : ISpecterApiResponseData , ISpecterMasterData
+    public class SPGameResponseData : ISpecterApiResponseData, ISpecterMasterData
     {
         public string uuid { get; set; }
         public string id { get; set; }
@@ -20,7 +20,7 @@ namespace SpecterSDK.APIModels.ClientModels
         public List<string> screenShotUrl { get; set; }
         public List<string> previewVideoUrl { get; set; }
         public string minimumAppVersion { get; set; }
-        public bool isGameScreenOrientationLandscape { get; set; }
+        public bool? isGameScreenOrientationLandscape { get; set; }
         public int numberOfMatchesCreated { get; set; }
         public bool isApp { get; set; }
         public bool isDraft { get; set; }
@@ -32,21 +32,21 @@ namespace SpecterSDK.APIModels.ClientModels
         public List<string> tags { get; set; }
         public Dictionary<string, string> meta { get; set; }
     }
-    
+
     [Serializable]
     public class SPGameResponseDataList : SPResponseDataList<SPGameResponseData> { }
-    
+
     [Serializable]
     public class SPGamePlatformResponseData : ISpecterApiResponseData
     {
-       public int id { get; set; }
-       public string name { get; set; }
-       public string assetBundleUrl { get; set; }
-       public string assetBundleVersion { get; set; }
-       public string minimumGameVersion { get; set; }
-       public int gamePlatformMasterId { get; set; }
+        public int id { get; set; }
+        public string name { get; set; }
+        public string assetBundleUrl { get; set; }
+        public string assetBundleVersion { get; set; }
+        public string minimumGameVersion { get; set; }
+        public int gamePlatformMasterId { get; set; }
     }
-    
+
     [Serializable]
     public class SPCountryDetailResponseData : ISpecterApiResponseData
     {
@@ -54,7 +54,7 @@ namespace SpecterSDK.APIModels.ClientModels
         public string name { get; set; }
         public string code { get; set; }
     }
-    
+
     [Serializable]
     public class SPGameGenreResponseData : ISpecterApiResponseData
     {
@@ -62,7 +62,7 @@ namespace SpecterSDK.APIModels.ClientModels
         public string name { get; set; }
         public string code { get; set; }
     }
-    
+
     [Serializable]
     public class SPGameMatchResponseData : ISpecterApiResponseData
     {
@@ -79,14 +79,14 @@ namespace SpecterSDK.APIModels.ClientModels
         public SPGameMatchFormatResponseData matchFormatType { get; set; }
         public SPGameMatchOutcomeResponseData matchOutcomeType { get; set; }
     }
-    
+
     [Serializable]
     public class SPGameMatchFormatResponseData : ISpecterApiResponseData
     {
         public int id { get; set; }
         public string name { get; set; }
     }
-    
+
     [Serializable]
     public class SPGameMatchOutcomeResponseData : ISpecterApiResponseData
     {
