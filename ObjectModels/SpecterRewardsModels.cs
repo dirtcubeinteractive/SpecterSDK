@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.ObjectModels.Interfaces;
+using SpecterSDK.Shared;
 
 namespace SpecterSDK.ObjectModels
 {
@@ -9,7 +10,7 @@ namespace SpecterSDK.ObjectModels
         public int Amount;
         public List<string> Tags { get; set; }
         public Dictionary<string, string> Meta { get; set; }
-        
+
         protected SpecterRewardBase(SPRewardBaseData data)
         {
             Tags = new List<string>();
@@ -41,7 +42,7 @@ namespace SpecterSDK.ObjectModels
     {
         protected SpecterItemRewardBase(SPItemRewardBaseData data) : base(data)
         {
-            
+
         }
     }
 
@@ -49,7 +50,7 @@ namespace SpecterSDK.ObjectModels
     {
         public SpecterItemReward(SPItemRewardData data) : base(data)
         {
-            
+
         }
     }
 
@@ -57,7 +58,7 @@ namespace SpecterSDK.ObjectModels
     {
         public SpecterProgressionMarkerReward(SPProgressionMarkerRewardData data) : base(data)
         {
-            
+
         }
     }
 
@@ -65,7 +66,7 @@ namespace SpecterSDK.ObjectModels
     {
         public SpecterBundleReward(SPBundleRewardData data) : base(data)
         {
-            
+
         }
     }
 
@@ -85,8 +86,8 @@ namespace SpecterSDK.ObjectModels
 
             if (rewardDetails.progressionMarkers != null)
             {
-               foreach (var progression in rewardDetails.progressionMarkers)
-                  ProgressionMarkers.Add(new SpecterProgressionMarkerReward(progression));
+                foreach (var progression in rewardDetails.progressionMarkers)
+                    ProgressionMarkers.Add(new SpecterProgressionMarkerReward(progression));
             }
             if (rewardDetails.currencies != null)
             {
@@ -103,6 +104,33 @@ namespace SpecterSDK.ObjectModels
                 foreach (var bundle in rewardDetails.bundles)
                     Bundles.Add(new SpecterBundleReward(bundle));
             }
+        }
+    }
+
+    public class SpecterRewardHistory : SpecterRewardBase
+    {
+        public SPRewardClaimStatus Status;
+        public SPRewardGrantType RewardGrant;
+        public SPRewardSourceType SourceType;
+        public string SourceId;
+
+        public SpecterRewardHistory(SPRewardHistoryEntryData data) : base(data)
+        {
+            Status = data.status;
+            RewardGrant = data.rewardGrant;
+            SourceType = data.sourceType;
+            SourceId = data.sourceId;
+        }
+    }
+
+    public class SpecterCurrencyRewardHistory : SpecterRewardHistory
+    {
+        public string Code;
+        public SPCurrencyType Type;
+        public SpecterCurrencyRewardHistory(SPCurrencyRewardHistoryEntryData data) : base(data)
+        {
+            Code = data.code;
+            Type = data.type;
         }
     }
 }

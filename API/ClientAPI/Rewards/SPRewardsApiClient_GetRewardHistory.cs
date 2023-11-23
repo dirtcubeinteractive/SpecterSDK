@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SpecterSDK.APIModels;
 using SpecterSDK.APIModels.ClientModels;
+using SpecterSDK.ObjectModels;
 
 namespace SpecterSDK.API.ClientAPI.Rewards
 {
@@ -25,9 +26,33 @@ namespace SpecterSDK.API.ClientAPI.Rewards
 
     public class SPGetRewardsHistoryResult : SpecterApiResultBase<SPGetRewardHistoryResponseData>
     {
+        public List<SpecterRewardHistory> Items;
+        public List<SpecterRewardHistory> Bundles;
+        public List<SpecterCurrencyRewardHistory> Currencies;
+        public List<SpecterRewardHistory> ProgressionMarkers;
+
         protected override void InitSpecterObjectsInternal()
         {
-            
+            Items = new List<SpecterRewardHistory>();
+            Bundles = new List<SpecterRewardHistory>();
+            Currencies = new List<SpecterCurrencyRewardHistory>();
+            ProgressionMarkers = new List<SpecterRewardHistory>();
+            foreach (var item in Response.data.items)
+            {
+                Items.Add(new SpecterRewardHistory(item));
+            }
+            foreach (var bundle in Response.data.bundles)
+            {
+                Bundles.Add(new SpecterRewardHistory(bundle));
+            }
+            foreach (var currency in Response.data.currencies)
+            {
+                Currencies.Add(new SpecterCurrencyRewardHistory(currency));
+            }
+            foreach (var progress in Response.data.progressionMarkers)
+            {
+                ProgressionMarkers.Add(new SpecterRewardHistory(progress));
+            }
         }
     }
 

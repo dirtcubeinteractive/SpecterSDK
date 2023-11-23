@@ -10,10 +10,10 @@ namespace SpecterSDK.APIModels.ClientModels
     {
         public static readonly SPRewardClaimStatus Pending = new SPRewardClaimStatus(0, nameof(Pending).ToLower(), nameof(Pending));
         public static readonly SPRewardClaimStatus Completed = new SPRewardClaimStatus(1, nameof(Completed).ToLower(), nameof(Completed));
-        
+
         private SPRewardClaimStatus(int id, string name, string displayName = null) : base(id, name, displayName) { }
     }
-    
+
     [Serializable]
     public class SPRewardBaseData : ISpecterApiResponseData, ISpecterMasterData
     {
@@ -33,16 +33,16 @@ namespace SpecterSDK.APIModels.ClientModels
         public string code { get; set; }
         public SPCurrencyType type { get; set; }
     }
-    
+
     [Serializable]
     public class SPProgressionMarkerRewardData : SPRewardBaseData { }
 
     [Serializable]
     public abstract class SPItemRewardBaseData : SPRewardBaseData { }
-    
+
     [Serializable]
     public class SPItemRewardData : SPItemRewardBaseData { }
-    
+
     [Serializable]
     public class SPBundleRewardData : SPItemRewardBaseData { }
 
@@ -74,12 +74,21 @@ namespace SpecterSDK.APIModels.ClientModels
         public string sourceId { get; set; }
 
     }
-    
+
+    [Serializable]
+    public class SPCurrencyRewardHistoryEntryData : SPRewardHistoryEntryData
+    {
+        public string code { get; set; }
+        public SPCurrencyType type { get; set; }
+    }
+
+
+
     public class SPGetRewardHistoryResponseData : ISpecterApiResponseData
     {
         public List<SPRewardHistoryEntryData> items { get; set; }
         public List<SPRewardHistoryEntryData> bundles { get; set; }
-        public List<SPRewardHistoryEntryData> currencies { get; set; }
+        public List<SPCurrencyRewardHistoryEntryData> currencies { get; set; }
         public List<SPRewardHistoryEntryData> progressionMarkers { get; set; }
     }
 }
