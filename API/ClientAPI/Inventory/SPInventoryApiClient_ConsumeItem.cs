@@ -14,7 +14,7 @@ namespace SpecterSDK.API.ClientAPI.Inventory
         public string collectionId;
         public string id;
     }
-    
+
     [Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
     public class SPConsumeItemRequest : SPApiEventConfigurableRequestBase
     {
@@ -33,7 +33,7 @@ namespace SpecterSDK.API.ClientAPI.Inventory
 
     public partial class SPInventoryApiClient
     {
-        public async Task<SPConsumeItemResult> ConsumeItems(SPGetUserInventoryRequest request)
+        public async Task<SPConsumeItemResult> ConsumeItems(SPConsumeItemRequest request)
         {
             var result = await PostAsync<SPConsumeItemResult, SPGeneralResponseData>("/v1/client/user/inventory/consume-item", AuthType, request);
             return result;

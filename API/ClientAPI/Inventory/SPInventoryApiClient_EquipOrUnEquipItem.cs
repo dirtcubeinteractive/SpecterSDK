@@ -32,7 +32,7 @@ namespace SpecterSDK.API.ClientAPI.Inventory
 
     public partial class SPInventoryApiClient
     {
-        public async Task<SPEquipOrUnEquipResult> EquipOrUnEquipItems(SPGetUserInventoryRequest request)
+        public async Task<SPEquipOrUnEquipResult> EquipOrUnEquipItems(SPEquipOrUnEquipRequest request)
         {
             var result = await PostAsync<SPEquipOrUnEquipResult, SPGeneralResponseData>("/v1/client/inventory/equip-unequip", AuthType, request);
             return result;
