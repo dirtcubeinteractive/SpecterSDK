@@ -14,7 +14,6 @@ namespace SpecterSDK.API.ClientAPI.Games
     {
        public List<string> gameIds { get; set; }
        public List<string> attributes { get; set; }
-       public bool isDefault { get; set; }
        public int offset { get; set; }
        public int limit { get; set; }
        public string search { get; set; }

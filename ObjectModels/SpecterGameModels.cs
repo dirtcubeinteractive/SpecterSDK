@@ -20,7 +20,7 @@ namespace SpecterSDK.ObjectModels
         public bool IsDraft;
         public bool IsDefault;
         public List<SpecterGamePlatform> Platforms;
-        public List<SpecterCountryDetail> Countries;
+        public List<SpecterCountryDetails> Countries;
         public List<SpecterGameGenre> Genres;
         public List<SpecterGameMatch> Matches;
 
@@ -33,15 +33,10 @@ namespace SpecterSDK.ObjectModels
             Description = data.description;
             HowTo = data.howTo;
             IconUrl = data.iconUrl;
-            Tags = new List<string>();
             Tags = data.tags;
-            Meta = new Dictionary<string, string>();
             Meta = data.meta;
-            DownloadUrls = new List<string>();
             DownloadUrls = data.downloadUrl;
-            ScreenShotUrls = new List<string>();
             ScreenShotUrls = data.screenShotUrl;
-            PreviewVideoUrls = new List<string>();
             PreviewVideoUrls = data.previewVideoUrl;
             MinimumAppVersion = data.minimumAppVersion;
             IsGameScreenOrientationLandscape = data.isGameScreenOrientationLandscape;
@@ -54,10 +49,10 @@ namespace SpecterSDK.ObjectModels
             {
                 Platforms.Add(new SpecterGamePlatform(platform));
             }
-            Countries = new List<SpecterCountryDetail>();
+            Countries = new List<SpecterCountryDetails>();
             foreach (var country in data.countries)
             {
-                Countries.Add(new SpecterCountryDetail(country));
+                Countries.Add(new SpecterCountryDetails(country));
             }
             Genres = new List<SpecterGameGenre>();
             foreach (var genre in data.genre)
@@ -92,13 +87,13 @@ namespace SpecterSDK.ObjectModels
         }
     }
 
-    public class SpecterCountryDetail
+    public class SpecterCountryDetails
     {
         public int Id;
         public string Name;
         public string Code;
 
-        public SpecterCountryDetail(SPCountryDetailResponseData data)
+        public SpecterCountryDetails(SPCountryDetailsResponseData data)
         {
             Id = data.id;
             Name = data.name;
@@ -110,13 +105,11 @@ namespace SpecterSDK.ObjectModels
     {
         public int Id;
         public string Name;
-        public string Code;
 
         public SpecterGameGenre(SPGameGenreResponseData data)
         {
             Id = data.id;
             Name = data.name;
-            Code = data.code;
         }
     }
 
