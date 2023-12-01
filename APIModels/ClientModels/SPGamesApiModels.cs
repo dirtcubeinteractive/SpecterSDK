@@ -26,11 +26,13 @@ namespace SpecterSDK.APIModels.ClientModels
         public bool isDraft { get; set; }
         public bool isDefault { get; set; }
         public List<SPGamePlatformResponseData> platforms { get; set; }
-        public List<SPCountryDetailResponseData> countries { get; set; }
+        public List<SPCountryDetailsResponseData> countries { get; set; }
         public List<SPGameGenreResponseData> genre { get; set; }
         public List<SPGameMatchResponseData> matches { get; set; }
         public List<string> tags { get; set; }
         public Dictionary<string, string> meta { get; set; }
+        
+        // TODO: Add leaderboards list
     }
 
     [Serializable]
@@ -48,7 +50,7 @@ namespace SpecterSDK.APIModels.ClientModels
     }
 
     [Serializable]
-    public class SPCountryDetailResponseData : ISpecterApiResponseData
+    public class SPCountryDetailsResponseData : ISpecterApiResponseData
     {
         public int id { get; set; }
         public string name { get; set; }
@@ -60,7 +62,6 @@ namespace SpecterSDK.APIModels.ClientModels
     {
         public int id { get; set; }
         public string name { get; set; }
-        public string code { get; set; }
     }
 
     [Serializable]
@@ -69,7 +70,7 @@ namespace SpecterSDK.APIModels.ClientModels
         public string uuid { get; set; }
         public string id { get; set; }
         public string name { get; set; }
-        [CanBeNull] public string description { get; set; }
+        public string description { get; set; }
         public int minPlayers { get; set; }
         public int maxPlayers { get; set; }
         public string howTo { get; set; }
