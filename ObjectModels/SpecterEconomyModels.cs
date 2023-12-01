@@ -106,7 +106,7 @@ namespace SpecterSDK.ObjectModels
 
     #region Specter Items
 
-    public abstract class SpecterItemBase : SpecterResource
+    public abstract class SpecterItemMasterBase : SpecterResource
     {
         public bool IsConsumable;
         public bool IsEquippable;
@@ -115,7 +115,8 @@ namespace SpecterSDK.ObjectModels
         public bool IsRentable;
         public int? MaxNumberOfStack;
 
-        public SpecterItemBase(SPItemResponseBaseData data)
+        protected SpecterItemMasterBase() {}
+        public SpecterItemMasterBase(SPItemResponseBaseData data)
         {
             Uuid = data.uuid;
             Id = data.id;
@@ -133,14 +134,17 @@ namespace SpecterSDK.ObjectModels
     }
 
 
-    public class SpecterItemData : SpecterItemBase
+    public class SpecterItemBase : SpecterItemMasterBase, ISpecterMasterObject
     {
         public int? Quantity;
         public bool IsLocked;
         public int? ConsumeByCount;
         public int? ConsumeByTime;
+        public List<string> Tags { get; set; }
+        public Dictionary<string, string> Meta { get; set; }
 
-        public SpecterItemData(SPItemResponseData data) : base(data)
+        public SpecterItemBase() {}
+        public SpecterItemBase(SPItemResponseData data) : base(data)
         {
             Quantity = data.quantity;
             IsLocked = data.isLocked;
@@ -148,13 +152,10 @@ namespace SpecterSDK.ObjectModels
             ConsumeByTime = data.consumeByTime;
         }
     }
-    public class SpecterItem : SpecterItemData, ISpecterMasterObject
+    public class SpecterItem : SpecterItemBase
     {
-
         public List<SpecterPrice> Prices;
         public List<SpecterUnlockCondition> UnlockConditions;
-        public List<string> Tags { get; set; }
-        public Dictionary<string, string> Meta { get; set; }
 
         public SpecterItem(SPItemPriceResponseData data) : base(data)
         {
@@ -185,17 +186,13 @@ namespace SpecterSDK.ObjectModels
     #region Specter Bundles
     public class SpecterBundleBase : SpecterItemBase
     {
-        public int? Quantity;
-        public bool IsLocked;
-        public bool? isManual { get; set; }
-        public int? ConsumeByCount;
-        public int? ConsumeByTime;
+        public bool? IsManual;
 
-        public SpecterBundleBase(SPBundleResponseData data) : base(data)
+        public SpecterBundleBase(SPBundleResponseData data)
         {
             Quantity = data.quantity;
             IsLocked = data.isLocked;
-            isManual = data.isManual;
+            IsManual = data.isManual;
             ConsumeByCount = data.consumeByCount;
             ConsumeByTime = data.consumeByTime;
         }
@@ -205,8 +202,6 @@ namespace SpecterSDK.ObjectModels
     {
         public List<SpecterPrice> Prices;
         public List<SpecterUnlockCondition> UnlockConditions;
-        public List<string> Tags { get; set; }
-        public Dictionary<string, string> Meta { get; set; }
 
         public SpecterBundleData(SPBundlePriceResponseData data) : base(data)
         {
@@ -245,17 +240,17 @@ namespace SpecterSDK.ObjectModels
 
     public class SpecterBundleContent
     {
-        public List<SpecterItemData> Items;
+        public List<SpecterItemBase> Items;
         public List<SpecterBundleBase> Bundles;
         public List<SpecterBundleCurrency> Currencies;
 
         public SpecterBundleContent(SPBundleContent data)
         {
-            Items = new List<SpecterItemData>();
+            Items = new List<SpecterItemBase>();
             if (data.Items != null)
             {
                 foreach (var item in data.Items)
-                    Items.Add(new SpecterItemData(item));
+                    Items.Add(new SpecterItemBase(item));
             }
 
 
@@ -279,7 +274,7 @@ namespace SpecterSDK.ObjectModels
     #endregion
 
     #region Specter Inventory
-    public class SpecterInventoryItem : SpecterItemBase
+    public class SpecterInventoryItem : SpecterItemMasterBase
     {
         public string CollectionId;
         public int Amount;
@@ -303,7 +298,7 @@ namespace SpecterSDK.ObjectModels
         }
     }
 
-    public class SpecterInventoryBundle : SpecterItemBase
+    public class SpecterInventoryBundle : SpecterItemMasterBase
     {
         public string CollectionId;
         public int Amount;
