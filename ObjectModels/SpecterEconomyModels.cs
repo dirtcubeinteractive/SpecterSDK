@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Data;
 using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.ObjectModels.Interfaces;
 using SpecterSDK.Shared;
@@ -9,12 +10,13 @@ namespace SpecterSDK.ObjectModels
 {
     #region Specter Currencies
 
+
     public abstract class SpecterCurrencyBase : SpecterResource
     {
         public string Code;
         public SPCurrencyType Type;
 
-        protected SpecterCurrencyBase(SPCurrencyResponseBaseData data)
+        protected SpecterCurrencyBase(SPCurrencyResponseData data)
         {
             Uuid = data.uuid;
             Id = data.id;
@@ -51,38 +53,12 @@ namespace SpecterSDK.ObjectModels
         public List<string> Tags { get; set; }
         public Dictionary<string, string> Meta { get; set; }
 
-        public SpecterCurrency(SPCurrencyResponseData data) : base(data)
+        public SpecterCurrency(SPCurrencyResponseExtendedData data) : base(data)
         {
             Tags = new List<string>();
             Meta = new Dictionary<string, string>();
             Tags = data.tags;
             Meta = data.meta;
-        }
-    }
-
-    public class SpecterStoreCurrency : SpecterCurrency
-    {
-        public int Quantity;
-        public List<SpecterPrice> Prices;
-
-        public SpecterStoreCurrency(SPStoreCurrencyResponseData data) : base(data)
-        {
-            Quantity = data.quantity;
-            Prices = new List<SpecterPrice>();
-            foreach (var price in data.prices)
-            {
-                Prices.Add(new SpecterPrice(price));
-            }
-        }
-    }
-
-    public class SpecterBundleCurrency : SpecterCurrencyBase
-    {
-        public int Quantity;
-
-        public SpecterBundleCurrency(SPBundleCurrencyResponseData data) : base(data)
-        {
-            Quantity = data.quantity;
         }
     }
 
@@ -103,20 +79,29 @@ namespace SpecterSDK.ObjectModels
     }
 
     #endregion
-
     #region Specter Items
 
-    public abstract class SpecterItemMasterBase : SpecterResource
+    public abstract class SpecterItemMasterBase : SpecterResource, ISpecterMasterObject
     {
         public bool IsConsumable;
         public bool IsEquippable;
         public bool IsTradable;
         public bool IsStackable;
+        public int? StackCapacity;
         public bool IsRentable;
-        public int? MaxNumberOfStack;
 
-        protected SpecterItemMasterBase() {}
-        public SpecterItemMasterBase(SPItemResponseBaseData data)
+        public int? Quantity;
+        public bool IsLocked;
+        public int? consumeByUses;
+        public int? ConsumeByTime;
+
+        public List<SpecterPrice> Prices;
+        public List<SpecterUnlockCondition> UnlockConditions;
+        public List<string> Tags { get; set; }
+        public Dictionary<string, string> Meta { get; set; }
+
+        protected SpecterItemMasterBase() { }
+        public SpecterItemMasterBase(SPItemResponseData data)
         {
             Uuid = data.uuid;
             Id = data.id;
@@ -129,36 +114,13 @@ namespace SpecterSDK.ObjectModels
             IsTradable = data.isTradable;
             IsStackable = data.isStackable;
             IsRentable = data.isRentable;
-            MaxNumberOfStack = data.maxNumberOfStack;
-        }
-    }
+            StackCapacity = data.stackCapacity;
 
-
-    public class SpecterItemBase : SpecterItemMasterBase, ISpecterMasterObject
-    {
-        public int? Quantity;
-        public bool IsLocked;
-        public int? ConsumeByCount;
-        public int? ConsumeByTime;
-        public List<string> Tags { get; set; }
-        public Dictionary<string, string> Meta { get; set; }
-
-        public SpecterItemBase() {}
-        public SpecterItemBase(SPItemResponseData data) : base(data)
-        {
             Quantity = data.quantity;
             IsLocked = data.isLocked;
-            ConsumeByCount = data.consumeByCount;
+            consumeByUses = data.consumeByUses;
             ConsumeByTime = data.consumeByTime;
-        }
-    }
-    public class SpecterItem : SpecterItemBase
-    {
-        public List<SpecterPrice> Prices;
-        public List<SpecterUnlockCondition> UnlockConditions;
 
-        public SpecterItem(SPItemPriceResponseData data) : base(data)
-        {
 
             Prices = new List<SpecterPrice>();
             if (data.prices != null)
@@ -181,147 +143,224 @@ namespace SpecterSDK.ObjectModels
             Tags = data.tags;
             Meta = data.meta;
         }
+    }
+
+    public class SpecterItem : SpecterItemMasterBase
+    {
+        public bool? isDefaultLoadout;
+
+        public SpecterItem() { }
+        public SpecterItem(SPItemResponseExtendedData data) : base(data)
+        {
+            isDefaultLoadout = data.isDefaultLoadout;
+        }
+
     }
     #endregion
     #region Specter Bundles
-    public class SpecterBundleBase : SpecterItemBase
+
+
+
+
+    public class SpecterBundle : SpecterItemMasterBase
     {
         public bool? IsManual;
-
-        public SpecterBundleBase(SPBundleResponseData data)
-        {
-            Quantity = data.quantity;
-            IsLocked = data.isLocked;
-            IsManual = data.isManual;
-            ConsumeByCount = data.consumeByCount;
-            ConsumeByTime = data.consumeByTime;
-        }
-    }
-
-    public class SpecterBundleData : SpecterBundleBase, ISpecterMasterObject
-    {
-        public List<SpecterPrice> Prices;
-        public List<SpecterUnlockCondition> UnlockConditions;
-
-        public SpecterBundleData(SPBundlePriceResponseData data) : base(data)
-        {
-            Prices = new List<SpecterPrice>();
-            if (data.prices != null)
-            {
-                foreach (var price in data.prices)
-                {
-                    Prices.Add(new SpecterPrice(price));
-                }
-            }
-            UnlockConditions = new List<SpecterUnlockCondition>();
-            if (data.unlockConditions != null)
-            {
-                foreach (var conditionData in data.unlockConditions)
-                {
-                    UnlockConditions.Add(new SpecterUnlockCondition(conditionData));
-                }
-            }
-
-            Tags = data.tags;
-            Meta = data.meta;
-
-        }
-    }
-
-    public class SpecterBundle : SpecterBundleData
-    {
         public SpecterBundleContent SpecterBundleContent;
 
-        public SpecterBundle(SPBundleContentResponseData data) : base(data)
+        public SpecterBundle(SPBundleResponseData data) : base(data)
         {
+            IsManual = data.isManual;
             SpecterBundleContent = new SpecterBundleContent(data.Contents);
         }
     }
 
     public class SpecterBundleContent
     {
-        public List<SpecterItemBase> Items;
-        public List<SpecterBundleBase> Bundles;
-        public List<SpecterBundleCurrency> Currencies;
+        public List<SpecterItemInfo> Items;
+        public List<SpecterBundleInfo> Bundles;
+        public List<SpecterCurrencyInfo> Currencies;
 
         public SpecterBundleContent(SPBundleContent data)
         {
-            Items = new List<SpecterItemBase>();
-            if (data.Items != null)
+            Items = new List<SpecterItemInfo>();
+            if (data.items != null)
             {
-                foreach (var item in data.Items)
-                    Items.Add(new SpecterItemBase(item));
+                foreach (var item in data.items)
+                    Items.Add(new SpecterItemInfo(item));
             }
 
 
-            Bundles = new List<SpecterBundleBase>();
-            if (data.Bundles != null)
+            Bundles = new List<SpecterBundleInfo>();
+            if (data.bundles != null)
             {
-                foreach (var bundle in data.Bundles)
-                    Bundles.Add(new SpecterBundleBase(bundle));
+                foreach (var bundle in data.bundles)
+                    Bundles.Add(new SpecterBundleInfo(bundle));
             }
 
-            Currencies = new List<SpecterBundleCurrency>();
-            if (data.Currencies != null)
+            Currencies = new List<SpecterCurrencyInfo>();
+            if (data.currencies != null)
             {
-                foreach (var currency in data.Currencies)
-                    Currencies.Add(new SpecterBundleCurrency(currency));
+                foreach (var currency in data.currencies)
+                    Currencies.Add(new SpecterCurrencyInfo(currency));
             }
         }
 
+    }
+
+    public class SpecterBundleContentInfo
+    {
+        public string Uuid;
+        public string Id;
+        public string Name;
+        public string Description;
+        public string IconUrl { get; set; }
+        public int Quantity;
+
+    }
+    public class SpecterItemInfo : SpecterBundleContentInfo
+    {
+
+        public SpecterItemInfo(SPItemResponseBaseData data)
+        {
+            Uuid = data.uuid;
+            Id = data.id;
+            Name = data.name;
+            Description = data.description;
+            IconUrl = data.iconUrl;
+        }
+    }
+    public class SpecterBundleInfo : SpecterBundleContentInfo
+    {
+        public SpecterBundleInfo(SPItemResponseBaseData data)
+        {
+            Uuid = data.uuid;
+            Id = data.id;
+            Name = data.name;
+            Description = data.description;
+            IconUrl = data.iconUrl;
+        }
+    }
+
+    public class SpecterCurrencyInfo : SpecterBundleContentInfo
+    {
+        public SpecterCurrencyInfo(SPCurrencyInfoResponseData data)
+        {
+            Uuid = data.uuid;
+            Id = data.id;
+            Name = data.name;
+            Description = data.description;
+            IconUrl = data.iconUrl;
+        }
     }
 
     #endregion
+    #region Specter Store
 
-    #region Specter Inventory
-    public class SpecterInventoryItem : SpecterItemMasterBase
+
+    public class SpecterStoreItemInfo : SpecterBundleContentInfo
     {
-        public string CollectionId;
-        public int Amount;
-
-        public SpecterInventoryItem(SPInventoryItemResponseData data) : base(data)
+        public List<SpecterPrice> Prices;
+        public SpecterStoreItemInfo(SPStoreItemResponseData data)
         {
-            // Uuid = data.uuid;
-            // Id = data.id;
-            // Name = data.name;
-            // Description = data.description;
-            // IconUrl = data.iconUrl;
-            // IsConsumable = data.isConsumable;
-            // IsEquippable = data.isEquippable;
-            // IsTradable = data.isTradable;
-            // IsStackable = data.isStackable;
-            // IsRentable = data.isRentable;
-            // MaxNumberOfStack = data.maxNumberOfStack;
+            Uuid = data.uuid;
+            Id = data.id;
+            Name = data.name;
+            Description = data.description;
+            IconUrl = data.iconUrl;
 
-            CollectionId = data.collectionId;
-            Amount = data.amount;
+            Prices = new List<SpecterPrice>();
+            if (data.prices != null)
+            {
+                foreach (var price in data.prices)
+                {
+                    Prices.Add(new SpecterPrice(price));
+                }
+            }
         }
     }
 
-    public class SpecterInventoryBundle : SpecterItemMasterBase
+    public class SpecterStoreBundleInfo : SpecterBundleContentInfo
+    {
+        public List<SpecterPrice> Prices;
+        public SpecterStoreBundleInfo(SPStoreBundleResponseData data)
+        {
+            Uuid = data.uuid;
+            Id = data.id;
+            Name = data.name;
+            Description = data.description;
+            IconUrl = data.iconUrl;
+
+            Prices = new List<SpecterPrice>();
+            if (data.prices != null)
+            {
+                foreach (var price in data.prices)
+                {
+                    Prices.Add(new SpecterPrice(price));
+                }
+            }
+        }
+    }
+
+    public class SpecterStoreCurrencyInfo : SpecterBundleContentInfo
+    {
+        public List<SpecterPrice> Prices;
+        public SpecterStoreCurrencyInfo(SPStoreCurrencyResponseData data)
+        {
+            Uuid = data.uuid;
+            Id = data.id;
+            Name = data.name;
+            Description = data.description;
+            IconUrl = data.iconUrl;
+
+            Prices = new List<SpecterPrice>();
+            if (data.prices != null)
+            {
+                foreach (var price in data.prices)
+                {
+                    Prices.Add(new SpecterPrice(price));
+                }
+            }
+        }
+
+    }
+    #endregion
+    #region Specter Inventory
+    public class SpecterInventoryItem : SpecterResource
     {
         public string CollectionId;
-        public int Amount;
+        public int TotalUsesAvailable;
+        public bool IsEquipped;
 
-        public SpecterInventoryBundle(SPInventoryBundleResponseData data) : base(data)
+        public SpecterInventoryItem(SPInventoryItemResponseData data)
         {
-
-            // Uuid = data.uuid;
-            // Id = data.id;
-            // Name = data.name;
-            // Description = data.description;
-            // IconUrl = data.iconUrl;
-            // IsConsumable = data.isConsumable;
-            // IsEquippable = data.isEquippable;
-            // IsTradable = data.isTradable;
-            // IsStackable = data.isStackable;
-            // IsRentable = data.isRentable;
-            // MaxNumberOfStack = data.maxNumberOfStack;
-
+            Uuid = data.uuid;
+            Id = data.id;
+            Name = data.name;
+            Description = data.description;
+            IconUrl = data.iconUrl;
             CollectionId = data.collectionId;
-            Amount = data.amount;
+            TotalUsesAvailable = data.totalUsesAvailable;
+            IsEquipped = data.isEquipped;
+        }
+    }
 
-
+    public class SpecterInventoryBundle : SpecterResource
+    {
+        public string CollectionId;
+        public int TotalUsesAvailable;
+        public bool IsEquipped;
+        public bool IsManual;
+        public SpecterInventoryBundle(SPInventoryBundleResponseData data)
+        {
+            Uuid = data.uuid;
+            Id = data.id;
+            Name = data.name;
+            Description = data.description;
+            IconUrl = data.iconUrl;
+            CollectionId = data.collectionId;
+            TotalUsesAvailable = data.totalUsesAvailable;
+            IsEquipped = data.isEquipped;
+            IsManual = data.isManual;
         }
     }
     #endregion
