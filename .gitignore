@@ -80,3 +80,4 @@ crashlytics-build.properties
 
 # SpecterSDK
 Resources/SpecterSharedResources/SpecterConfigData.asset
+Resources/SpecterSharedResources/SpecterConfigData.asset.meta
