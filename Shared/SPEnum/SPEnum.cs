@@ -3,7 +3,6 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
-using SpecterBuilder.TestScripts;
 using UnityEngine.UI;
 
 namespace SpecterSDK.Shared.SPEnum
