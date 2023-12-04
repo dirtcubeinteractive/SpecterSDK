@@ -79,5 +79,4 @@ crashlytics-build.properties
 .DS_Store
 
 # SpecterSDK
-Assets/SpecterSDK/Resources/SpecterSharedResources/SpecterConfigData.asset
 Resources/SpecterSharedResources/SpecterConfigData.asset
