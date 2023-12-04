@@ -1,12 +1,16 @@
 using System;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using SpecterSDK.APIModels;
 using SpecterSDK.APIModels.ClientModels;
 
 namespace SpecterSDK.API.ClientAPI.Matches
 {
-    [Serializable]
-    public class SPStartMatchSessionRequest : SPMatchSessionRequestBaseData { public string matchSessionId { get; set; } }
+    [Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
+    public class SPStartMatchSessionRequest : SPMatchSessionRequestBaseData
+    {
+        public string matchSessionId { get; set; }
+    }
     
     public class SPStartMatchSessionResult : SpecterApiResultBase<SPMatchSessionResponseData>
     {

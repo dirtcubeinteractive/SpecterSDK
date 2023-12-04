@@ -22,7 +22,7 @@ namespace SpecterSDK.ObjectModels
         public List<SpecterGamePlatform> Platforms;
         public List<SpecterCountryDetails> Countries;
         public List<SpecterGameGenre> Genres;
-        public List<SpecterMatchMin> Matches;
+        public List<SpecterMatchBase> Matches;
 
         public SpecterGame() { }
         public SpecterGame(SPGameResponseData data)
@@ -59,10 +59,10 @@ namespace SpecterSDK.ObjectModels
             {
                 Genres.Add(new SpecterGameGenre(genre));
             }
-            Matches = new List<SpecterMatchMin>();
+            Matches = new List<SpecterMatchBase>();
             foreach (var match in data.matches)
             {
-                Matches.Add(new SpecterMatchMin(match));
+                Matches.Add(new SpecterMatchBase(match));
             }
         }
     }
@@ -76,7 +76,7 @@ namespace SpecterSDK.ObjectModels
         public string MinimumGameVersion;
         public int GamePlatformMasterId;
 
-        public SpecterGamePlatform(SPGamePlatformResponseData data)
+        public SpecterGamePlatform(SPGamePlatformData data)
         {
             Id = data.id;
             Name = data.name;
@@ -93,7 +93,7 @@ namespace SpecterSDK.ObjectModels
         public string Name;
         public string Code;
 
-        public SpecterCountryDetails(SPCountryDetailsResponseData data)
+        public SpecterCountryDetails(SPCountryDetailsData data)
         {
             Id = data.id;
             Name = data.name;
@@ -106,7 +106,7 @@ namespace SpecterSDK.ObjectModels
         public int Id;
         public string Name;
 
-        public SpecterGameGenre(SPGameGenreResponseData data)
+        public SpecterGameGenre(SPGameGenreData data)
         {
             Id = data.id;
             Name = data.name;

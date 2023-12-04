@@ -8,14 +8,9 @@ namespace SpecterSDK.APIModels.ClientModels
     #region Api Data Models
 
     [Serializable]
-    public class SPGameResponseData : ISpecterApiResponseData, ISpecterMasterData
+    public class SPGameResponseData : SPResourceResponseData, ISpecterMasterData
     {
-        public string uuid { get; set; }
-        public string id { get; set; }
-        public string name { get; set; }
-        public string description { get; set; }
         public string howTo { get; set; }
-        public string iconUrl { get; set; }
         public List<string> downloadUrl { get; set; }
         public List<string> screenShotUrl { get; set; }
         public List<string> previewVideoUrl { get; set; }
@@ -25,21 +20,19 @@ namespace SpecterSDK.APIModels.ClientModels
         public bool isApp { get; set; }
         public bool isDraft { get; set; }
         public bool isDefault { get; set; }
-        public List<SPGamePlatformResponseData> platforms { get; set; }
-        public List<SPCountryDetailsResponseData> countries { get; set; }
-        public List<SPGameGenreResponseData> genre { get; set; }
-        public List<SPMatchMinResponseData> matches { get; set; }
+        public List<SPGamePlatformData> platforms { get; set; }
+        public List<SPCountryDetailsData> countries { get; set; }
+        public List<SPGameGenreData> genre { get; set; }
+        public List<SPMatchResponseBaseData> matches { get; set; }
         public List<string> tags { get; set; }
         public Dictionary<string, string> meta { get; set; }
-        
-        // TODO: Add leaderboards list
     }
 
     [Serializable]
     public class SPGameResponseDataList : SPResponseDataList<SPGameResponseData> { }
 
     [Serializable]
-    public class SPGamePlatformResponseData : ISpecterApiResponseData
+    public class SPGamePlatformData
     {
         public int id { get; set; }
         public string name { get; set; }
@@ -50,7 +43,7 @@ namespace SpecterSDK.APIModels.ClientModels
     }
 
     [Serializable]
-    public class SPCountryDetailsResponseData : ISpecterApiResponseData
+    public class SPCountryDetailsData
     {
         public int id { get; set; }
         public string name { get; set; }
@@ -58,7 +51,7 @@ namespace SpecterSDK.APIModels.ClientModels
     }
 
     [Serializable]
-    public class SPGameGenreResponseData : ISpecterApiResponseData
+    public class SPGameGenreData
     {
         public int id { get; set; }
         public string name { get; set; }
