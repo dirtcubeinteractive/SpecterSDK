@@ -55,8 +55,6 @@ namespace SpecterSDK.ObjectModels
 
         public SpecterCurrency(SPCurrencyResponseExtendedData data) : base(data)
         {
-            Tags = new List<string>();
-            Meta = new Dictionary<string, string>();
             Tags = data.tags;
             Meta = data.meta;
         }
@@ -92,7 +90,7 @@ namespace SpecterSDK.ObjectModels
 
         public int? Quantity;
         public bool IsLocked;
-        public int? consumeByUses;
+        public int? ConsumeByUses;
         public int? ConsumeByTime;
 
         public List<SpecterPrice> Prices;
@@ -118,7 +116,7 @@ namespace SpecterSDK.ObjectModels
 
             Quantity = data.quantity;
             IsLocked = data.isLocked;
-            consumeByUses = data.consumeByUses;
+            ConsumeByUses = data.consumeByUses;
             ConsumeByTime = data.consumeByTime;
 
 
@@ -147,12 +145,12 @@ namespace SpecterSDK.ObjectModels
 
     public class SpecterItem : SpecterItemMasterBase
     {
-        public bool? isDefaultLoadout;
+        public bool? IsDefaultLoadout;
 
         public SpecterItem() { }
         public SpecterItem(SPItemResponseExtendedData data) : base(data)
         {
-            isDefaultLoadout = data.isDefaultLoadout;
+            IsDefaultLoadout = data.isDefaultLoadout;
         }
 
     }
@@ -207,17 +205,17 @@ namespace SpecterSDK.ObjectModels
 
     }
 
-    public class SpecterBundleContentInfo
+    public class SpecterResourceContentInfo
     {
         public string Uuid;
         public string Id;
         public string Name;
         public string Description;
-        public string IconUrl { get; set; }
+        public string IconUrl;
         public int Quantity;
 
     }
-    public class SpecterItemInfo : SpecterBundleContentInfo
+    public class SpecterItemInfo : SpecterResourceContentInfo
     {
 
         public SpecterItemInfo(SPItemResponseBaseData data)
@@ -229,7 +227,7 @@ namespace SpecterSDK.ObjectModels
             IconUrl = data.iconUrl;
         }
     }
-    public class SpecterBundleInfo : SpecterBundleContentInfo
+    public class SpecterBundleInfo : SpecterResourceContentInfo
     {
         public SpecterBundleInfo(SPItemResponseBaseData data)
         {
@@ -241,7 +239,7 @@ namespace SpecterSDK.ObjectModels
         }
     }
 
-    public class SpecterCurrencyInfo : SpecterBundleContentInfo
+    public class SpecterCurrencyInfo : SpecterResourceContentInfo
     {
         public SpecterCurrencyInfo(SPCurrencyInfoResponseData data)
         {
@@ -257,7 +255,7 @@ namespace SpecterSDK.ObjectModels
     #region Specter Store
 
 
-    public class SpecterStoreItemInfo : SpecterBundleContentInfo
+    public class SpecterStoreItemInfo : SpecterResourceContentInfo
     {
         public List<SpecterPrice> Prices;
         public SpecterStoreItemInfo(SPStoreItemResponseData data)
@@ -279,7 +277,7 @@ namespace SpecterSDK.ObjectModels
         }
     }
 
-    public class SpecterStoreBundleInfo : SpecterBundleContentInfo
+    public class SpecterStoreBundleInfo : SpecterResourceContentInfo
     {
         public List<SpecterPrice> Prices;
         public SpecterStoreBundleInfo(SPStoreBundleResponseData data)
@@ -301,7 +299,7 @@ namespace SpecterSDK.ObjectModels
         }
     }
 
-    public class SpecterStoreCurrencyInfo : SpecterBundleContentInfo
+    public class SpecterStoreCurrencyInfo : SpecterResourceContentInfo
     {
         public List<SpecterPrice> Prices;
         public SpecterStoreCurrencyInfo(SPStoreCurrencyResponseData data)

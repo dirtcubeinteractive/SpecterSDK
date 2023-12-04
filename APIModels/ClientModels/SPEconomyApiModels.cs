@@ -52,6 +52,7 @@ namespace SpecterSDK.APIModels.ClientModels
     [Serializable]
     public class SPCurrencyResponseDataList : SPResponseDataList<SPCurrencyResponseExtendedData> { }
 
+
     [Serializable]
     public class SPRealWorldCurrencyResponseData
     {
