@@ -5,6 +5,16 @@ using SpecterSDK.APIModels.Interfaces;
 
 namespace SpecterSDK.APIModels.ClientModels
 {
+    [Serializable]
+    public abstract class SPResourceResponseData : ISpecterApiResponseData
+    {
+        public string uuid { get; set; }
+        public string id { get; set; }
+        public string name { get; set; }
+        public string description { get; set; }
+        public string iconUrl { get; set; }
+    }
+    
     [Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
     public abstract class SPApiEventConfigurableRequestBase : SPApiRequestBaseData, ISpecterEventConfigurable
     {

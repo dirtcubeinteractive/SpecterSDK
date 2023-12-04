@@ -11,12 +11,12 @@ namespace SpecterSDK.ObjectModels
     #region Specter Currencies
 
 
-    public abstract class SpecterCurrencyBase : SpecterResource
+    public class SpecterCurrencyBase : SpecterResource
     {
         public string Code;
         public SPCurrencyType Type;
 
-        protected SpecterCurrencyBase(SPCurrencyResponseData data)
+        public SpecterCurrencyBase(SPCurrencyResponseBaseData data)
         {
             Uuid = data.uuid;
             Id = data.id;
@@ -53,7 +53,7 @@ namespace SpecterSDK.ObjectModels
         public List<string> Tags { get; set; }
         public Dictionary<string, string> Meta { get; set; }
 
-        public SpecterCurrency(SPCurrencyResponseExtendedData data) : base(data)
+        public SpecterCurrency(SPCurrencyResponseData data) : base(data)
         {
             Tags = data.tags;
             Meta = data.meta;
@@ -99,7 +99,7 @@ namespace SpecterSDK.ObjectModels
         public Dictionary<string, string> Meta { get; set; }
 
         protected SpecterItemMasterBase() { }
-        public SpecterItemMasterBase(SPItemResponseData data)
+        public SpecterItemMasterBase(SPCollectibleResourceResponseData data)
         {
             Uuid = data.uuid;
             Id = data.id;
@@ -148,7 +148,7 @@ namespace SpecterSDK.ObjectModels
         public bool? IsDefaultLoadout;
 
         public SpecterItem() { }
-        public SpecterItem(SPItemResponseExtendedData data) : base(data)
+        public SpecterItem(SPItemResponseData data) : base(data)
         {
             IsDefaultLoadout = data.isDefaultLoadout;
         }
@@ -168,7 +168,7 @@ namespace SpecterSDK.ObjectModels
         public SpecterBundle(SPBundleResponseData data) : base(data)
         {
             IsManual = data.isManual;
-            SpecterBundleContent = new SpecterBundleContent(data.Contents);
+            SpecterBundleContent = new SpecterBundleContent(data.contents);
         }
     }
 
@@ -178,7 +178,7 @@ namespace SpecterSDK.ObjectModels
         public List<SpecterBundleInfo> Bundles;
         public List<SpecterCurrencyInfo> Currencies;
 
-        public SpecterBundleContent(SPBundleContent data)
+        public SpecterBundleContent(SPBundleContentsData data)
         {
             Items = new List<SpecterItemInfo>();
             if (data.items != null)
@@ -218,7 +218,7 @@ namespace SpecterSDK.ObjectModels
     public class SpecterItemInfo : SpecterResourceContentInfo
     {
 
-        public SpecterItemInfo(SPItemResponseBaseData data)
+        public SpecterItemInfo(SPResourceResponseData data)
         {
             Uuid = data.uuid;
             Id = data.id;
@@ -229,7 +229,7 @@ namespace SpecterSDK.ObjectModels
     }
     public class SpecterBundleInfo : SpecterResourceContentInfo
     {
-        public SpecterBundleInfo(SPItemResponseBaseData data)
+        public SpecterBundleInfo(SPResourceResponseData data)
         {
             Uuid = data.uuid;
             Id = data.id;
@@ -241,7 +241,7 @@ namespace SpecterSDK.ObjectModels
 
     public class SpecterCurrencyInfo : SpecterResourceContentInfo
     {
-        public SpecterCurrencyInfo(SPCurrencyInfoResponseData data)
+        public SpecterCurrencyInfo(SPResourceResponseData data)
         {
             Uuid = data.uuid;
             Id = data.id;
@@ -372,10 +372,10 @@ namespace SpecterSDK.ObjectModels
         public float BonusCashAllowance;
         public int? GamePlatformMasterId;
 
-        public SpecterCurrency VirtualCurrency;
+        public SpecterCurrencyBase VirtualCurrency;
         public SpecterRealCurrency RealCurrency;
 
-        public SpecterPrice(SPPriceResponseData data)
+        public SpecterPrice(SPPriceData data)
         {
             Uuid = data.uuid;
             Id = data.id;
@@ -383,7 +383,7 @@ namespace SpecterSDK.ObjectModels
             Discount = data.discount;
             BonusCashAllowance = data.bonusCashAllowance;
             GamePlatformMasterId = data.gamePlatformMasterId;
-            VirtualCurrency = data.virtualCurrency != null ? new SpecterCurrency(data.virtualCurrency) : null;
+            VirtualCurrency = data.virtualCurrency != null ? new SpecterCurrencyBase(data.virtualCurrency) : null;
             RealCurrency = data.realWorldCurrency != null ? new SpecterRealCurrency(data.realWorldCurrency) : null;
         }
     }
