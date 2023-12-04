@@ -6,6 +6,7 @@ using SpecterSDK.API.ClientAPI.Inventory;
 using SpecterSDK.API.ClientAPI.Matches;
 using SpecterSDK.API.ClientAPI.Progression;
 using SpecterSDK.API.ClientAPI.Rewards;
+using SpecterSDK.API.ClientAPI.Store;
 using SpecterSDK.API.ClientAPI.Tasks;
 using SpecterSDK.API.ClientAPI.User;
 using SpecterSDK.API.ClientAPI.Wallet;
@@ -74,15 +75,17 @@ namespace SpecterSDK
         
         public static SPRewardsApiClient Rewards { get; private set; }
         
-        /// <summary>
-        /// Provides methods to retrieve and manage user profiles, attributes, and other user-related data.
-        /// </summary>
-        public static SPUserApiClient User { get; private set; }
-        
+        public static SPStoreApiClient Store { get; private set; }
+
         /// <summary>
         /// Provides methods to retrieve and manage tasks, grant rewards, and other task related data.
         /// </summary>
         public static SPTasksApiClient Tasks { get; private set; }
+        
+        /// <summary>
+        /// Provides methods to retrieve and manage user profiles, attributes, and other user-related data.
+        /// </summary>
+        public static SPUserApiClient User { get; private set; }
         
         public static SPWalletApiClient Wallet { get; private set; }
 
@@ -183,8 +186,9 @@ namespace SpecterSDK
             Matches = new SPMatchesApiClient(Config);
             Progression = new SPProgressionApiClient(Config);
             Rewards = new SPRewardsApiClient(Config);
-            User = new SPUserApiClient(Config);
+            Store = new SPStoreApiClient(Config);
             Tasks = new SPTasksApiClient(Config);
+            User = new SPUserApiClient(Config);
             Wallet = new SPWalletApiClient(Config);
             
             IsInitialized = true;
