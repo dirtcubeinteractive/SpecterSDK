@@ -6,7 +6,7 @@ using SpecterSDK.APIModels;
 using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.ObjectModels;
 
-namespace SpecterSDK.API.ClientAPI.Games
+namespace SpecterSDK.API.ClientAPI.App
 {
     [Serializable]
     [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
@@ -33,12 +33,12 @@ namespace SpecterSDK.API.ClientAPI.Games
             }
         }   
     }
-
-    public partial class SPGamesApiClient
+        
+    public partial class SPAppApiClient
     {
         public async Task<SPGetGamesResult> GetGamesAsync(SPGetGamesRequest request)
         {
-            var result = await PostAsync<SPGetGamesResult,SPGameResponseDataList>("/v1/client/games/get-games",AuthType,request);
+            var result = await PostAsync<SPGetGamesResult,SPGameResponseDataList>("/v1/client/app/get-games",AuthType,request);
             return result;
         }
     }
