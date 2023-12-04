@@ -22,7 +22,7 @@ namespace SpecterSDK.ObjectModels
         public List<SpecterGamePlatform> Platforms;
         public List<SpecterCountryDetails> Countries;
         public List<SpecterGameGenre> Genres;
-        public List<SpecterGameMatch> Matches;
+        public List<SpecterMatchMin> Matches;
 
         public SpecterGame() { }
         public SpecterGame(SPGameResponseData data)
@@ -59,10 +59,10 @@ namespace SpecterSDK.ObjectModels
             {
                 Genres.Add(new SpecterGameGenre(genre));
             }
-            Matches = new List<SpecterGameMatch>();
+            Matches = new List<SpecterMatchMin>();
             foreach (var match in data.matches)
             {
-                Matches.Add(new SpecterGameMatch(match));
+                Matches.Add(new SpecterMatchMin(match));
             }
         }
     }
@@ -113,55 +113,5 @@ namespace SpecterSDK.ObjectModels
         }
     }
 
-    public class SpecterGameMatch : SpecterResource
-    {
-        public string HowTo;
-        public int MinPlayers;
-        public int MaxPlayers;
-        public int NumberOfPosition;
-        public int DefaultOutcomeValue;
-        public SpecterGameMatchFormat MatchFormatType;
-        public SpecterGameMatchOutcome MatchOutcomeType;
-
-        public SpecterGameMatch(SPGameMatchResponseData data)
-        {
-            Uuid = data.uuid;
-            Id = data.id;
-            Name = data.name;
-            Description = data.description;
-            HowTo = data.howTo;
-            IconUrl = data.iconUrl;
-            MinPlayers = data.minPlayers;
-            MaxPlayers = data.maxPlayers;
-            NumberOfPosition = data.numberOfPosition;
-            DefaultOutcomeValue = data.defaultOutcomeValue;
-            MatchFormatType = new SpecterGameMatchFormat(data.matchFormatType);
-            MatchOutcomeType = new SpecterGameMatchOutcome(data.matchOutcomeType);
-        }
-    }
-
-    public class SpecterGameMatchFormat
-    {
-        public int Id;
-        public string Name;
-
-        public SpecterGameMatchFormat(SPGameMatchFormatResponseData data)
-        {
-            Id = data.id;
-            Name = data.name;
-        }
-    }
-
-    public class SpecterGameMatchOutcome
-    {
-        public int Id;
-        public string Name;
-
-        public SpecterGameMatchOutcome(SPGameMatchOutcomeResponseData data)
-        {
-            Id = data.id;
-            Name = data.name;
-        }
-    }
-
+ 
 }

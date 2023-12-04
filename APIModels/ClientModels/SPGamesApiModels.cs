@@ -28,7 +28,7 @@ namespace SpecterSDK.APIModels.ClientModels
         public List<SPGamePlatformResponseData> platforms { get; set; }
         public List<SPCountryDetailsResponseData> countries { get; set; }
         public List<SPGameGenreResponseData> genre { get; set; }
-        public List<SPGameMatchResponseData> matches { get; set; }
+        public List<SPMatchMinResponseData> matches { get; set; }
         public List<string> tags { get; set; }
         public Dictionary<string, string> meta { get; set; }
         
@@ -63,37 +63,8 @@ namespace SpecterSDK.APIModels.ClientModels
         public int id { get; set; }
         public string name { get; set; }
     }
-
-    [Serializable]
-    public class SPGameMatchResponseData : ISpecterApiResponseData
-    {
-        public string uuid { get; set; }
-        public string id { get; set; }
-        public string name { get; set; }
-        public string description { get; set; }
-        public int minPlayers { get; set; }
-        public int maxPlayers { get; set; }
-        public string howTo { get; set; }
-        public string iconUrl { get; set; }
-        public int numberOfPosition { get; set; }
-        public int defaultOutcomeValue { get; set; }
-        public SPGameMatchFormatResponseData matchFormatType { get; set; }
-        public SPGameMatchOutcomeResponseData matchOutcomeType { get; set; }
-    }
-
-    [Serializable]
-    public class SPGameMatchFormatResponseData : ISpecterApiResponseData
-    {
-        public int id { get; set; }
-        public string name { get; set; }
-    }
-
-    [Serializable]
-    public class SPGameMatchOutcomeResponseData : ISpecterApiResponseData
-    {
-        public int id { get; set; }
-        public string name { get; set; }
-    }
+       
+   
 
     #endregion
 }
