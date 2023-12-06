@@ -8,7 +8,10 @@ namespace SpecterSDK.APIModels.ClientModels
     #region Api Data Models
 
     [Serializable]
-    public class SPGameResponseData : SPResourceResponseData, ISpecterMasterData
+    public class SPGameResponseBaseData : SPResourceResponseData { }
+
+    [Serializable]
+    public class SPGameResponseData : SPGameResponseBaseData, ISpecterMasterData
     {
         public string howTo { get; set; }
         public List<string> downloadUrl { get; set; }

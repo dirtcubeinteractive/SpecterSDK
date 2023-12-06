@@ -5,7 +5,18 @@ using SpecterSDK.Shared;
 
 namespace SpecterSDK.ObjectModels
 {
-    public class SpecterGame : SpecterResource, ISpecterMasterObject
+    public class SpecterGameBase : SpecterResource
+    {
+        public SpecterGameBase() { }
+        public SpecterGameBase(SPGameResponseBaseData data)
+        {
+            Uuid = data.uuid;
+            Id = data.id;
+            Name = data.name;
+            Description = data.description;
+        }
+    }
+    public class SpecterGame : SpecterGameBase, ISpecterMasterObject
     {
         public string HowTo;
         public List<string> Tags { get; set; }
@@ -25,7 +36,7 @@ namespace SpecterSDK.ObjectModels
         public List<SpecterMatchBase> Matches;
 
         public SpecterGame() { }
-        public SpecterGame(SPGameResponseData data)
+        public SpecterGame(SPGameResponseData data) : base(data)
         {
             Uuid = data.uuid;
             Id = data.id;
