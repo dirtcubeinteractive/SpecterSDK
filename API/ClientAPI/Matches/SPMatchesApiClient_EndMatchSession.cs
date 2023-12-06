@@ -27,7 +27,7 @@ namespace SpecterSDK.API.ClientAPI.Matches
     {
         public async Task<SPEndMatchSessionResult> EndMatchSessionAsync(SPEndMatchSessionRequest request)
         {
-            var result = await PostAsync<SPEndMatchSessionResult, SPMatchSessionResponseData>("/v1/client/match-session/end", AuthType, request);
+            var result = await PostAsync<SPEndMatchSessionResult, SPMatchSessionResponseData>("/v1/client/matches/end-session", AuthType, request);
             return result;
         }
 
