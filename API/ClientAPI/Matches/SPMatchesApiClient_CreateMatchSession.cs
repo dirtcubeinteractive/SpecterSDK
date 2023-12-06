@@ -6,9 +6,9 @@ using SpecterSDK.APIModels.ClientModels;
 namespace SpecterSDK.API.ClientAPI.Matches
 {
     [System.Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPGetMatchSessionRequest : SPMatchSessionRequestBaseData { }
+    public class SPCreateMatchSessionRequest : SPMatchSessionRequestBaseData { }
     
-    public class SPGetMatchSessionResult : SpecterApiResultBase<SPMatchSessionResponseData>
+    public class SPCreateMatchSessionResult : SpecterApiResultBase<SPMatchSessionResponseData>
     {
         public string MatchSessionId;
 
@@ -20,9 +20,9 @@ namespace SpecterSDK.API.ClientAPI.Matches
 
     public partial class SPMatchesApiClient
     {
-        public async Task<SPGetMatchSessionResult> GetMatchSessionAsync(SPGetMatchSessionRequest request)
+        public async Task<SPCreateMatchSessionResult> CreateMatchSessionAsync(SPCreateMatchSessionRequest request)
         {
-            var result = await PostAsync<SPGetMatchSessionResult, SPMatchSessionResponseData>("/v1/client/match-session/get-match-session-details", AuthType, request);
+            var result = await PostAsync<SPCreateMatchSessionResult, SPMatchSessionResponseData>("/v1/client/matches/create-session", AuthType, request);
             return result;
         }
 
