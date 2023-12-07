@@ -9,8 +9,6 @@ using UnityEngine;
 namespace SpecterSDK.ObjectModels
 {
     #region Specter Currencies
-
-
     public class SpecterCurrencyBase : SpecterResource
     {
         public string Code;
@@ -36,7 +34,6 @@ namespace SpecterSDK.ObjectModels
         public string Code;
         public string CountryName;
         public string ASCIISymbol;
-
         public SpecterRealCurrency(SPRealWorldCurrencyResponseData data)
         {
             Uuid = data.uuid;
@@ -52,7 +49,6 @@ namespace SpecterSDK.ObjectModels
     {
         public List<string> Tags { get; set; }
         public Dictionary<string, string> Meta { get; set; }
-
         public SpecterCurrency(SPCurrencyResponseData data) : base(data)
         {
             Tags = data.tags;
@@ -68,10 +64,9 @@ namespace SpecterSDK.ObjectModels
             Balance = data.balance;
         }
     }
-
     #endregion
-    #region Specter Items
 
+    #region Specter Items
     public abstract class SpecterCollectibleResourceBase : SpecterResource, ISpecterMasterObject
     {
         public bool IsConsumable;
@@ -79,6 +74,7 @@ namespace SpecterSDK.ObjectModels
         public bool IsTradable;
         public bool IsStackable;
         public int? StackCapacity;
+        public int? MaxCollectionInstance;
         public bool IsRentable;
         public bool IsLocked;
         public int? ConsumeByUses;
@@ -102,6 +98,7 @@ namespace SpecterSDK.ObjectModels
             IsTradable = data.isTradable;
             IsStackable = data.isStackable;
             StackCapacity = data.stackCapacity;
+            MaxCollectionInstance = data.maxCollectionInstance;
             IsRentable = data.isRentable;
             IsLocked = data.isLocked;
             ConsumeByUses = data.consumeByUses;
@@ -113,18 +110,14 @@ namespace SpecterSDK.ObjectModels
             if (data.unlockConditions != null)
             {
                 foreach (var conditionData in data.unlockConditions)
-                {
                     UnlockConditions.Add(new SpecterUnlockCondition(conditionData));
-                }
             }
 
             Prices = new List<SpecterPrice>();
             if (data.prices != null)
             {
                 foreach (var price in data.prices)
-                {
                     Prices.Add(new SpecterPrice(price));
-                }
             }
 
 
@@ -134,12 +127,8 @@ namespace SpecterSDK.ObjectModels
     public class SpecterItem : SpecterCollectibleResourceBase
     {
         public bool? IsDefaultLoadout;
-
         public SpecterItem() { }
-        public SpecterItem(SPItemResponseData data) : base(data)
-        {
-            IsDefaultLoadout = data.isDefaultLoadout;
-        }
+        public SpecterItem(SPItemResponseData data) : base(data) => IsDefaultLoadout = data.isDefaultLoadout;
 
     }
     #endregion
@@ -196,7 +185,6 @@ namespace SpecterSDK.ObjectModels
 
     public class SpecterCurrencyInfo : SpecterBundleResource { public SpecterCurrencyInfo(SPBundleResourceData data) : base(data) { } }
 
-
     public class SpecterBundleResource : SpecterResource
     {
         public int Quantity;
@@ -210,17 +198,13 @@ namespace SpecterSDK.ObjectModels
             Quantity = data.quantity;
         }
     }
-
-
     #endregion
+
     #region Specter Store
-
-
     public class SpecterStoreResource : SpecterResource
     {
         public int Quantity;
         public List<SpecterPrice> Prices;
-
         public SpecterStoreResource(SPStoreResourceResponseData data)
         {
             Uuid = data.uuid;
@@ -228,31 +212,33 @@ namespace SpecterSDK.ObjectModels
             Name = data.name;
             Description = data.description;
             IconUrl = data.iconUrl;
-
+            Quantity = data.quantity;
             Prices = new List<SpecterPrice>();
             if (data.prices != null)
             {
                 foreach (var price in data.prices)
-                {
                     Prices.Add(new SpecterPrice(price));
-                }
             }
         }
     }
+
     public class SpecterStoreItemInfo : SpecterStoreResource { public SpecterStoreItemInfo(SPStoreItemResponseData data) : base(data) { } }
+
     public class SpecterStoreBundleInfo : SpecterStoreResource { public SpecterStoreBundleInfo(SPStoreBundleResponseData data) : base(data) { } }
+
     public class SpecterStoreCurrencyInfo : SpecterStoreResource { public SpecterStoreCurrencyInfo(SPStoreCurrencyResponseData data) : base(data) { } }
 
     #endregion
+
     #region Specter Inventory
-
-
     public class SpecterInventoryResource : SpecterResource
     {
-        public string CollectionId;
+        public string SlotId;
         public int TotalUsesAvailable;
         public bool IsEquipped;
         public int Quantity;
+        public string CollectionId;
+        public string StackId;
         public SpecterInventoryResource(SPInventoryResourceResponseData data)
         {
             Uuid = data.uuid;
@@ -260,25 +246,21 @@ namespace SpecterSDK.ObjectModels
             Name = data.name;
             Description = data.description;
             IconUrl = data.iconUrl;
-            CollectionId = data.collectionId;
+            SlotId = data.slotId;
             TotalUsesAvailable = data.totalUsesAvailable;
             IsEquipped = data.isEquipped;
             Quantity = data.quantity;
+            CollectionId = data.collectionId;
+            StackId = data.stackId;
         }
     }
+
     public class SpecterInventoryItem : SpecterInventoryResource { public SpecterInventoryItem(SPInventoryItemResponseData data) : base(data) { } }
 
-    public class SpecterInventoryBundle : SpecterInventoryResource
-    {
-        public bool IsManual;
-        public SpecterInventoryBundle(SPInventoryBundleResponseData data) : base(data)
-        {
-            IsManual = data.isManual;
-        }
-    }
-
+    public class SpecterInventoryBundle : SpecterInventoryResource { public SpecterInventoryBundle(SPInventoryBundleResponseData data) : base(data) { } }
 
     #endregion
+
     #region Specter Price
     [Serializable]
     public class SpecterPrice : SpecterObject
@@ -288,7 +270,6 @@ namespace SpecterSDK.ObjectModels
         public float Discount;
         public float BonusCashAllowance;
         public int? GamePlatformMasterId;
-
         public SpecterCurrencyBase VirtualCurrency;
         public SpecterRealCurrency RealCurrency;
 

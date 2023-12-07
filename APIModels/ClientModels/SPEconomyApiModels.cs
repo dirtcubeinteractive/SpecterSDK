@@ -69,6 +69,7 @@ namespace SpecterSDK.APIModels.ClientModels
         public bool isTradable { get; set; }
         public bool isStackable { get; set; }
         public int? stackCapacity { get; set; }
+        public int? maxCollectionInstance { get; set; }
         public bool isRentable { get; set; }
         public bool isLocked { get; set; }
         public int? consumeByUses { get; set; }
@@ -101,16 +102,18 @@ namespace SpecterSDK.APIModels.ClientModels
     {
         public bool? isManual { get; set; }
         public SPBundleContentsData contents { get; set; }
-
     }
 
     [Serializable]
     public class SPBundleContentsData
     {
-        public List<SPBundleResourceData> items { get; set; }
-        public List<SPBundleResourceData> bundles { get; set; }
-        public List<SPBundleResourceData> currencies { get; set; }
+        public List<SpItemInfoData> items { get; set; }
+        public List<SpBundleInfoData> bundles { get; set; }
+        public List<SpCurrencyInfoData> currencies { get; set; }
     }
+    public class SpItemInfoData : SPBundleResourceData { }
+    public class SpBundleInfoData : SPBundleResourceData { }
+    public class SpCurrencyInfoData : SPBundleResourceData { }
 
     [Serializable]
     public class SPBundleResourceData : SPResourceResponseData
@@ -137,12 +140,8 @@ namespace SpecterSDK.APIModels.ClientModels
 
     [Serializable]
     public class SPStoreItemResponseData : SPStoreResourceResponseData { }
-
-
     [Serializable]
     public class SPStoreBundleResponseData : SPStoreResourceResponseData { }
-
-
     [Serializable]
     public class SPStoreCurrencyResponseData : SPStoreResourceResponseData { }
 
@@ -155,22 +154,19 @@ namespace SpecterSDK.APIModels.ClientModels
     [Serializable]
     public abstract class SPInventoryResourceResponseData : SPResourceResponseData
     {
-        public string collectionId { get; set; }
+        public string slotId { get; set; }
         public int totalUsesAvailable { get; set; }
         public bool isEquipped { get; set; }
         public int quantity { get; set; }
+        public string collectionId { get; set; }
+        public string stackId { get; set; }
     }
 
     [Serializable]
-    public class SPInventoryItemResponseData : SPInventoryResourceResponseData
-    {
-    }
-
+    public class SPInventoryItemResponseData : SPInventoryResourceResponseData { }
     [Serializable]
-    public class SPInventoryBundleResponseData : SPInventoryResourceResponseData
-    {
-        public bool isManual { get; set; }
-    }
+    public class SPInventoryBundleResponseData : SPInventoryResourceResponseData { }
+
 
     [Serializable]
     public class SPGetUserInventoryResponseData : ISpecterApiResponseData

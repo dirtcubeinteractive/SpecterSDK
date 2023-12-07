@@ -13,7 +13,7 @@ namespace SpecterSDK.API.ClientAPI.Inventory
             public int? amount;
             public string collectionId;
         }
-        
+        public override SPAuthType AuthType => SPAuthType.AccessToken;
         public SPInventoryApiClient(SpecterRuntimeConfig config) : base(config) { }
     }
 }

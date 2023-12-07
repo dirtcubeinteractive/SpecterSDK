@@ -18,7 +18,7 @@ namespace SpecterSDK.ObjectModels
         // Entity token required for certain client API calls such as to refresh an Access Token
         public string EntityToken;
     }
-    
+
     /// <summary>
     /// Base class for all Specter objects. Specter objects are designed to be more
     /// Unity/C# friendly and are mapped from API data models. Specter objects may contain additional
@@ -48,7 +48,6 @@ namespace SpecterSDK.ObjectModels
         Bundle
     }
 
-    [Serializable]
     public class SpecterUnlockCondition
     {
         public SpecterResourceLockType LockType;
