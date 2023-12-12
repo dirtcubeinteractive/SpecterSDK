@@ -138,7 +138,6 @@ namespace SpecterSDK.ObjectModels
     {
         public bool? IsManual;
         public SpecterBundleContents SpecterBundleContent;
-
         public SpecterBundle(SPBundleResponseData data) : base(data)
         {
             IsManual = data.isManual;
@@ -160,15 +159,12 @@ namespace SpecterSDK.ObjectModels
                 foreach (var item in data.items)
                     Items.Add(new SpecterItemInfo(item));
             }
-
-
             Bundles = new List<SpecterBundleInfo>();
             if (data.bundles != null)
             {
                 foreach (var bundle in data.bundles)
                     Bundles.Add(new SpecterBundleInfo(bundle));
             }
-
             Currencies = new List<SpecterCurrencyInfo>();
             if (data.currencies != null)
             {
@@ -180,11 +176,8 @@ namespace SpecterSDK.ObjectModels
     }
 
     public class SpecterItemInfo : SpecterBundleResource { public SpecterItemInfo(SPBundleResourceData data) : base(data) { } }
-
     public class SpecterBundleInfo : SpecterBundleResource { public SpecterBundleInfo(SPBundleResourceData data) : base(data) { } }
-
     public class SpecterCurrencyInfo : SpecterBundleResource { public SpecterCurrencyInfo(SPBundleResourceData data) : base(data) { } }
-
     public class SpecterBundleResource : SpecterResource
     {
         public int Quantity;
@@ -221,13 +214,9 @@ namespace SpecterSDK.ObjectModels
             }
         }
     }
-
     public class SpecterStoreItemInfo : SpecterStoreResource { public SpecterStoreItemInfo(SPStoreItemResponseData data) : base(data) { } }
-
     public class SpecterStoreBundleInfo : SpecterStoreResource { public SpecterStoreBundleInfo(SPStoreBundleResponseData data) : base(data) { } }
-
     public class SpecterStoreCurrencyInfo : SpecterStoreResource { public SpecterStoreCurrencyInfo(SPStoreCurrencyResponseData data) : base(data) { } }
-
 
     public class SpecterPurchasedResourceInfo : SpecterResource
     {
@@ -252,16 +241,8 @@ namespace SpecterSDK.ObjectModels
             StackId = data.stackId;
         }
     }
-
-    public class SpecterPurchasedItemInfo : SpecterPurchasedResourceInfo
-    {
-        public SpecterPurchasedItemInfo(SPPurchasedItemResponseData data) : base(data) { }
-    }
-    public class SpecterPurchasedBundleInfo : SpecterPurchasedResourceInfo
-    {
-        public SpecterPurchasedBundleInfo(SPPurchasedBundleResponseData data) : base(data) { }
-    }
-
+    public class SpecterPurchasedItemInfo : SpecterPurchasedResourceInfo { public SpecterPurchasedItemInfo(SPPurchasedItemResponseData data) : base(data) { } }
+    public class SpecterPurchasedBundleInfo : SpecterPurchasedResourceInfo { public SpecterPurchasedBundleInfo(SPPurchasedBundleResponseData data) : base(data) { } }
     #endregion
 
     #region Specter Inventory
@@ -300,7 +281,7 @@ namespace SpecterSDK.ObjectModels
     public class SpecterPrice : SpecterObject
     {
         public SPPriceTypes Type;
-        public float Price;
+        public double Price;
         public float Discount;
         public float BonusCashAllowance;
         public int? GamePlatformMasterId;
@@ -312,6 +293,7 @@ namespace SpecterSDK.ObjectModels
             Uuid = data.uuid;
             Id = data.id;
             Type = data.priceType;
+            Price = data.price;
             Discount = data.discount;
             BonusCashAllowance = data.bonusCashAllowance;
             GamePlatformMasterId = data.gamePlatformMasterId;
