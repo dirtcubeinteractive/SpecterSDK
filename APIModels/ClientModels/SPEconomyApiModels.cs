@@ -93,8 +93,6 @@ namespace SpecterSDK.APIModels.ClientModels
 
     #endregion
 
-    //Bundle data in SDK response
-
     #region Bundle Response Data Models
 
     [Serializable]
@@ -103,7 +101,8 @@ namespace SpecterSDK.APIModels.ClientModels
         public bool? isManual { get; set; }
         public SPBundleContentsData contents { get; set; }
     }
-
+    [Serializable]
+    public class SPBundleResponseDataList : SPResponseDataList<SPBundleResponseData> { }
     [Serializable]
     public class SPBundleContentsData
     {
@@ -111,25 +110,21 @@ namespace SpecterSDK.APIModels.ClientModels
         public List<SpBundleInfoData> bundles { get; set; }
         public List<SpCurrencyInfoData> currencies { get; set; }
     }
-    public class SpItemInfoData : SPBundleResourceData { }
-    public class SpBundleInfoData : SPBundleResourceData { }
-    public class SpCurrencyInfoData : SPBundleResourceData { }
 
     [Serializable]
     public class SPBundleResourceData : SPResourceResponseData
     {
         public int quantity { get; set; }
     }
-
     [Serializable]
-    public class SPBundleResponseDataList : SPResponseDataList<SPBundleResponseData> { }
-
+    public class SpItemInfoData : SPBundleResourceData { }
+    [Serializable]
+    public class SpBundleInfoData : SPBundleResourceData { }
+    [Serializable]
+    public class SpCurrencyInfoData : SPBundleResourceData { }
     #endregion
 
-    //Store item data in SDK responses
-
     #region Store Response Data Models
-
     [Serializable]
     public abstract class SPStoreResourceResponseData : SPResourceResponseData
     {
@@ -165,14 +160,10 @@ namespace SpecterSDK.APIModels.ClientModels
 
     [Serializable]
     public class SPPurchasedItemResponseData : SPPurchasedResourceResponseData { }
-
-
     [Serializable]
     public class SPPurchasedBundleResponseData : SPPurchasedResourceResponseData { }
 
     #endregion
-
-    // User inventory item data in SDK responses
 
     #region Inventory Response Data Models
 
@@ -200,7 +191,6 @@ namespace SpecterSDK.APIModels.ClientModels
         public List<SPInventoryBundleResponseData> bundles { get; set; }
     }
     #endregion
-
 
     #region Price Response Data Models
 
