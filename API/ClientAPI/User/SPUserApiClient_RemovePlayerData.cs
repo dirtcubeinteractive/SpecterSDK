@@ -8,7 +8,7 @@ using SpecterSDK.APIModels.ClientModels;
 namespace SpecterSDK.API.ClientAPI.User
 {
     [System.Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPRemovePlayerDataRequest: SPApiRequestBaseData
+    public class SPRemovePlayerDataRequest: SPApiRequestBase
     {
         public List<string> keysToRemove;
     }

@@ -10,7 +10,7 @@ namespace SpecterSDK.API.ClientAPI.App
 {
     [Serializable]
     [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPGetGamesRequest : SPApiRequestBaseData
+    public class SPGetGamesRequest : SPApiRequestBase
     {
        public List<string> gameIds { get; set; }
        public List<string> attributes { get; set; }

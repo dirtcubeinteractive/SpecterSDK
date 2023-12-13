@@ -11,7 +11,7 @@ using UnityEngine;
 namespace SpecterSDK.Editor.API
 {
     [Serializable]
-    public class SPGetProgressionSystemsAdminRequest : SPApiRequestBaseData, IProjectConfigurable
+    public class SPGetProgressionSystemsAdminRequest : SPApiRequestBase, IProjectConfigurable
     {
         public string projectId { get; set; }
         public List<string> ids { get; set; }
@@ -34,7 +34,7 @@ namespace SpecterSDK.Editor.API
     }
 
     [Serializable]
-    public class SPGetTaskListAdminRequest : SPApiRequestBaseData, IProjectConfigurable
+    public class SPGetTaskListAdminRequest : SPApiRequestBase, IProjectConfigurable
     {
         public string projectId { get; set; }
         public List<string> ids { get; set; } = new();

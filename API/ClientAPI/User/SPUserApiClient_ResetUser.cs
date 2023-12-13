@@ -9,7 +9,7 @@ namespace SpecterSDK.API.ClientAPI.User
 {
     [Serializable]
     [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPResetUserRequest : SPApiRequestBaseData
+    public class SPResetUserRequest : SPApiRequestBase
     {
         public List<string> attributes { get; set; }
         public List<SPResetUserRequestEntity> entities { get; set; }

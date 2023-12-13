@@ -10,7 +10,7 @@ using SpecterSDK.ObjectModels;
 namespace SpecterSDK.API.ClientAPI.Tasks
 {
     [Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPGetTaskStatusRequest: SPApiRequestBaseData, IAttributeConfigurable, IEntityConfigurable
+    public class SPGetTaskStatusRequest: SPApiRequestBase, IAttributeConfigurable, IEntityConfigurable
     {
         public List<string> taskIds { get; set; }
         public SPTaskStatus status { get; set; }

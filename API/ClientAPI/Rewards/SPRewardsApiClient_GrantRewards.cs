@@ -10,7 +10,7 @@ using SpecterSDK.Shared;
 namespace SpecterSDK.API.ClientAPI.Rewards
 {
     [Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPGrantRewardsRequest : SPApiRequestBaseData
+    public class SPGrantRewardsRequest : SPApiRequestBase
     {
         public List<SPRewardGrantDetail> rewardDetails;
     }

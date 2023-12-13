@@ -11,7 +11,7 @@ namespace SpecterSDK.APIModels
     /// This abstract class is extended to include specific properties and configurations for different API endpoints.
     /// </summary>
     [Serializable]
-    public abstract class SPApiRequestBaseData { }
+    public abstract class SPApiRequestBase { }
 
     /// <summary>
     /// Represents the data needed to request additional entities in an API request.

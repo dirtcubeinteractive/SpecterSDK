@@ -217,32 +217,7 @@ namespace SpecterSDK.ObjectModels
     public class SpecterStoreItemInfo : SpecterStoreResource { public SpecterStoreItemInfo(SPStoreItemResponseData data) : base(data) { } }
     public class SpecterStoreBundleInfo : SpecterStoreResource { public SpecterStoreBundleInfo(SPStoreBundleResponseData data) : base(data) { } }
     public class SpecterStoreCurrencyInfo : SpecterStoreResource { public SpecterStoreCurrencyInfo(SPStoreCurrencyResponseData data) : base(data) { } }
-
-    public class SpecterPurchasedResourceInfo : SpecterResource
-    {
-        public string SlotId;
-        public int TotalUsesAvailable;
-        public bool IsEquipped;
-        public int Quantity;
-        public string CollectionId;
-        public string StackId;
-        public SpecterPurchasedResourceInfo(SPPurchasedResourceResponseData data)
-        {
-            Uuid = data.uuid;
-            Id = data.id;
-            Name = data.name;
-            Description = data.description;
-            IconUrl = data.iconUrl;
-            SlotId = data.slotId;
-            TotalUsesAvailable = data.totalUsesAvailable;
-            IsEquipped = data.isEquipped;
-            Quantity = data.quantity;
-            CollectionId = data.collectionId;
-            StackId = data.stackId;
-        }
-    }
-    public class SpecterPurchasedItemInfo : SpecterPurchasedResourceInfo { public SpecterPurchasedItemInfo(SPPurchasedItemResponseData data) : base(data) { } }
-    public class SpecterPurchasedBundleInfo : SpecterPurchasedResourceInfo { public SpecterPurchasedBundleInfo(SPPurchasedBundleResponseData data) : base(data) { } }
+    
     #endregion
 
     #region Specter Inventory
@@ -270,9 +245,15 @@ namespace SpecterSDK.ObjectModels
         }
     }
 
-    public class SpecterInventoryItem : SpecterInventoryResource { public SpecterInventoryItem(SPInventoryItemResponseData data) : base(data) { } }
+    public class SpecterInventoryItem : SpecterInventoryResource
+    {
+        public SpecterInventoryItem(SPInventoryItemResponseData data) : base(data) { }
+    }
 
-    public class SpecterInventoryBundle : SpecterInventoryResource { public SpecterInventoryBundle(SPInventoryBundleResponseData data) : base(data) { } }
+    public class SpecterInventoryBundle : SpecterInventoryResource
+    {
+        public SpecterInventoryBundle(SPInventoryBundleResponseData data) : base(data) { }
+    }
 
     #endregion
 

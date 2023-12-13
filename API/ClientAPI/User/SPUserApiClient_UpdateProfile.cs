@@ -8,7 +8,7 @@ namespace SpecterSDK.API.ClientAPI.User
 {
     [Serializable]
     [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPUpdateUserProfileRequest : SPApiRequestBaseData
+    public class SPUpdateUserProfileRequest : SPApiRequestBase
     {
         public string firstName { get; set; }
         public string lastName { get; set; }

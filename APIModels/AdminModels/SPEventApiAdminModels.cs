@@ -54,7 +54,7 @@ namespace SpecterSDK.APIModels.AdminModels
     }
 
     [Serializable]
-    public abstract class SPGetAppEventsAdminRequest : SPApiRequestBaseData, IProjectConfigurable
+    public abstract class SPGetAppEventsAdminRequest : SPApiRequestBase, IProjectConfigurable
     {
         public string projectId { get; set; }
         public List<string> ids { get; set; }

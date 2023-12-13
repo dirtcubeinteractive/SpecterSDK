@@ -10,7 +10,7 @@ namespace SpecterSDK.API.ClientAPI.App
 {
     [Serializable]
     [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPGetCurrenciesRequest : SPApiRequestBaseData
+    public class SPGetCurrenciesRequest : SPApiRequestBase
     {
         public List<string> currencyIds { get; set; } 
         public SPCurrencyType type { get; set; }

@@ -23,7 +23,7 @@ namespace SpecterSDK.API.ClientAPI.Matches
     }
     
     [Serializable]
-    public abstract class SPMatchSessionRequestBaseData : SPApiRequestBaseData
+    public abstract class SPMatchSessionRequestBase : SPApiRequestBase
     {
         public string matchId;
         public string competitionId;

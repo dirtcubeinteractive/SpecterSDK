@@ -11,7 +11,7 @@ namespace SpecterSDK.API.ClientAPI.App
 {
 
     [Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPGetBundlesRequest : SPApiRequestBaseData
+    public class SPGetBundlesRequest : SPApiRequestBase
     {
         public List<string> bundleIds { get; set; }
 

@@ -15,7 +15,7 @@ namespace SpecterSDK.API.ClientAPI.Inventory
     }
 
     [Serializable]
-    public class SPEquipOrUnEquipRequest : SPApiRequestBaseData
+    public class SPEquipOrUnEquipRequest : SPApiRequestBase
     {
         public List<SPEquipUnequipItemInfo> items;
     }

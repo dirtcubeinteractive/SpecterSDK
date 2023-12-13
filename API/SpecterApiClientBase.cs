@@ -219,21 +219,21 @@ namespace SpecterSDK.API
         }
 
         // Convenience methods for making specific types of HTTP requests. These abstract away the HTTP verb details, providing a more semantic way to make requests.
-        protected async Task<TResult> GetAsync<TResult, TData>(string endpoint, SPAuthType authType, SPApiRequestBaseData queryParams) 
+        protected async Task<TResult> GetAsync<TResult, TData>(string endpoint, SPAuthType authType, SPApiRequestBase queryParams) 
             where TData: class, ISpecterApiResponseData, new()
             where TResult: SpecterApiResultBase<TData>, new()
         {
             return await MakeRequestAsync<TResult, TData>(HttpMethod.Get, endpoint, authType: authType, requestParams: queryParams);
         }
 
-        protected async Task<TResult> PostAsync<TResult, TData>(string endpoint, SPAuthType authType, SPApiRequestBaseData bodyParams)
+        protected async Task<TResult> PostAsync<TResult, TData>(string endpoint, SPAuthType authType, SPApiRequestBase bodyParams)
             where TData: class, ISpecterApiResponseData, new()
             where TResult: SpecterApiResultBase<TData>, new()
         {
             return await MakeRequestAsync<TResult, TData>(HttpMethod.Post, endpoint, authType: authType, requestBody: bodyParams);
         }
 
-        protected async Task<TResult> PutAsync<TResult, TData>(string endpoint, SPAuthType authType, SPApiRequestBaseData bodyParams)
+        protected async Task<TResult> PutAsync<TResult, TData>(string endpoint, SPAuthType authType, SPApiRequestBase bodyParams)
             where TData: class, ISpecterApiResponseData, new()
             where TResult: SpecterApiResultBase<TData>, new()
         {

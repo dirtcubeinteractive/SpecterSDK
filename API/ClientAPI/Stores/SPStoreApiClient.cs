@@ -1,6 +1,6 @@
 using SpecterSDK.Shared;
 
-namespace SpecterSDK.API.ClientAPI.Store
+namespace SpecterSDK.API.ClientAPI.Stores
 {
     public partial class SPStoreApiClient : SpecterApiClientBase
     {

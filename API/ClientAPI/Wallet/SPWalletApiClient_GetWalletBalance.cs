@@ -8,7 +8,7 @@ using SpecterSDK.ObjectModels;
 namespace SpecterSDK.API.ClientAPI.Wallet
 {
     [System.Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPGetWalletBalanceRequest : SPApiRequestBaseData
+    public class SPGetWalletBalanceRequest : SPApiRequestBase
     {
         public List<string> currencyIds  { get; set; }
     }

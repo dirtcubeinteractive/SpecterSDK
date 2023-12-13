@@ -8,7 +8,7 @@ using SpecterSDK.Shared;
 namespace SpecterSDK.API.ClientAPI.Wallet
 {
     [Serializable]
-    public class SPUpdateWalletBalanceRequest : SPApiRequestBaseData 
+    public class SPUpdateWalletBalanceRequest : SPApiRequestBase 
     {
         public float amount { get; set; }
         public string currencyId { get; set; }

@@ -6,7 +6,7 @@ using SpecterSDK.APIModels.ClientModels;
 namespace SpecterSDK.API.ClientAPI.App
 {
 
-    public class SPGetServerTimeRequest : SPApiRequestBaseData
+    public class SPGetServerTimeRequest : SPApiRequestBase
     {
 
     }

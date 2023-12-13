@@ -9,7 +9,7 @@ using SpecterSDK.ObjectModels;
 namespace SpecterSDK.API.ClientAPI.Tasks
 {
     [Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPForceCompleteTaskRequest : SPApiRequestBaseData
+    public class SPForceCompleteTaskRequest : SPApiRequestBase
     {
         public List<string> taskIds { get; set; }
         public bool getRewardDataInResponse { get; set; }

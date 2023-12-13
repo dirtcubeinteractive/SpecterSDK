@@ -146,23 +146,6 @@ namespace SpecterSDK.APIModels.ClientModels
     [Serializable]
     public class SPStoreCurrencyResponseData : SPStoreResourceResponseData { }
 
-
-    [Serializable]
-    public class SPPurchasedResourceResponseData : SPResourceResponseData
-    {
-        public string slotId { get; set; }
-        public int totalUsesAvailable { get; set; }
-        public bool isEquipped { get; set; }
-        public int quantity { get; set; }
-        public string collectionId { get; set; }
-        public string stackId { get; set; }
-    }
-
-    [Serializable]
-    public class SPPurchasedItemResponseData : SPPurchasedResourceResponseData { }
-    [Serializable]
-    public class SPPurchasedBundleResponseData : SPPurchasedResourceResponseData { }
-
     #endregion
 
     #region Inventory Response Data Models

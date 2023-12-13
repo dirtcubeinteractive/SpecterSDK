@@ -7,7 +7,7 @@ using SpecterSDK.APIModels;
 namespace SpecterSDK.API.ClientAPI.Inventory
 {
     [Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPRemoveFromInventoryRequest : SPApiRequestBaseData
+    public class SPRemoveFromInventoryRequest : SPApiRequestBase
     {
         public List<SPInventoryApiClient.SPInventoryEntityInfo> bundles { get ; set ; }
         public List<SPInventoryApiClient.SPInventoryEntityInfo> items { get ; set; }

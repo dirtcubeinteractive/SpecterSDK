@@ -10,7 +10,7 @@ namespace SpecterSDK.API.ClientAPI.Inventory
 {
 
     [Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPGetUserInventoryRequest : SPApiRequestBaseData
+    public class SPGetUserInventoryRequest : SPApiRequestBase
     {
         public int? offset { get; set; }
         public int? limit { get; set; }

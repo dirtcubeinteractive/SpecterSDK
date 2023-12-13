@@ -9,7 +9,7 @@ using SpecterSDK.ObjectModels;
 namespace SpecterSDK.API.ClientAPI.Rewards
 {
     [Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPGetRewardsHistoryRequest : SPApiRequestBaseData
+    public class SPGetRewardsHistoryRequest : SPApiRequestBase
     {
         public string status { get; set; }
 

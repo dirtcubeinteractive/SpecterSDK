@@ -10,7 +10,7 @@ namespace SpecterSDK.API.ClientAPI.App
 {
     [Serializable]
     [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPGetProgressionSystemsRequest : SPApiRequestBaseData
+    public class SPGetProgressionSystemsRequest : SPApiRequestBase
     {
         public List<string> progressionSystemIds { get; set; }
         public int limit { get; set; }

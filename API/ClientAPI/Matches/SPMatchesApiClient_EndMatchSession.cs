@@ -7,7 +7,7 @@ using SpecterSDK.APIModels.ClientModels;
 namespace SpecterSDK.API.ClientAPI.Matches
 {
     [Serializable]
-    public class SPEndMatchSessionRequest : SPApiRequestBaseData
+    public class SPEndMatchSessionRequest : SPApiRequestBase
     {
         public string matchSessionId;
         public List<SPEndMatchSessionUserInfo> userInfo;

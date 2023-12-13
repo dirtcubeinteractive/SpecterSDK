@@ -8,7 +8,7 @@ using SpecterSDK.APIModels.ClientModels;
 namespace SpecterSDK.API.ClientAPI.User
 {
     [System.Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPGetPlayerDataRequest : SPApiRequestBaseData
+    public class SPGetPlayerDataRequest : SPApiRequestBase
     {
         public List<string> keys;
         public string userId;

@@ -8,7 +8,7 @@ using SpecterSDK.Shared;
 namespace SpecterSDK.API.ClientAPI.Authentication
 {
     [System.Serializable]
-    public abstract class SPAuthLoginRequestBase : SPApiRequestBaseData, IProjectConfigurable
+    public abstract class SPAuthLoginRequestBase : SPApiRequestBase, IProjectConfigurable
     {
         public string projectId { get; set; }
         public bool createAccount { get; set; }

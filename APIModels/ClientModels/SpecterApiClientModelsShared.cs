@@ -16,7 +16,7 @@ namespace SpecterSDK.APIModels.ClientModels
     }
     
     [Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public abstract class SPApiEventConfigurableRequestBase : SPApiRequestBaseData, ISpecterEventConfigurable
+    public abstract class SPApiEventConfigurableRequestBase : SPApiRequestBase, ISpecterEventConfigurable
     {
         public Dictionary<string, object> customParams { get; set; }
         public Dictionary<string, object> systemParams { get; set; }

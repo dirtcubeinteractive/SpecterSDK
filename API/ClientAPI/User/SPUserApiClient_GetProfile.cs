@@ -10,7 +10,7 @@ using SpecterSDK.ObjectModels;
 namespace SpecterSDK.API.ClientAPI.User
 {
     [System.Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPGetUserProfileRequest : SPApiRequestBaseData
+    public class SPGetUserProfileRequest : SPApiRequestBase
     {
         public string id { get; set; }
         public List<string> attributes { get; set; }

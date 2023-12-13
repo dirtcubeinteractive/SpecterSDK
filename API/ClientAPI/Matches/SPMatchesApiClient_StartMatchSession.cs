@@ -7,7 +7,7 @@ using SpecterSDK.APIModels.ClientModels;
 namespace SpecterSDK.API.ClientAPI.Matches
 {
     [Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPStartMatchSessionRequest : SPMatchSessionRequestBaseData
+    public class SPStartMatchSessionRequest : SPMatchSessionRequestBase
     {
         public string matchSessionId { get; set; }
     }

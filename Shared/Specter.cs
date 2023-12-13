@@ -2,11 +2,12 @@ using System;
 using SpecterSDK.API.ClientAPI;
 using SpecterSDK.API.ClientAPI.App;
 using SpecterSDK.API.ClientAPI.Authentication;
+using SpecterSDK.API.ClientAPI.Events;
 using SpecterSDK.API.ClientAPI.Inventory;
 using SpecterSDK.API.ClientAPI.Matches;
 using SpecterSDK.API.ClientAPI.Progression;
 using SpecterSDK.API.ClientAPI.Rewards;
-using SpecterSDK.API.ClientAPI.Store;
+using SpecterSDK.API.ClientAPI.Stores;
 using SpecterSDK.API.ClientAPI.Tasks;
 using SpecterSDK.API.ClientAPI.User;
 using SpecterSDK.API.ClientAPI.Wallet;
@@ -67,6 +68,8 @@ namespace SpecterSDK
         /// </summary>
         public static SPAuthApiClient Auth { get; private set; }
         
+        public static SPEventsApiClient Events { get; private set; }
+        
         public static SPInventoryApiClient Inventory { get; private set; }
         
         public static SPMatchesApiClient Matches { get; private set; }
@@ -75,7 +78,7 @@ namespace SpecterSDK
         
         public static SPRewardsApiClient Rewards { get; private set; }
         
-        public static SPStoreApiClient Store { get; private set; }
+        public static SPStoreApiClient Stores { get; private set; }
 
         /// <summary>
         /// Provides methods to retrieve and manage tasks, grant rewards, and other task related data.
@@ -182,11 +185,12 @@ namespace SpecterSDK
 
             App = new SPAppApiClient(Config);
             Auth = new SPAuthApiClient(Config);
+            Events = new SPEventsApiClient(Config);
             Inventory = new SPInventoryApiClient(Config);
             Matches = new SPMatchesApiClient(Config);
             Progression = new SPProgressionApiClient(Config);
             Rewards = new SPRewardsApiClient(Config);
-            Store = new SPStoreApiClient(Config);
+            Stores = new SPStoreApiClient(Config);
             Tasks = new SPTasksApiClient(Config);
             User = new SPUserApiClient(Config);
             Wallet = new SPWalletApiClient(Config);
@@ -199,11 +203,19 @@ namespace SpecterSDK
         /// </summary>
         public static void Dispose()
         {
+            App = null;
             Auth = null;
-            User = null;
+            Events = null;
+            Inventory = null;
+            Matches = null;
+            Progression = null;
+            Rewards = null;
+            Stores = null;
             Tasks = null;
+            User = null;
+            Wallet = null;
+            
             Config = null;
-
             IsInitialized = false;
         }
     }

@@ -7,7 +7,7 @@ using SpecterSDK.ObjectModels;
 namespace SpecterSDK.API.ClientAPI.Progression
 {
     [System.Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPUpdateProgressionMarkerRequest : SPApiRequestBaseData
+    public class SPUpdateProgressionMarkerRequest : SPApiRequestBase
     {   
         public string operation { get; set; }
         public int amount { get; set; }
