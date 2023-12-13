@@ -4,6 +4,7 @@ using SpecterSDK.API.ClientAPI.App;
 using SpecterSDK.API.ClientAPI.Authentication;
 using SpecterSDK.API.ClientAPI.Events;
 using SpecterSDK.API.ClientAPI.Inventory;
+using SpecterSDK.API.ClientAPI.Leaderboards;
 using SpecterSDK.API.ClientAPI.Matches;
 using SpecterSDK.API.ClientAPI.Progression;
 using SpecterSDK.API.ClientAPI.Rewards;
@@ -71,6 +72,8 @@ namespace SpecterSDK
         public static SPEventsApiClient Events { get; private set; }
         
         public static SPInventoryApiClient Inventory { get; private set; }
+        
+        public static SPLeaderboardsApiClient Leaderboards { get; private set; }
         
         public static SPMatchesApiClient Matches { get; private set; }
         
@@ -187,6 +190,7 @@ namespace SpecterSDK
             Auth = new SPAuthApiClient(Config);
             Events = new SPEventsApiClient(Config);
             Inventory = new SPInventoryApiClient(Config);
+            Leaderboards = new SPLeaderboardsApiClient(Config);
             Matches = new SPMatchesApiClient(Config);
             Progression = new SPProgressionApiClient(Config);
             Rewards = new SPRewardsApiClient(Config);
@@ -207,6 +211,7 @@ namespace SpecterSDK
             Auth = null;
             Events = null;
             Inventory = null;
+            Leaderboards = null;
             Matches = null;
             Progression = null;
             Rewards = null;

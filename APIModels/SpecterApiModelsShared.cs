@@ -99,6 +99,9 @@ namespace SpecterSDK.APIModels
     /// </summary>
     [Serializable]
     public sealed class SPGeneralResponseData : Dictionary<string, object>, ISpecterApiResponseData { }
+    
+    [Serializable]
+    public sealed class SPGeneralListResponseData : List<object>, ISpecterApiResponseData { }
 
     /// <summary>
     /// Base class for API results returned by the Specter SDK. This class provides a wrapper around
