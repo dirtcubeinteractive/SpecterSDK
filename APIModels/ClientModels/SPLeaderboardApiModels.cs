@@ -41,7 +41,7 @@ namespace SpecterSDK.APIModels.ClientModels
         public DateTime? startDate { get; set; }
         public DateTime? endDate { get; set; }
         public bool isRecurring { get; set; }
-        public List<SPPrizeDistributionRuleData> prizeDistributionRule { get; set; }
+        public List<SPPrizeDistributionRuleData> prizeDistributionRules { get; set; }
         public int? prizeDistributionOffset { get; set; }       
         public SPMatchResponseBaseData match { get; set; }
         public SPLeaderboardOutcomeData outcomeType { get; set; }
@@ -55,7 +55,7 @@ namespace SpecterSDK.APIModels.ClientModels
     }
 
     [Serializable]
-    public class SPUserDetailData
+    public class SPLeaderboardPlayerData
     {
         public string uuid { get; set; }
         public string id { get; set; }
@@ -71,7 +71,7 @@ namespace SpecterSDK.APIModels.ClientModels
     {
         public int rank { get; set; }
         public int score { get; set; }
-        public SPUserDetailData userDetail { get; set; }
+        public SPLeaderboardPlayerData userDetails { get; set; }
     }
 
     [Serializable]

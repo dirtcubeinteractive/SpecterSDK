@@ -10,8 +10,8 @@ namespace SpecterSDK.ObjectModels
         public DateTime? StartDate;
         public DateTime? EndDate;
         public bool IsRecurring;
-        public List<SpecterPrizeDistributionRuleData> PrizeDistributionRules;
-        public int? PrizeDistributionOffset;
+        public List<SpecterPrizeDistributionRule> PrizeDistributionRules;
+        public int PrizeDistributionOffset;
         public SpecterMatchBase Match;
         public SPLeaderboardOutcomeType LeaderboardOutcomeType;
         public SPLeaderboardSourceType LeaderboardSourceType;
@@ -21,6 +21,7 @@ namespace SpecterSDK.ObjectModels
         public int TotalCount;
         public SpecterLeaderboardEntry CurrentPlayerEntry;
         public List<SpecterLeaderboardEntry> LeaderboardEntries;
+        
         public SpecterLeaderboard(SPLeaderboardResponseData data)
         {
             Uuid = data.uuid;
@@ -30,12 +31,14 @@ namespace SpecterSDK.ObjectModels
             StartDate = data.startDate;
             EndDate = data.endDate;
             IsRecurring = data.isRecurring;
-            PrizeDistributionRules = new List<SpecterPrizeDistributionRuleData>();
+            
+            PrizeDistributionRules = new List<SpecterPrizeDistributionRule>();
             foreach (var prizeDistributionRule in PrizeDistributionRules)
             {
                 PrizeDistributionRules.Add(prizeDistributionRule);
             }
-            PrizeDistributionOffset = data.prizeDistributionOffset;
+            
+            PrizeDistributionOffset = data.prizeDistributionOffset ?? 0;
             Match = new SpecterMatchBase(data.match);
             LeaderboardOutcomeType = data.outcomeType.name;
             LeaderboardSourceType = data.sourceType.name;
@@ -52,16 +55,16 @@ namespace SpecterSDK.ObjectModels
         }
     }
 
-    public class SpecterPrizeDistributionRuleData
+    public class SpecterPrizeDistributionRule
     {
-        public int? StartRank;
-        public int? EndRank;
+        public readonly int StartRank;
+        public readonly int EndRank;
         public List<Dictionary<string, object>> RewardDetails;
 
-        public SpecterPrizeDistributionRuleData(SPPrizeDistributionRuleData data)
+        public SpecterPrizeDistributionRule(SPPrizeDistributionRuleData data)
         {
-            StartRank = data.startRank;
-            EndRank = data.endRank;
+            StartRank = data.startRank ?? 1;
+            EndRank = data.endRank ?? StartRank;
             RewardDetails = data.rewardDetails;
         }
     }
@@ -70,16 +73,17 @@ namespace SpecterSDK.ObjectModels
     {
         public int Rank;
         public int Score;
-        public SpecterUserDetail UserDetail;
+        public SpecterLeaderboardPlayerInfo PlayerInfo;
+        
         public SpecterLeaderboardEntry(SPLeaderboardEntryData data)
         {
             Rank = data.rank;
             Score = data.score;
-            UserDetail = new SpecterUserDetail(data.userDetail);
+            PlayerInfo = new SpecterLeaderboardPlayerInfo(data.userDetails);
         }
     }
 
-    public class SpecterUserDetail
+    public class SpecterLeaderboardPlayerInfo
     {
         public string Uuid;
         public string Id;
@@ -88,7 +92,8 @@ namespace SpecterSDK.ObjectModels
         public string Username;
         public string DisplayName;
         public string ThumbUrl;
-        public SpecterUserDetail(SPUserDetailData data)
+        
+        public SpecterLeaderboardPlayerInfo(SPLeaderboardPlayerData data)
         {
             Uuid = data.uuid;
             Id = data.id;
