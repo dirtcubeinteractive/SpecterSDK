@@ -42,7 +42,6 @@ namespace SpecterSDK.APIModels.ClientModels
         public DateTime? endDate { get; set; }
         public bool isRecurring { get; set; }
         public List<SPPrizeDistributionRuleData> prizeDistributionRules { get; set; }
-        public int? prizeDistributionOffset { get; set; }       
         public SPMatchResponseBaseData match { get; set; }
         public SPLeaderboardOutcomeData outcomeType { get; set; }
         public SPLeaderboardIntervalData interval { get; set; }

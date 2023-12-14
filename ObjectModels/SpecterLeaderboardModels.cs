@@ -11,7 +11,6 @@ namespace SpecterSDK.ObjectModels
         public DateTime? EndDate;
         public bool IsRecurring;
         public List<SpecterPrizeDistributionRule> PrizeDistributionRules;
-        public int PrizeDistributionOffset;
         public SpecterMatchBase Match;
         public SPLeaderboardOutcomeType LeaderboardOutcomeType;
         public SPLeaderboardSourceType LeaderboardSourceType;
@@ -38,7 +37,6 @@ namespace SpecterSDK.ObjectModels
                 PrizeDistributionRules.Add(prizeDistributionRule);
             }
             
-            PrizeDistributionOffset = data.prizeDistributionOffset ?? 0;
             Match = new SpecterMatchBase(data.match);
             LeaderboardOutcomeType = data.outcomeType.name;
             LeaderboardSourceType = data.sourceType.name;
