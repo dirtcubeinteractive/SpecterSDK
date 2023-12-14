@@ -21,16 +21,18 @@ namespace SpecterSDK.API.ClientAPI.App
     }
 
     [Serializable]
-    public class SPGetGamesResult : SpecterApiResultBase<SPGameResponseDataList>
+    public class SPGetGamesResult : SpecterApiResultBase<SPGetGamesResponseData>
     {
         public List<SpecterGame> Games;
+        public int TotalCount;
         protected override void InitSpecterObjectsInternal()
         {
             Games = new List<SpecterGame>();
-            foreach (var game in Response.data)
+            foreach (var game in Response.data.games)
             {
                 Games.Add(new SpecterGame(game));
             }
+            TotalCount = Response.data.totalCount;
         }   
     }
         
@@ -38,7 +40,7 @@ namespace SpecterSDK.API.ClientAPI.App
     {
         public async Task<SPGetGamesResult> GetGamesAsync(SPGetGamesRequest request)
         {
-            var result = await PostAsync<SPGetGamesResult,SPGameResponseDataList>("/v1/client/app/get-games",AuthType,request);
+            var result = await PostAsync<SPGetGamesResult, SPGetGamesResponseData>("/v1/client/app/get-games",AuthType,request);
             return result;
         }
     }

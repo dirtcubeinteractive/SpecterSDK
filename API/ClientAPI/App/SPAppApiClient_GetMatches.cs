@@ -21,24 +21,27 @@ namespace SpecterSDK.API.ClientAPI.App
     }
 
     [Serializable]
-    public class SPGetMatchesResult : SpecterApiResultBase<SPMatchResponseDataList>
+    public class SPGetMatchesResult : SpecterApiResultBase<SPGetMatchResponseData>
     {
         public List<SpecterMatch> Matches;
+        public int TotalCount;
+
         protected override void InitSpecterObjectsInternal()
         {
             Matches = new List<SpecterMatch>();
-            foreach (var match in Response.data)
+            foreach (var match in Response.data.matches)
             {
                 Matches.Add(new SpecterMatch(match));
             }
-        }   
+            TotalCount = Response.data.totalCount;
+        }
     }
     
     public partial class SPAppApiClient
     {
         public async Task<SPGetMatchesResult> GetMatchesAsync(SPGetMatchesRequest request)
         {
-            var result = await PostAsync<SPGetMatchesResult,SPMatchResponseDataList>("/v1/client/app/get-matches",AuthType,request);
+            var result = await PostAsync<SPGetMatchesResult, SPGetMatchResponseData>("/v1/client/app/get-matches",AuthType,request);
             return result;
         }
     }

@@ -67,6 +67,14 @@ namespace SpecterSDK.APIModels.ClientModels
     }
 
     [Serializable]
+    public class SPGetTaskResponseData : ISpecterApiResponseData
+    {
+        public List<SPTaskResponseData> tasks { get; set; }
+        public int totalCount { get; set; }
+    }
+
+
+    [Serializable]
     public class SPForceCompleteTaskResponseData : SPTaskResponseData
     {
         public SPTaskGroupDetailsResponseData taskGroupDetails { get; set; }
@@ -83,9 +91,7 @@ namespace SpecterSDK.APIModels.ClientModels
     
     [Serializable]
     public class SPForceCompleteTaskResponseDataList : SPResponseDataList<SPForceCompleteTaskResponseData> { }
-    [Serializable]
-    public class SPTaskResponseDataList : SPResponseDataList<SPTaskResponseData> { }
-
+ 
     [Serializable]
     public class SPTaskGroupResponseBaseData : ISpecterApiResponseData
     {
@@ -115,6 +121,13 @@ namespace SpecterSDK.APIModels.ClientModels
     }
 
     [Serializable]
+    public class SPGetTaskGroupResponseData : ISpecterApiResponseData
+    {
+        public List<SPTaskGroupResponseData> taskGroups { get; set; }
+        public int totalCount { get; set; }
+    }
+
+    [Serializable]
     public class SPUserTaskGroupResponseData : SPTaskGroupResponseBaseData
     {
         public SPTaskGroupStatus status { get; set; }
@@ -123,9 +136,6 @@ namespace SpecterSDK.APIModels.ClientModels
 
     [Serializable]
     public class SPUserTaskGroupResponseDataList : SPResponseDataList<SPUserTaskGroupResponseData> { }
-
-    [Serializable]
-    public class SPTaskGroupResponseDataList : SPResponseDataList<SPTaskGroupResponseData> { }
 
     #endregion
 }

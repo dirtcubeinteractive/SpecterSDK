@@ -70,8 +70,14 @@ namespace SpecterSDK.APIModels.ClientModels
         public Dictionary<string, string> meta { get; set; }
     }
     
+
     [Serializable]
-    public class SPProgressionSystemDataList : SPResponseDataList<SPProgressionSystemResponseData> { }
+    public class SPGetProgressionSystemResponseData : ISpecterApiResponseData
+    {
+       public  List<SPProgressionSystemResponseData> progressionSystems { get; set; }
+       public int totalCount { get; set; }
+
+    }
 
     [Serializable]
     public class SPUserProgressResponseBaseData : SPProgressionResponseBaseData

@@ -55,5 +55,10 @@ namespace SpecterSDK.APIModels.ClientModels
     }
 
     [Serializable]
-    public class SPMatchResponseDataList : SPResponseDataList<SPMatchResponseData> { }
+    public class SPGetMatchResponseData : ISpecterApiResponseData
+    {
+        public List<SPMatchResponseData> matches { get; set; }
+        public int totalCount { get; set; }
+    }
+
 }

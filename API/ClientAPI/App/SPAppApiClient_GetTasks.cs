@@ -16,16 +16,19 @@ namespace SpecterSDK.API.ClientAPI.App
         public List<SPApiRequestEntity> entities { get; set; }
     }
 
-    public class SPGetTasksResult : SpecterApiResultBase<SPTaskResponseDataList>
+    public class SPGetTasksResult : SpecterApiResultBase<SPGetTaskResponseData>
     {
         public List<SpecterTask> Tasks;
+        public int TotalCount;
+
         protected override void InitSpecterObjectsInternal()
         {
             Tasks = new List<SpecterTask>();
-            foreach (var taskData in Response.data)
+            foreach (var taskData in Response.data.tasks)
             {
                 Tasks.Add(new SpecterTask(taskData));
             }
+            TotalCount = Response.data.totalCount;
         }
     }
 
@@ -33,7 +36,7 @@ namespace SpecterSDK.API.ClientAPI.App
     {
         public async Task<SPGetTasksResult> GetTasksAsync(SPGetTasksRequest request)
         {
-            var result = await PostAsync<SPGetTasksResult, SPTaskResponseDataList>("/v1/client/app/get-tasks", AuthType, request);
+            var result = await PostAsync<SPGetTasksResult, SPGetTaskResponseData>("/v1/client/app/get-tasks", AuthType, request);
             return result;
         }
     }

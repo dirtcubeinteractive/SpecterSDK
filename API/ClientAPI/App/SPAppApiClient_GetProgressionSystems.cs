@@ -20,16 +20,18 @@ namespace SpecterSDK.API.ClientAPI.App
     }
 
     [Serializable]
-    public class SPGetProgressionSystemsResult : SpecterApiResultBase<SPProgressionSystemDataList>
+    public class SPGetProgressionSystemsResult : SpecterApiResultBase<SPGetProgressionSystemResponseData>
     {
         public List<SpecterProgressionSystem> ProgressionSystems;
+        public int TotalCount;
         protected override void InitSpecterObjectsInternal()
         {
             ProgressionSystems = new();
-            foreach (var progressionSystem in Response.data)
+            foreach (var progressionSystem in Response.data.progressionSystems)
             {
                 ProgressionSystems.Add(new SpecterProgressionSystem(progressionSystem));
             }
+            TotalCount = Response.data.totalCount;
         }
     }
 
@@ -37,7 +39,7 @@ namespace SpecterSDK.API.ClientAPI.App
     {
         public async Task<SPGetProgressionSystemsResult> GetProgressionSystemMasterAsync(SPGetProgressionSystemsRequest request)
         {
-            var result = await PostAsync<SPGetProgressionSystemsResult, SPProgressionSystemDataList>("/v1/client/app/get-progression-system", AuthType, request);
+            var result = await PostAsync<SPGetProgressionSystemsResult, SPGetProgressionSystemResponseData>("/v1/client/app/get-progression-system", AuthType, request);
             return result;
         }
     }

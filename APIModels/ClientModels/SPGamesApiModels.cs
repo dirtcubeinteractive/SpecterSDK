@@ -32,7 +32,11 @@ namespace SpecterSDK.APIModels.ClientModels
     }
 
     [Serializable]
-    public class SPGameResponseDataList : SPResponseDataList<SPGameResponseData> { }
+    public class SPGetGamesResponseData : ISpecterApiResponseData
+    {
+        public List<SPGameResponseData> games { get; set; }
+        public int totalCount { get; set; }
+    }
 
     [Serializable]
     public class SPGamePlatformData
