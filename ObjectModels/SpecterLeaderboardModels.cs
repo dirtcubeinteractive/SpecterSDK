@@ -13,13 +13,14 @@ namespace SpecterSDK.ObjectModels
         public List<SpecterPrizeDistributionRuleData> PrizeDistributionRules;
         public int? PrizeDistributionOffset;
         public SpecterMatchBase Match;
-        public SpecterGameBase Game;
         public SPLeaderboardOutcomeType LeaderboardOutcomeType;
         public SPLeaderboardSourceType LeaderboardSourceType;
         public SPLeaderboardInterval LeaderboardInterval;
         public List<string> Tags { get; set; }
         public Dictionary<string, string> Meta { get; set; }
-
+        public int TotalCount;
+        public SpecterLeaderboardEntry CurrentPlayerEntry;
+        public List<SpecterLeaderboardEntry> LeaderboardEntries;
         public SpecterLeaderboard(SPLeaderboardResponseData data)
         {
             Uuid = data.uuid;
@@ -29,21 +30,25 @@ namespace SpecterSDK.ObjectModels
             StartDate = data.startDate;
             EndDate = data.endDate;
             IsRecurring = data.isRecurring;
-
             PrizeDistributionRules = new List<SpecterPrizeDistributionRuleData>();
             foreach (var prizeDistributionRule in PrizeDistributionRules)
             {
                 PrizeDistributionRules.Add(prizeDistributionRule);
             }
-
             PrizeDistributionOffset = data.prizeDistributionOffset;
             Match = new SpecterMatchBase(data.match);
-            Game = new SpecterGameBase(data.game);
             LeaderboardOutcomeType = data.outcomeType.name;
             LeaderboardSourceType = data.sourceType.name;
             LeaderboardInterval = data.interval.name;
             Tags = data.tags;
             Meta = data.meta;
+            TotalCount = data.totalEntries;
+            CurrentPlayerEntry = new SpecterLeaderboardEntry(data.currentPlayerEntry);
+            LeaderboardEntries = new List<SpecterLeaderboardEntry>();
+            foreach (var leaderBoardEntry in data.leaderboardEntries)
+            {
+                LeaderboardEntries.Add(new SpecterLeaderboardEntry(leaderBoardEntry));
+            }
         }
     }
 
@@ -58,23 +63,6 @@ namespace SpecterSDK.ObjectModels
             StartRank = data.startRank;
             EndRank = data.endRank;
             RewardDetails = data.rewardDetails;
-        }
-    }
-
-    public class SpecterLeaderboardEntryResult 
-    {
-        public int TotalCount;
-        public SpecterLeaderboardEntry CurrentPlayerEntry;
-        public List<SpecterLeaderboardEntry> LeaderboardEntries;
-        public SpecterLeaderboardEntryResult(SPLeaderboardEntriesResponseData data)
-        {
-            CurrentPlayerEntry = new SpecterLeaderboardEntry(data.currentPlayer);
-            LeaderboardEntries = new List<SpecterLeaderboardEntry>();
-            foreach (var leaderBoardDetail in data.leaderboardDetails)
-            {
-                LeaderboardEntries.Add(new SpecterLeaderboardEntry(leaderBoardDetail));
-            }
-            TotalCount = data.totalCount;
         }
     }
 

@@ -44,20 +44,14 @@ namespace SpecterSDK.APIModels.ClientModels
         public List<SPPrizeDistributionRuleData> prizeDistributionRule { get; set; }
         public int? prizeDistributionOffset { get; set; }       
         public SPMatchResponseBaseData match { get; set; }
-        public SPGameResponseBaseData game { get; set; }
         public SPLeaderboardOutcomeData outcomeType { get; set; }
         public SPLeaderboardIntervalData interval { get; set; }
         public SPLeaderboardSourceData sourceType { get; set; }
         public List<string> tags { get; set; }
         public Dictionary<string, string> meta { get; set; }
-    }
-
-    [Serializable]
-    public class SPLeaderboardEntriesResponseData : ISpecterApiResponseData
-    {
-        public SPLeaderboardEntryData currentPlayer { get; set; }
-        public List<SPLeaderboardEntryData> leaderboardDetails { get; set; }
-        public int totalCount { get; set; }
+        public SPLeaderboardEntryData currentPlayerEntry { get; set; }
+        public List<SPLeaderboardEntryData> leaderboardEntries { get; set; }
+        public int totalEntries { get; set; }
     }
 
     [Serializable]
@@ -79,9 +73,6 @@ namespace SpecterSDK.APIModels.ClientModels
         public int score { get; set; }
         public SPUserDetailData userDetail { get; set; }
     }
-
-    [Serializable]
-    public class SPLeaderboardResponseDataList : SPResponseDataList<SPLeaderboardResponseData> { }
 
     [Serializable]
     public class SPPrizeDistributionRuleData
