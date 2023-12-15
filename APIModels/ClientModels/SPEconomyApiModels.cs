@@ -33,7 +33,11 @@ namespace SpecterSDK.APIModels.ClientModels
     }
 
     [Serializable]
-    public class SPCurrencyResponseDataList : SPResponseDataList<SPCurrencyResponseData> { }
+    public class SPGetCurrencyResponseData : ISpecterApiResponseData
+    {
+        public List<SPCurrencyResponseData> currencies { get; set; }
+        public int totalCount { get; set; }
+    }
 
     [Serializable]
     public class SPRealWorldCurrencyResponseData
@@ -89,8 +93,11 @@ namespace SpecterSDK.APIModels.ClientModels
     }
 
     [Serializable]
-    public class SPItemResponseDataList : SPResponseDataList<SPItemResponseData> { }
-
+    public class SPGetItemResponseData : ISpecterApiResponseData
+    {
+        public List<SPItemResponseData> items { get; set; }
+        public int totalCount { get; set; }
+    }
     #endregion
 
     #region Bundle Response Data Models
@@ -101,8 +108,14 @@ namespace SpecterSDK.APIModels.ClientModels
         public bool? isManual { get; set; }
         public SPBundleContentsData contents { get; set; }
     }
+    
     [Serializable]
-    public class SPBundleResponseDataList : SPResponseDataList<SPBundleResponseData> { }
+    public class SPGetBundleResponseData : ISpecterApiResponseData
+    {
+        public List<SPBundleResponseData> bundles { get; set; }
+        public int totalCount { get; set; }
+    }
+
     [Serializable]
     public class SPBundleContentsData
     {
