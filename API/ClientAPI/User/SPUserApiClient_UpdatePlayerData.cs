@@ -16,11 +16,11 @@ namespace SpecterSDK.API.ClientAPI.User
     
     public class SPUpdatePlayerDataResult : SpecterApiResultBase<SPUpdatePlayerDataResponseData>
     {
-        public Dictionary<string, SPPlayerDataResponseData> PlayerData;
+        public Dictionary<string, SPPlayerDataResponseData> PlayerDataDict;
         
         protected override void InitSpecterObjectsInternal()
         {
-            PlayerData = Response.data;
+            PlayerDataDict = Response.data;
         }
     }
 
