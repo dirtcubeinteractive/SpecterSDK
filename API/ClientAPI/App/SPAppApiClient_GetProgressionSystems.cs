@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using SpecterSDK.APIModels;
 using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.ObjectModels;
+using UnityEngine.Serialization;
 
 namespace SpecterSDK.API.ClientAPI.App
 {
@@ -18,12 +19,12 @@ namespace SpecterSDK.API.ClientAPI.App
         public List<string> attributes { get; set; }
         public List<SPApiRequestEntity> entities { get; set; }
     }
-
-    [Serializable]
-    public class SPGetProgressionSystemsResult : SpecterApiResultBase<SPGetProgressionSystemResponseData>
+    
+    public class SPGetProgressionSystemsResult : SpecterApiResultBase<SPGetProgressionSystemsResponseData>
     {
         public List<SpecterProgressionSystem> ProgressionSystems;
-        public int TotalCount;
+        public int TotalProgressionSystemCount;
+        
         protected override void InitSpecterObjectsInternal()
         {
             ProgressionSystems = new();
@@ -31,7 +32,7 @@ namespace SpecterSDK.API.ClientAPI.App
             {
                 ProgressionSystems.Add(new SpecterProgressionSystem(progressionSystem));
             }
-            TotalCount = Response.data.totalCount;
+            TotalProgressionSystemCount = Response.data.totalCount;
         }
     }
 
@@ -39,7 +40,7 @@ namespace SpecterSDK.API.ClientAPI.App
     {
         public async Task<SPGetProgressionSystemsResult> GetProgressionSystemMasterAsync(SPGetProgressionSystemsRequest request)
         {
-            var result = await PostAsync<SPGetProgressionSystemsResult, SPGetProgressionSystemResponseData>("/v1/client/app/get-progression-system", AuthType, request);
+            var result = await PostAsync<SPGetProgressionSystemsResult, SPGetProgressionSystemsResponseData>("/v1/client/app/get-progression-system", AuthType, request);
             return result;
         }
     }

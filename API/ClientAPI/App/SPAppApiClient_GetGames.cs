@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using SpecterSDK.APIModels;
 using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.ObjectModels;
+using UnityEngine.Serialization;
 
 namespace SpecterSDK.API.ClientAPI.App
 {
@@ -19,12 +20,12 @@ namespace SpecterSDK.API.ClientAPI.App
        public string search { get; set; }
        public List<SPApiRequestEntity> entities { get; set; }
     }
-
-    [Serializable]
+    
     public class SPGetGamesResult : SpecterApiResultBase<SPGetGamesResponseData>
     {
         public List<SpecterGame> Games;
-        public int TotalCount;
+        public int TotalGameCount;
+        
         protected override void InitSpecterObjectsInternal()
         {
             Games = new List<SpecterGame>();
@@ -32,7 +33,7 @@ namespace SpecterSDK.API.ClientAPI.App
             {
                 Games.Add(new SpecterGame(game));
             }
-            TotalCount = Response.data.totalCount;
+            TotalGameCount = Response.data.totalCount;
         }   
     }
         

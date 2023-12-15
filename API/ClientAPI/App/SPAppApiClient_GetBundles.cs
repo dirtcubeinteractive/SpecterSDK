@@ -25,10 +25,10 @@ namespace SpecterSDK.API.ClientAPI.App
         public string search { get; set; }
     }
 
-    public class SPGetBundlesResult : SpecterApiResultBase<SPGetBundleResponseData>
+    public class SPGetBundlesResult : SpecterApiResultBase<SPGetBundlesResponseData>
     {
         public List<SpecterBundle> Bundles;
-        public int TotalCount;
+        public int TotalBundleCount;
         protected override void InitSpecterObjectsInternal()
         {
             Bundles = new List<SpecterBundle>();
@@ -36,7 +36,8 @@ namespace SpecterSDK.API.ClientAPI.App
             {
                 Bundles.Add(new SpecterBundle(itemData));
             }
-            TotalCount = Response.data.totalCount;
+            
+            TotalBundleCount = Response.data.totalCount;
         }
     }
 
@@ -45,7 +46,7 @@ namespace SpecterSDK.API.ClientAPI.App
     {
         public async Task<SPGetBundlesResult> GetBundlesAsync(SPGetItemsRequest request)
         {
-            var result = await PostAsync<SPGetBundlesResult, SPGetBundleResponseData>("/v1/client/app/get-bundles", AuthType, request);
+            var result = await PostAsync<SPGetBundlesResult, SPGetBundlesResponseData>("/v1/client/app/get-bundles", AuthType, request);
             return result;
         }
     }

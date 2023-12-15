@@ -216,7 +216,6 @@ namespace SpecterSDK.ObjectModels
     }
     public class SpecterStoreItemInfo : SpecterStoreResource { public SpecterStoreItemInfo(SPStoreItemResponseData data) : base(data) { } }
     public class SpecterStoreBundleInfo : SpecterStoreResource { public SpecterStoreBundleInfo(SPStoreBundleResponseData data) : base(data) { } }
-    public class SpecterStoreCurrencyInfo : SpecterStoreResource { public SpecterStoreCurrencyInfo(SPStoreCurrencyResponseData data) : base(data) { } }
     
     #endregion
 
@@ -258,6 +257,7 @@ namespace SpecterSDK.ObjectModels
     #endregion
 
     #region Specter Price
+    
     [Serializable]
     public class SpecterPrice : SpecterObject
     {
@@ -282,6 +282,7 @@ namespace SpecterSDK.ObjectModels
             RealCurrency = data.realWorldCurrency != null ? new SpecterRealCurrency(data.realWorldCurrency) : null;
         }
     }
+    
     #endregion
 
 }

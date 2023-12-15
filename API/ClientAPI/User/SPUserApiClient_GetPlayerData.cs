@@ -16,7 +16,7 @@ namespace SpecterSDK.API.ClientAPI.User
     
     public class SPGetPlayerDataResult: SpecterApiResultBase<SPGetPlayerDataResponseData>
     {
-        public Dictionary<string, SPPlayerDataResponseData> PlayerDataDict;
+        public Dictionary<string, SPPlayerData> PlayerDataDict;
 
         protected override void InitSpecterObjectsInternal()
         {

@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using SpecterSDK.APIModels;
 using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.ObjectModels;
+using UnityEngine.Serialization;
 
 namespace SpecterSDK.API.ClientAPI.App
 {
@@ -19,12 +20,11 @@ namespace SpecterSDK.API.ClientAPI.App
         public int offset { get; set; }
         public List<string> attributes { get; set; }
     }
-
-    [Serializable]
-    public class SPGetMatchesResult : SpecterApiResultBase<SPGetMatchResponseData>
+    
+    public class SPGetMatchesResult : SpecterApiResultBase<SPGetMatchesResponseData>
     {
-        public List<SpecterMatch> Matches;
-        public int TotalCount;
+        public List<SpecterMatch> Matches; 
+        public int TotalMatchCount;
 
         protected override void InitSpecterObjectsInternal()
         {
@@ -33,7 +33,7 @@ namespace SpecterSDK.API.ClientAPI.App
             {
                 Matches.Add(new SpecterMatch(match));
             }
-            TotalCount = Response.data.totalCount;
+            TotalMatchCount = Response.data.totalCount;
         }
     }
     
@@ -41,7 +41,7 @@ namespace SpecterSDK.API.ClientAPI.App
     {
         public async Task<SPGetMatchesResult> GetMatchesAsync(SPGetMatchesRequest request)
         {
-            var result = await PostAsync<SPGetMatchesResult, SPGetMatchResponseData>("/v1/client/app/get-matches",AuthType,request);
+            var result = await PostAsync<SPGetMatchesResult, SPGetMatchesResponseData>("/v1/client/app/get-matches",AuthType,request);
             return result;
         }
     }

@@ -27,7 +27,7 @@ namespace SpecterSDK.APIModels.ClientModels
     #region Store Category Response Data models
     
     [Serializable]
-    public class SPStoreCategoryResponseData : SPStoreResponseBaseData, ISpecterApiResponseData
+    public class SPStoreCategoryResponseData : SPStoreResponseBaseData
     {
         public int contentsCount { get; set; }
     }

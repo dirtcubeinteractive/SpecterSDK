@@ -46,30 +46,30 @@ namespace SpecterSDK.APIModels.ClientModels
     {
     }
     
+    [Serializable]
+    public class SPGetPlayerDataResponseData : Dictionary<string, SPPlayerData>, ISpecterApiResponseData { }
 
     [Serializable]
-    public class SPGetPlayerDataResponseData : SPResponseDataDictionary<string,SPPlayerDataResponseData> { }
-
-    [Serializable]
-    public class SPUpdatePlayerDataResponseData : SPResponseDataDictionary<string,SPPlayerDataResponseData> { }
+    public class SPUpdatePlayerDataResponseData : Dictionary<string, SPPlayerData>, ISpecterApiResponseData { }
     
     [Serializable]
-    public class SPRemovePlayerDataResponseData : SPResponseDataDictionary<string,SPPlayerDataResponseData> { }
+    public class SPRemovePlayerDataResponseData : Dictionary<string, SPPlayerData>, ISpecterApiResponseData { }
 
     [Serializable]
-    public class SPPlayerDataResponseData : ISpecterApiResponseData
+    public class SPPlayerData
     {
         public string value;
-        public SPPlayerDataEntryPermission permission;
+        public SPPlayerDataPermission permission;
     }
 
     [Serializable]
-    public sealed class SPPlayerDataEntryPermission : SPEnum<SPPlayerDataEntryPermission>
+    public sealed class SPPlayerDataPermission : SPEnum<SPPlayerDataPermission>
     {
-        public static readonly SPPlayerDataEntryPermission Public = new SPPlayerDataEntryPermission(0, nameof(Public).ToLower(), nameof(Public));
-        public static readonly SPPlayerDataEntryPermission Private = new SPPlayerDataEntryPermission(1, nameof(Private).ToLower(), nameof(Private));
+        public static readonly SPPlayerDataPermission Public = new SPPlayerDataPermission(0, nameof(Public).ToLower(), nameof(Public));
+        public static readonly SPPlayerDataPermission Private = new SPPlayerDataPermission(1, nameof(Private).ToLower(), nameof(Private));
 
-        private SPPlayerDataEntryPermission(int id, string name, string displayName = null) : base(id, name, displayName) { }
+        private SPPlayerDataPermission(int id, string name, string displayName = null) : base(id, name, displayName) { }
     }
+    
     #endregion
 }

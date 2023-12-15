@@ -15,11 +15,12 @@ namespace SpecterSDK.ObjectModels
         public SPLeaderboardOutcomeType LeaderboardOutcomeType;
         public SPLeaderboardSourceType LeaderboardSourceType;
         public SPLeaderboardInterval LeaderboardInterval;
-        public List<string> Tags { get; set; }
-        public Dictionary<string, string> Meta { get; set; }
         public int TotalCount;
         public SpecterLeaderboardEntry CurrentPlayerEntry;
         public List<SpecterLeaderboardEntry> LeaderboardEntries;
+        
+        public List<string> Tags { get; set; }
+        public Dictionary<string, string> Meta { get; set; }
         
         public SpecterLeaderboard(SPLeaderboardResponseData data)
         {
@@ -30,6 +31,13 @@ namespace SpecterSDK.ObjectModels
             StartDate = data.startDate;
             EndDate = data.endDate;
             IsRecurring = data.isRecurring;
+            LeaderboardOutcomeType = data.outcomeType.name;
+            LeaderboardSourceType = data.sourceType.name;
+            LeaderboardInterval = data.interval.name;
+            TotalCount = data.totalEntries;
+            
+            Match = new SpecterMatchBase(data.match);
+            CurrentPlayerEntry = new SpecterLeaderboardEntry(data.currentPlayerEntry);
             
             PrizeDistributionRules = new List<SpecterPrizeDistributionRule>();
             foreach (var prizeDistributionRule in PrizeDistributionRules)
@@ -37,19 +45,14 @@ namespace SpecterSDK.ObjectModels
                 PrizeDistributionRules.Add(prizeDistributionRule);
             }
             
-            Match = new SpecterMatchBase(data.match);
-            LeaderboardOutcomeType = data.outcomeType.name;
-            LeaderboardSourceType = data.sourceType.name;
-            LeaderboardInterval = data.interval.name;
-            Tags = data.tags;
-            Meta = data.meta;
-            TotalCount = data.totalEntries;
-            CurrentPlayerEntry = new SpecterLeaderboardEntry(data.currentPlayerEntry);
             LeaderboardEntries = new List<SpecterLeaderboardEntry>();
             foreach (var leaderBoardEntry in data.leaderboardEntries)
             {
                 LeaderboardEntries.Add(new SpecterLeaderboardEntry(leaderBoardEntry));
             }
+            
+            Tags = data.tags;
+            Meta = data.meta;
         }
     }
 

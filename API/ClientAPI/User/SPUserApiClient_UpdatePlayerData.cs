@@ -11,12 +11,12 @@ namespace SpecterSDK.API.ClientAPI.User
     public class SPUpdatePlayerDataRequest : SPApiRequestBase
     {
         public List<SPPlayerDataUnit> playerData { get; set; }
-        public SPPlayerDataEntryPermission permission { get; set; }
+        public SPPlayerDataPermission permission { get; set; }
     }
     
     public class SPUpdatePlayerDataResult : SpecterApiResultBase<SPUpdatePlayerDataResponseData>
     {
-        public Dictionary<string, SPPlayerDataResponseData> PlayerDataDict;
+        public Dictionary<string, SPPlayerData> PlayerDataDict;
         
         protected override void InitSpecterObjectsInternal()
         {

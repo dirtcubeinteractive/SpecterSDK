@@ -16,8 +16,7 @@ namespace SpecterSDK.API.ClientAPI.Leaderboards
         public int? offset { get; set; }
         public int? limit { get; set; }
     }
-
-    [Serializable]
+    
     public class SPGetLeaderboardDetailsResult : SpecterApiResultBase<SPLeaderboardResponseData>
     {
         public SpecterLeaderboard Leaderboard;

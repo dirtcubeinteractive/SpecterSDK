@@ -72,7 +72,7 @@ namespace SpecterSDK.APIModels.ClientModels
     
 
     [Serializable]
-    public class SPGetProgressionSystemResponseData : ISpecterApiResponseData
+    public class SPGetProgressionSystemsResponseData : ISpecterApiResponseData
     {
        public  List<SPProgressionSystemResponseData> progressionSystems { get; set; }
        public int totalCount { get; set; }

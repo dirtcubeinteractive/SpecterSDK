@@ -67,7 +67,7 @@ namespace SpecterSDK.APIModels.ClientModels
     }
 
     [Serializable]
-    public class SPGetTaskResponseData : ISpecterApiResponseData
+    public class SPGetTasksResponseData : ISpecterApiResponseData
     {
         public List<SPTaskResponseData> tasks { get; set; }
         public int totalCount { get; set; }
@@ -121,7 +121,7 @@ namespace SpecterSDK.APIModels.ClientModels
     }
 
     [Serializable]
-    public class SPGetTaskGroupResponseData : ISpecterApiResponseData
+    public class SPGetTaskGroupsResponseData : ISpecterApiResponseData
     {
         public List<SPTaskGroupResponseData> taskGroups { get; set; }
         public int totalCount { get; set; }

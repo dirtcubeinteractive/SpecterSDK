@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using SpecterSDK.APIModels;
 using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.ObjectModels;
+using UnityEngine.Serialization;
 
 namespace SpecterSDK.API.ClientAPI.App
 {
@@ -18,12 +19,12 @@ namespace SpecterSDK.API.ClientAPI.App
         public int limit { get; set; }
         public int offset { get; set; }
     }
-
-    [Serializable]
-    public class SPGetCurrenciesResult : SpecterApiResultBase<SPGetCurrencyResponseData>
+    
+    public class SPGetCurrenciesResult : SpecterApiResultBase<SPGetCurrenciesResponseData>
     {
         public List<SpecterCurrency> Currencies;
-        public int TotalCount;
+        public int TotalCurrencyCount;
+        
         protected override void InitSpecterObjectsInternal()
         {
             Currencies = new();
@@ -31,7 +32,7 @@ namespace SpecterSDK.API.ClientAPI.App
             {
                 Currencies.Add(new SpecterCurrency(currency));
             }
-            TotalCount = Response.data.totalCount;
+            TotalCurrencyCount = Response.data.totalCount;
         }   
     }
 
@@ -39,7 +40,7 @@ namespace SpecterSDK.API.ClientAPI.App
     {
         public async Task<SPGetCurrenciesResult> GetCurrenciesAsync(SPGetCurrenciesRequest request) 
         {
-            var result = await PostAsync<SPGetCurrenciesResult, SPGetCurrencyResponseData>("/v1/client/app/get-currencies",AuthType,request);
+            var result = await PostAsync<SPGetCurrenciesResult, SPGetCurrenciesResponseData>("/v1/client/app/get-currencies",AuthType,request);
             return result;
         }
     }

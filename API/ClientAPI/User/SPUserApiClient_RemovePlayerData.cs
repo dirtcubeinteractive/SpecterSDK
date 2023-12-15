@@ -15,7 +15,7 @@ namespace SpecterSDK.API.ClientAPI.User
     
     public class SPRemovePlayerDataResult : SpecterApiResultBase<SPRemovePlayerDataResponseData>
     {
-        public Dictionary<string, SPPlayerDataResponseData> PlayerDataDict;
+        public Dictionary<string, SPPlayerData> PlayerDataDict;
 
         protected override void InitSpecterObjectsInternal()
         {

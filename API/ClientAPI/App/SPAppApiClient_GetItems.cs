@@ -29,10 +29,11 @@ namespace SpecterSDK.API.ClientAPI.App
         public string sortOrder { get; set; }
     }
 
-    public class SPGetItemsResult : SpecterApiResultBase<SPGetItemResponseData>
+    public class SPGetItemsResult : SpecterApiResultBase<SPGetItemsResponseData>
     {
         public List<SpecterItem> Items;
-        public int TotalCount;
+        public int TotalItemCount;
+        
         protected override void InitSpecterObjectsInternal()
         {
             Items = new List<SpecterItem>();
@@ -40,7 +41,7 @@ namespace SpecterSDK.API.ClientAPI.App
             {
                 Items.Add(new SpecterItem(itemData));
             }
-            TotalCount = Response.data.totalCount;
+            TotalItemCount = Response.data.totalCount;
         }
     }
 
@@ -49,7 +50,7 @@ namespace SpecterSDK.API.ClientAPI.App
     {
         public async Task<SPGetItemsResult> GetItemsAsync(SPGetItemsRequest request)
         {
-            var result = await PostAsync<SPGetItemsResult, SPGetItemResponseData>("/v1/client/app/get-items", AuthType, request);
+            var result = await PostAsync<SPGetItemsResult, SPGetItemsResponseData>("/v1/client/app/get-items", AuthType, request);
             return result;
         }
     }

@@ -33,7 +33,7 @@ namespace SpecterSDK.APIModels.ClientModels
     }
 
     [Serializable]
-    public class SPGetCurrencyResponseData : ISpecterApiResponseData
+    public class SPGetCurrenciesResponseData : ISpecterApiResponseData
     {
         public List<SPCurrencyResponseData> currencies { get; set; }
         public int totalCount { get; set; }
@@ -93,7 +93,7 @@ namespace SpecterSDK.APIModels.ClientModels
     }
 
     [Serializable]
-    public class SPGetItemResponseData : ISpecterApiResponseData
+    public class SPGetItemsResponseData : ISpecterApiResponseData
     {
         public List<SPItemResponseData> items { get; set; }
         public int totalCount { get; set; }
@@ -110,7 +110,7 @@ namespace SpecterSDK.APIModels.ClientModels
     }
     
     [Serializable]
-    public class SPGetBundleResponseData : ISpecterApiResponseData
+    public class SPGetBundlesResponseData : ISpecterApiResponseData
     {
         public List<SPBundleResponseData> bundles { get; set; }
         public int totalCount { get; set; }
@@ -156,8 +156,6 @@ namespace SpecterSDK.APIModels.ClientModels
     {
         public List<SPUnlockConditionResponseData> unlockConditions { get; set; }
     }
-    [Serializable]
-    public class SPStoreCurrencyResponseData : SPStoreResourceResponseData { }
 
     #endregion
 
