@@ -24,13 +24,7 @@ namespace SpecterSDK.APIModels
     {
         // Name of the entity
         public string value { get; set; }
-        
-        /// <summary>
-        /// Attributes of the entity needed in the response
-        /// <example>Item entity attributes are "id", "name", "isConsumable", etc.</example>
-        /// </summary>
-        public List<string> attributes { get; set; }
-        
+                
         // The maximum number of entity instances to fetch
         public int limit { get; set; } = 10;
         

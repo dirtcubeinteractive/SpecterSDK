@@ -22,7 +22,10 @@ namespace SpecterSDK.API.ClientAPI.Stores
     {
         public List<SpecterStoreItemInfo> Items;
         public List<SpecterStoreBundleInfo> Bundles;
-        public List<SpecterStoreCurrencyInfo> Currencies;
+
+        public int TotalItemsCount;
+        public int TotalBundlesCount;
+
         protected override void InitSpecterObjectsInternal()
         {
             Items = new List<SpecterStoreItemInfo>();
@@ -32,10 +35,9 @@ namespace SpecterSDK.API.ClientAPI.Stores
             Bundles = new List<SpecterStoreBundleInfo>();
             foreach (var bundle in Response.data.bundles)
                 Bundles.Add(new SpecterStoreBundleInfo(bundle));
-            
-            Currencies = new List<SpecterStoreCurrencyInfo>();
-            foreach (var currency in Response.data.currencies)
-                Currencies.Add(new SpecterStoreCurrencyInfo(currency));
+
+            TotalItemsCount = Response.data.totalItemsCount;
+            TotalBundlesCount = Response.data.totalBundlesCount;
         }
     }
 

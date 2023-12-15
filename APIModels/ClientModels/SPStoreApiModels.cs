@@ -43,7 +43,10 @@ namespace SpecterSDK.APIModels.ClientModels
     {
         public List<SPStoreItemResponseData> items { get; set; }
         public List<SPStoreBundleResponseData> bundles { get; set; }
-        public List<SPStoreCurrencyResponseData> currencies { get; set; }
+
+        public int totalItemsCount { get; set; }
+
+        public int totalBundlesCount { get; set; }
     }
     
     #endregion
