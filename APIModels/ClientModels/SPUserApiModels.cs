@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using SpecterSDK.APIModels.Interfaces;
 using SpecterSDK.ObjectModels;
+using SpecterSDK.Shared.SPEnum;
 
 namespace SpecterSDK.APIModels.ClientModels
 {
@@ -45,20 +46,30 @@ namespace SpecterSDK.APIModels.ClientModels
     {
     }
     
+
+    [Serializable]
+    public class SPGetPlayerDataResponseData : SPResponseDataDictionary<string,SPPlayerDataResponseData> { }
+
+    [Serializable]
+    public class SPUpdatePlayerDataResponseData : SPResponseDataDictionary<string,SPPlayerDataResponseData> { }
+    
+    [Serializable]
+    public class SPRemovePlayerDataResponseData : SPResponseDataDictionary<string,SPPlayerDataResponseData> { }
+
     [Serializable]
     public class SPPlayerDataResponseData : ISpecterApiResponseData
     {
-        public Dictionary<string, string> playerData { get; set; }
+        public string value;
+        public SPPlayerDataEntryPermission permission;
     }
 
     [Serializable]
-    public class SPGetPlayerDataResponseData : SPPlayerDataResponseData { }
-    
-    [Serializable]
-    public class SPUpdatePlayerDataResponseData : SPPlayerDataResponseData { }
-    
-    [Serializable]
-    public class SPRemovePlayerDataResponseData : SPPlayerDataResponseData { }
+    public sealed class SPPlayerDataEntryPermission : SPEnum<SPPlayerDataEntryPermission>
+    {
+        public static readonly SPPlayerDataEntryPermission Public = new SPPlayerDataEntryPermission(0, nameof(Public).ToLower(), nameof(Public));
+        public static readonly SPPlayerDataEntryPermission Private = new SPPlayerDataEntryPermission(1, nameof(Private).ToLower(), nameof(Private));
 
+        private SPPlayerDataEntryPermission(int id, string name, string displayName = null) : base(id, name, displayName) { }
+    }
     #endregion
 }
