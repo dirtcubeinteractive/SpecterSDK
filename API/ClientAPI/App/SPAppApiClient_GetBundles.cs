@@ -44,7 +44,7 @@ namespace SpecterSDK.API.ClientAPI.App
 
     public partial class SPAppApiClient
     {
-        public async Task<SPGetBundlesResult> GetBundlesAsync(SPGetItemsRequest request)
+        public async Task<SPGetBundlesResult> GetBundlesAsync(SPGetBundlesRequest request)
         {
             var result = await PostAsync<SPGetBundlesResult, SPGetBundlesResponseData>("/v1/client/app/get-bundles", AuthType, request);
             return result;
