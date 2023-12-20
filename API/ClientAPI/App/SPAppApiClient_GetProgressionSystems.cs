@@ -14,8 +14,8 @@ namespace SpecterSDK.API.ClientAPI.App
     public class SPGetProgressionSystemsRequest : SPApiRequestBase
     {
         public List<string> progressionSystemIds { get; set; }
-        public int limit { get; set; }
-        public int offset { get; set; }
+        public int? limit { get; set; }
+        public int? offset { get; set; }
         public List<string> attributes { get; set; }
         public List<SPApiRequestEntity> entities { get; set; }
     }
@@ -40,7 +40,7 @@ namespace SpecterSDK.API.ClientAPI.App
     {
         public async Task<SPGetProgressionSystemsResult> GetProgressionSystemMasterAsync(SPGetProgressionSystemsRequest request)
         {
-            var result = await PostAsync<SPGetProgressionSystemsResult, SPGetProgressionSystemsResponseData>("/v1/client/app/get-progression-system", AuthType, request);
+            var result = await PostAsync<SPGetProgressionSystemsResult, SPGetProgressionSystemsResponseData>("/v1/client/app/get-progression-systems", AuthType, request);
             return result;
         }
     }
