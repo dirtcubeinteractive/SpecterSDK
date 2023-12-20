@@ -26,32 +26,32 @@ namespace SpecterSDK.API.ClientAPI.Rewards
 
     public class SPGetRewardsHistoryResult : SpecterApiResultBase<SPGetRewardHistoryResponseData>
     {
-        public List<SpecterRewardHistory> Items;
-        public List<SpecterRewardHistory> Bundles;
-        public List<SpecterCurrencyRewardHistory> Currencies;
-        public List<SpecterRewardHistory> ProgressionMarkers;
+        public List<SpecterRewardHistoryEntry> Items;
+        public List<SpecterRewardHistoryEntry> Bundles;
+        public List<SpecterCurrencyRewardHistoryEntry> Currencies;
+        public List<SpecterRewardHistoryEntry> ProgressionMarkers;
 
         protected override void InitSpecterObjectsInternal()
         {
-            Items = new List<SpecterRewardHistory>();
-            Bundles = new List<SpecterRewardHistory>();
-            Currencies = new List<SpecterCurrencyRewardHistory>();
-            ProgressionMarkers = new List<SpecterRewardHistory>();
+            Items = new List<SpecterRewardHistoryEntry>();
+            Bundles = new List<SpecterRewardHistoryEntry>();
+            Currencies = new List<SpecterCurrencyRewardHistoryEntry>();
+            ProgressionMarkers = new List<SpecterRewardHistoryEntry>();
             foreach (var item in Response.data.items)
             {
-                Items.Add(new SpecterRewardHistory(item));
+                Items.Add(new SpecterRewardHistoryEntry(item));
             }
             foreach (var bundle in Response.data.bundles)
             {
-                Bundles.Add(new SpecterRewardHistory(bundle));
+                Bundles.Add(new SpecterRewardHistoryEntry(bundle));
             }
             foreach (var currency in Response.data.currencies)
             {
-                Currencies.Add(new SpecterCurrencyRewardHistory(currency));
+                Currencies.Add(new SpecterCurrencyRewardHistoryEntry(currency));
             }
             foreach (var progress in Response.data.progressionMarkers)
             {
-                ProgressionMarkers.Add(new SpecterRewardHistory(progress));
+                ProgressionMarkers.Add(new SpecterRewardHistoryEntry(progress));
             }
         }
     }

@@ -107,14 +107,14 @@ namespace SpecterSDK.ObjectModels
         }
     }
 
-    public class SpecterRewardHistory : SpecterRewardBase
+    public class SpecterRewardHistoryEntry : SpecterRewardBase
     {
         public SPRewardClaimStatus Status;
         public SPRewardGrantType RewardGrant;
         public SPRewardSourceType SourceType;
         public string SourceId;
 
-        public SpecterRewardHistory(SPRewardHistoryEntryData data) : base(data)
+        public SpecterRewardHistoryEntry(SPRewardHistoryEntryData data) : base(data)
         {
             Status = data.status;
             RewardGrant = data.rewardGrant;
@@ -123,11 +123,11 @@ namespace SpecterSDK.ObjectModels
         }
     }
 
-    public class SpecterCurrencyRewardHistory : SpecterRewardHistory
+    public class SpecterCurrencyRewardHistoryEntry : SpecterRewardHistoryEntry
     {
         public string Code;
         public SPCurrencyType Type;
-        public SpecterCurrencyRewardHistory(SPCurrencyRewardHistoryEntryData data) : base(data)
+        public SpecterCurrencyRewardHistoryEntry(SPCurrencyRewardHistoryEntryData data) : base(data)
         {
             Code = data.code;
             Type = data.type;
