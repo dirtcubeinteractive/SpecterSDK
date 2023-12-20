@@ -34,6 +34,15 @@ namespace SpecterSDK.Shared
 
     }
     
+    [Serializable]
+    public sealed class SPRewardClaimStatus : SPEnum<SPRewardClaimStatus>
+    {
+        public static readonly SPRewardClaimStatus Pending = new SPRewardClaimStatus(0, nameof(Pending).ToLower(), nameof(Pending));
+        public static readonly SPRewardClaimStatus Completed = new SPRewardClaimStatus(1, nameof(Completed).ToLower(), nameof(Completed));
+
+        private SPRewardClaimStatus(int id, string name, string displayName = null) : base(id, name, displayName) { }
+    }
+    
     #endregion
     
     #region Economy
