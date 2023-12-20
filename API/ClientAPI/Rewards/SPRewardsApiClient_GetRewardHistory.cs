@@ -58,7 +58,7 @@ namespace SpecterSDK.API.ClientAPI.Rewards
 
     public partial class SPRewardsApiClient
     {
-        public async Task<SPGetRewardsHistoryResult> GetRewardHistoryTaskAsync(SPGetRewardsHistoryRequest request)
+        public async Task<SPGetRewardsHistoryResult> GetRewardHistoryAsync(SPGetRewardsHistoryRequest request)
         {
             var result = await PostAsync<SPGetRewardsHistoryResult, SPGetRewardHistoryResponseData>("/v1/client/rewards/get-history", AuthType, request);
             return result;
