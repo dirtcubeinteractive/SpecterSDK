@@ -33,5 +33,14 @@ namespace SpecterSDK.API.ClientAPI.Authentication
         public override SPAuthType AuthType => SPAuthType.None;
 
         public SPAuthApiClient(SpecterRuntimeConfig config) : base(config) {}
+
+        private void StoreAuthContext(SPAuthLoginResult result)
+        {
+            if (!result.HasError && !m_Config.UseDebugCredentials)
+            {
+                m_Config.AccessToken = result.AccessToken;
+                m_Config.EntityToken = result.EntityToken;
+            }
+        }
     }
 }

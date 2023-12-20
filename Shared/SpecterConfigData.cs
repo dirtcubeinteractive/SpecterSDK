@@ -45,6 +45,7 @@ namespace SpecterSDK.Shared
 
         public SPEnvironment Environment => m_Environment;
         public string ProjectId { get => m_ProjectId; set => m_ProjectId = value; }
+        public bool UseDebugCredentials { get; }
 
         public SpecterRuntimeConfig
         (
@@ -69,7 +70,10 @@ namespace SpecterSDK.Shared
             if (data.Environment != SPEnvironment.Production && data.UseDebugCredentials)
             {
                 AuthCredentials = data.DebugAuthContext;
+                UseDebugCredentials = true;
             }
+            else
+                UseDebugCredentials = false;
         }
     }
     
