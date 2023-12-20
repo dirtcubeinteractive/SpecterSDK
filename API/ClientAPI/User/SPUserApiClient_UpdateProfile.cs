@@ -12,6 +12,8 @@ namespace SpecterSDK.API.ClientAPI.User
     {
         public string firstName { get; set; }
         public string lastName { get; set; }
+        public string username { get; set; }
+        public string thumbUrl { get; set; }
         public string email { get; set; }
         public string birthdate { get; set; }
         public string customId { get; set; }
@@ -30,7 +32,7 @@ namespace SpecterSDK.API.ClientAPI.User
     
     public partial class SPUserApiClient
     {
-        public async Task<SPUpdateUserProfileResult> UpdateProfileAsync(SPUpdateUserProfileRequest request, Action<SPUpdateUserProfileResult> onComplete = null)
+        public async Task<SPUpdateUserProfileResult> UpdateProfileAsync(SPUpdateUserProfileRequest request)
         {
             var result = await PutAsync<SPUpdateUserProfileResult, SPGeneralResponseData>("/v1/client/user/update-profile", AuthType, request);
             return result;
