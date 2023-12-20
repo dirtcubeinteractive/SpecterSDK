@@ -37,8 +37,8 @@ namespace SpecterSDK.APIModels.ClientModels
 
     public sealed class SPTaskStatus : SPEnum<SPTaskStatus>
     {
-        public static readonly SPTaskStatus Created = new SPTaskStatus(0, "created", nameof(Created));
-        public static readonly SPTaskStatus AckReceived = new SPTaskStatus(1, "ack-received ", nameof(AckReceived));
+        public static readonly SPTaskStatus Pending = new SPTaskStatus(0, "pending", nameof(Pending));
+        public static readonly SPTaskStatus Completed = new SPTaskStatus(1, "completed ", nameof(Completed));
 
         private SPTaskStatus(int id, string name, string displayName = null) : base(id, name, displayName) { }
     }
