@@ -26,13 +26,13 @@ namespace SpecterSDK.APIModels
         public string value { get; set; }
                 
         // The maximum number of entity instances to fetch
-        public int limit { get; set; } = 10;
+        public int? limit { get; set; }
         
         /// <summary>
         /// The offset for pagination. Indicates the starting point from which entities should be fetched.
         /// This is simply the total number of entities you already have, or limit * pageCount (if you maintain a page count)
         /// </summary>
-        public int? offset { get; set; } = 0;
+        public int? offset { get; set; }
     }
     
     /// <summary>

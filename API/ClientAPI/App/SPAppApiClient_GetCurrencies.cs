@@ -16,8 +16,8 @@ namespace SpecterSDK.API.ClientAPI.App
         public List<string> currencyIds { get; set; } 
         public SPCurrencyType type { get; set; }
         public string search { get; set; }
-        public int limit { get; set; }
-        public int offset { get; set; }
+        public int? limit { get; set; }
+        public int? offset { get; set; }
     }
     
     public class SPGetCurrenciesResult : SpecterApiResultBase<SPGetCurrenciesResponseData>
