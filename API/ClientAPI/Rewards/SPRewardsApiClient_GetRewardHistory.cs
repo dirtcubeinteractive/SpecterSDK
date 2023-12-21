@@ -6,9 +6,6 @@ using SpecterSDK.APIModels;
 using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.ObjectModels;
 using SpecterSDK.Shared;
-using UnityEditor;
-using static UnityEditor.Progress;
-using static UnityEngine.Rendering.VirtualTexturing.Debugging;
 
 namespace SpecterSDK.API.ClientAPI.Rewards
 {
