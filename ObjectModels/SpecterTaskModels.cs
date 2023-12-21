@@ -26,7 +26,7 @@ namespace SpecterSDK.ObjectModels
     public class SpecterTask : SpecterTaskResource , ISpecterMasterObject
     {
         public SPRewardGrantType RewardGrantType;
-        public SpecterRewards Rewards;
+        public SpecterRewardDetails Rewards;
         public List<string> Tags { get; set; }
         public Dictionary<string, string> Meta { get; set; }
         
@@ -39,7 +39,7 @@ namespace SpecterSDK.ObjectModels
             Tags = data.tags;
             Meta = data.meta;
             if (data.rewardDetails != null)
-                Rewards = new SpecterRewards(data.rewardDetails);
+                Rewards = new SpecterRewardDetails(data.rewardDetails);
         }
     }
 
@@ -56,14 +56,14 @@ namespace SpecterSDK.ObjectModels
 
     public class SpecterForceCompletedTaskInfo : SpecterTaskResource
     {
-        public SpecterRewards Rewards;
+        public SpecterRewardDetails Rewards;
         public SpecterTaskGroupResource TaskGroupInfo;
 
         public bool IsInTaskGroup => TaskGroupInfo != null;
 
         public SpecterForceCompletedTaskInfo(SPForceCompletedTaskResponseData data) : base(data)
         {
-            Rewards = new SpecterRewards(data.rewardDetails);
+            Rewards = new SpecterRewardDetails(data.rewardDetails);
 
             if (data.taskGroupDetails != null)
                 TaskGroupInfo = new SpecterTaskGroupResource(data.taskGroupDetails);
@@ -78,7 +78,7 @@ namespace SpecterSDK.ObjectModels
         public bool StageReset;
         public SPTaskType TaskType;
         public List<SpecterTask> Tasks;
-        public SpecterRewards Rewards;
+        public SpecterRewardDetails Rewards;
         public SpecterTaskGroup(SPTaskGroupResponseData data) : base(data)
         {
             StageLength = data.stageLength;
@@ -87,7 +87,7 @@ namespace SpecterSDK.ObjectModels
             TaskType = data.taskType;
             
             if (data.rewardDetails != null)
-                Rewards = new SpecterRewards(data.rewardDetails);
+                Rewards = new SpecterRewardDetails(data.rewardDetails);
 
             Tasks = new List<SpecterTask>();
             foreach (var taskData in data.tasks)

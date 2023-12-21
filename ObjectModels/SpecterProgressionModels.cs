@@ -25,7 +25,7 @@ namespace SpecterSDK.ObjectModels
     public class SpecterLevel : SpecterObject
     {
         public int ParameterValue;
-        public SpecterRewards Rewards;
+        public SpecterRewardDetails Rewards;
         public string Name;
 
         public SpecterLevel(SPLevelData data)

@@ -6,6 +6,9 @@ using SpecterSDK.APIModels;
 using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.ObjectModels;
 using SpecterSDK.Shared;
+using UnityEditor;
+using static UnityEditor.Progress;
+using static UnityEngine.Rendering.VirtualTexturing.Debugging;
 
 namespace SpecterSDK.API.ClientAPI.Rewards
 {
@@ -36,34 +39,95 @@ namespace SpecterSDK.API.ClientAPI.Rewards
 
         protected override void InitSpecterObjectsInternal()
         {
-            RewardsMap = new Dictionary<SPRewardSourceType, Dictionary<string, SpecterRewards>>();
-            
-            Items = new List<SpecterRewardHistoryEntry>();
+            RewardsMap = new Dictionary<SPRewardSourceType, Dictionary<string, SpecterRewards>>
+            {
+                { SPRewardSourceType.LevelUp, new Dictionary<string, SpecterRewards>() },
+                { SPRewardSourceType.Task, new Dictionary<string, SpecterRewards>() },
+                { SPRewardSourceType.TaskGroup, new Dictionary<string, SpecterRewards>() }
+            };
+
+            Items = new List<SpecterRewardHistoryEntry>(); 
             foreach (var item in Response.data.items)
             {
-                var itemEntry = new SpecterRewardHistoryEntry(item);
+                var itemEntry = GetEntryAndAddToMap(item, SPRewardType.Item);
                 Items.Add(itemEntry);
             }
             
             Bundles = new List<SpecterRewardHistoryEntry>();
             foreach (var bundle in Response.data.bundles)
             {
-                Bundles.Add(new SpecterRewardHistoryEntry(bundle));
+                var bundleEntry = GetEntryAndAddToMap(bundle, SPRewardType.Bundle);
+                Bundles.Add(bundleEntry);
             }
             
             Currencies = new List<SpecterRewardHistoryEntry>();
             foreach (var currency in Response.data.currencies)
             {
-                Currencies.Add(new SpecterRewardHistoryEntry(currency));
+                var currencyEntry = GetEntryAndAddToMap(currency, SPRewardType.Currency);
+                Currencies.Add(currencyEntry);
             }
             
             ProgressionMarkers = new List<SpecterRewardHistoryEntry>();
             foreach (var progress in Response.data.progressionMarkers)
             {
-                ProgressionMarkers.Add(new SpecterRewardHistoryEntry(progress));
+                var progressionMarkerEntry = GetEntryAndAddToMap(progress, SPRewardType.ProgressionMarker);
+                ProgressionMarkers.Add(progressionMarkerEntry);
             }
         }
+
+
+        private SpecterRewardHistoryEntry GetEntryAndAddToMap (SPRewardHistoryEntryData entryData, SPRewardType rewardType)
+        {
+            SpecterRewardHistoryEntry rewardHistoryEntry = new SpecterRewardHistoryEntry(entryData, rewardType);
+
+            if (!RewardsMap[rewardHistoryEntry.SourceType].ContainsKey(rewardHistoryEntry.SourceId))
+            {
+                SpecterRewards specterRewards = new SpecterRewards(rewardHistoryEntry.SourceId, rewardHistoryEntry.SourceType, rewardHistoryEntry.Status, rewardHistoryEntry.RewardGrant);
+                switch (rewardType)
+                {
+                    case SPRewardType.ProgressionMarker:
+                        specterRewards.ProgressionMarkers.Add(rewardHistoryEntry);
+                        break;
+                    case SPRewardType.Currency:
+                        specterRewards.Currencies.Add(rewardHistoryEntry);
+                        break;
+                    case SPRewardType.Item:
+                        specterRewards.Items.Add(rewardHistoryEntry);
+                        break;
+                    case SPRewardType.Bundle:
+                        specterRewards.Bundles.Add(rewardHistoryEntry);
+                        break;
+                    default:
+                        break;
+                } 
+                RewardsMap[rewardHistoryEntry.SourceType].Add(rewardHistoryEntry.SourceId, specterRewards);
+            }
+            else
+            {
+                switch (rewardType)
+                {
+                    case SPRewardType.ProgressionMarker:
+                        RewardsMap[rewardHistoryEntry.SourceType][rewardHistoryEntry.SourceId].ProgressionMarkers.Add(rewardHistoryEntry);
+                        break;
+                    case SPRewardType.Currency:
+                        RewardsMap[rewardHistoryEntry.SourceType][rewardHistoryEntry.SourceId].Currencies.Add(rewardHistoryEntry);
+                        break;
+                    case SPRewardType.Item:
+                        RewardsMap[rewardHistoryEntry.SourceType][rewardHistoryEntry.SourceId].Items.Add(rewardHistoryEntry);
+                        break;
+                    case SPRewardType.Bundle:
+                        RewardsMap[rewardHistoryEntry.SourceType][rewardHistoryEntry.SourceId].Bundles.Add(rewardHistoryEntry);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            return rewardHistoryEntry;
+        }
     }
+
+
+
 
     public partial class SPRewardsApiClient
     {
