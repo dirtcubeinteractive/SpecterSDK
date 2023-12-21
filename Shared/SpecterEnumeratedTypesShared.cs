@@ -14,6 +14,14 @@ namespace SpecterSDK.Shared
     
     #region Rewards
     
+    public enum SPRewardType
+    {
+        ProgressionMarker,
+        Currency,
+        Item,
+        Bundle
+    }
+    
     [Serializable]
     public sealed class SPRewardSourceType : SPEnum<SPRewardSourceType>
     {
@@ -41,6 +49,47 @@ namespace SpecterSDK.Shared
         public static readonly SPRewardClaimStatus Completed = new SPRewardClaimStatus(1, nameof(Completed).ToLower(), nameof(Completed));
 
         private SPRewardClaimStatus(int id, string name, string displayName = null) : base(id, name, displayName) { }
+    }
+    
+    #endregion
+    
+    #region Tasks
+    
+    [Serializable]
+    public sealed class SPTaskType : SPEnum<SPTaskType>
+    {
+        public static readonly SPTaskType Static = new SPTaskType(0, nameof(Static).ToLower(), nameof(Static));
+        public static readonly SPTaskType Daily = new SPTaskType(1, nameof(Daily).ToLower(), nameof(Daily));
+        public static readonly SPTaskType Weekly = new SPTaskType(2, nameof(Weekly).ToLower(), nameof(Weekly));
+        
+        private SPTaskType(int id, string name, string displayName = null) : base(id, name, displayName) { }
+    }
+    
+    [Serializable]
+    public sealed class SPTaskGroupType : SPEnum<SPTaskGroupType>
+    {
+        public static readonly SPTaskGroupType Mission = new SPTaskGroupType(0, nameof(Mission).ToLower(), nameof(Mission));
+        public static readonly SPTaskGroupType StepSeries = new SPTaskGroupType(1,"step-series", nameof(StepSeries));
+
+        private SPTaskGroupType(int id, string name, string displayName = null) : base(id, name, displayName) { }
+    }
+
+    [Serializable]
+    public sealed class SPTaskStatus : SPEnum<SPTaskStatus>
+    {
+        public static readonly SPTaskStatus Pending = new SPTaskStatus(0, "pending", nameof(Pending));
+        public static readonly SPTaskStatus Completed = new SPTaskStatus(1, "completed ", nameof(Completed));
+
+        private SPTaskStatus(int id, string name, string displayName = null) : base(id, name, displayName) { }
+    }
+
+    [Serializable]
+    public sealed class SPTaskGroupStatus : SPEnum<SPTaskGroupStatus>
+    {
+        public static readonly SPTaskGroupStatus Completed = new SPTaskGroupStatus(0, nameof(Completed).ToLower(), nameof(Completed));
+        public static readonly SPTaskGroupStatus Pending = new SPTaskGroupStatus(1,nameof(Pending).ToLower(), nameof(Pending));
+
+        private SPTaskGroupStatus(int id, string name, string displayName = null) : base(id, name, displayName) { }
     }
     
     #endregion

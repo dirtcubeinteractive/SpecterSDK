@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using SpecterSDK.APIModels;
 using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.ObjectModels;
+using SpecterSDK.Shared;
 
 namespace SpecterSDK.API.ClientAPI.Tasks
 {
@@ -17,15 +18,15 @@ namespace SpecterSDK.API.ClientAPI.Tasks
         public List<SPApiRequestEntity> entities { get; set; }
     }
 
-    public class SPGetTaskGroupStatusResult : SpecterApiResultBase<SPUserTaskGroupResponseDataList>
+    public class SPGetTaskGroupStatusResult : SpecterApiResultBase<SPTaskGroupStatusResponseDataList>
     {
-        public List<SpecterUserTaskGroup> UserTaskGroups;
+        public List<SpecterTaskGroupStatus> TaskGroupStatuses;
         protected override void InitSpecterObjectsInternal()
         {
-            UserTaskGroups = new List<SpecterUserTaskGroup>();
+            TaskGroupStatuses = new List<SpecterTaskGroupStatus>();
             foreach (var taskGroup in Response.data)
             {
-                UserTaskGroups.Add(new SpecterUserTaskGroup(taskGroup));
+                TaskGroupStatuses.Add(new SpecterTaskGroupStatus(taskGroup));
             }
         }
     }
@@ -34,7 +35,7 @@ namespace SpecterSDK.API.ClientAPI.Tasks
     {
         public async Task<SPGetTaskGroupStatusResult> GetTaskGroupStatusAsync(SPGetTaskGroupStatusRequest request)
         {
-            var result = await PostAsync<SPGetTaskGroupStatusResult, SPUserTaskGroupResponseDataList>("/v1/client/tasks/get-task-group-status", AuthType, request);
+            var result = await PostAsync<SPGetTaskGroupStatusResult, SPTaskGroupStatusResponseDataList>("/v1/client/tasks/get-task-group-status", AuthType, request);
             return result;
         }
     }

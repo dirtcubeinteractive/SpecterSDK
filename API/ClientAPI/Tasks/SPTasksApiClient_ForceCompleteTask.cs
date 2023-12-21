@@ -17,13 +17,13 @@ namespace SpecterSDK.API.ClientAPI.Tasks
 
     public class SPForceCompleteTaskResult : SpecterApiResultBase<SPForceCompleteTaskResponseDataList>
     {
-        public List<SpecterForceCompletedTask> ForceCompletedTasks;
+        public List<SpecterForceCompletedTaskInfo> ForceCompletedTaskInfos;
         protected override void InitSpecterObjectsInternal()
         {
-            ForceCompletedTasks = new List<SpecterForceCompletedTask>();
+            ForceCompletedTaskInfos = new List<SpecterForceCompletedTaskInfo>();
             foreach (var taskData in Response.data)
             {
-                ForceCompletedTasks.Add(new SpecterForceCompletedTask(taskData));
+                ForceCompletedTaskInfos.Add(new SpecterForceCompletedTaskInfo(taskData));
             }
         }
     }

@@ -5,109 +5,56 @@ using SpecterSDK.Shared;
 
 namespace SpecterSDK.ObjectModels
 {
-    public abstract class SpecterRewardBase : SpecterResource, ISpecterMasterObject
+    public class SpecterReward : SpecterResource
     {
         public int Amount;
-        public List<string> Tags { get; set; }
-        public Dictionary<string, string> Meta { get; set; }
-
-        protected SpecterRewardBase(SPRewardBaseData data)
+        
+        public SpecterReward(SPRewardBaseData data) : base(data)
         {
-            Tags = new List<string>();
-            Meta = new Dictionary<string, string>();
-            Uuid = data.uuid;
-            Id = data.id;
-            Name = data.name;
-            Description = data.description;
-            IconUrl = data.iconUrl;
-            Meta = data.meta;
-            Tags = data.tags;
             Amount = data.amount;
         }
     }
 
-    public class SpecterCurrencyReward : SpecterRewardBase
+    public class SpecterRewards
     {
-        public string Code;
-        public SPCurrencyType Type;
+        public List<SpecterReward> ProgressionMarkers;
+        public List<SpecterReward> Currencies;
+        public List<SpecterReward> Items;
+        public List<SpecterReward> Bundles;
 
-        public SpecterCurrencyReward(SPCurrencyRewardData data) : base(data)
+        public SpecterRewards(SPRewardDetailsResponseData rewardDetails)
         {
-            Code = data.code;
-            Type = data.type;
-        }
-    }
-
-    public abstract class SpecterItemRewardBase : SpecterRewardBase
-    {
-        protected SpecterItemRewardBase(SPItemRewardBaseData data) : base(data)
-        {
-
-        }
-    }
-
-    public class SpecterItemReward : SpecterItemRewardBase
-    {
-        public SpecterItemReward(SPItemRewardData data) : base(data)
-        {
-
-        }
-    }
-
-    public class SpecterProgressionMarkerReward : SpecterRewardBase
-    {
-        public SpecterProgressionMarkerReward(SPProgressionMarkerRewardData data) : base(data)
-        {
-
-        }
-    }
-
-    public class SpecterBundleReward : SpecterItemRewardBase
-    {
-        public SpecterBundleReward(SPBundleRewardData data) : base(data)
-        {
-
-        }
-    }
-
-    public class SpecterReward
-    {
-        public List<SpecterProgressionMarkerReward> ProgressionMarkers;
-        public List<SpecterCurrencyReward> Currencies;
-        public List<SpecterItemReward> Items;
-        public List<SpecterBundleReward> Bundles;
-
-        public SpecterReward(SPRewardDetailsResponseData rewardDetails)
-        {
-            ProgressionMarkers = new List<SpecterProgressionMarkerReward>();
-            Currencies = new List<SpecterCurrencyReward>();
-            Items = new List<SpecterItemReward>();
-            Bundles = new List<SpecterBundleReward>();
-
+            ProgressionMarkers = new List<SpecterReward>();
             if (rewardDetails.progressionMarkers != null)
             {
                 foreach (var progression in rewardDetails.progressionMarkers)
-                    ProgressionMarkers.Add(new SpecterProgressionMarkerReward(progression));
+                    ProgressionMarkers.Add(new SpecterReward(progression));
             }
+            
+            Currencies = new List<SpecterReward>();
             if (rewardDetails.currencies != null)
             {
                 foreach (var currency in rewardDetails.currencies)
-                    Currencies.Add(new SpecterCurrencyReward(currency));
+                    Currencies.Add(new SpecterReward(currency));
             }
+            
+            Items = new List<SpecterReward>();
             if (rewardDetails.items != null)
             {
                 foreach (var items in rewardDetails.items)
-                    Items.Add(new SpecterItemReward(items));
+                    Items.Add(new SpecterReward(items));
             }
+            
+            Bundles = new List<SpecterReward>();
             if (rewardDetails.bundles != null)
             {
                 foreach (var bundle in rewardDetails.bundles)
-                    Bundles.Add(new SpecterBundleReward(bundle));
+                    Bundles.Add(new SpecterReward(bundle));
             }
         }
     }
 
-    public class SpecterRewardHistoryEntry : SpecterRewardBase
+    public class SpecterRewardHistoryEntry : SpecterReward
     {
         public SPRewardClaimStatus Status;
         public SPRewardGrantType RewardGrant;
@@ -120,17 +67,6 @@ namespace SpecterSDK.ObjectModels
             RewardGrant = data.rewardGrant;
             SourceType = data.sourceType;
             SourceId = data.sourceId;
-        }
-    }
-
-    public class SpecterCurrencyRewardHistoryEntry : SpecterRewardHistoryEntry
-    {
-        public string Code;
-        public SPCurrencyType Type;
-        public SpecterCurrencyRewardHistoryEntry(SPCurrencyRewardHistoryEntryData data) : base(data)
-        {
-            Code = data.code;
-            Type = data.type;
         }
     }
 }

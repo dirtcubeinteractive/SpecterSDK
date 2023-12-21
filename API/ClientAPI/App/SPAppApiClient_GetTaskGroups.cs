@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using SpecterSDK.APIModels;
 using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.ObjectModels;
+using SpecterSDK.Shared;
 
 namespace SpecterSDK.API.ClientAPI.App
 {

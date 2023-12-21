@@ -6,107 +6,120 @@ using SpecterSDK.Shared;
 
 namespace SpecterSDK.ObjectModels
 {
-    public class SpecterTask : SpecterResource , ISpecterMasterObject
+    public class SpecterTaskResource : SpecterResource
+    {
+        public SpecterTaskResource() { }
+        public SpecterTaskResource(SPTaskResourceResponseData data) : base(data) { }
+    }
+
+    public class SpecterTaskGroupResource : SpecterTaskResource
+    {
+        public SPTaskGroupType TaskGroupType;
+
+        public SpecterTaskGroupResource() { }
+        public SpecterTaskGroupResource(SPTaskGroupResourceResponseData data) : base(data)
+        {
+            TaskGroupType = data.taskGroupType;
+        }
+    }
+
+    public class SpecterTask : SpecterTaskResource , ISpecterMasterObject
     {
         public SPRewardGrantType RewardGrantType;
-        public SpecterReward SpecterReward;
+        public SpecterRewards Rewards;
         public List<string> Tags { get; set; }
         public Dictionary<string, string> Meta { get; set; }
+        
         public SpecterTask() { }
-        public SpecterTask(SPTaskResponseData data)
+        public SpecterTask(SPTaskResponseData data) : base(data)
         {
-            Uuid = data.uuid;
-            Id = data.id;
-            Name = data.name;
-            Description = data.description;
-            IconUrl = data.iconUrl;
             RewardGrantType = data.rewardGrant;
             Tags = new List<string>();
             Meta = new Dictionary<string, string>();
             Tags = data.tags;
             Meta = data.meta;
             if (data.rewardDetails != null)
-                SpecterReward = new SpecterReward(data.rewardDetails);
+                Rewards = new SpecterRewards(data.rewardDetails);
         }
     }
 
-    public class SpecterForceCompletedTask : SpecterTask
+    public class SpecterTaskStatus : SpecterTaskResource
     {
-        public SpecterTaskGroupDetails TaskGroupDetails;
-        public SpecterForceCompletedTask()
-        { }
-        public SpecterForceCompletedTask(SPForceCompleteTaskResponseData data) : base(data)
+        public SPTaskStatus Status;
+        public SpecterTaskStatus() { }
+
+        public SpecterTaskStatus(SPTaskStatusResponseData data) : base(data)
         {
-            TaskGroupDetails = new SpecterTaskGroupDetails(data.taskGroupDetails);
+            Status = data.status;
         }
     }
 
-    public class SpecterTaskCollection : SpecterObjectList<SpecterTask> { }
+    public class SpecterForceCompletedTaskInfo : SpecterTaskResource
+    {
+        public SpecterRewards Rewards;
+        public SpecterTaskGroupResource TaskGroupInfo;
 
-    public class SpecterTaskGroupBase : SpecterResource
+        public bool IsInTaskGroup => TaskGroupInfo != null;
+
+        public SpecterForceCompletedTaskInfo(SPForceCompletedTaskResponseData data) : base(data)
+        {
+            Rewards = new SpecterRewards(data.rewardDetails);
+
+            if (data.taskGroupDetails != null)
+                TaskGroupInfo = new SpecterTaskGroupResource(data.taskGroupDetails);
+        }
+
+    }
+
+    public class SpecterTaskGroup : SpecterTaskGroupResource
     {
         public int? StageLength;
         public int? StepNumber;
         public bool StageReset;
         public SPTaskType TaskType;
-        public SPTaskGroupType TaskGroupType;
-        public SpecterReward Rewards;
-        public SpecterTaskGroupBase(SPTaskGroupResponseBaseData data)
+        public List<SpecterTask> Tasks;
+        public SpecterRewards Rewards;
+        public SpecterTaskGroup(SPTaskGroupResponseData data) : base(data)
         {
-            Uuid = data.uuid;
-            Id = data.id;
-            Name = data.name;
-            Description = data.description;
-            IconUrl = data.iconUrl;
             StageLength = data.stageLength;
             StageReset = data.stageReset;
             StepNumber = data.stepNumber;
             TaskType = data.taskType;
-            TaskGroupType = data.taskGroupType;
-            if (data.rewardDetails != null)
-                Rewards = new SpecterReward(data.rewardDetails);
-        }
-    }
-
-    public class SpecterTaskGroupDetails : SpecterTaskGroupBase
-    {
-        public SpecterTaskGroupDetails(SPTaskGroupDetailsResponseData data) : base(data)
-        {
             
-        }
-    }
-    public class SpecterTaskGroup : SpecterTaskGroupBase
-    {
-        public List<SpecterTask> Tasks;
-        public SpecterTaskGroup(SPTaskGroupResponseData data) : base(data)
-        {
+            if (data.rewardDetails != null)
+                Rewards = new SpecterRewards(data.rewardDetails);
+
             Tasks = new List<SpecterTask>();
-            if (data.tasks != null)
+            foreach (var taskData in data.tasks)
             {
-                foreach (var taskResponseData in data.tasks)
-                {
-                    Tasks.Add(new SpecterTask(taskResponseData));
-                }
+                Tasks.Add(new SpecterTask(taskData));
             }
         }
     }
 
-    public class SpecterUserTaskGroup : SpecterTaskGroupBase
+    public class SpecterTaskGroupStatus : SpecterTaskGroupResource
     {
-        public List<SpecterTask> Tasks;
+        public List<SpecterTaskStatus> Tasks;
         public SPTaskGroupStatus Status;
-        public int CompletedTasksCount;
-        public int TotalTasksCount;
-        public SpecterUserTaskGroup(SPUserTaskGroupResponseData data) : base(data)
+        
+        public int CompletedTasksCount { get; set; }
+        public int TotalTasksCount { get; private set; }
+        public SpecterTaskGroupStatus(SPTaskGroupStatusResponseData data) : base(data)
         {
-            Tasks = new List<SpecterTask>();
+            CompletedTasksCount = 0;
+
+            Tasks = new List<SpecterTaskStatus>();
             if (data.tasks != null)
             {
                 foreach (var taskResponseData in data.tasks)
                 {
-                    Tasks.Add(new SpecterTask(taskResponseData));
+                    Tasks.Add(new SpecterTaskStatus(taskResponseData));
+                    if (data.status == SPTaskGroupStatus.Completed)
+                        CompletedTasksCount++;
                 }
             }
+
+            TotalTasksCount = Tasks.Count;
         }
     }
 }

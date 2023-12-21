@@ -28,6 +28,13 @@ namespace SpecterSDK.ObjectModels
     {
         public string Uuid;
         public string Id;
+
+        protected SpecterObject() {}
+        protected SpecterObject(string uuid, string id)
+        {
+            Uuid = uuid;
+            Id = id;
+        }
     }
 
     /// <summary>
@@ -39,6 +46,14 @@ namespace SpecterSDK.ObjectModels
         public string Name;
         public string Description;
         public string IconUrl;
+
+        protected SpecterResource() { }
+        protected SpecterResource(SPResourceResponseData data) : base(data.uuid, data.id)
+        {
+            Name = data.name;
+            Description = data.description;
+            IconUrl = data.iconUrl;
+        }
     }
 
     public enum SpecterResourceLockType

@@ -6,6 +6,7 @@ using SpecterSDK.APIModels;
 using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.APIModels.Interfaces;
 using SpecterSDK.ObjectModels;
+using SpecterSDK.Shared;
 
 namespace SpecterSDK.API.ClientAPI.Tasks
 {
@@ -18,15 +19,15 @@ namespace SpecterSDK.API.ClientAPI.Tasks
         public List<SPApiRequestEntity> entities { get; set; }
     }
 
-    public class SPGetTaskStatusResult : SpecterApiResultBase<SPUserTaskResponseDataList>
+    public class SPGetTaskStatusResult : SpecterApiResultBase<SPTaskStatusResponseDataList>
     {
-        public List<SpecterTask> Tasks;
+        public List<SpecterTaskStatus> TaskStatuses;
         protected override void InitSpecterObjectsInternal()
         {
-            Tasks = new List<SpecterTask>();
+            TaskStatuses = new List<SpecterTaskStatus>();
             foreach (var taskData in Response.data)
             {
-                Tasks.Add(new SpecterTask(taskData));
+                TaskStatuses.Add(new SpecterTaskStatus(taskData));
             }
         }
     }
@@ -35,7 +36,7 @@ namespace SpecterSDK.API.ClientAPI.Tasks
     {
         public async Task<SPGetTaskStatusResult> GetTaskStatusAsync(SPGetTaskStatusRequest request)
         {
-            var result = await PostAsync<SPGetTaskStatusResult, SPUserTaskResponseDataList>("/v1/client/tasks/get-status", AuthType, request);
+            var result = await PostAsync<SPGetTaskStatusResult, SPTaskStatusResponseDataList>("/v1/client/tasks/get-status", AuthType, request);
             return result;
         }
     }
