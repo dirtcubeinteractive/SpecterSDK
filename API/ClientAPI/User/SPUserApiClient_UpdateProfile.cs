@@ -17,7 +17,7 @@ namespace SpecterSDK.API.ClientAPI.User
         public string email { get; set; }
         public string birthdate { get; set; }
         public string customId { get; set; }
-        public bool? isKyc { get; set; }
+        public bool? isKycComplete { get; set; }
     }
     
     public class SPUpdateUserProfileResult : SpecterApiResultBase<SPGeneralResponseData>

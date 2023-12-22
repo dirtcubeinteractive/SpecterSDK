@@ -44,6 +44,7 @@ namespace SpecterSDK.APIModels.ClientModels
     [Serializable]
     public class SPAuthenticatedUserResponseData : SPUserProfileResponseData
     {
+        public bool createdUser { get; set; }
     }
     
     [Serializable]
