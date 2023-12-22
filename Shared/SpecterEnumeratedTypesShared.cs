@@ -77,8 +77,9 @@ namespace SpecterSDK.Shared
     [Serializable]
     public sealed class SPTaskStatus : SPEnum<SPTaskStatus>
     {
-        public static readonly SPTaskStatus Pending = new SPTaskStatus(0, "pending", nameof(Pending));
-        public static readonly SPTaskStatus Completed = new SPTaskStatus(1, "completed ", nameof(Completed));
+        public static readonly SPTaskStatus Pending = new SPTaskStatus(0, nameof(Pending).ToLower(), nameof(Pending));
+        public static readonly SPTaskStatus Completed = new SPTaskStatus(1, nameof(Completed).ToLower(), nameof(Completed));
+        public static readonly SPTaskStatus RewardClaimed = new SPTaskStatus(2, "reward_claimed", nameof(RewardClaimed));
 
         private SPTaskStatus(int id, string name, string displayName = null) : base(id, name, displayName) { }
     }
@@ -86,8 +87,9 @@ namespace SpecterSDK.Shared
     [Serializable]
     public sealed class SPTaskGroupStatus : SPEnum<SPTaskGroupStatus>
     {
-        public static readonly SPTaskGroupStatus Completed = new SPTaskGroupStatus(0, nameof(Completed).ToLower(), nameof(Completed));
-        public static readonly SPTaskGroupStatus Pending = new SPTaskGroupStatus(1,nameof(Pending).ToLower(), nameof(Pending));
+        public static readonly SPTaskGroupStatus Pending = new SPTaskGroupStatus(0,nameof(Pending).ToLower(), nameof(Pending));
+        public static readonly SPTaskGroupStatus Completed = new SPTaskGroupStatus(1, nameof(Completed).ToLower(), nameof(Completed));
+        public static readonly SPTaskGroupStatus RewardClaimed = new SPTaskGroupStatus(2, "reward_claimed", nameof(RewardClaimed));
 
         private SPTaskGroupStatus(int id, string name, string displayName = null) : base(id, name, displayName) { }
     }

@@ -102,11 +102,16 @@ namespace SpecterSDK.ObjectModels
         public List<SpecterTaskStatus> Tasks;
         public SPTaskGroupStatus Status;
         
+        public int PendingTasksCount { get; set; }
         public int CompletedTasksCount { get; set; }
+        public int TaskRewardsClaimedCount { get; set; }
         public int TotalTasksCount { get; private set; }
+        
         public SpecterTaskGroupStatus(SPTaskGroupStatusResponseData data) : base(data)
         {
+            PendingTasksCount = 0;
             CompletedTasksCount = 0;
+            TaskRewardsClaimedCount = 0;
 
             Tasks = new List<SpecterTaskStatus>();
             if (data.tasks != null)
@@ -114,8 +119,13 @@ namespace SpecterSDK.ObjectModels
                 foreach (var taskResponseData in data.tasks)
                 {
                     Tasks.Add(new SpecterTaskStatus(taskResponseData));
-                    if (data.status == SPTaskGroupStatus.Completed)
+
+                    if (taskResponseData.status == SPTaskStatus.Pending)
+                        PendingTasksCount++;
+                    else if (taskResponseData.status == SPTaskStatus.Completed)
                         CompletedTasksCount++;
+                    else if (taskResponseData.status == SPTaskStatus.RewardClaimed)
+                        TaskRewardsClaimedCount++;
                 }
             }
 
