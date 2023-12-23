@@ -116,7 +116,7 @@ namespace SpecterSDK.ObjectModels
         }
     }
 
-    public class SpecterUserProgressInfo : SpecterObject
+    public class SpecterUserProgressInfo
     {
         public int CurrentLevelNo;
         public int AmountToNextLevelNo;
