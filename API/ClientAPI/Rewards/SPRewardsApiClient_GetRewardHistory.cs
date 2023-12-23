@@ -10,7 +10,7 @@ using SpecterSDK.Shared;
 namespace SpecterSDK.API.ClientAPI.Rewards
 {
     [Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPGetRewardsHistoryRequest : SPApiRequestBase
+    public class SPGetRewardsHistoryRequest : SPPaginatedApiRequest
     {
         public string status { get; set; }
 

@@ -11,7 +11,7 @@ using SpecterSDK.Shared;
 namespace SpecterSDK.API.ClientAPI.Tasks
 {
     [Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPGetTaskStatusRequest: SPApiRequestBase, IAttributeConfigurable, IEntityConfigurable
+    public class SPGetTaskStatusRequest: SPPaginatedApiRequest, IAttributeConfigurable, IEntityConfigurable
     {
         public List<string> taskIds { get; set; }
         public SPTaskStatus status { get; set; }

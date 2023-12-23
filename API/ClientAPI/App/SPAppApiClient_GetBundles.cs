@@ -11,17 +11,11 @@ namespace SpecterSDK.API.ClientAPI.App
 {
 
     [Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPGetBundlesRequest : SPApiRequestBase
+    public class SPGetBundlesRequest : SPPaginatedApiRequest
     {
         public List<string> bundleIds { get; set; }
-
         public List<string> attributes { get; set; }
-
         public bool? isLocked { get; set; }
-        public int? offset { get; set; }
-
-        public int? limit { get; set; }
-
         public string search { get; set; }
     }
 

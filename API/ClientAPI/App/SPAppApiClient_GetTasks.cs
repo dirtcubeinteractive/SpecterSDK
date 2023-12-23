@@ -9,7 +9,7 @@ using SpecterSDK.ObjectModels;
 namespace SpecterSDK.API.ClientAPI.App
 {
     [Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPGetTasksRequest : SPApiRequestBase
+    public class SPGetTasksRequest : SPPaginatedApiRequest
     {
         public List<string> taskIds { get; set; }
         public List<string> attributes { get; set; }

@@ -10,12 +10,10 @@ namespace SpecterSDK.API.ClientAPI.Stores
 {
     [Serializable]
     [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPGetStoresCategoriesRequest : SPApiRequestBase
+    public class SPGetStoresCategoriesRequest : SPPaginatedApiRequest
     {
         public string storeId;
         public List<string> categoryIds;
-        public int limit;
-        public int offset;
     }
 
     public class SPGetStoresCategoriesResult : SpecterApiResultBase<SPStoreCategoryResponseDataList>

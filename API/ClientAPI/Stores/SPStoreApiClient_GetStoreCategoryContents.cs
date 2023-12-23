@@ -9,7 +9,7 @@ using SpecterSDK.ObjectModels;
 namespace SpecterSDK.API.ClientAPI.Stores
 {
     [Serializable]
-    public class SPGetStoresCategoryContentsRequest : SPApiRequestBase
+    public class SPGetStoresCategoryContentsRequest : SPPaginatedApiRequest
     {
         public string storeId;
         public string categoryId;

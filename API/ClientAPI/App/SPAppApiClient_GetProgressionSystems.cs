@@ -11,11 +11,9 @@ namespace SpecterSDK.API.ClientAPI.App
 {
     [Serializable]
     [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPGetProgressionSystemsRequest : SPApiRequestBase
+    public class SPGetProgressionSystemsRequest : SPPaginatedApiRequest
     {
         public List<string> progressionSystemIds { get; set; }
-        public int? limit { get; set; }
-        public int? offset { get; set; }
         public List<string> attributes { get; set; }
         public List<SPApiRequestEntity> entities { get; set; }
     }

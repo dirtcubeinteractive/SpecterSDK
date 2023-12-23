@@ -11,12 +11,10 @@ namespace SpecterSDK.API.ClientAPI.App
 {
     [Serializable]
     [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPGetGamesRequest : SPApiRequestBase
+    public class SPGetGamesRequest : SPPaginatedApiRequest
     {
        public List<string> gameIds { get; set; }
        public List<string> attributes { get; set; }
-       public int offset { get; set; }
-       public int limit { get; set; }
        public string search { get; set; }
        public List<SPApiRequestEntity> entities { get; set; }
     }

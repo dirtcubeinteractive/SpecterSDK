@@ -9,12 +9,10 @@ namespace SpecterSDK.API.ClientAPI.Leaderboards
 {
     [Serializable]
     [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPGetLeaderboardDetailsRequest : SPApiRequestBase
+    public class SPGetLeaderboardDetailsRequest : SPPaginatedApiRequest
     {
         public string leaderboardId { get; set; }
         public string matchId { get; set; }
-        public int? offset { get; set; }
-        public int? limit { get; set; }
     }
     
     public class SPGetLeaderboardDetailsResult : SpecterApiResultBase<SPLeaderboardResponseData>

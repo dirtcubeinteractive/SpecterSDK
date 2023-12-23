@@ -10,10 +10,8 @@ namespace SpecterSDK.API.ClientAPI.Inventory
 {
 
     [Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPGetUserInventoryRequest : SPApiRequestBase
+    public class SPGetUserInventoryRequest : SPPaginatedApiRequest
     {
-        public int? offset { get; set; }
-        public int? limit { get; set; }
         public string search { get; set; }
         public string sortField { get; set; }
         public string collectionId { get; set; }

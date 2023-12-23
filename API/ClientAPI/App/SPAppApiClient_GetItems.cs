@@ -11,21 +11,13 @@ namespace SpecterSDK.API.ClientAPI.App
 {
 
     [Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPGetItemsRequest : SPApiRequestBase, IAttributeConfigurable
+    public class SPGetItemsRequest : SPPaginatedApiRequest, IAttributeConfigurable
     {
         public List<string> itemIds { get; set; }
-
         public List<string> attributes { get; set; }
-
         public bool? isLocked { get; set; }
-        public int? offset { get; set; }
-
-        public int? limit { get; set; }
-
         public string search { get; set; }
-
         public string sortField { get; set; }
-
         public string sortOrder { get; set; }
     }
 

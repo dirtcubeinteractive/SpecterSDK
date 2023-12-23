@@ -63,7 +63,8 @@ namespace SpecterSDK.ObjectModels
 
         public SpecterForceCompletedTaskInfo(SPForceCompletedTaskResponseData data) : base(data)
         {
-            Rewards = new SpecterRewardDetails(data.rewardDetails);
+            if (data.rewardDetails != null)
+                Rewards = new SpecterRewardDetails(data.rewardDetails);
 
             if (data.taskGroupDetails != null)
                 TaskGroupInfo = new SpecterTaskGroupResource(data.taskGroupDetails);

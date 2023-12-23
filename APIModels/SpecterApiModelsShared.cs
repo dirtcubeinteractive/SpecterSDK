@@ -14,6 +14,22 @@ namespace SpecterSDK.APIModels
     public abstract class SPApiRequestBase { }
 
     /// <summary>
+    /// Represents the base structure for any API requests in the SDK where data can be paginated.
+    /// </summary>
+    [Serializable]
+    public abstract class SPPaginatedApiRequest : SPApiRequestBase
+    {
+        // The maximum number of data entries to fetch
+        public int? limit { get; set; }
+        
+        /// <summary>
+        /// The offset for pagination. Indicates the starting point from which data entries should be fetched.
+        /// This is simply the total number of entries you already have, or limit * pageCount (if you maintain a page count)
+        /// </summary>
+        public int? offset { get; set; }
+    }
+
+    /// <summary>
     /// Represents the data needed to request additional entities in an API request.
     /// Entities can be any data structures or objects that the request's response relates to.
     /// Use entities to request additional data from the server in the same request

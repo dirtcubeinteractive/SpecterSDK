@@ -10,7 +10,7 @@ namespace SpecterSDK.API.ClientAPI.Stores
 {
     [Serializable]
     [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPGetStoresRequest : SPApiRequestBase
+    public class SPGetStoresRequest : SPPaginatedApiRequest
     {
         public List<string> storeIds;
     }

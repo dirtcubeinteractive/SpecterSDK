@@ -8,13 +8,11 @@ using SpecterSDK.ObjectModels;
 namespace SpecterSDK.API.ClientAPI.Progression
 {
     [System.Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPGetUserProgressRequest : SPApiRequestBase
+    public class SPGetUserProgressRequest : SPPaginatedApiRequest
     {
         public List<string> progressionMarkerIds { get; set; }
         public string sortOrder { get; set; }
         public string sortField { get; set; }
-        public int limit { get; set; }
-        public int offset { get; set; }
     }
 
     public class SPGetUserProgressResult : SpecterApiResultBase<SPUserProgressDataList>
