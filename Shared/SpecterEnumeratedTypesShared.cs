@@ -69,7 +69,7 @@ namespace SpecterSDK.Shared
     public sealed class SPTaskGroupType : SPEnum<SPTaskGroupType>
     {
         public static readonly SPTaskGroupType Mission = new SPTaskGroupType(0, nameof(Mission).ToLower(), nameof(Mission));
-        public static readonly SPTaskGroupType StepSeries = new SPTaskGroupType(1,"step-series", nameof(StepSeries));
+        public static readonly SPTaskGroupType StepSeries = new SPTaskGroupType(1,"step_series", nameof(StepSeries));
 
         private SPTaskGroupType(int id, string name, string displayName = null) : base(id, name, displayName) { }
     }
