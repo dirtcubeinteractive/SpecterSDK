@@ -38,7 +38,7 @@ namespace SpecterSDK.API.ClientAPI.Rewards
         {
             RewardsMap = new Dictionary<SPRewardSourceType, Dictionary<string, SpecterRewards>>
             {
-                { SPRewardSourceType.LevelUp, new Dictionary<string, SpecterRewards>() },
+                { SPRewardSourceType.ProgressionSystem, new Dictionary<string, SpecterRewards>() },
                 { SPRewardSourceType.Task, new Dictionary<string, SpecterRewards>() },
                 { SPRewardSourceType.TaskGroup, new Dictionary<string, SpecterRewards>() }
             };

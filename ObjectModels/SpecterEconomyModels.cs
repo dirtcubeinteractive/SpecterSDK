@@ -196,7 +196,7 @@ namespace SpecterSDK.ObjectModels
     #region Specter Store
     public class SpecterStoreResource : SpecterResource
     {
-        public int Quantity;
+        public int? Quantity;
         public List<SpecterPrice> Prices;
         public SpecterStoreResource(SPStoreResourceResponseData data)
         {

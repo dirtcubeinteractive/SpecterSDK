@@ -142,7 +142,7 @@ namespace SpecterSDK.APIModels.ClientModels
     public abstract class SPStoreResourceResponseData : SPResourceResponseData
     {
         // Quantity of resource available in store - for limited edition resources
-        public int quantity { get; set; }
+        public int? quantity { get; set; }
         public List<SPPriceData> prices { get; set; }
     }
 

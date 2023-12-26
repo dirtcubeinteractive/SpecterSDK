@@ -26,8 +26,10 @@ namespace SpecterSDK.Shared
     public sealed class SPRewardSourceType : SPEnum<SPRewardSourceType>
     {
         public static readonly SPRewardSourceType Task = new SPRewardSourceType(0, nameof(Task).ToLower(), nameof(Task));
-        public static readonly SPRewardSourceType TaskGroup = new SPRewardSourceType(1, nameof(TaskGroup).ToLower(), nameof(TaskGroup));
-        public static readonly SPRewardSourceType LevelUp = new SPRewardSourceType(2, nameof(LevelUp).ToLower(), nameof(LevelUp));
+        public static readonly SPRewardSourceType TaskGroup = new SPRewardSourceType(1, "task_group", nameof(TaskGroup));
+        public static readonly SPRewardSourceType ProgressionSystem = new SPRewardSourceType(2, "progression_system", nameof(ProgressionSystem));
+        public static readonly SPRewardSourceType Custom = new SPRewardSourceType(3, nameof(Custom).ToLower(), nameof(Custom));
+        
         private SPRewardSourceType(int id, string name, string displayName = null) : base(id, name, displayName) { }
     }
     
