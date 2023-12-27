@@ -7,7 +7,8 @@ namespace SpecterSDK.ObjectModels
     public class SpecterStore : SpecterResource, ISpecterMasterObject
     {
         public int CategoriesCount;
-        public int GamePlatformMasterId;
+        public List<SpecterLocation> StoreLocations;
+        public List<SpecterGamePlatformInfoBase> StorePlatforms;
         public List<SpecterUnlockCondition> UnlockConditions;
         
         public List<string> Tags { get; set; }
@@ -21,12 +22,24 @@ namespace SpecterSDK.ObjectModels
             Description = data.description;
             IconUrl = data.iconUrl;
             CategoriesCount = data.categoriesCount;
-            GamePlatformMasterId = data.gamePlatformMasterId;
             Tags = data.tags ?? new List<string>();
             Meta = data.meta ?? new Dictionary<string, string>();
+            
             UnlockConditions = new List<SpecterUnlockCondition>();
             foreach (var unlockCondition in data.unlockConditions)
                 UnlockConditions.Add(new SpecterUnlockCondition(unlockCondition));
+
+            StorePlatforms = new List<SpecterGamePlatformInfoBase>();
+            foreach (var platformData in data.storePlatforms)
+            {
+                StorePlatforms.Add(new SpecterGamePlatformInfoBase(platformData));
+            }
+
+            StoreLocations = new List<SpecterLocation>();
+            foreach (var locationData in data.storeLocations)
+            {
+                StoreLocations.Add(new SpecterLocation(locationData));
+            }
         }
     }
 

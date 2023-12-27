@@ -78,19 +78,15 @@ namespace SpecterSDK.ObjectModels
         }
     }
 
-    public class SpecterGamePlatform
+    public class SpecterGamePlatform : SpecterGamePlatformInfoBase
     {
-        public int Id;
-        public string Name;
         public string AssetBundleUrl;
         public string AssetBundleVersion;
         public string MinimumGameVersion;
         public int GamePlatformMasterId;
 
-        public SpecterGamePlatform(SPGamePlatformData data)
+        public SpecterGamePlatform(SPGamePlatformData data) : base(data)
         {
-            Id = data.id;
-            Name = data.name;
             AssetBundleUrl = data.assetBundleUrl;
             AssetBundleVersion = data.assetBundleVersion;
             MinimumGameVersion = data.minimumGameVersion;

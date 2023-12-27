@@ -195,8 +195,8 @@ namespace SpecterSDK.APIModels.ClientModels
         public string id { get; set; }
         public SPPriceTypes priceType { get; set; }
         public double price { get; set; }
-        public int discount { get; set; }
-        public int bonusCashAllowance { get; set; }
+        public float? discount { get; set; }
+        public float? bonusCashAllowance { get; set; }
         public int? gamePlatformMasterId { get; set; }
 
         // This is any currency configured on the Specter dashboard

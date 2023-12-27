@@ -58,4 +58,19 @@ namespace SpecterSDK.APIModels.ClientModels
         public string id { get; set; }
         public string name { get; set; }
     }
+
+    [Serializable]
+    public class SPGamePlatformBaseData
+    {
+        public int id { get; set; }
+        public string name { get; set; }
+    }
+
+    [Serializable]
+    public class SPLocationData
+    {
+        public int id { get; set; }
+        public string name { get; set; }
+        public string countryCode { get; set; }
+    }
 }

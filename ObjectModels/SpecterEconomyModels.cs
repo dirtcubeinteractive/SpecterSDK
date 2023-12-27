@@ -275,8 +275,8 @@ namespace SpecterSDK.ObjectModels
             Id = data.id;
             Type = data.priceType;
             Price = data.price;
-            Discount = data.discount;
-            BonusCashAllowance = data.bonusCashAllowance;
+            Discount = data.discount ?? 0;
+            BonusCashAllowance = data.bonusCashAllowance ?? 0;
             GamePlatformMasterId = data.gamePlatformMasterId;
             VirtualCurrency = data.virtualCurrency != null ? new SpecterCurrencyBase(data.virtualCurrency) : null;
             RealCurrency = data.realWorldCurrency != null ? new SpecterRealCurrency(data.realWorldCurrency) : null;

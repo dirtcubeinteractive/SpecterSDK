@@ -87,4 +87,29 @@ namespace SpecterSDK.ObjectModels
         }
     }
 
+    public class SpecterGamePlatformInfoBase
+    {
+        public int Id { get; protected set; }
+        public string Name { get; protected set; }
+
+        public SpecterGamePlatformInfoBase(SPGamePlatformBaseData data)
+        {
+            Id = data.id;
+            Name = data.name;
+        }
+    }
+
+    public class SpecterLocation
+    {
+        public int Id { get; private set; }
+        public string Name { get; private set; }
+        public string CountryCode { get; private set; }
+
+        public SpecterLocation(SPLocationData data)
+        {
+            Id = data.id;
+            Name = data.name;
+            CountryCode = data.countryCode;
+        }
+    }
 }
