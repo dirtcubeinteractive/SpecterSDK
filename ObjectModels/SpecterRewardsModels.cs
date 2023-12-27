@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.ObjectModels.Interfaces;
 using SpecterSDK.Shared;
@@ -28,8 +29,13 @@ namespace SpecterSDK.ObjectModels
         public List<SpecterReward> Items;
         public List<SpecterReward> Bundles;
 
+        public List<SpecterReward> AllRewards;
+        public int RewardCount => AllRewards.Count;
+        
         public SpecterRewardDetails()
         {
+            AllRewards = new List<SpecterReward>();
+            
             ProgressionMarkers = new List<SpecterReward>();
 
             Currencies = new List<SpecterReward>();
@@ -41,32 +47,50 @@ namespace SpecterSDK.ObjectModels
 
         public SpecterRewardDetails(SPRewardDetailsResponseData rewardDetails)
         {
+            AllRewards = new List<SpecterReward>();
+            
             ProgressionMarkers = new List<SpecterReward>();
             if (rewardDetails.progressionMarkers != null)
             {
                 foreach (var progression in rewardDetails.progressionMarkers)
-                    ProgressionMarkers.Add(new SpecterReward(progression,SPRewardType.ProgressionMarker));
+                {
+                    var reward = new SpecterReward(progression, SPRewardType.ProgressionMarker);
+                    ProgressionMarkers.Add(reward);
+                    AllRewards.Add(reward);
+                }
             }
             
             Currencies = new List<SpecterReward>();
             if (rewardDetails.currencies != null)
             {
                 foreach (var currency in rewardDetails.currencies)
-                    Currencies.Add(new SpecterReward(currency,SPRewardType.Currency));
+                {
+                    var reward = new SpecterReward(currency, SPRewardType.Currency);
+                    Currencies.Add(reward);
+                    AllRewards.Add(reward);
+                }
             }
             
             Items = new List<SpecterReward>();
             if (rewardDetails.items != null)
             {
-                foreach (var items in rewardDetails.items)
-                    Items.Add(new SpecterReward(items,SPRewardType.Item));
+                foreach (var item in rewardDetails.items)
+                {
+                    var reward = new SpecterReward(item, SPRewardType.Item);
+                    Items.Add(reward);
+                    AllRewards.Add(reward);
+                }
             }
             
             Bundles = new List<SpecterReward>();
             if (rewardDetails.bundles != null)
             {
                 foreach (var bundle in rewardDetails.bundles)
-                    Bundles.Add(new SpecterReward(bundle,SPRewardType.Bundle));
+                {
+                    var reward = new SpecterReward(bundle, SPRewardType.Bundle);
+                    Bundles.Add(reward);
+                    AllRewards.Add(reward);
+                }
             }
         }
     }
