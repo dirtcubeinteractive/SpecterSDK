@@ -34,7 +34,7 @@ namespace SpecterSDK.API.ClientAPI.User
     {
         public async Task<SPUpdateUserProfileResult> UpdateProfileAsync(SPUpdateUserProfileRequest request)
         {
-            var result = await PutAsync<SPUpdateUserProfileResult, SPGeneralResponseData>("/v1/client/user/update-profile", AuthType, request);
+            var result = await PostAsync<SPUpdateUserProfileResult, SPGeneralResponseData>("/v1/client/user/update-profile", AuthType, request);
             return result;
         }
     }
