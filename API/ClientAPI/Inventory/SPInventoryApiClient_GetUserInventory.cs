@@ -16,8 +16,8 @@ namespace SpecterSDK.API.ClientAPI.Inventory
         public string sortField { get; set; }
         public string collectionId { get; set; }
         public string sortOrder { get; set; }
-        public string itemId { get; set; }
-        public string bundleId { get; set; }
+        public List<string> itemIds { get; set; }
+        public List<string> bundleIds { get; set; }
     }
 
     public class SPGetUserInventoryResult : SpecterApiResultBase<SPGetUserInventoryResponseData>
