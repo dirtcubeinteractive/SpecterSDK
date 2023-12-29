@@ -29,6 +29,7 @@ namespace SpecterSDK.ObjectModels
         public SpecterRewardDetails Rewards;
         public List<string> Tags { get; set; }
         public Dictionary<string, string> Meta { get; set; }
+        public SpecterTaskGroupResource TaskGroupInfo { get; private set; }
         
         public SpecterTask() { }
         public SpecterTask(SPTaskResponseData data) : base(data)
@@ -40,6 +41,11 @@ namespace SpecterSDK.ObjectModels
             Meta = data.meta;
             if (data.rewardDetails != null)
                 Rewards = new SpecterRewardDetails(data.rewardDetails);
+        }
+
+        public void SetTaskGroupInfo(SPTaskGroupResourceResponseData data)
+        {
+            TaskGroupInfo = new SpecterTaskGroupResource(data);
         }
     }
 
@@ -93,7 +99,9 @@ namespace SpecterSDK.ObjectModels
             Tasks = new List<SpecterTask>();
             foreach (var taskData in data.tasks)
             {
-                Tasks.Add(new SpecterTask(taskData));
+                var task = new SpecterTask(taskData);
+                task.SetTaskGroupInfo(data);
+                Tasks.Add(task);
             }
         }
     }
