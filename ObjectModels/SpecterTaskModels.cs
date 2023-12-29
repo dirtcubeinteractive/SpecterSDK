@@ -78,7 +78,7 @@ namespace SpecterSDK.ObjectModels
 
     }
 
-    public class SpecterTaskGroup : SpecterTaskGroupResource
+    public class SpecterTaskGroup : SpecterTaskGroupResource, ISpecterMasterObject
     {
         public int? StageLength;
         public int? StepNumber;
@@ -86,12 +86,17 @@ namespace SpecterSDK.ObjectModels
         public SPTaskType TaskType;
         public List<SpecterTask> Tasks;
         public SpecterRewardDetails Rewards;
+        public List<string> Tags { get; set; }
+        public Dictionary<string, string> Meta { get; set; }
+
         public SpecterTaskGroup(SPTaskGroupResponseData data) : base(data)
         {
             StageLength = data.stageLength;
             StageReset = data.stageReset;
             StepNumber = data.stepNumber;
             TaskType = data.taskType;
+            Tags = data.tags;
+            Meta = data.meta;
             
             if (data.rewardDetails != null)
                 Rewards = new SpecterRewardDetails(data.rewardDetails);

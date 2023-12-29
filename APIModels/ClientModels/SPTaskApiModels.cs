@@ -57,7 +57,7 @@ namespace SpecterSDK.APIModels.ClientModels
     public class SPForceCompleteTaskResponseDataList : SPResponseDataList<SPForceCompletedTaskResponseData> { }
 
     [Serializable]
-    public class SPTaskGroupResponseData : SPTaskGroupResourceResponseData
+    public class SPTaskGroupResponseData : SPTaskGroupResourceResponseData, ISpecterMasterData
     {
         public int? stageLength { get; set; }
         public bool stageReset { get; set; }
@@ -65,6 +65,8 @@ namespace SpecterSDK.APIModels.ClientModels
         public SPRewardDetailsResponseData rewardDetails { get; set; }
         public SPTaskType taskType { get; set; }
         public List<SPTaskResponseData> tasks { get; set; }
+        public List<string> tags { get; set; }
+        public Dictionary<string, string> meta { get; set; }
     }
 
     [Serializable]
