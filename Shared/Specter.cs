@@ -94,7 +94,7 @@ namespace SpecterSDK
         public static SPUserApiClient User { get; private set; }
         
         public static SPWalletApiClient Wallet { get; private set; }
-
+        
         public static bool IsInitialized { get; private set; }
 
         /// <summary>
@@ -137,8 +137,7 @@ namespace SpecterSDK
             if (!configData.AutoInit)
                 return;
 
-            var options = new InitOptions() { Environment = configData.Environment, ProjectId = configData.ProjectId };
-            Initialize(options);
+            Initialize(configData);
         }
 
         /// <summary>
@@ -158,7 +157,7 @@ namespace SpecterSDK
         /// Use this for completely controlled manual initialization
         /// </summary>
         /// <param name="options">The set of options to use for initialization. If not provided, defaults will be used.</param>
-        public static void Initialize(InitOptions options = null)
+        public static void Initialize(InitOptions options)
         {
             options ??= new InitOptions() { Environment = SPEnvironment.Development, ProjectId = ""};
             Config = new SpecterRuntimeConfig(options.Environment, options.ProjectId);
@@ -169,6 +168,12 @@ namespace SpecterSDK
                 Config.EntityToken = options.AuthContext.EntityToken;
             }
             
+            InitializeApi();
+        }
+
+        private static void Initialize(SpecterConfigData configData)
+        {
+            Config = new SpecterRuntimeConfig(configData);
             InitializeApi();
         }
 

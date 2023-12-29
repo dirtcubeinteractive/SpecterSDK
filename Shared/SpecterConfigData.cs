@@ -20,13 +20,21 @@ namespace SpecterSDK.Shared
         public string AccessToken 
         { 
             get => AuthCredentials?.AccessToken;
-            set => AuthCredentials.AccessToken = value;
+            set
+            {
+                AuthCredentials ??= new SPAuthContext();
+                AuthCredentials.AccessToken = value;
+            }
         }
         
         public string EntityToken 
         {
             get => AuthCredentials?.EntityToken;
-            set => AuthCredentials.EntityToken = value;
+            set
+            {
+                AuthCredentials ??= new SPAuthContext();
+                AuthCredentials.EntityToken = value;
+            }
         }
 
         private readonly SPEnvironment m_Environment;

@@ -103,10 +103,15 @@ namespace SpecterSDK.API
             
             if (requestBody is IProjectConfigurable bodyProjConfig)
                 ConfigureProjectId(bodyProjConfig);
-            
-            var suffix = requestParams != null ? $"?{SpecterJson.ToQueryString(requestParams)}" : "";
-            var uri = $"{m_Config.BaseUrl}{endpoint}{suffix}";
-            
+
+            var uri = $"{m_Config.BaseUrl}{endpoint}";
+            if (requestParams != null)
+            {
+                var query = $"?{SpecterJson.ToQueryString(requestParams)}";
+                uri  += query;
+                Debug.Log("SP HTTP Request Query Params: " + query);
+            }
+
             using var request = new HttpRequestMessage(method, uri);
             switch (authType)
             {
@@ -119,16 +124,16 @@ namespace SpecterSDK.API
                     throw new NotImplementedException($"Specter SDK unhandled auth type: {authType.ToString()}");
             }
             
-
             if (requestBody != null)
             {
                 var bodyStr = SpecterJson.SerializeObject(requestBody);
                 request.Content = new StringContent(bodyStr, Encoding.UTF8, SPApiMediaType.ApplicationJson);
+                Debug.Log("SP HTTP Request Payload: " + bodyStr);
             }
 
             try
             {
-                Debug.Log("SP HTTP Request: " + uri);
+                Debug.Log("SP HTTP Request Full URL: " + uri);
                 var response = await m_HttpClient.SendAsync(request, new CancellationToken());
 
                 if (!response.IsSuccessStatusCode)
@@ -150,7 +155,7 @@ namespace SpecterSDK.API
                 }
 
                 var resString = await response.Content.ReadAsStringAsync();
-                Debug.Log(resString);
+                Debug.Log($"SP HTTP Response for Endpoint {endpoint}: {resString}");
                 
                 var apiResponse = SpecterJson.DeserializeObject<SPApiResponse<TData>>(resString);
                 return apiResponse;
