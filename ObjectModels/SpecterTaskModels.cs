@@ -123,6 +123,7 @@ namespace SpecterSDK.ObjectModels
         
         public SpecterTaskGroupStatus(SPTaskGroupStatusResponseData data) : base(data)
         {
+            Status = data.status;
             PendingTasksCount = 0;
             CompletedTasksCount = 0;
             TaskRewardsClaimedCount = 0;
