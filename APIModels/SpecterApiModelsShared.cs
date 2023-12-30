@@ -173,4 +173,19 @@ namespace SpecterSDK.APIModels
             ObjectDict = Response.data;
         }
     }
+
+    /// <summary>
+    /// Represents a general API result that contains a list of objects as its response data.
+    /// Typically used for API responses that do not care about the array returned and
+    /// where a simple success status is sufficient.
+    /// </summary>
+    public class SPGeneralListResult : SpecterApiResultBase<SPGeneralListResponseData>
+    {
+        public List<object> ObjectList;
+
+        protected override void InitSpecterObjectsInternal()
+        {
+            ObjectList = Response.data;
+        }
+    }
 }
