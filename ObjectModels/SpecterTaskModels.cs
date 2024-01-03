@@ -35,10 +35,8 @@ namespace SpecterSDK.ObjectModels
         public SpecterTask(SPTaskResponseData data) : base(data)
         {
             RewardGrantType = data.rewardGrant;
-            Tags = new List<string>();
-            Meta = new Dictionary<string, string>();
-            Tags = data.tags;
-            Meta = data.meta;
+            Tags = data.tags ?? new List<string>();
+            Meta = data.meta ?? new Dictionary<string, string>();
             if (data.rewardDetails != null)
                 Rewards = new SpecterRewardDetails(data.rewardDetails);
         }
@@ -95,8 +93,8 @@ namespace SpecterSDK.ObjectModels
             StageReset = data.stageReset;
             StepNumber = data.stepNumber;
             TaskType = data.taskType;
-            Tags = data.tags;
-            Meta = data.meta;
+            Tags = data.tags ?? new List<string>();
+            Meta = data.meta ?? new Dictionary<string, string>();
             
             if (data.rewardDetails != null)
                 Rewards = new SpecterRewardDetails(data.rewardDetails);

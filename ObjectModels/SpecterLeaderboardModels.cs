@@ -51,8 +51,8 @@ namespace SpecterSDK.ObjectModels
                 LeaderboardEntries.Add(new SpecterLeaderboardEntry(leaderBoardEntry));
             }
             
-            Tags = data.tags;
-            Meta = data.meta;
+            Tags = data.tags ?? new List<string>();
+            Meta = data.meta ?? new Dictionary<string, string>();
         }
     }
 

@@ -44,8 +44,8 @@ namespace SpecterSDK.ObjectModels
             Description = data.description;
             HowTo = data.howTo;
             IconUrl = data.iconUrl;
-            Tags = data.tags;
-            Meta = data.meta;
+            Tags = data.tags ?? new List<string>();
+            Meta = data.meta ?? new Dictionary<string, string>();
             DownloadUrls = data.downloadUrl;
             ScreenShotUrls = data.screenShotUrl;
             PreviewVideoUrls = data.previewVideoUrl;

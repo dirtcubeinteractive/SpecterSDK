@@ -38,8 +38,8 @@ namespace SpecterSDK.ObjectModels
             DefaultOutcomeValue = data.defaultOutcomeValue;
             MatchFormatType = data.matchFormatType.name;
             GameMatchOutcomeType = data.matchOutcomeType.name;
-            Tags = data.tags;
-            Meta = data.meta;
+            Tags = data.tags ?? new List<string>();
+            Meta = data.meta ?? new Dictionary<string, string>();
             Leaderboards = new List<SpecterLeaderboardInfo>();
             foreach (var leaderBoard in data.leaderboards)
             {

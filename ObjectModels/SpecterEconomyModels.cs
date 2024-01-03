@@ -51,8 +51,8 @@ namespace SpecterSDK.ObjectModels
         public Dictionary<string, string> Meta { get; set; }
         public SpecterCurrency(SPCurrencyResponseData data) : base(data)
         {
-            Tags = data.tags;
-            Meta = data.meta;
+            Tags = data.tags ?? new List<string>();
+            Meta = data.meta ?? new Dictionary<string, string>();
         }
     }
 
@@ -104,8 +104,8 @@ namespace SpecterSDK.ObjectModels
             ConsumeByUses = data.consumeByUses;
             ConsumeByTime = data.consumeByTime;
             Quantity = data.quantity;
-            Tags = data.tags;
-            Meta = data.meta;
+            Tags = data.tags ?? new List<string>();
+            Meta = data.meta ?? new Dictionary<string, string>();
             UnlockConditions = new List<SpecterUnlockCondition>();
             if (data.unlockConditions != null)
             {

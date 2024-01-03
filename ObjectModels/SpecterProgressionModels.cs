@@ -17,8 +17,8 @@ namespace SpecterSDK.ObjectModels
             IconUrl = data.iconUrl;
             Tags = new List<string>();
             Meta = new Dictionary<string, string>();
-            Tags = data.tags;
-            Meta = data.meta;
+            Tags = data.tags ?? new List<string>();
+            Meta = data.meta ?? new Dictionary<string, string>();
         }
     }
 
