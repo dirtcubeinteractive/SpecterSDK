@@ -79,7 +79,7 @@ namespace SpecterSDK.API.ClientAPI.Rewards
 
             if (!RewardsMap[rewardHistoryEntry.SourceType].ContainsKey(rewardHistoryEntry.SourceId))
             {
-                SpecterRewards specterRewards = new SpecterRewards(rewardHistoryEntry.SourceId, rewardHistoryEntry.SourceType, rewardHistoryEntry.Status, rewardHistoryEntry.RewardGrant);
+                SpecterRewards specterRewards = new SpecterRewards(rewardHistoryEntry.SourceId, rewardHistoryEntry.SubSourceId, rewardHistoryEntry.SourceType, rewardHistoryEntry.Status, rewardHistoryEntry.RewardGrant);
                 switch (rewardType)
                 {
                     case SPRewardType.ProgressionMarker:
