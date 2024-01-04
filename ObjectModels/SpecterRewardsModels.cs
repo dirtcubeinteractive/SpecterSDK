@@ -109,6 +109,7 @@ namespace SpecterSDK.ObjectModels
             RewardGrant = data.rewardGrant;
             SourceType = data.sourceType;
             SourceId = data.sourceId;
+            SubSourceId = data.subSourceId;
         }
     }
 
