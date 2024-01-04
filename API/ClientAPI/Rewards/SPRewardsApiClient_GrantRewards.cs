@@ -22,11 +22,10 @@ namespace SpecterSDK.API.ClientAPI.Rewards
         public SPRewards rewards;
     }
 
-    [Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
+    [Serializable]
     public class SPRewardSource
     {
         public string id { get; set; }
-        public string subId { get; set; }
         public SPRewardSourceType type { get; set; }
     }
     public abstract class SPGeneralRewardRequestBase

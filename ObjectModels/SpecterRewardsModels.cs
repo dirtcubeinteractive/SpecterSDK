@@ -101,7 +101,6 @@ namespace SpecterSDK.ObjectModels
         public SPRewardGrantType RewardGrant;
         public SPRewardSourceType SourceType;
         public string SourceId;
-        public string SubSourceId;
 
         public SpecterRewardHistoryEntry(SPRewardHistoryEntryData data, SPRewardType rewardType) : base(data, rewardType)
         {
@@ -109,7 +108,6 @@ namespace SpecterSDK.ObjectModels
             RewardGrant = data.rewardGrant;
             SourceType = data.sourceType;
             SourceId = data.sourceId;
-            SubSourceId = data.subSourceId;
         }
     }
 
@@ -117,7 +115,6 @@ namespace SpecterSDK.ObjectModels
     {
         public SPRewardSourceType SourceType;
         public string SourceId;
-        public string SubSourceId;
         public SPRewardClaimStatus Status;
         public SPRewardGrantType RewardGrant;
 
@@ -133,11 +130,10 @@ namespace SpecterSDK.ObjectModels
             ProgressionMarkers = new List<SpecterRewardHistoryEntry>();
         }
 
-        public SpecterRewards(string sourceId, string subSourceId, SPRewardSourceType sourceType, SPRewardClaimStatus status, SPRewardGrantType rewardGrant)
+        public SpecterRewards(string sourceId, SPRewardSourceType sourceType, SPRewardClaimStatus status, SPRewardGrantType rewardGrant)
         {
             SourceType = sourceType;
             SourceId = sourceId;
-            SubSourceId = subSourceId;
             Status = status;
             RewardGrant = rewardGrant;
 
