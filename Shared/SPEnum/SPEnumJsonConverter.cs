@@ -23,6 +23,9 @@ namespace SpecterSDK.Shared.SPEnum
         public override TEnum ReadJson(JsonReader reader, Type objectType, TEnum existingValue, bool hasExistingValue,
             JsonSerializer serializer)
         {
+            if (reader.Value == null)
+                return null;
+                
             switch (reader.TokenType)
             {
                 case JsonToken.String:
