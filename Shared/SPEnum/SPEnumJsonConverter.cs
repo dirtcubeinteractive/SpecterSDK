@@ -25,7 +25,7 @@ namespace SpecterSDK.Shared.SPEnum
         {
             if (reader.Value == null)
                 return null;
-            
+                
             switch (reader.TokenType)
             {
                 case JsonToken.String:
