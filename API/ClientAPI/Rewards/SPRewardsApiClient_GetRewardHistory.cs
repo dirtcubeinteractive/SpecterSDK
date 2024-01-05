@@ -20,7 +20,7 @@ namespace SpecterSDK.API.ClientAPI.Rewards
 
         public List<string> taskGroupIds { get; set; }
 
-        public List<string> progressionSystemIds { get; set; }
+        public List<string> levelIds { get; set; }
 
         public List<SPApiRequestEntity> entities { get; set; }
     }
