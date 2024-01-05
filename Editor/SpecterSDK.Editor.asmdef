@@ -1,0 +1,18 @@
+{
+    "name": "SpecterSDK.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:0e48f453adb78445db9514dbb0955e81"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

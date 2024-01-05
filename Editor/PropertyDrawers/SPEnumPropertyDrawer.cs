@@ -1,11 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
-using SpecterSDK.APIModels.ClientModels;
-using Unity.VisualScripting;
+using SpecterSDK.Editor.Utils;
+using SpecterSDK.Shared;
+using SpecterSDK.Shared.SPEnum;
 using UnityEditor;
 using UnityEngine;
 
-namespace SpecterSDK.Shared.SPEnum.Editor
+namespace SpecterSDK.Editor
 {
     public abstract class SPEnumPropertyDrawer<TEnum> : PropertyDrawer
         where TEnum : SPEnum<TEnum>
@@ -27,12 +28,15 @@ namespace SpecterSDK.Shared.SPEnum.Editor
             var names = new GUIContent[values.Count];
             for (int i = 0; i < values.Count; i++)
             {
-                names[i] = new GUIContent(values[i].Name);
+                names[i] = new GUIContent(values[i].DisplayName);
             }
             return names;
         }
     }
     
+    [CustomPropertyDrawer(typeof(SPRewardSourceType))]
+    public class SPRewardSourceTypePropertyDrawer : SPEnumPropertyDrawer<SPRewardSourceType> { }
+
     [CustomPropertyDrawer(typeof(SPRewardGrantType))]
     public class SPRewardGrantTypePropertyDrawer : SPEnumPropertyDrawer<SPRewardGrantType> { }
     
