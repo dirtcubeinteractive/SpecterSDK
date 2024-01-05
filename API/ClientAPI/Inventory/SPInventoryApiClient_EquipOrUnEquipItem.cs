@@ -13,6 +13,7 @@ namespace SpecterSDK.API.ClientAPI.Inventory
         public string id;
         public bool shouldEquip;
         public int? amount;
+        public string collectionId;
     }
 
     [Serializable]
