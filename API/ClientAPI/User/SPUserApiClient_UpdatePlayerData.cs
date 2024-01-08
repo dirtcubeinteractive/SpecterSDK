@@ -28,7 +28,7 @@ namespace SpecterSDK.API.ClientAPI.User
     public class SPPlayerDataUnit
     {
         public string key { get; set; }
-        public string value { get; set; }
+        public object value { get; set; }
     }
 
     public partial class SPUserApiClient

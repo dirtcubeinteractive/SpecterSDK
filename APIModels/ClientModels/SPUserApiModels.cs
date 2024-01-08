@@ -59,8 +59,8 @@ namespace SpecterSDK.APIModels.ClientModels
     [Serializable]
     public class SPPlayerData
     {
-        public string value;
-        public SPPlayerDataPermission permission;
+        public object value { get; set; }
+        public SPPlayerDataPermission permission { get; set; }
     }
 
     [Serializable]

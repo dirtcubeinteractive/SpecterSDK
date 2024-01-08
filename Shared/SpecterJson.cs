@@ -3,6 +3,7 @@ using System.Collections;
 using System.Linq;
 using System.Reflection;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using SpecterSDK.APIModels;
 using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.Shared.Extensions;
@@ -159,6 +160,53 @@ namespace SpecterSDK.Shared
         where T : SPEnum<T>
         {
             settings.Converters.Add(new SPEnumJsonConverter<T>());
+        }
+
+        public static bool TryConvertObject<T>(object obj, out T result)
+        {
+            result = default;
+            
+            if (obj is JObject jObj)
+            {
+                try
+                {
+                    result = jObj.ToObject<T>();
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError($"Failed to convert JObject to {typeof(T)} with exception: {e.Message}");
+                    return false;
+                }
+            }
+            
+            if (obj is JArray jArr)
+            {
+                try
+                {
+                    result = jArr.ToObject<T>();
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError($"Failed to convert JArray to {typeof(T)} with exception: {e.Message}");
+                    return false;
+                }
+            }
+
+            try
+            {
+                result = (T)System.Convert.ChangeType(obj, typeof(T));
+                return true;
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"Failed to convert object from {obj.GetType().Name} to {typeof(T)} with exception: {e.Message}");
+                return false;
+            }
+
+            Debug.LogError($"Object is of type {obj.GetType().Name} and is not a JObject or a JArray. Cannot convert to type {typeof(T)}");
+            return false;
         }
     }
 }
