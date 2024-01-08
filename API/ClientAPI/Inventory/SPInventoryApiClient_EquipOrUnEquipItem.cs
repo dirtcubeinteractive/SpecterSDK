@@ -9,7 +9,7 @@ namespace SpecterSDK.API.ClientAPI.Inventory
     [Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
     public class SPEquipUnequipItemInfo
     {
-        public string slotId;
+        public string instanceId;
         public string id;
         public bool shouldEquip;
         public int? amount;

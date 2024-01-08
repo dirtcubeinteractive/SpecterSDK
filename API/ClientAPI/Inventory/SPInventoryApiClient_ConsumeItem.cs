@@ -11,6 +11,7 @@ namespace SpecterSDK.API.ClientAPI.Inventory
     public class SPConsumeItemInfo
     {
         public int amount;
+        public string instanceId;
         public string collectionId;
         public string id;
     }

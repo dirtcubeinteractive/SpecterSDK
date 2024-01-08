@@ -5,6 +5,7 @@ using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.ObjectModels.Interfaces;
 using SpecterSDK.Shared;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace SpecterSDK.ObjectModels
 {
@@ -222,7 +223,7 @@ namespace SpecterSDK.ObjectModels
     #region Specter Inventory
     public class SpecterInventoryResource : SpecterResource
     {
-        public string SlotId;
+        public string InstanceId;
         public int TotalUsesAvailable;
         public bool IsEquipped;
         public int Quantity;
@@ -235,7 +236,7 @@ namespace SpecterSDK.ObjectModels
             Name = data.name;
             Description = data.description;
             IconUrl = data.iconUrl;
-            SlotId = data.slotId;
+            InstanceId = data.instanceId;
             TotalUsesAvailable = data.totalUsesAvailable;
             IsEquipped = data.isEquipped;
             Quantity = data.quantity;

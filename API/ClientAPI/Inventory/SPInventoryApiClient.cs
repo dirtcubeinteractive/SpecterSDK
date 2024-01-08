@@ -10,6 +10,7 @@ namespace SpecterSDK.API.ClientAPI.Inventory
         public class SPInventoryEntityInfo
         {
             public string id;
+            public string instanceId;
             public int? amount;
             public string collectionId;
         }
