@@ -27,12 +27,14 @@ namespace SpecterSDK.ObjectModels
         public int ParameterValue;
         public SpecterRewardDetails Rewards;
         public string Name;
+        public int LevelNo;
 
         public SpecterLevel(SPLevelData data)
         {
             Uuid = data.uuid;
             Id = data.id;
             Name = data.name;
+            LevelNo = data.levelNo;
             if (data.rewardDetails != null)
             {
                 Rewards = new(data.rewardDetails);
