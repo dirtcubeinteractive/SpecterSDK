@@ -38,7 +38,8 @@ namespace SpecterSDK.APIModels.ClientModels
         public string id { get; set; }
         public string name { get; set; }
         public int levelNo { get; set; }
-        public int parameterValue { get; set; }
+        public int incrementalParameterValue { get; set; }
+        public int cumulativeParameterValue { get; set; }
         public SPRewardDetailsResponseData rewardDetails { get; set; }
     }
     

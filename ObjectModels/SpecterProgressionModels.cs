@@ -24,7 +24,8 @@ namespace SpecterSDK.ObjectModels
 
     public class SpecterLevel : SpecterObject
     {
-        public int ParameterValue;
+        public int IncrementalParameterValue;
+        public int CumulativeParameterValue;
         public SpecterRewardDetails Rewards;
         public string Name;
         public int LevelNo;
@@ -39,7 +40,9 @@ namespace SpecterSDK.ObjectModels
             {
                 Rewards = new(data.rewardDetails);
             }
-            ParameterValue = data.parameterValue;
+            
+            IncrementalParameterValue = data.incrementalParameterValue;
+            CumulativeParameterValue = data.cumulativeParameterValue;
         }
     }
     
