@@ -33,16 +33,19 @@ namespace SpecterSDK.ObjectModels
             IsRecurring = data.isRecurring;
             LeaderboardOutcomeType = data.outcomeType.name;
             LeaderboardSourceType = data.sourceType.name;
-            LeaderboardInterval = data.interval.name;
+            LeaderboardInterval = data.interval?.name;
             TotalCount = data.totalEntries;
             
-            Match = new SpecterMatchBase(data.match);
-            CurrentPlayerEntry = new SpecterLeaderboardEntry(data.currentPlayerEntry);
+            if (data.match != null)
+                Match = new SpecterMatchBase(data.match);
+            
+            if (data.currentPlayerEntry != null)
+                CurrentPlayerEntry = new SpecterLeaderboardEntry(data.currentPlayerEntry);
             
             PrizeDistributionRules = new List<SpecterPrizeDistributionRule>();
-            foreach (var prizeDistributionRule in PrizeDistributionRules)
+            foreach (var prizeDistributionRule in data.prizeDistributionRules)
             {
-                PrizeDistributionRules.Add(prizeDistributionRule);
+                PrizeDistributionRules.Add(new SpecterPrizeDistributionRule(prizeDistributionRule));
             }
             
             LeaderboardEntries = new List<SpecterLeaderboardEntry>();

@@ -21,6 +21,8 @@ namespace SpecterSDK.APIModels.ClientModels
     {
         public static readonly SPLeaderboardSourceType Match = new SPLeaderboardSourceType(1, "match", nameof(Match));
         public static readonly SPLeaderboardSourceType Statistics = new SPLeaderboardSourceType(2, "statistics", nameof(Statistics));
+        public static readonly SPLeaderboardSourceType Custom = new SPLeaderboardSourceType(3, "custom", nameof(Custom));
+        
         private SPLeaderboardSourceType(int id, string name, string displayName = null) : base(id, name, displayName) { }
     }
 
