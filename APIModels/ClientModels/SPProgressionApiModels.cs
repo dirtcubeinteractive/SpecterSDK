@@ -104,7 +104,7 @@ namespace SpecterSDK.APIModels.ClientModels
     {
         public string progressionSystemId { get; set; }
         public int previousLevelNo { get; set; }
-        public int amountToNextLevelNo { get; set; }
+        public int amountToNextLevel { get; set; }
         public int currentLevelNo { get; set; }
     }
 

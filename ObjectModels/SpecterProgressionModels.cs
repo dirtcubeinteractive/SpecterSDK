@@ -124,13 +124,13 @@ namespace SpecterSDK.ObjectModels
     public class SpecterUserProgressInfo
     {
         public int CurrentLevelNo;
-        public int AmountToNextLevelNo;
+        public int AmountToNextLevel;
         public int PreviousLevelNo;
         public string ProgressionSystemId;
         public SpecterUserProgressInfo(SPUserProgressInfoResponseData data)
         {
             CurrentLevelNo = data.currentLevelNo;
-            AmountToNextLevelNo = data.amountToNextLevelNo;
+            AmountToNextLevel = data.amountToNextLevel;
             PreviousLevelNo = data.previousLevelNo;
             ProgressionSystemId = data.progressionSystemId;
         }
