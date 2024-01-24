@@ -14,6 +14,7 @@ namespace SpecterSDK.ObjectModels
             Id = data.id;
             Name = data.name;
             Description = data.description;
+            IconUrl = data.iconUrl;
         }
     }
     public class SpecterGame : SpecterGameBase, ISpecterMasterObject
