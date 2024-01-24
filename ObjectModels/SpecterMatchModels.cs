@@ -26,7 +26,8 @@ namespace SpecterSDK.ObjectModels
         public int DefaultOutcomeValue;
         public SPMatchFormatType MatchFormatType;
         public SPGameMatchOutcomeType GameMatchOutcomeType;
-        public List<SpecterLeaderboardInfo> Leaderboards; 
+        public List<SpecterLeaderboardInfo> Leaderboards;
+        public SpecterGameBase Game;
         public List<string> Tags { get; set; }
         public Dictionary<string, string> Meta { get; set; }
         public SpecterMatch(SPMatchResponseData data) : base(data)
@@ -38,6 +39,7 @@ namespace SpecterSDK.ObjectModels
             DefaultOutcomeValue = data.defaultOutcomeValue;
             MatchFormatType = data.matchFormatType.name;
             GameMatchOutcomeType = data.matchOutcomeType.name;
+            Game = new SpecterGameBase(data.game);
             Tags = data.tags ?? new List<string>();
             Meta = data.meta ?? new Dictionary<string, string>();
             Leaderboards = new List<SpecterLeaderboardInfo>();
