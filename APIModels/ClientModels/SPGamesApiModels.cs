@@ -18,7 +18,7 @@ namespace SpecterSDK.APIModels.ClientModels
         public List<string> screenShotUrl { get; set; }
         public List<string> previewVideoUrl { get; set; }
         public string minimumAppVersion { get; set; }
-        public bool? isGameScreenOrientationLandscape { get; set; }
+        public bool isGameScreenOrientationLandscape { get; set; }
         public int numberOfMatchesCreated { get; set; }
         public bool isApp { get; set; }
         public bool isDraft { get; set; }
