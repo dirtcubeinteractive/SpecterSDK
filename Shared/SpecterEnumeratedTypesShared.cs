@@ -133,6 +133,34 @@ namespace SpecterSDK.Shared
         public static readonly SPGameMatchOutcomeType WinningsCollected = new SPGameMatchOutcomeType(5, "winnings_collected", nameof(WinningsCollected));
         private SPGameMatchOutcomeType(int id, string name, string displayName = null) : base(id, name, displayName) { }
     }
-    
+
+    #endregion
+
+    #region Competition
+
+
+    public sealed class SPCompetitionStatusType : SPEnum<SPCompetitionStatusType>
+    {
+        public static readonly SPCompetitionStatusType YetToStart = new SPCompetitionStatusType(1, "yet to start", nameof(YetToStart));
+        public static readonly SPCompetitionStatusType InProgress = new SPCompetitionStatusType(1, "in progress", nameof(InProgress));
+        public static readonly SPCompetitionStatusType Completed = new SPCompetitionStatusType(1, "completed", nameof(Completed));
+        public static readonly SPCompetitionStatusType InReview = new SPCompetitionStatusType(1, "in review", nameof(InReview));
+        public static readonly SPCompetitionStatusType Stopped = new SPCompetitionStatusType(1, "stopped", nameof(Stopped));
+        public static readonly SPCompetitionStatusType Failed = new SPCompetitionStatusType(1, "failed", nameof(Failed));
+
+        public SPCompetitionStatusType(int id, string name, string displayName = null) : base(id, name, displayName) { }
+    }
+
+    public sealed class SPCompetitionFormatType : SPEnum<SPCompetitionFormatType>
+    {
+        public static readonly SPCompetitionFormatType InstantBattle = new SPCompetitionFormatType(1, "Instant Battle", nameof(InstantBattle));
+        public static readonly SPCompetitionFormatType PaidChallenge = new SPCompetitionFormatType(1, "Paid Challenge", nameof(PaidChallenge));
+        public static readonly SPCompetitionFormatType Bracket = new SPCompetitionFormatType(1, "Bracket", nameof(Bracket));
+        public static readonly SPCompetitionFormatType Tournament = new SPCompetitionFormatType(1, "Tournament", nameof(Tournament));
+
+        public SPCompetitionFormatType(int id, string name, string displayName = null) : base(id, name, displayName) { }
+
+    }
+
     #endregion
 }
