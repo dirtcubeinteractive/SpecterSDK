@@ -26,7 +26,7 @@ namespace SpecterSDK.ObjectModels
         public List<string> ScreenShotUrls;
         public List<string> PreviewVideoUrls;
         public string MinimumAppVersion;
-        public bool? IsGameScreenOrientationLandscape;
+        public bool IsGameScreenOrientationLandscape;
         public int NumberOfMatchesCreated;
         public bool IsApp;
         public bool IsDraft;
@@ -39,12 +39,7 @@ namespace SpecterSDK.ObjectModels
         public SpecterGame() { }
         public SpecterGame(SPGameResponseData data) : base(data)
         {
-            Uuid = data.uuid;
-            Id = data.id;
-            Name = data.name;
-            Description = data.description;
             HowTo = data.howTo;
-            IconUrl = data.iconUrl;
             Tags = data.tags ?? new List<string>();
             Meta = data.meta ?? new Dictionary<string, string>();
             DownloadUrls = data.downloadUrl;
