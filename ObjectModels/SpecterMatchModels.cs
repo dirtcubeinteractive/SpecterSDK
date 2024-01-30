@@ -28,7 +28,6 @@ namespace SpecterSDK.ObjectModels
         public SPMatchFormatType MatchFormatType;
         public SPGameMatchOutcomeType GameMatchOutcomeType;
         public List<SpecterLeaderboardInfo> Leaderboards;
-        public SpecterGameBase Game;
         public List<string> Tags { get; set; }
         public Dictionary<string, string> Meta { get; set; }
         public SpecterMatch(SPMatchResponseData data) : base(data)

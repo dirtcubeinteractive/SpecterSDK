@@ -27,7 +27,6 @@ namespace SpecterSDK.APIModels.ClientModels
         public SPGameResponseBaseData game { get; set; }
         public SPMatchFormatData matchFormatType { get; set; }
         public SPGameMatchOutcomeData matchOutcomeType { get; set; }
-        public SPGameResponseBaseData game { get; set; }
         public List<SPLeaderboardInfoResponseData> leaderboards { get; set; }
         public List<string> tags { get; set; }
         public Dictionary<string, string> meta { get; set; }
