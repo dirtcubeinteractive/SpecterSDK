@@ -29,34 +29,14 @@ namespace SpecterSDK.API.ClientAPI.User
     
     public partial class SPUserApiClient
     {
-        private List<string> DefaultAttributes => new()
-        {
-            nameof(SPUserResponseBaseData.uuid),
-            nameof(SPUserResponseBaseData.id),
-            nameof(SPUserResponseBaseData.username),
-            nameof(SPUserResponseBaseData.hash)
-        };
-
         public async Task<SPGetUserProfileResult> GetProfileAsync(SPGetUserProfileRequest request)
         {
-            var defaultAttributes = DefaultAttributes;
-
-            request.attributes ??= new List<string>();
-            request.attributes.AddRange(defaultAttributes);
-            request.attributes = request.attributes.Distinct().ToList();
-
             var result = await PostAsync<SPGetUserProfileResult, SPUserProfileResponseData>("/v1/client/user/get-profile", AuthType, request);
             return result;
         }
 
         public void GetProfile(SPGetUserProfileRequest request, Action<SPGetUserProfileResult> onComplete)
         {
-            var defaultAttributes = DefaultAttributes;
-            
-            request.attributes ??= new List<string>();
-            request.attributes.AddRange(defaultAttributes);
-            request.attributes = request.attributes.Distinct().ToList();
-            
             var task = PostAsync<SPGetUserProfileResult, SPUserProfileResponseData>("/v1/client/user/get-profile", AuthType, request);
             task.GetAwaiter().OnCompleted(() => onComplete?.Invoke(task.Result));
         }
