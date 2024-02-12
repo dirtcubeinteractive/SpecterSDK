@@ -28,8 +28,7 @@ namespace SpecterSDK.ObjectModels
         public string Hash;
         public string Email;
         public string Phone;
-        public SPAuthContext AuthContext;
-        public List<SPAuthAccount> LinkedAccounts;
+        public readonly List<SPAuthAccount> LinkedAccounts;
 
         public SpecterUser(SPUserProfileResponseData data) : base(data)
         {
@@ -40,8 +39,6 @@ namespace SpecterSDK.ObjectModels
             ThumbUrl = data.thumbUrl;
             Email = data.email; 
             Phone = data.phone;
-
-            AuthContext = new SPAuthContext() { AccessToken = data.accessToken, EntityToken = data.entityToken };
             
             LinkedAccounts = new List<SPAuthAccount>();
             foreach (var account in data.linkedAccounts)
@@ -55,15 +52,5 @@ namespace SpecterSDK.ObjectModels
     {
         public string AuthProvider;
         public string UserId;
-    }
-
-    public class SpecterAuthenticatedUser : SpecterUser
-    {
-        public bool CreatedUser { get; }
-
-        public SpecterAuthenticatedUser(SPAuthenticatedUserResponseData data) : base(data)
-        {
-            CreatedUser = data.createdUser;
-        }
     }
 }

@@ -19,7 +19,6 @@ namespace SpecterSDK.API.ClientAPI.Authentication
         public SpecterUser User { get; private set; }
         public string AccessToken { get; private set; }
         public string EntityToken { get; private set; }
-        
         public bool CreatedUser { get; private set; }
 
         protected override void InitSpecterObjectsInternal()
