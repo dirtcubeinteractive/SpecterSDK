@@ -23,6 +23,9 @@ namespace SpecterSDK.API.ClientAPI.Authentication
 
         protected override void InitSpecterObjectsInternal()
         {
+            if (Response.data == null)
+                return;
+            
             User = new SpecterUser(Response.data);
             AccessToken = Response.data.accessToken;
             EntityToken = Response.data.entityToken;
