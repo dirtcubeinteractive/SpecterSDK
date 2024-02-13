@@ -53,11 +53,8 @@ namespace SpecterSDK.API
         // Default authentication type for API requests. Can be overridden in derived classes.
         public virtual SPAuthType AuthType => SPAuthType.None;
         
-        // Public parameterless constructor for creation via reflection
-        public SpecterApiClientBase() { }
-        
         // Constructor that initializes the API client with the provided configuration settings.
-        public SpecterApiClientBase(SpecterRuntimeConfig config)
+        protected SpecterApiClientBase(SpecterRuntimeConfig config)
         {
             m_Config = config;
             

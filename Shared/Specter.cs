@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using SpecterSDK.API;
-using SpecterSDK.API.ClientAPI;
 using SpecterSDK.API.ClientAPI.App;
 using SpecterSDK.API.ClientAPI.Authentication;
 using SpecterSDK.API.ClientAPI.Events;
@@ -18,7 +17,6 @@ using SpecterSDK.API.ClientAPI.Wallet;
 using SpecterSDK.ObjectModels;
 using SpecterSDK.Shared;
 using SpecterSDK.Shared.Attributes;
-using UnityEditor;
 using UnityEngine;
 
 namespace SpecterSDK
@@ -263,6 +261,8 @@ namespace SpecterSDK
             Tasks = null;
             User = null;
             Wallet = null;
+            
+            CustomClients.Clear();
             
             Config = null;
             IsInitialized = false;
