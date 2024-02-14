@@ -1,4 +1,4 @@
-using System.Threading.Tasks;
+using System;
 using SpecterSDK.APIModels;
 using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.APIModels.Interfaces;
@@ -14,20 +14,22 @@ namespace SpecterSDK.API.ClientAPI.Authentication
         public bool createAccount { get; set; }
     }
 
-    public class SPAuthLoginResult : SpecterApiResultBase<SPAuthenticatedUserResponseData>
+    public class SPAuthLoginResult : SpecterApiResultBase<SPUserAuthResponseData>
     {
         public SpecterUser User { get; private set; }
         public string AccessToken { get; private set; }
         public string EntityToken { get; private set; }
-        
-        public bool CreatedUser { get; private set; }
+        public bool CreatedAccount { get; private set; }
 
         protected override void InitSpecterObjectsInternal()
         {
-            User = new SpecterUser(Response.data);
+            if (Response.data == null)
+                return;
+            
+            User = new SpecterUser(Response.data.user);
             AccessToken = Response.data.accessToken;
             EntityToken = Response.data.entityToken;
-            CreatedUser = Response.data.createdUser;
+            CreatedAccount = Response.data.createdAccount;
         }
     }
 

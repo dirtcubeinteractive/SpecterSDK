@@ -1,5 +1,7 @@
 using System;
-using SpecterSDK.API.ClientAPI;
+using System.Collections.Generic;
+using System.Linq;
+using SpecterSDK.API;
 using SpecterSDK.API.ClientAPI.App;
 using SpecterSDK.API.ClientAPI.Authentication;
 using SpecterSDK.API.ClientAPI.Events;
@@ -14,7 +16,7 @@ using SpecterSDK.API.ClientAPI.User;
 using SpecterSDK.API.ClientAPI.Wallet;
 using SpecterSDK.ObjectModels;
 using SpecterSDK.Shared;
-using UnityEditor;
+using SpecterSDK.Shared.Attributes;
 using UnityEngine;
 
 namespace SpecterSDK
@@ -82,6 +84,8 @@ namespace SpecterSDK
         public static SPRewardsApiClient Rewards { get; private set; }
         
         public static SPStoreApiClient Stores { get; private set; }
+
+        private static Dictionary<Type, SpecterApiClientBase> CustomClients;
 
         /// <summary>
         /// Provides methods to retrieve and manage tasks, grant rewards, and other task related data.
@@ -204,7 +208,40 @@ namespace SpecterSDK
             User = new SPUserApiClient(Config);
             Wallet = new SPWalletApiClient(Config);
             
+            LoadCustomClients();
+            
             IsInitialized = true;
+        }
+
+        private static void LoadCustomClients()
+        {
+            CustomClients = new Dictionary<Type, SpecterApiClientBase>();
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+
+            foreach (var assembly in assemblies)
+            {
+                var types = assembly.GetTypes().Where(t =>
+                    t.BaseType == typeof(SpecterApiClientBase)
+                    && !t.IsAbstract
+                    && t.GetCustomAttributes(typeof(SpecterCustomApiClientAttribute), false).Length == 1);
+                foreach (var type in types)
+                {
+                    var client = Activator.CreateInstance(type, Config) as SpecterApiClientBase;
+                    CustomClients.Add(type, client);
+                }
+            }
+        }
+
+        public static T GetCustomClient<T>() where T : SpecterApiClientBase
+        {
+            if (!CustomClients.TryGetValue(typeof(T), out var client))
+                throw new ArgumentException($"No custom client of type {typeof(T).Name} found. Please ensure that your custom API client implements the {nameof(SpecterCustomApiClientAttribute)} in order to be loaded by the SDK");
+            
+            if (client is T customClient)
+                return customClient;
+                
+            throw new InvalidCastException($"{client.GetType().AssemblyQualifiedName} cannot be converted to type {typeof(T).AssemblyQualifiedName}");
+
         }
 
         /// <summary>
@@ -224,6 +261,8 @@ namespace SpecterSDK
             Tasks = null;
             User = null;
             Wallet = null;
+            
+            CustomClients.Clear();
             
             Config = null;
             IsInitialized = false;

@@ -23,6 +23,9 @@ namespace SpecterSDK.API.ClientAPI.User
 
         protected override void InitSpecterObjectsInternal()
         {
+            if (Response.data == null)
+                return;
+            
             User = new SpecterUser(Response.data);
         }
     }
