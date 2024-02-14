@@ -10,6 +10,15 @@ namespace SpecterSDK.APIModels.ClientModels
     #region Api Data Models
 
     [Serializable]
+    public class SPUserAuthResponseData : ISpecterApiResponseData
+    {
+        public SPUserProfileResponseData user { get; set; }
+        public string accessToken { get; set; }
+        public string entityToken { get; set; }
+        public bool createdAccount { get; set; }
+    }
+    
+    [Serializable]
     public class SPUserProfileResponseBaseData : ISpecterApiResponseData
     {
         public string uuid { get; set; }
@@ -28,8 +37,6 @@ namespace SpecterSDK.APIModels.ClientModels
         public string hash { get; set; }
         public string email { get; set; }
         public string phone { get; set; }
-        public string accessToken { get; set; }
-        public string entityToken { get; set; }
         public List<SPUserAuthAccountData> linkedAccounts { get; set; }
     }
     
