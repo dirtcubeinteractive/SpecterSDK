@@ -10,7 +10,8 @@ namespace SpecterSDK.API.ClientAPI.App
     public partial class SPAppApiClient : SpecterApiClientBase
     {
         /// <summary>
-        /// App API routes usually require a user's access token
+        /// The App API uses a user's access token for authorization.
+        /// The SDK handles this internally after a user has been logged in.
         /// </summary>
         public override SPAuthType AuthType => SPAuthType.AccessToken;
 
