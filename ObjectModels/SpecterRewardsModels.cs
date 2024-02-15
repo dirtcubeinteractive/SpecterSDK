@@ -10,6 +10,8 @@ namespace SpecterSDK.ObjectModels
     {
         public int Amount;
         public SPRewardType RewardType;
+        
+        protected SpecterReward() { }
         public SpecterReward(SPRewardBaseData data) : base(data)
         {
             Amount = data.amount;
@@ -103,6 +105,7 @@ namespace SpecterSDK.ObjectModels
         public string SourceId;
         public Dictionary<string, object> Meta;
 
+        public SpecterRewardHistoryEntry() { }
         public SpecterRewardHistoryEntry(SPRewardHistoryEntryData data, SPRewardType rewardType) : base(data, rewardType)
         {
             Status = data.status;
