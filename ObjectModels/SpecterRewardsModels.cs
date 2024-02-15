@@ -101,6 +101,7 @@ namespace SpecterSDK.ObjectModels
         public SPRewardGrantType RewardGrant;
         public SPRewardSourceType SourceType;
         public string SourceId;
+        public Dictionary<string, object> Meta;
 
         public SpecterRewardHistoryEntry(SPRewardHistoryEntryData data, SPRewardType rewardType) : base(data, rewardType)
         {
@@ -108,6 +109,22 @@ namespace SpecterSDK.ObjectModels
             RewardGrant = data.rewardGrant;
             SourceType = data.sourceType;
             SourceId = data.sourceId;
+            Meta = data.meta ?? new Dictionary<string, object>();
+        }
+
+        public bool TryGetMeta<T>(string key, out T val)
+        {
+            if (Meta.TryGetValue(key, out var obj))
+            {
+                if (obj is T convertedObj)
+                {
+                    val = convertedObj;
+                    return true;
+                }
+            }
+
+            val = default;
+            return false;
         }
     }
 
