@@ -6,7 +6,6 @@ using UnityEngine;
 namespace SpecterSDK.ObjectModels.Interfaces
 {
     public interface ISpecterObject { }
-    public interface ISpecterRewardable { }
 
     public interface ISpecterMasterObject
     {

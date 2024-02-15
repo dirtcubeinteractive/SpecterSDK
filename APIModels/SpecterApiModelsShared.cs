@@ -44,6 +44,9 @@ namespace SpecterSDK.APIModels
         // The maximum number of entity instances to fetch
         public int? limit { get; set; }
         
+        // the specific attributes of the entity to retrieve
+        public List<string> attributes { get; set; }
+        
         /// <summary>
         /// The offset for pagination. Indicates the starting point from which entities should be fetched.
         /// This is simply the total number of entities you already have, or limit * pageCount (if you maintain a page count)
@@ -97,9 +100,23 @@ namespace SpecterSDK.APIModels
     [Serializable]
     public class SPApiError
     {
-        public int statusCode { get; set; }
+        // The http exception that was thrown
+        public string status { get; set; }
+        
+        // The http error code (is always same as the code field in the api response class
+        public int code { get; set; }
+        
+        // Internal error code
+        public int errorCode { get; set; }
+        
+        // Detailed internal error message
+        public string errorMessage { get; set; }
+        
+        // Internal exception thrown
+        public string errorStatus { get; set; }
+        
+        // Standard message for the error type
         public string message { get; set; }
-        public string error { get; set; }
     }
 
     /// <summary>
@@ -109,7 +126,14 @@ namespace SpecterSDK.APIModels
     /// </summary>
     [Serializable]
     public sealed class SPGeneralResponseData : Dictionary<string, object>, ISpecterApiResponseData { }
-    
+
+    /// <summary>
+    /// Represents a general list response data class.
+    /// </summary>
+    /// <remarks>
+    /// This class is used as a response data class for general list API requests where we do not care about the type.
+    /// Similar to the <see cref="SPGeneralResponseData"/> class
+    /// </remarks>
     [Serializable]
     public sealed class SPGeneralListResponseData : List<object>, ISpecterApiResponseData { }
 

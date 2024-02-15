@@ -135,4 +135,40 @@ namespace SpecterSDK.Shared
     }
     
     #endregion
+
+    #region Leaderboards
+    
+    [Serializable]
+    public sealed class SPLeaderboardOutcomeType : SPEnum<SPLeaderboardOutcomeType>
+    {
+        public static readonly SPLeaderboardOutcomeType HighScore = new SPLeaderboardOutcomeType(1, "high_score", nameof(HighScore));
+        public static readonly SPLeaderboardOutcomeType TimeTrial = new SPLeaderboardOutcomeType(2, "time_trial", nameof(TimeTrial));
+        public static readonly SPLeaderboardOutcomeType WinDrawLossPoints = new SPLeaderboardOutcomeType(3, "win_draw_loss_points", nameof(WinDrawLossPoints));
+        public static readonly SPLeaderboardOutcomeType PositionWeighting = new SPLeaderboardOutcomeType(4, "position_weighting", nameof(PositionWeighting));
+        public static readonly SPLeaderboardOutcomeType CumulativeScore = new SPLeaderboardOutcomeType(5, "cumulative_score", nameof(CumulativeScore));
+        private SPLeaderboardOutcomeType(int id, string name, string displayName = null) : base(id, name, displayName) { }
+    }
+
+    [Serializable]
+    public sealed class SPLeaderboardSourceType : SPEnum<SPLeaderboardSourceType>
+    {
+        public static readonly SPLeaderboardSourceType Match = new SPLeaderboardSourceType(1, "match", nameof(Match));
+        public static readonly SPLeaderboardSourceType Statistics = new SPLeaderboardSourceType(2, "statistics", nameof(Statistics));
+        public static readonly SPLeaderboardSourceType Custom = new SPLeaderboardSourceType(3, "custom", nameof(Custom));
+        
+        private SPLeaderboardSourceType(int id, string name, string displayName = null) : base(id, name, displayName) { }
+    }
+
+    [Serializable]
+    public sealed class SPLeaderboardInterval : SPEnum<SPLeaderboardInterval>
+    {
+        public static readonly SPLeaderboardInterval Daily = new SPLeaderboardInterval(1, "daily", nameof(Daily));
+        public static readonly SPLeaderboardInterval Weekly = new SPLeaderboardInterval(2, "weekly", nameof(Weekly));
+        public static readonly SPLeaderboardInterval Monthly = new SPLeaderboardInterval(3, "monthly", nameof(Monthly));
+        public static readonly SPLeaderboardInterval Yearly = new SPLeaderboardInterval(4, "yearly", nameof(Yearly));
+        public static readonly SPLeaderboardInterval AllTime = new SPLeaderboardInterval(5, "all_time", nameof(AllTime));
+        private SPLeaderboardInterval(int id, string name, string displayName = null) : base(id, name, displayName) { }
+    }
+
+    #endregion
 }

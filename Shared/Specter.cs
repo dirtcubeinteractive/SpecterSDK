@@ -30,7 +30,7 @@ namespace SpecterSDK
         #region Path constants & props
 
         /// <summary>
-        /// The root directory name for the SDK. This is where all SDK-related assets and resources are stored.
+        /// The root directory name for the SDK. This is where all SDK-related assets and resources are to be stored.
         /// </summary>
         public const string SDK_DIRNAME = "SpecterSDK";
         
@@ -44,6 +44,9 @@ namespace SpecterSDK
         /// </summary>
         public const string CONFIG_FILENAME = "SpecterConfigData";
 
+        /// <summary>
+        /// Directory where config scriptable object is stored.
+        /// </summary>
         public static string ConfigDataResourcePath => $"{SHARED_DATA_DIRNAME}/{CONFIG_FILENAME}";
         
         #endregion
@@ -70,22 +73,41 @@ namespace SpecterSDK
         /// Provides methods to authenticate users, manage sessions, and handle user credentials.
         /// </summary>
         public static SPAuthApiClient Auth { get; private set; }
-        
+
+        /// <summary>
+        /// Provides access to the Specter custom events API.
+        /// </summary>
         public static SPEventsApiClient Events { get; private set; }
-        
+
+        /// <summary>
+        /// Provides methods to retrieve, update and manage a user's inventory in your game.
+        /// </summary>
         public static SPInventoryApiClient Inventory { get; private set; }
-        
+
+        /// <summary>
+        /// Provides methods to retrieve, update and manage leaderboards in your game.
+        /// </summary>
         public static SPLeaderboardsApiClient Leaderboards { get; private set; }
         
+        /// <summary>
+        /// Provides methods to manage match sessions when a user plays your game.
+        /// </summary>
         public static SPMatchesApiClient Matches { get; private set; }
         
+        /// <summary>
+        /// Provides methods to retrieve and manage info about a user's progress, update their progress, etc.
+        /// </summary>
         public static SPProgressionApiClient Progression { get; private set; }
         
+        /// <summary>
+        /// Provides methods to retrieve and manage info about a user's rewards, grant rewards, etc.
+        /// </summary>
         public static SPRewardsApiClient Rewards { get; private set; }
         
+        /// <summary>
+        /// Provides methods to retrieve and manage info about stores created for your app, store categories and other stores related APIs.
+        /// </summary>
         public static SPStoreApiClient Stores { get; private set; }
-
-        private static Dictionary<Type, SpecterApiClientBase> CustomClients;
 
         /// <summary>
         /// Provides methods to retrieve and manage tasks, grant rewards, and other task related data.
@@ -97,7 +119,17 @@ namespace SpecterSDK
         /// </summary>
         public static SPUserApiClient User { get; private set; }
         
+        /// <summary>
+        /// Provides methods to retrieve and manage user currencies (eg: retrieving balance, updating balance, etc.).
+        /// </summary>
         public static SPWalletApiClient Wallet { get; private set; }
+        
+        /// <summary>
+        /// Represents a dictionary of custom Specter API clients. Custom API clients can be created by subclassing
+        /// <see cref="SpecterApiClientBase"/>. You must add the <see cref="SpecterCustomApiClientAttribute"/> attribute
+        /// to the class in order for the SDK to find and initialize it, else you can initialize it manually.
+        /// </summary>
+        private static Dictionary<Type, SpecterApiClientBase> CustomClients;
         
         public static bool IsInitialized { get; private set; }
 
@@ -119,7 +151,7 @@ namespace SpecterSDK
         }
 
         /// <summary>
-        /// Automatically initializes the Specter SDK when the game starts, if the AutoInit setting is enabled in the configuration data.
+        /// Automatically initializes the Specter SDK when the game starts, if the AutoInit setting is enabled in the configuration scriptable object.
         /// Should not be called manually.
         /// </summary>
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
@@ -175,7 +207,12 @@ namespace SpecterSDK
             InitializeApi();
         }
 
-        private static void Initialize(SpecterConfigData configData)
+        /// <summary>
+        /// Initializes the application using the provided Specter Configuration data.
+        /// This is for manual init using the config scriptable object.
+        /// </summary>
+        /// <param name="configData">An instance of SpecterConfigData that represents the configuration data for Specter SDK.</param>
+        public static void Initialize(SpecterConfigData configData)
         {
             Config = new SpecterRuntimeConfig(configData);
             InitializeApi();
@@ -184,7 +221,9 @@ namespace SpecterSDK
         /// <summary>
         /// Initializes all the Api clients for the SDK to function
         /// </summary>
-        /// <exception cref="InvalidOperationException"></exception>
+        /// <exception cref="InvalidOperationException">
+        /// Thrown if the config has not been loaded before attempting to initialize the SDK.
+        /// </exception>
         private static void InitializeApi()
         {
             if (Config == null)
@@ -232,10 +271,21 @@ namespace SpecterSDK
             }
         }
 
+        /// <summary>
+        /// Retrieves the custom client of the specified type.
+        /// </summary>
+        /// <typeparam name="T">The type of the custom client to retrieve.</typeparam>
+        /// <returns>The custom client of type T.</returns>
+        /// <exception cref="ArgumentException">Thrown if no custom client of the specified type is found.</exception>
+        /// <exception cref="InvalidCastException">Thrown if the retrieved custom client cannot be converted to type T.</exception>
+        /// <remarks>
+        /// The custom client must implement the SpecterCustomApiClientAttribute to be loaded by the SDK.
+        /// </remarks>
         public static T GetCustomClient<T>() where T : SpecterApiClientBase
         {
             if (!CustomClients.TryGetValue(typeof(T), out var client))
-                throw new ArgumentException($"No custom client of type {typeof(T).Name} found. Please ensure that your custom API client implements the {nameof(SpecterCustomApiClientAttribute)} in order to be loaded by the SDK");
+                throw new ArgumentException(
+                    $"No custom client of type {typeof(T).Name} found. Please ensure that your custom API client implements the {nameof(SpecterCustomApiClientAttribute)} in order to be loaded by the SDK");
             
             if (client is T customClient)
                 return customClient;
@@ -245,8 +295,11 @@ namespace SpecterSDK
         }
 
         /// <summary>
-        /// Completely reset Specter
+        /// Disposes of all resources used by the SpecterSDK.
         /// </summary>
+        /// <remarks>
+        /// Use if you need to reset the Specter SDK and manually re-initialize.
+        /// </remarks>
         public static void Dispose()
         {
             App = null;

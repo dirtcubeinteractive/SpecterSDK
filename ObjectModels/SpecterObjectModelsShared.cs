@@ -112,4 +112,43 @@ namespace SpecterSDK.ObjectModels
             CountryCode = data.countryCode;
         }
     }
+
+    public class SpecterServerTime
+    {
+        public string Abbreviation;
+        public string ClientIp;
+        public DateTime DateTime;
+        public int DayOfWeek;
+        public int DayOfYear;
+        public bool DST;
+        public string DstFrom;
+        public int DstOffset;
+        public string DstUntil;
+        public int RawOffset;
+        public string Timezone;
+        public int UnixTime;
+        public DateTime UtcDatetime;
+        public string UtcOffset;
+        public int WeekNumber;
+
+        public SpecterServerTime() { }
+        public SpecterServerTime(SPGetServerTimeResponseData data)
+        {
+            Abbreviation = data.abbreviation;
+            ClientIp = data.clientIp;
+            DateTime = data.datetime;
+            DayOfWeek = data.dayOfWeek;
+            DayOfYear = data.dayOfYear;
+            DST = data.dst;
+            DstFrom = data.dstFrom;
+            DstOffset = data.dstOffset;
+            DstUntil = data.dstUntil;
+            RawOffset = data.rawOffset;
+            Timezone = data.timezone;
+            UnixTime = data.unixtime;
+            UtcDatetime = data.utcDatetime;
+            UtcOffset = data.utcOffset;
+            WeekNumber = data.weekNumber;
+        }
+    }
 }

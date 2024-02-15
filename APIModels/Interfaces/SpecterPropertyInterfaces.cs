@@ -35,7 +35,7 @@ namespace SpecterSDK.APIModels.Interfaces
     public interface ISpecterEventConfigurable
     {
         public Dictionary<string, object> customParams { get; set; }
-        public Dictionary<string, object> systemParams { get; set; }
+        public Dictionary<string, object> specterParams { get; set; }
 
     }
 }

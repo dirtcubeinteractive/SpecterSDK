@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.ObjectModels.Interfaces;
+using SpecterSDK.Shared;
 
 namespace SpecterSDK.ObjectModels
 {
