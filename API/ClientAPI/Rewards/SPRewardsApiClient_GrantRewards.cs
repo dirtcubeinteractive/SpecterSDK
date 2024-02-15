@@ -20,6 +20,7 @@ namespace SpecterSDK.API.ClientAPI.Rewards
     {
         public SPRewardSource source;
         public SPRewards rewards;
+        public Dictionary<string, object> meta;
     }
 
     [Serializable]
