@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using SpecterSDK.APIModels;
-using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.Shared;
 using Newtonsoft.Json;
 
