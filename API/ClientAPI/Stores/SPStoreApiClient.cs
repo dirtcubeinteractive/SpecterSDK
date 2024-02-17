@@ -22,6 +22,10 @@ namespace SpecterSDK.API.ClientAPI.Stores
     /// </summary>
     public partial class SPStoreApiClient : SpecterApiClientBase
     {
+        /// <summary>
+        /// The Store API uses a user's access token for authorization.
+        /// The SDK handles this internally after a user has been logged in.
+        /// </summary>
         public override SPAuthType AuthType => SPAuthType.AccessToken;
 
         public SPStoreApiClient(SpecterRuntimeConfig config) : base(config) { }
