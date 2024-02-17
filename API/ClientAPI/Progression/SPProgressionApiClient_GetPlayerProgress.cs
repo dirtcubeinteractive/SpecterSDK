@@ -13,7 +13,7 @@ namespace SpecterSDK.API.ClientAPI.Progression
     /// </summary>
     /// <remarks>
     /// <para>
-    /// The SPGetUserProgressRequest class represents a request to get a user's progress from the Specter Progression API.
+    /// The <see cref="SPGetUserProgressRequest"/> class represents a request to get a user's progress from the Specter Progression API.
     /// It can be used to specify the filter criteria for the progression marker progresses to be returned.
     /// The endpoint is paginated, i.e. it can accept a limit and offset value to retrieve only a certain number of
     /// requested objects. See <see cref="SPPaginatedApiRequest"/> for more info about paginated requests.
@@ -67,7 +67,7 @@ namespace SpecterSDK.API.ClientAPI.Progression
     }
 
     /// <summary>
-    /// Represents the result of the GetUserProgressAsync method in the SPProgressionApiClient class.
+    /// Represents the result of the GetUserProgressAsync method in the <see cref="SPProgressionApiClient"/> class.
     /// </summary>
     public class SPGetUserProgressResult : SpecterApiResultBase<SPUserProgressDataList>
     {
