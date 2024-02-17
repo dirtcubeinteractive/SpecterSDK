@@ -13,13 +13,13 @@ namespace SpecterSDK.API.ClientAPI.Inventory
     /// </summary>
     /// <remarks>
     /// <para>
-    /// The SPGetUserInventoryRequest class represents a request to get a user's inventory from the Specter Inventory API.
+    /// The <see cref="SPGetUserInventoryRequest"/> class represents a request to get a user's inventory from the Specter Inventory API.
     /// It can be used to specify the filter criteria for the inventory items and bundles to be returned.
     /// The endpoint is paginated, i.e. it can accept a limit and offset value to retrieve only a certain number of
     /// requested objects. See <see cref="SPPaginatedApiRequest"/> for more info about paginated requests.
     /// </para>
     /// <para>
-    /// This request can be sent to the GetItemsFromInventory method in the SPInventoryApiClient class to retrieve the user inventory from the API.
+    /// This request can be sent to the GetItemsFromInventory method in the <see cref="SPInventoryApiClient"/> class to retrieve the user inventory from the API.
     /// </para>
     /// </remarks>
     [Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
@@ -30,7 +30,7 @@ namespace SpecterSDK.API.ClientAPI.Inventory
         /// </summary>
         /// <remarks>
         /// <para>
-        /// The itemIds property is used in the SPGetUserInventoryRequest class to specify the specific item IDs for filtering the retrieved inventory items from the API.
+        /// The itemIds property is used in the <see cref="SPGetUserInventoryRequest"/> class to specify the specific item IDs for filtering the retrieved inventory items from the API.
         /// </para>
         /// <para>
         /// This property is a list of strings, where each string represents a unique item ID that is set in the dashboard.
