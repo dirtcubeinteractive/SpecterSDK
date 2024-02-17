@@ -21,7 +21,7 @@ namespace SpecterSDK.API.ClientAPI.Inventory
     public partial class SPInventoryApiClient : SpecterApiClientBase
     {
         /// <summary>
-        /// This class represents an object used to represent bundle and item info in Inventory API requests.
+        /// This class is an object used to represent information about a bundle or item instance in Inventory API requests.
         /// </summary>
         [Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
         public class SPInventoryEntityInfo

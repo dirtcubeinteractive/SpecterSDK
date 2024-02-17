@@ -60,7 +60,7 @@ namespace SpecterSDK.API.ClientAPI.Inventory
         public string search { get; set; }
 
         /// <summary>
-        /// Represents the field by which the user's inventory should be sorted.
+        /// Represents the field by which the returned objects should be sorted.
         /// </summary>
         /// <remarks>
         /// The sortField property is used in the <see cref="SPGetUserInventoryRequest"/> class
@@ -74,15 +74,6 @@ namespace SpecterSDK.API.ClientAPI.Inventory
         /// Represents the sort order for the user's inventory.
         /// Possible values are "asc" for ascending order and "desc" for descending order.
         /// </summary>
-        /// <remarks>
-        /// The sort order can be set in the SPGetUserInventoryRequest class to specify the sort order of the inventory items to be returned from the Specter Inventory API.
-        /// </remarks>
-        /// <example>
-        /// <code>
-        /// SPGetUserInventoryRequest request = new SPGetUserInventoryRequest();
-        /// request.sortOrder = "desc";
-        /// </code>
-        /// </example>
         public string sortOrder { get; set; }
         
         /// <summary>
@@ -120,6 +111,9 @@ namespace SpecterSDK.API.ClientAPI.Inventory
         /// <summary>
         /// Get the user inventory asynchronously.
         /// </summary>
+        /// <remarks>
+        /// For full information about the get user inventory endpoint, see the Inventory section of the <a href="https://doc.specterapp.xyz">Specter API Docs</a>
+        /// </remarks>
         /// <param name="request">
         /// The request object that contains parameters for the API call. The details of the request structure can be found in <see cref="SPGetUserInventoryRequest"/>.
         /// </param>

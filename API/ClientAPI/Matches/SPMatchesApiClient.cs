@@ -97,6 +97,10 @@ namespace SpecterSDK.API.ClientAPI.Matches
     /// </summary>
     public partial class SPMatchesApiClient : SpecterApiClientBase
     {
+        /// <summary>
+        /// The Matches API uses a user's access token for authorization.
+        /// The SDK handles this internally after a user has been logged in.
+        /// </summary>
         public override SPAuthType AuthType => SPAuthType.AccessToken;
         public SPMatchesApiClient(SpecterRuntimeConfig config) : base(config) { }
     }
