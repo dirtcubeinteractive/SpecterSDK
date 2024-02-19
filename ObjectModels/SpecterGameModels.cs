@@ -51,25 +51,41 @@ namespace SpecterSDK.ObjectModels
             IsApp = data.isApp;
             IsDraft = data.isDraft;
             IsDefault = data.isDefault;
+            
             Platforms = new List<SpecterGamePlatform>();
-            foreach (var platform in data.platforms)
+            if (data.platforms != null)
             {
-                Platforms.Add(new SpecterGamePlatform(platform));
+                foreach (var platform in data.platforms)
+                {
+                    Platforms.Add(new SpecterGamePlatform(platform));
+                }
             }
+            
             Countries = new List<SpecterCountryDetails>();
-            foreach (var country in data.countries)
+            if (data.countries != null)
             {
-                Countries.Add(new SpecterCountryDetails(country));
+                foreach (var country in data.countries)
+                {
+                    Countries.Add(new SpecterCountryDetails(country));
+                }
             }
+            
             Genres = new List<SpecterGameGenre>();
-            foreach (var genre in data.genre)
+            if (data.genre != null)
             {
-                Genres.Add(new SpecterGameGenre(genre));
+                foreach (var genre in data.genre)
+                {
+                    Genres.Add(new SpecterGameGenre(genre));
+                }
             }
+            
             Matches = new List<SpecterMatchBase>();
-            foreach (var match in data.matches)
+            if (data.matches != null)
             {
-                Matches.Add(new SpecterMatchBase(match));
+                foreach (var match in data.matches)
+                {
+                    Matches.Add(new SpecterMatchBase(match));
+                }
             }
         }
     }

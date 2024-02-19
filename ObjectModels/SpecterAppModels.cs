@@ -9,7 +9,7 @@ namespace SpecterSDK.ObjectModels
         public string HowTo { get; set; }
         public List<string> ScreenshotUrls { get; set; }
         public List<string> VideoUrls { get; set; }
-        public List<SpecterAppCategory> Categories { get; set; }
+        public SpecterAppCategory Categories { get; set; }
         public List<SpecterAppPlatform> Platforms { get; set; }
         public List<SpecterCountryDetails> Countries { get; set; }
         public List<SpecterGameGenre> Genres { get; set; }
@@ -23,15 +23,8 @@ namespace SpecterSDK.ObjectModels
             VideoUrls = data.videoUrls ?? new List<string>();
             Tags = data.tags ?? new List<string>();
             Meta = data.meta ?? new Dictionary<string, string>();
-
-            Categories = new List<SpecterAppCategory>();
-            if (data.categories != null)
-            {
-                foreach (var category in data.categories)
-                {
-                    Categories.Add(new SpecterAppCategory(category));
-                }
-            }
+            
+            Categories = new SpecterAppCategory(data.categories);
 
             Platforms = new List<SpecterAppPlatform>();
             if (data.platforms != null)

@@ -11,7 +11,7 @@ namespace SpecterSDK.APIModels.ClientModels
         public string howTo { get; set; }
         public List<string> screenshotUrls { get; set; }
         public List<string> videoUrls { get; set; }
-        public List<SPAppCategoryData> categories { get; set; }
+        public SPAppCategoryData categories { get; set; }
         public List<SPAppPlatformData> platforms { get; set; }
         public List<SPCountryDetailsData> countries { get; set; }
         public List<SPGameGenreData> genre { get; set; }
