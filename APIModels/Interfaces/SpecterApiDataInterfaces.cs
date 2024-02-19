@@ -8,7 +8,7 @@ namespace SpecterSDK.APIModels.Interfaces
     public interface ISpecterApiResponseData { }
 
     /// <summary>
-    /// Interface for data structures that represent master data in the system.
+    /// Interface for data structures that represent master data aka app data in the system.
     /// Master data typically refers to objects configured on the Specter Dashboard
     /// and has tags for categorization and meta information for custom details.
     /// </summary>

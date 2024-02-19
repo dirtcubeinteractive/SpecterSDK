@@ -3,31 +3,71 @@ using Newtonsoft.Json;
 using SpecterSDK.APIModels;
 using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.ObjectModels;
+using SpecterSDK.Shared;
 
 namespace SpecterSDK.API.ClientAPI.Progression
 {
+    /// <summary>
+    /// Represents a request to update the progression marker amount for a user in the Specter SDK.
+    /// </summary>
     [System.Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
     public class SPUpdateProgressionMarkerRequest : SPApiRequestBase
     {   
-        public string operation { get; set; }
+        /// <summary>
+        /// The operation for the update. See <see cref="SPOperations"/> for possible values.
+        /// </summary>
+        public SPOperations operation { get; set; }
+        
+        /// <summary>
+        /// The amount to update the progression marker by.
+        /// </summary>
         public int amount { get; set; }
+        
+        /// <summary>
+        /// The dashboard specified ID of the progression marker.
+        /// </summary>
         public string progressionMarkerId { get; set; }
     }
 
-    public class SPUpdateProgressionMarkerResult : SpecterApiResultBase<SPUpdatedUserProgressResponseData>
+    /// <summary>
+    /// Represents the result of updating a progression marker.
+    /// </summary>
+    public class SPUpdateProgressionMarkerResult : SpecterApiResultBase<SPUserProgressResponseData>
     {
-        public SpecterUpdatedUserProgress UpdatedProgression;
+        // The updated progression marker details and their associated progression systems.
+        public SpecterUserProgress UpdatedProgress;
+        
         protected override void InitSpecterObjectsInternal()
         {
-            UpdatedProgression = new SpecterUpdatedUserProgress(Response.data);
+            UpdatedProgress = new SpecterUserProgress(Response.data);
         }
     }
 
     public partial class SPProgressionApiClient
     {
+        /// <summary>
+        /// Update the progression marker amounts of a user asynchronously.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// Updating the amount of a progression marker will also update the user's progress within the marker's associated
+        /// progression systems. That means, that if the marker is used in multiple progression systems, updating the marker
+        /// amount could update the user's level in the associated systems depending on the threshold values configured on the
+        /// dashboard.
+        /// </para>
+        /// <para>
+        /// For full information about the update progression marker endpoint, see the Progression section of the <a href="https://doc.specterapp.xyz">Specter API Docs</a>.
+        /// </para>
+        /// </remarks>
+        /// <param name="request">
+        /// The request object that contains parameters for the API call. The details of the request structure can be found in <see cref="SPUpdateProgressionMarkerRequest"/>.
+        /// </param>
+        /// <returns>
+        /// A task representing the asynchronous operation. The task result contains the <see cref="SPUpdateProgressionMarkerResult"/> with the result of the API call.
+        /// </returns>
         public async Task<SPUpdateProgressionMarkerResult> UpdateProgressionMarkerAsync(SPUpdateProgressionMarkerRequest request)
         {
-            var task = await PostAsync<SPUpdateProgressionMarkerResult, SPUpdatedUserProgressResponseData>("/v1/client/progression/update-marker", AuthType, request);
+            var task = await PostAsync<SPUpdateProgressionMarkerResult, SPUserProgressResponseData>("/v1/client/progression/update-marker", AuthType, request);
             return task;
         }
     }

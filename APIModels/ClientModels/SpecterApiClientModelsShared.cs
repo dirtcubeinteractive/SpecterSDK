@@ -5,6 +5,11 @@ using SpecterSDK.APIModels.Interfaces;
 
 namespace SpecterSDK.APIModels.ClientModels
 {
+    /// <summary>
+    /// Base class for resource response data in the Specter API client models.
+    /// This is the minimum amount of information provided in API response when there are
+    /// nested objects within the main data object
+    /// </summary>
     [Serializable]
     public abstract class SPResourceResponseData : ISpecterApiResponseData
     {
@@ -15,13 +20,22 @@ namespace SpecterSDK.APIModels.ClientModels
         public string iconUrl { get; set; }
     }
     
+    /// <summary>
+    /// The base class for all APIs that fire Specter events server side when called
+    /// </summary>
     [Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
     public abstract class SPApiEventConfigurableRequestBase : SPApiRequestBase, ISpecterEventConfigurable
     {
+        // Custom parameters to be sent with the event that you have configured on the dashboard
         public Dictionary<string, object> customParams { get; set; }
-        public Dictionary<string, object> systemParams { get; set; }
+        
+        // Specter params (eg: matchId) which Specter offers out of the box
+        public Dictionary<string, object> specterParams { get; set; }
     }
-    
+
+    /// <summary>
+    /// Represents the response data for getting the server time.
+    /// </summary>
     [Serializable]
     public class SPGetServerTimeResponseData : ISpecterApiResponseData
     {
@@ -42,15 +56,30 @@ namespace SpecterSDK.APIModels.ClientModels
         public int weekNumber { get; set; }
     }
 
+    /// <summary>
+    /// Represents the response data for an unlock condition for certain Specter resources like tasks.
+    /// See <a href="https://dirtcube-interactive.gitbook.io/specter-user-manual/engage/achievements/tasks/task-configuration#access-and-eligibility">Access and Eligibility</a>
+    /// section in the Specter user manual.
+    /// </summary>
     [Serializable]
     public class SPUnlockConditionResponseData
     {
+        // Level number. Null if the condition is not a progression system.
         public int? lockedLevelNo { get; set; }
+        
+        // Details about the item if the condition is an item lock.
         public SPUnlockResourceData unlockItem { get; set; }
+        
+        // Details about the bundle if the condition is a bundle lock.
         public SPUnlockResourceData unlockBundle { get; set; }
+        
+        // Details about the progression system if the condition is a progression system lock.
         public SPUnlockResourceData unlockProgressionSystem { get; set; }
     }
 
+    /// <summary>
+    /// Details about a specific lock condition (i.e. item, bundle or progression system).
+    /// </summary>
     [Serializable]
     public class SPUnlockResourceData
     {
@@ -59,6 +88,9 @@ namespace SpecterSDK.APIModels.ClientModels
         public string name { get; set; }
     }
 
+    /// <summary>
+    /// Base class for game platform data in the Specter API client models.
+    /// </summary>
     [Serializable]
     public class SPGamePlatformBaseData
     {
@@ -66,6 +98,10 @@ namespace SpecterSDK.APIModels.ClientModels
         public string name { get; set; }
     }
 
+    /// <summary>
+    /// Represents geographical location data. applicable in a any Specter entity that provides info about locational availability
+    /// See <a href="https://dirtcube-interactive.gitbook.io/specter-user-manual/app/app-configuration#location">App location configuration</a> for an example use case.
+    /// </summary>
     [Serializable]
     public class SPLocationData
     {

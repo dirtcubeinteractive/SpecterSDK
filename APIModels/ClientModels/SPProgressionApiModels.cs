@@ -94,12 +94,6 @@ namespace SpecterSDK.APIModels.ClientModels
     }
 
     [Serializable]
-    public class SPUpdatedUserProgressResponseData : SPUserProgressResponseBaseData
-    {
-        public List<SPUpdatedUserProgressInfoResponseData> progressInfo { get; set; }
-    }
-
-    [Serializable]
     public class SPUserProgressInfoResponseData : ISpecterApiResponseData
     {
         public string progressionSystemId { get; set; }

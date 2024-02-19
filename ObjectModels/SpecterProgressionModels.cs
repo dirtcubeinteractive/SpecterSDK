@@ -108,19 +108,6 @@ namespace SpecterSDK.ObjectModels
         }
     }
 
-    public class SpecterUpdatedUserProgress : SpecterUserProgressBase
-    {
-        public List<SpecterUpdatedUserProgressInfo> ProgressInfos;
-        public SpecterUpdatedUserProgress(SPUpdatedUserProgressResponseData data) : base(data)
-        {
-            ProgressInfos = new List<SpecterUpdatedUserProgressInfo>();
-            foreach (var progression in data.progressInfo)
-            {
-                ProgressInfos.Add(new SpecterUpdatedUserProgressInfo(progression));
-            }
-        }
-    }
-
     public class SpecterUserProgressInfo
     {
         public int CurrentLevelNo;
