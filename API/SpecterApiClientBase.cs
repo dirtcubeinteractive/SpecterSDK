@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using SpecterSDK.APIModels;
 using SpecterSDK.APIModels.Interfaces;
 using SpecterSDK.Shared;
@@ -128,7 +129,7 @@ namespace SpecterSDK.API
             {
                 var bodyStr = SpecterJson.SerializeObject(requestBody);
                 request.Content = new StringContent(bodyStr, Encoding.UTF8, SPApiMediaType.ApplicationJson);
-                Debug.Log("SP HTTP Request Payload: " + bodyStr);
+                Debug.Log($"SP HTTP Request Payload for endpoint {endpoint}: " + bodyStr);
             }
 
             try
@@ -139,7 +140,7 @@ namespace SpecterSDK.API
                 if (!response.IsSuccessStatusCode)
                 {
                     var errResString = await response.Content.ReadAsStringAsync();
-                    Debug.LogError(errResString);
+                    Debug.LogError($"SP Api Error for endpoint {endpoint}: {errResString}");
                     
                     var apiError = SpecterJson.DeserializeObject<SPApiError>(errResString);
                     var errResponse = new SPApiResponse<TData>()
@@ -162,9 +163,14 @@ namespace SpecterSDK.API
             }
             catch (Exception e)
             {
-                Debug.LogError(e.ToString());
+                if (e is JsonSerializationException jsonException)
+                {
+                    Debug.LogError($"SP Error Deserializing Response for endpoint {endpoint}: {e.ToString()}");
+                }
+                else
+                    Debug.LogError($"SP Client Side Error for endpoint {endpoint}: {e.ToString()}");
                 
-                const string message = "An unexpected exception occured";
+                const string message = "An unexpected client side exception occured while making the request ";
                 var errResponse = new SPApiResponse<TData>()
                 {
                     status = SPApiStatus.Error,
@@ -174,6 +180,8 @@ namespace SpecterSDK.API
                     {
                         new()
                         {
+                            code = 500,
+                            status = "InternalClientException",
                             errorCode = 500,
                             message = message,
                             errorMessage = e.Message
