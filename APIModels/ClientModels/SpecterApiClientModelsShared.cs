@@ -88,6 +88,9 @@ namespace SpecterSDK.APIModels.ClientModels
         public string name { get; set; }
     }
 
+    /// <summary>
+    /// Base class for platform data in the Specter API client models.
+    /// </summary>
     [Serializable]
     public class SPPlatformBaseData
     {
@@ -96,7 +99,7 @@ namespace SpecterSDK.APIModels.ClientModels
     }
     
     /// <summary>
-    /// Base class for game platform data in the Specter API client models.
+    /// Class representing platforms for an app in the Specter API client models.
     /// </summary>
     [Serializable]
     public class SPAppPlatformData : SPPlatformBaseData
@@ -105,6 +108,9 @@ namespace SpecterSDK.APIModels.ClientModels
         public string assetBundleVersion { get; set; }
     }
     
+    /// <summary>
+    /// Class representing genre data for a game
+    /// </summary>
     [Serializable]
     public class SPGameGenreData
     {
