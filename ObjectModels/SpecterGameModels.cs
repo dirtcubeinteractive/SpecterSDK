@@ -74,47 +74,15 @@ namespace SpecterSDK.ObjectModels
         }
     }
 
-    public class SpecterGamePlatform : SpecterGamePlatformInfoBase
+    public class SpecterGamePlatform : SpecterAppPlatform
     {
-        public string AssetBundleUrl;
-        public string AssetBundleVersion;
         public string MinimumGameVersion;
-        public int GamePlatformMasterId;
 
         public SpecterGamePlatform(SPGamePlatformData data) : base(data)
         {
             AssetBundleUrl = data.assetBundleUrl;
             AssetBundleVersion = data.assetBundleVersion;
             MinimumGameVersion = data.minimumGameVersion;
-            GamePlatformMasterId = data.gamePlatformMasterId;
         }
     }
-
-    public class SpecterCountryDetails
-    {
-        public int Id;
-        public string Name;
-        public string Code;
-
-        public SpecterCountryDetails(SPCountryDetailsData data)
-        {
-            Id = data.id;
-            Name = data.name;
-            Code = data.code;
-        }
-    }
-
-    public class SpecterGameGenre
-    {
-        public int Id;
-        public string Name;
-
-        public SpecterGameGenre(SPGameGenreData data)
-        {
-            Id = data.id;
-            Name = data.name;
-        }
-    }
-
- 
 }

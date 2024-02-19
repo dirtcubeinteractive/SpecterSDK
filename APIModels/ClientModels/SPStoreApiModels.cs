@@ -13,7 +13,7 @@ namespace SpecterSDK.APIModels.ClientModels
     public class SPStoreResponseData : SPStoreResponseBaseData, ISpecterMasterData
     {
         public List<SPLocationData> storeLocations { get; set; }
-        public List<SPGamePlatformBaseData> storePlatforms { get; set; }
+        public List<SPPlatformBaseData> storePlatforms { get; set; }
         public List<string> tags { get; set; }
         public Dictionary<string, string> meta { get; set; }
         public List<SPUnlockConditionResponseData> unlockConditions { get; set; }

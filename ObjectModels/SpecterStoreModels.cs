@@ -8,7 +8,7 @@ namespace SpecterSDK.ObjectModels
     {
         public int CategoriesCount;
         public List<SpecterLocation> StoreLocations;
-        public List<SpecterGamePlatformInfoBase> StorePlatforms;
+        public List<SpecterPlatformBase> StorePlatforms;
         public List<SpecterUnlockCondition> UnlockConditions;
         
         public List<string> Tags { get; set; }
@@ -29,10 +29,10 @@ namespace SpecterSDK.ObjectModels
             foreach (var unlockCondition in data.unlockConditions)
                 UnlockConditions.Add(new SpecterUnlockCondition(unlockCondition));
 
-            StorePlatforms = new List<SpecterGamePlatformInfoBase>();
+            StorePlatforms = new List<SpecterPlatformBase>();
             foreach (var platformData in data.storePlatforms)
             {
-                StorePlatforms.Add(new SpecterGamePlatformInfoBase(platformData));
+                StorePlatforms.Add(new SpecterPlatformBase(platformData));
             }
 
             StoreLocations = new List<SpecterLocation>();

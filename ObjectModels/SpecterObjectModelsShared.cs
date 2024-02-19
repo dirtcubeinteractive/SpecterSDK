@@ -87,12 +87,36 @@ namespace SpecterSDK.ObjectModels
         }
     }
 
-    public class SpecterGamePlatformInfoBase
+    public class SpecterPlatformBase
     {
         public int Id { get; protected set; }
         public string Name { get; protected set; }
 
-        public SpecterGamePlatformInfoBase(SPGamePlatformBaseData data)
+        public SpecterPlatformBase(SPPlatformBaseData data)
+        {
+            Id = data.id;
+            Name = data.name;
+        }
+    }
+    
+    public class SpecterAppPlatform : SpecterPlatformBase
+    {
+        public string AssetBundleUrl { get; set; }
+        public string AssetBundleVersion { get; set; }
+
+        public SpecterAppPlatform(SPAppPlatformData data) : base(data)
+        {
+            AssetBundleUrl = data.assetBundleUrl;
+            AssetBundleVersion = data.assetBundleVersion;
+        }
+    }
+    
+    public class SpecterGameGenre
+    {
+        public int Id;
+        public string Name;
+
+        public SpecterGameGenre(SPGameGenreData data)
         {
             Id = data.id;
             Name = data.name;
@@ -110,6 +134,20 @@ namespace SpecterSDK.ObjectModels
             Id = data.id;
             Name = data.name;
             CountryCode = data.countryCode;
+        }
+    }
+    
+    public class SpecterCountryDetails
+    {
+        public int Id;
+        public string Name;
+        public string Code;
+
+        public SpecterCountryDetails(SPCountryDetailsData data)
+        {
+            Id = data.id;
+            Name = data.name;
+            Code = data.code;
         }
     }
 

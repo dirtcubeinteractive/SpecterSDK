@@ -39,30 +39,10 @@ namespace SpecterSDK.APIModels.ClientModels
     }
 
     [Serializable]
-    public class SPGamePlatformData : SPGamePlatformBaseData
+    public class SPGamePlatformData : SPAppPlatformData
     {
-        public string assetBundleUrl { get; set; }
-        public string assetBundleVersion { get; set; }
         public string minimumGameVersion { get; set; }
-        public int gamePlatformMasterId { get; set; }
     }
-
-    [Serializable]
-    public class SPCountryDetailsData
-    {
-        public int id { get; set; }
-        public string name { get; set; }
-        public string code { get; set; }
-    }
-
-    [Serializable]
-    public class SPGameGenreData
-    {
-        public int id { get; set; }
-        public string name { get; set; }
-    }
-       
-   
 
     #endregion
 }

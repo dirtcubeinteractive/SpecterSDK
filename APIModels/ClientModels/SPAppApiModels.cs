@@ -1,0 +1,28 @@
+using System;
+using System.Collections.Generic;
+using SpecterSDK.APIModels.Interfaces;
+using SpecterSDK.ObjectModels;
+
+namespace SpecterSDK.APIModels.ClientModels
+{
+    [Serializable]
+    public class SPAppInfoResponseData : SPResourceResponseData, ISpecterMasterData
+    {
+        public string howTo { get; set; }
+        public List<string> screenshotUrls { get; set; }
+        public List<string> videoUrls { get; set; }
+        public List<SPAppCategoryData> categories { get; set; }
+        public List<SPAppPlatformData> platforms { get; set; }
+        public List<SPCountryDetailsData> countries { get; set; }
+        public List<SPGameGenreData> genre { get; set; }
+        public List<string> tags { get; set; }
+        public Dictionary<string, string> meta { get; set; }
+    }
+
+    [Serializable]
+    public class SPAppCategoryData
+    {
+        public int id { get; set; }
+        public string name { get; set; }
+    }
+}
