@@ -32,15 +32,15 @@ namespace SpecterSDK.API.ClientAPI.Rewards
         public List<SpecterRewardHistoryEntry> Currencies;
         public List<SpecterRewardHistoryEntry> ProgressionMarkers;
 
-        public Dictionary<SPRewardSourceType, Dictionary<string, SpecterRewards>> RewardsMap;
+        public Dictionary<SPRewardSourceType, Dictionary<string, SpecterRewardHistoryDetails>> RewardsMap;
 
         protected override void InitSpecterObjectsInternal()
         {
-            RewardsMap = new Dictionary<SPRewardSourceType, Dictionary<string, SpecterRewards>>
+            RewardsMap = new Dictionary<SPRewardSourceType, Dictionary<string, SpecterRewardHistoryDetails>>
             {
-                { SPRewardSourceType.Level, new Dictionary<string, SpecterRewards>() },
-                { SPRewardSourceType.Task, new Dictionary<string, SpecterRewards>() },
-                { SPRewardSourceType.TaskGroup, new Dictionary<string, SpecterRewards>() }
+                { SPRewardSourceType.Level, new Dictionary<string, SpecterRewardHistoryDetails>() },
+                { SPRewardSourceType.Task, new Dictionary<string, SpecterRewardHistoryDetails>() },
+                { SPRewardSourceType.TaskGroup, new Dictionary<string, SpecterRewardHistoryDetails>() }
             };
 
             Items = new List<SpecterRewardHistoryEntry>(); 
@@ -79,7 +79,7 @@ namespace SpecterSDK.API.ClientAPI.Rewards
 
             if (!RewardsMap[rewardHistoryEntry.SourceType].ContainsKey(rewardHistoryEntry.SourceId))
             {
-                SpecterRewards specterRewards = new SpecterRewards(rewardHistoryEntry.SourceId, rewardHistoryEntry.SourceType, rewardHistoryEntry.Status, rewardHistoryEntry.RewardGrant);
+                SpecterRewardHistoryDetails specterRewards = new SpecterRewardHistoryDetails(rewardHistoryEntry.SourceId, rewardHistoryEntry.SourceType, rewardHistoryEntry.Status, rewardHistoryEntry.RewardGrant);
                 switch (rewardType)
                 {
                     case SPRewardType.ProgressionMarker:

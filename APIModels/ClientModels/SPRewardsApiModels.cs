@@ -7,19 +7,19 @@ using SpecterSDK.Shared.SPEnum;
 namespace SpecterSDK.APIModels.ClientModels
 {
     [Serializable]
-    public class SPRewardBaseData : SPResourceResponseData
+    public class SPRewardResourceData : SPResourceResponseData
     {
         public int amount { get; set; }
     }
 
     // Reward data in SDK responses
     [Serializable]
-    public class SPRewardDetailsResponseData : ISpecterApiResponseData
+    public class SPRewardResourceDetailsResponseData : ISpecterApiResponseData
     {
-        public List<SPRewardBaseData> items { get; set; }
-        public List<SPRewardBaseData> bundles { get; set; }
-        public List<SPRewardBaseData> currencies { get; set; }
-        public List<SPRewardBaseData> progressionMarkers { get; set; }
+        public List<SPRewardResourceData> items { get; set; }
+        public List<SPRewardResourceData> bundles { get; set; }
+        public List<SPRewardResourceData> currencies { get; set; }
+        public List<SPRewardResourceData> progressionMarkers { get; set; }
     }
 
     [Serializable]
@@ -32,7 +32,7 @@ namespace SpecterSDK.APIModels.ClientModels
     }
 
     [Serializable]
-    public class SPRewardHistoryEntryData : SPRewardBaseData
+    public class SPRewardHistoryEntryData : SPRewardResourceData
     {
         public SPRewardClaimStatus status { get; set; }
         public SPRewardGrantType rewardGrant { get; set; }

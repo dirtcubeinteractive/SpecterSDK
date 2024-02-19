@@ -6,17 +6,17 @@ using SpecterSDK.Shared;
 
 namespace SpecterSDK.ObjectModels
 {
-    public class SpecterReward : SpecterResource
+    public class SpecterRewardResource : SpecterResource
     {
         public int Amount;
         public SPRewardType RewardType;
         
-        protected SpecterReward() { }
-        public SpecterReward(SPRewardBaseData data) : base(data)
+        protected SpecterRewardResource() { }
+        public SpecterRewardResource(SPRewardResourceData data) : base(data)
         {
             Amount = data.amount;
         }
-        public SpecterReward(SPRewardBaseData data, SPRewardType rewardType) : base(data)
+        public SpecterRewardResource(SPRewardResourceData data, SPRewardType rewardType) : base(data)
         {
             RewardType = rewardType;
             Amount = data.amount;
@@ -26,70 +26,70 @@ namespace SpecterSDK.ObjectModels
 
     public class SpecterRewardDetails
     {
-        public List<SpecterReward> ProgressionMarkers;
-        public List<SpecterReward> Currencies;
-        public List<SpecterReward> Items;
-        public List<SpecterReward> Bundles;
+        public List<SpecterRewardResource> ProgressionMarkers;
+        public List<SpecterRewardResource> Currencies;
+        public List<SpecterRewardResource> Items;
+        public List<SpecterRewardResource> Bundles;
 
-        public List<SpecterReward> AllRewards;
+        public List<SpecterRewardResource> AllRewards;
         public int RewardCount => AllRewards.Count;
         
         public SpecterRewardDetails()
         {
-            AllRewards = new List<SpecterReward>();
+            AllRewards = new List<SpecterRewardResource>();
             
-            ProgressionMarkers = new List<SpecterReward>();
+            ProgressionMarkers = new List<SpecterRewardResource>();
 
-            Currencies = new List<SpecterReward>();
+            Currencies = new List<SpecterRewardResource>();
 
-            Items = new List<SpecterReward>();
+            Items = new List<SpecterRewardResource>();
 
-            Bundles = new List<SpecterReward>();
+            Bundles = new List<SpecterRewardResource>();
         }
 
-        public SpecterRewardDetails(SPRewardDetailsResponseData rewardDetails)
+        public SpecterRewardDetails(SPRewardResourceDetailsResponseData rewardDetails)
         {
-            AllRewards = new List<SpecterReward>();
+            AllRewards = new List<SpecterRewardResource>();
             
-            ProgressionMarkers = new List<SpecterReward>();
+            ProgressionMarkers = new List<SpecterRewardResource>();
             if (rewardDetails.progressionMarkers != null)
             {
                 foreach (var progression in rewardDetails.progressionMarkers)
                 {
-                    var reward = new SpecterReward(progression, SPRewardType.ProgressionMarker);
+                    var reward = new SpecterRewardResource(progression, SPRewardType.ProgressionMarker);
                     ProgressionMarkers.Add(reward);
                     AllRewards.Add(reward);
                 }
             }
             
-            Currencies = new List<SpecterReward>();
+            Currencies = new List<SpecterRewardResource>();
             if (rewardDetails.currencies != null)
             {
                 foreach (var currency in rewardDetails.currencies)
                 {
-                    var reward = new SpecterReward(currency, SPRewardType.Currency);
+                    var reward = new SpecterRewardResource(currency, SPRewardType.Currency);
                     Currencies.Add(reward);
                     AllRewards.Add(reward);
                 }
             }
             
-            Items = new List<SpecterReward>();
+            Items = new List<SpecterRewardResource>();
             if (rewardDetails.items != null)
             {
                 foreach (var item in rewardDetails.items)
                 {
-                    var reward = new SpecterReward(item, SPRewardType.Item);
+                    var reward = new SpecterRewardResource(item, SPRewardType.Item);
                     Items.Add(reward);
                     AllRewards.Add(reward);
                 }
             }
             
-            Bundles = new List<SpecterReward>();
+            Bundles = new List<SpecterRewardResource>();
             if (rewardDetails.bundles != null)
             {
                 foreach (var bundle in rewardDetails.bundles)
                 {
-                    var reward = new SpecterReward(bundle, SPRewardType.Bundle);
+                    var reward = new SpecterRewardResource(bundle, SPRewardType.Bundle);
                     Bundles.Add(reward);
                     AllRewards.Add(reward);
                 }
@@ -97,7 +97,7 @@ namespace SpecterSDK.ObjectModels
         }
     }
 
-    public class SpecterRewardHistoryEntry : SpecterReward
+    public class SpecterRewardHistoryEntry : SpecterRewardResource
     {
         public SPRewardClaimStatus Status;
         public SPRewardGrantType RewardGrant;
@@ -131,7 +131,7 @@ namespace SpecterSDK.ObjectModels
         }
     }
 
-    public class SpecterRewards
+    public class SpecterRewardHistoryDetails
     {
         public SPRewardSourceType SourceType;
         public string SourceId;
@@ -143,14 +143,14 @@ namespace SpecterSDK.ObjectModels
         public List<SpecterRewardHistoryEntry> Currencies;
         public List<SpecterRewardHistoryEntry> ProgressionMarkers;
 
-        public SpecterRewards() { 
+        public SpecterRewardHistoryDetails() { 
             Items = new List<SpecterRewardHistoryEntry>();
             Bundles = new List<SpecterRewardHistoryEntry>();
             Currencies = new List<SpecterRewardHistoryEntry>();
             ProgressionMarkers = new List<SpecterRewardHistoryEntry>();
         }
 
-        public SpecterRewards(string sourceId, SPRewardSourceType sourceType, SPRewardClaimStatus status, SPRewardGrantType rewardGrant)
+        public SpecterRewardHistoryDetails(string sourceId, SPRewardSourceType sourceType, SPRewardClaimStatus status, SPRewardGrantType rewardGrant)
         {
             SourceType = sourceType;
             SourceId = sourceId;

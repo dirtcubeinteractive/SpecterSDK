@@ -12,54 +12,54 @@ namespace SpecterSDK.API.ClientAPI.Rewards
     [Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
     public class SPGrantRewardsRequest : SPApiRequestBase
     {
-        public List<SPRewardGrantDetail> rewardDetails;
+        public List<SPRewardGrantInfo> rewardDetails;
     }
 
     [Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPRewardGrantDetail
+    public class SPRewardGrantInfo
     {
-        public SPRewardSource source;
-        public SPRewards rewards;
+        public SPRewardSourceInfo source;
+        public SPRewardsToGrant rewards;
         public Dictionary<string, object> meta;
     }
 
     [Serializable]
-    public class SPRewardSource
+    public class SPRewardSourceInfo
     {
         public string id { get; set; }
         public SPRewardSourceType type { get; set; }
     }
-    public abstract class SPGeneralRewardRequestBase
+    public abstract class SPRewardedResourceInfoBase
     {
         public string id;
         public int amount;
     }
-    public class SPItem : SPGeneralRewardRequestBase
+    public class SPRewardedItemInfo : SPRewardedResourceInfoBase
     {
         public string collectionId;
-        public SPItem(string id,int amount ,string collectionId)
+        public SPRewardedItemInfo(string id,int amount ,string collectionId)
         {
             this.id = id;
             this.amount = amount;
             this.collectionId = collectionId;
         }
     }
-    public class SPBundle : SPItem
+    public class SPRewardedBundleInfo : SPRewardedItemInfo
     {
-        public SPBundle(string id, int amount, string collectionId) : base(id,amount,collectionId)
+        public SPRewardedBundleInfo(string id, int amount, string collectionId) : base(id,amount,collectionId)
         {}
     }
-    public class SPProgressionMarker : SPGeneralRewardRequestBase
+    public class SPRewardedProgressionMarkerInfo : SPRewardedResourceInfoBase
     {
-        public SPProgressionMarker(string id, int amount)
+        public SPRewardedProgressionMarkerInfo(string id, int amount)
         {
             this.id = id;
             this.amount = amount;
         }
     }
-    public class SPCurrency : SPGeneralRewardRequestBase
+    public class SPRewardedCurrencyInfo : SPRewardedResourceInfoBase
     {
-        public SPCurrency(string id, int amount)
+        public SPRewardedCurrencyInfo(string id, int amount)
         {
            this.id = id;
            this.amount = amount;
@@ -68,12 +68,12 @@ namespace SpecterSDK.API.ClientAPI.Rewards
     
     [Serializable]
     [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPRewards
+    public class SPRewardsToGrant
     {
-        public List<SPItem> items;
-        public List<SPProgressionMarker> progressionMarkers;
-        public List<SPBundle> bundles;
-        public List<SPCurrency> currencies;
+        public List<SPRewardedItemInfo> items;
+        public List<SPRewardedProgressionMarkerInfo> progressionMarkers;
+        public List<SPRewardedBundleInfo> bundles;
+        public List<SPRewardedCurrencyInfo> currencies;
     }
 
     public class SPGrantRewardsResult : SpecterApiResultBase<SPGrantRewardsResponseData>
