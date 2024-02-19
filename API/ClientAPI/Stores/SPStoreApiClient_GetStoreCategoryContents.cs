@@ -40,7 +40,7 @@ namespace SpecterSDK.API.ClientAPI.Stores
         /// See the Get Store Category contents route in the Stores section of the
         /// <a href="https://doc.specterapp.xyz">Specter API Doc</a> for info about possible entities.
         /// <example>
-        /// If you only want to retrieve items details from the store category
+        /// If you only want to retrieve items details from the store category you would use the "items" entity.
         /// </example>
         /// </summary>
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
