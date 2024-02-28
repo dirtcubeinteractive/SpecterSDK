@@ -89,7 +89,6 @@ namespace SpecterSDK.API.ClientAPI.Authentication
         {
             if (!result.HasError && !m_Config.UseDebugCredentials)
             {
-                SpecterRuntimeConfig.AuthCredentials ??= new SPAuthContext();
                 m_Config.AccessToken = result.AccessToken;
                 m_Config.EntityToken = result.EntityToken;
             }
