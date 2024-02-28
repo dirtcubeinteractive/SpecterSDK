@@ -107,7 +107,8 @@ namespace SpecterSDK.API.ClientAPI.Rewards
             {
                 { SPRewardSourceType.Level, new Dictionary<string, SpecterRewardHistoryDetails>() },
                 { SPRewardSourceType.Task, new Dictionary<string, SpecterRewardHistoryDetails>() },
-                { SPRewardSourceType.TaskGroup, new Dictionary<string, SpecterRewardHistoryDetails>() }
+                { SPRewardSourceType.TaskGroup, new Dictionary<string, SpecterRewardHistoryDetails>() },
+                { SPRewardSourceType.Custom, new Dictionary<string, SpecterRewardHistoryDetails>() }
             };
 
             Items = new List<SpecterRewardHistoryEntry>(); 
