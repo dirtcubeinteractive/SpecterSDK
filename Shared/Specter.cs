@@ -196,7 +196,7 @@ namespace SpecterSDK
         public static void Initialize(InitOptions options)
         {
             options ??= new InitOptions() { Environment = SPEnvironment.Development, ProjectId = ""};
-            Config = new SpecterRuntimeConfig(options.Environment, options.ProjectId);
+            Config = new SpecterRuntimeConfig(options.Environment, options.ProjectId, options.AuthContext?.ApiKey);
 
             if (options.AuthContext != null)
             {

@@ -28,6 +28,7 @@ namespace SpecterSDK.API
     public struct SPApiAuthScheme
     {
         public const string Bearer = "Bearer";
+        public const string ApiKey = "Api-Key";
     }
 
     /// <summary>
@@ -114,6 +115,8 @@ namespace SpecterSDK.API
             }
 
             using var request = new HttpRequestMessage(method, uri);
+            request.Headers.Add(SPApiAuthScheme.ApiKey, m_Config.ApiKey);
+            
             switch (authType)
             {
                 case SPAuthType.AccessToken:

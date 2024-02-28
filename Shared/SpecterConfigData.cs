@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using SpecterSDK.ObjectModels;
 using UnityEngine;
 
@@ -6,7 +8,7 @@ namespace SpecterSDK.Shared
     public enum SPEnvironment
     {
         Development,
-        Staging,
+        QualityAssurance,
         Production
     }
 
@@ -15,7 +17,7 @@ namespace SpecterSDK.Shared
     /// </summary>
     public class SpecterRuntimeConfig
     {
-        public static SPAuthContext AuthCredentials;
+        public static SPAuthContext AuthCredentials = new SPAuthContext();
 
         public string AccessToken 
         { 
@@ -37,43 +39,35 @@ namespace SpecterSDK.Shared
             }
         }
 
+        public string ApiKey
+        {
+            get => AuthCredentials?.ApiKey;
+            set
+            {
+                AuthCredentials ??= new SPAuthContext();
+                AuthCredentials.ApiKey = value;
+            }
+        }
+
         private readonly SPEnvironment m_Environment;
-        private readonly string m_DevUrl;
-        private readonly string m_StagingUrl;
-        private readonly string m_ProductionUrl;
 
         private string m_ProjectId;
 
-        public string BaseUrl => m_Environment switch
-        {
-            SPEnvironment.Development => m_DevUrl,
-            SPEnvironment.Staging => m_StagingUrl,
-            _ => m_ProductionUrl
-        };
+        public string BaseUrl => "https://client.staging.specterapp.xyz";
 
         public SPEnvironment Environment => m_Environment;
         public string ProjectId { get => m_ProjectId; set => m_ProjectId = value; }
         public bool UseDebugCredentials { get; }
 
-        public SpecterRuntimeConfig
-        (
-            SPEnvironment environment = SPEnvironment.Development,
-            string projectId = ""
-        )
+        public SpecterRuntimeConfig(SPEnvironment environment = SPEnvironment.Development, string projectId = "", string apiKey = null)
         {
-            m_DevUrl = "https://dev.specterapp.xyz";
-            m_StagingUrl = "https://dev.specterapp.xyz";
-            m_ProductionUrl ="https://dev.specterapp.xyz";
-
             m_Environment = environment;
             m_ProjectId = projectId;
+
+            AuthCredentials.ApiKey = apiKey;
         }
 
-        public SpecterRuntimeConfig(SpecterConfigData data) : this
-        (
-            data.Environment,
-            data.ProjectId
-        )
+        public SpecterRuntimeConfig(SpecterConfigData data) : this(data.Environment, data.ProjectId)
         {
             if (data.Environment != SPEnvironment.Production && data.UseDebugCredentials)
             {
@@ -82,7 +76,16 @@ namespace SpecterSDK.Shared
             }
             else
                 UseDebugCredentials = false;
+
+            AuthCredentials.ApiKey = data.GetApiKey();
         }
+    }
+
+    [Serializable]
+    public class SPApiKeyData
+    {
+        public SPEnvironment m_Environment;
+        public string m_ApiKey;
     }
     
     /// <summary>
@@ -95,18 +98,18 @@ namespace SpecterSDK.Shared
         
         [Tooltip("Runtime environment for Specter SDK")]
         [SerializeField] private SPEnvironment m_Environment;
-
-        [Tooltip("Identifier for your organization on the Specter console")]
-        [SerializeField] private string m_OrganizationId;
         
         [Tooltip("Project ID aka App ID")]
         [SerializeField] private string m_ProjectId;
 
+        [Tooltip("API Keys for each environment")] [SerializeField]
+        private List<SPApiKeyData> m_ApiKeys = new List<SPApiKeyData>();
+
         [Header("DEBUG & TESTING")]
-        [Tooltip("Set Use Debug Credentials to true if you need to test Specter APIs (only works in Dev/Staging Env)")]
+        [Tooltip("Set Use Debug Credentials to true if you need to test Specter APIs (only works in Dev/QualityAssurance Env)")]
         [SerializeField] private bool m_UseDebugCredentials;
         
-        [Tooltip("Debug tokens to test the Specter APIs. These can only be used in Development and Staging Environments")] 
+        [Tooltip("Debug tokens to test the Specter APIs. These can only be used in Development and QualityAssurance Environments")] 
         [SerializeField] private SPAuthContext m_DebugAuthContext;
 
         public bool AutoInit => m_AutoInit;
@@ -115,6 +118,16 @@ namespace SpecterSDK.Shared
 
         public bool UseDebugCredentials => m_UseDebugCredentials;
         public SPAuthContext DebugAuthContext => m_DebugAuthContext;
+
+        public string GetApiKey()
+        {
+            return m_ApiKeys.Find(x => x.m_Environment == m_Environment)?.m_ApiKey;
+        }
+
+        public string GetApiKey(SPEnvironment environment)
+        {
+            return m_ApiKeys.Find(x => x.m_Environment == environment)?.m_ApiKey;
+        }
         
 #if UNITY_EDITOR
         public static string DebugAuthContextProp_Id => nameof(m_DebugAuthContext);
@@ -126,6 +139,21 @@ namespace SpecterSDK.Shared
             nameof(m_DebugAuthContext) => 2,
             _ => 0
         };
+
+        public void Reset()
+        {
+            var values = Enum.GetValues(typeof(SPEnvironment));
+            var count = values.Length;
+            m_ApiKeys ??= new List<SPApiKeyData>();
+            for (int i = 0; i < count; i++)
+            {
+                m_ApiKeys.Add(new SPApiKeyData()
+                {
+                    m_Environment = (SPEnvironment)values.GetValue(i),
+                    m_ApiKey = ""
+                });
+            }
+        }
 #endif
     }
 }

@@ -13,7 +13,9 @@ namespace SpecterSDK.ObjectModels
     [Serializable]
     public class SPAuthContext
     {
-        // User access token required for most client API calls
+        // API Key used specific to configured environment.
+        public string ApiKey;
+        // User access token required for most client API calls.
         public string AccessToken;
         // Entity token required for certain client API calls such as to refresh an Access Token
         public string EntityToken;
