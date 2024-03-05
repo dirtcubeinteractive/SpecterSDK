@@ -29,7 +29,7 @@ namespace SpecterSDK.APIModels.ClientModels
     public class SPCurrencyResponseData : SPCurrencyResponseBaseData, ISpecterMasterData
     {
         public List<string> tags { get; set; }
-        public Dictionary<string, string> meta { get; set; }
+        public Dictionary<string, object> meta { get; set; }
     }
 
     [Serializable]
@@ -80,7 +80,7 @@ namespace SpecterSDK.APIModels.ClientModels
         public int? consumeByTime { get; set; }
         public int? quantity { get; set; }
         public List<string> tags { get; set; }
-        public Dictionary<string, string> meta { get; set; }
+        public Dictionary<string, object> meta { get; set; }
         public List<SPUnlockConditionResponseData> unlockConditions { get; set; }
         public List<SPPriceData> prices { get; set; }
     }

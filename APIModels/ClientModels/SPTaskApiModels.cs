@@ -26,7 +26,7 @@ namespace SpecterSDK.APIModels.ClientModels
         public SPRewardGrantType rewardGrant { get; set; }
         public SPRewardResourceDetailsResponseData rewardDetails { get; set; }
         public List<string> tags { get; set; }
-        public Dictionary<string, string> meta { get; set; }
+        public Dictionary<string, object> meta { get; set; }
     }
 
     [Serializable]
@@ -66,7 +66,7 @@ namespace SpecterSDK.APIModels.ClientModels
         public SPTaskType taskType { get; set; }
         public List<SPTaskResponseData> tasks { get; set; }
         public List<string> tags { get; set; }
-        public Dictionary<string, string> meta { get; set; }
+        public Dictionary<string, object> meta { get; set; }
     }
 
     [Serializable]

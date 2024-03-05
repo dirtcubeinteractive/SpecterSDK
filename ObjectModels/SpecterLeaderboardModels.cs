@@ -21,7 +21,7 @@ namespace SpecterSDK.ObjectModels
         public List<SpecterLeaderboardEntry> LeaderboardEntries;
         
         public List<string> Tags { get; set; }
-        public Dictionary<string, string> Meta { get; set; }
+        public Dictionary<string, object> Meta { get; set; }
         
         public SpecterLeaderboard(SPLeaderboardResponseData data)
         {
@@ -56,7 +56,7 @@ namespace SpecterSDK.ObjectModels
             }
             
             Tags = data.tags ?? new List<string>();
-            Meta = data.meta ?? new Dictionary<string, string>();
+            Meta = data.meta ?? new Dictionary<string, object>();
         }
     }
 

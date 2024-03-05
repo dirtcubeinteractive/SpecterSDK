@@ -28,7 +28,7 @@ namespace SpecterSDK.ObjectModels
         public SPRewardGrantType RewardGrantType;
         public SpecterRewardDetails Rewards;
         public List<string> Tags { get; set; }
-        public Dictionary<string, string> Meta { get; set; }
+        public Dictionary<string, object> Meta { get; set; }
         public SpecterTaskGroupResource TaskGroupInfo { get; private set; }
         
         public SpecterTask() { }
@@ -36,7 +36,7 @@ namespace SpecterSDK.ObjectModels
         {
             RewardGrantType = data.rewardGrant;
             Tags = data.tags ?? new List<string>();
-            Meta = data.meta ?? new Dictionary<string, string>();
+            Meta = data.meta ?? new Dictionary<string, object>();
             if (data.rewardDetails != null)
                 Rewards = new SpecterRewardDetails(data.rewardDetails);
         }
@@ -85,7 +85,7 @@ namespace SpecterSDK.ObjectModels
         public List<SpecterTask> Tasks;
         public SpecterRewardDetails Rewards;
         public List<string> Tags { get; set; }
-        public Dictionary<string, string> Meta { get; set; }
+        public Dictionary<string, object> Meta { get; set; }
 
         public SpecterTaskGroup(SPTaskGroupResponseData data) : base(data)
         {
@@ -94,7 +94,7 @@ namespace SpecterSDK.ObjectModels
             StepNumber = data.stepNumber;
             TaskType = data.taskType;
             Tags = data.tags ?? new List<string>();
-            Meta = data.meta ?? new Dictionary<string, string>();
+            Meta = data.meta ?? new Dictionary<string, object>();
             
             if (data.rewardDetails != null)
                 Rewards = new SpecterRewardDetails(data.rewardDetails);

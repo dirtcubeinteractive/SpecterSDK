@@ -29,7 +29,7 @@ namespace SpecterSDK.ObjectModels
         public SPGameMatchOutcomeType GameMatchOutcomeType;
         public List<SpecterLeaderboardInfo> Leaderboards;
         public List<string> Tags { get; set; }
-        public Dictionary<string, string> Meta { get; set; }
+        public Dictionary<string, object> Meta { get; set; }
         public SpecterMatch(SPMatchResponseData data) : base(data)
         {
             HowTo = data.howTo;
@@ -44,7 +44,7 @@ namespace SpecterSDK.ObjectModels
                 Game = new SpecterGameBase(data.game);
             
             Tags = data.tags ?? new List<string>();
-            Meta = data.meta ?? new Dictionary<string, string>();
+            Meta = data.meta ?? new Dictionary<string, object>();
             Leaderboards = new List<SpecterLeaderboardInfo>();
             foreach (var leaderBoard in data.leaderboards)
             {

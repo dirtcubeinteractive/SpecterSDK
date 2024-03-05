@@ -15,7 +15,7 @@ namespace SpecterSDK.APIModels.ClientModels
         public List<SPLocationData> storeLocations { get; set; }
         public List<SPPlatformBaseData> storePlatforms { get; set; }
         public List<string> tags { get; set; }
-        public Dictionary<string, string> meta { get; set; }
+        public Dictionary<string, object> meta { get; set; }
         public List<SPUnlockConditionResponseData> unlockConditions { get; set; }
         public int categoriesCount { get; set; }
     }

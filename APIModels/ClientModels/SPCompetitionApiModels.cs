@@ -30,7 +30,7 @@ namespace SpecterSDK.APIModels.ClientModels
 
 
         public List<string> tags { get; set; }
-        public Dictionary<string, string> meta { get; set; }
+        public Dictionary<string, object> meta { get; set; }
     }
 
     [Serializable]

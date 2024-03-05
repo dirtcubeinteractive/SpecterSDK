@@ -17,7 +17,7 @@ namespace SpecterSDK.APIModels.ClientModels
         public SPLeaderboardIntervalData interval { get; set; }
         public SPLeaderboardSourceData sourceType { get; set; }
         public List<string> tags { get; set; }
-        public Dictionary<string, string> meta { get; set; }
+        public Dictionary<string, object> meta { get; set; }
         public SPLeaderboardEntryData currentPlayerEntry { get; set; }
         public List<SPLeaderboardEntryData> leaderboardEntries { get; set; }
         public int totalEntries { get; set; }

@@ -29,7 +29,7 @@ namespace SpecterSDK.APIModels.ClientModels
         public SPGameMatchOutcomeData matchOutcomeType { get; set; }
         public List<SPLeaderboardInfoResponseData> leaderboards { get; set; }
         public List<string> tags { get; set; }
-        public Dictionary<string, string> meta { get; set; }
+        public Dictionary<string, object> meta { get; set; }
     }
 
     [Serializable]

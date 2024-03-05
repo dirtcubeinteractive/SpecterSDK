@@ -12,7 +12,7 @@ namespace SpecterSDK.ObjectModels
         public List<SpecterUnlockCondition> UnlockConditions;
         
         public List<string> Tags { get; set; }
-        public Dictionary<string, string> Meta { get; set; }
+        public Dictionary<string, object> Meta { get; set; }
         
         public SpecterStore(SPStoreResponseData data)
         {
@@ -23,7 +23,7 @@ namespace SpecterSDK.ObjectModels
             IconUrl = data.iconUrl;
             CategoriesCount = data.categoriesCount;
             Tags = data.tags ?? new List<string>();
-            Meta = data.meta ?? new Dictionary<string, string>();
+            Meta = data.meta ?? new Dictionary<string, object>();
             
             UnlockConditions = new List<SpecterUnlockCondition>();
             foreach (var unlockCondition in data.unlockConditions)

@@ -34,7 +34,7 @@ namespace SpecterSDK.ObjectModels
         public List<SPUnlockConditionResponseData> UnlockCondition;
 
         public List<string> Tags { get; set; }
-        public Dictionary<string, string> Meta { get; set; }
+        public Dictionary<string, object> Meta { get; set; }
 
         public SpecterCompetition(SPCompetitionResponseData data) : base(data)
         {

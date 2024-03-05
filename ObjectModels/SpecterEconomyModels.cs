@@ -49,11 +49,11 @@ namespace SpecterSDK.ObjectModels
     public class SpecterCurrency : SpecterCurrencyBase, ISpecterMasterObject
     {
         public List<string> Tags { get; set; }
-        public Dictionary<string, string> Meta { get; set; }
+        public Dictionary<string, object> Meta { get; set; }
         public SpecterCurrency(SPCurrencyResponseData data) : base(data)
         {
             Tags = data.tags ?? new List<string>();
-            Meta = data.meta ?? new Dictionary<string, string>();
+            Meta = data.meta ?? new Dictionary<string, object>();
         }
     }
 
@@ -82,7 +82,7 @@ namespace SpecterSDK.ObjectModels
         public int? ConsumeByTime;
         public int? Quantity;
         public List<string> Tags { get; set; }
-        public Dictionary<string, string> Meta { get; set; }
+        public Dictionary<string, object> Meta { get; set; }
         public List<SpecterUnlockCondition> UnlockConditions;
         public List<SpecterPrice> Prices;
 
@@ -106,7 +106,7 @@ namespace SpecterSDK.ObjectModels
             ConsumeByTime = data.consumeByTime;
             Quantity = data.quantity;
             Tags = data.tags ?? new List<string>();
-            Meta = data.meta ?? new Dictionary<string, string>();
+            Meta = data.meta ?? new Dictionary<string, object>();
             UnlockConditions = new List<SpecterUnlockCondition>();
             if (data.unlockConditions != null)
             {

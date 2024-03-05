@@ -21,7 +21,7 @@ namespace SpecterSDK.ObjectModels
     {
         public string HowTo;
         public List<string> Tags { get; set; }
-        public Dictionary<string, string> Meta { get; set; }
+        public Dictionary<string, object> Meta { get; set; }
         public List<string> DownloadUrls;
         public List<string> ScreenShotUrls;
         public List<string> PreviewVideoUrls;
@@ -41,7 +41,7 @@ namespace SpecterSDK.ObjectModels
         {
             HowTo = data.howTo;
             Tags = data.tags ?? new List<string>();
-            Meta = data.meta ?? new Dictionary<string, string>();
+            Meta = data.meta ?? new Dictionary<string, object>();
             DownloadUrls = data.downloadUrl;
             ScreenShotUrls = data.screenShotUrl;
             PreviewVideoUrls = data.previewVideoUrl;

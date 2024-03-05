@@ -28,7 +28,7 @@ namespace SpecterSDK.APIModels.ClientModels
         public List<SPGameGenreData> genre { get; set; }
         public List<SPMatchResponseBaseData> matches { get; set; }
         public List<string> tags { get; set; }
-        public Dictionary<string, string> meta { get; set; }
+        public Dictionary<string, object> meta { get; set; }
     }
 
     [Serializable]

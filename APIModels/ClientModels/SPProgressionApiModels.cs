@@ -28,7 +28,7 @@ namespace SpecterSDK.APIModels.ClientModels
         public string description { get; set; }
         public string iconUrl { get; set; }
         public List<string> tags { get; set; }
-        public Dictionary<string, string> meta { get; set; }
+        public Dictionary<string, object> meta { get; set; }
     }
 
     [Serializable]
@@ -69,7 +69,7 @@ namespace SpecterSDK.APIModels.ClientModels
     public class SPProgressionSystemResponseData : SPProgressionSystemResponseBaseData, ISpecterMasterData
     {
         public List<string> tags { get; set; }
-        public Dictionary<string, string> meta { get; set; }
+        public Dictionary<string, object> meta { get; set; }
     }
     
 

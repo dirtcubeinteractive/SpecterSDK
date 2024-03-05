@@ -14,7 +14,7 @@ namespace SpecterSDK.ObjectModels
         public List<SpecterCountryDetails> Countries { get; set; }
         public List<SpecterGameGenre> Genres { get; set; }
         public List<string> Tags { get; set; }
-        public Dictionary<string, string> Meta { get; set; }
+        public Dictionary<string, object> Meta { get; set; }
 
         public SpecterApp(SPAppInfoResponseData data) : base(data)
         {
@@ -22,7 +22,7 @@ namespace SpecterSDK.ObjectModels
             ScreenshotUrls = data.screenshotUrls ?? new List<string>();
             VideoUrls = data.videoUrls ?? new List<string>();
             Tags = data.tags ?? new List<string>();
-            Meta = data.meta ?? new Dictionary<string, string>();
+            Meta = data.meta ?? new Dictionary<string, object>();
             
             Categories = new SpecterAppCategory(data.categories);
 

@@ -7,7 +7,7 @@ namespace SpecterSDK.ObjectModels
     public class SpecterProgressionMarker : SpecterResource , ISpecterMasterObject
     {
         public List<string> Tags { get; set; }
-        public Dictionary<string, string> Meta { get; set; }
+        public Dictionary<string, object> Meta { get; set; }
         public SpecterProgressionMarker(SPProgressionMarkerResponseData data)
         {
             Uuid = data.uuid;
@@ -16,9 +16,9 @@ namespace SpecterSDK.ObjectModels
             Description = data.description;
             IconUrl = data.iconUrl;
             Tags = new List<string>();
-            Meta = new Dictionary<string, string>();
+            Meta = new Dictionary<string, object>();
             Tags = data.tags ?? new List<string>();
-            Meta = data.meta ?? new Dictionary<string, string>();
+            Meta = data.meta ?? new Dictionary<string, object>();
         }
     }
 
@@ -46,7 +46,7 @@ namespace SpecterSDK.ObjectModels
         }
     }
     
-    public class SpecterProgressionSystem : SpecterResource
+    public class SpecterProgressionSystem : SpecterResource, ISpecterMasterObject
     {
         public SPProgressionSystemType Type;
         public SpecterProgressionMarker ProgressionMarker;
@@ -54,8 +54,8 @@ namespace SpecterSDK.ObjectModels
         public string RewardGrantTime ;
         public string RewardGrantDay;
         public List<SpecterLevel> Levels;
-        public List<string> Tags;
-        public Dictionary<string, string> Meta;
+        public List<string> Tags { get; set; }
+        public Dictionary<string, object> Meta { get; set; }
 
         public SpecterProgressionSystem(SPProgressionSystemResponseData data)
         {
@@ -73,7 +73,7 @@ namespace SpecterSDK.ObjectModels
             RewardGrantDay = data.rewardGrantDay;
             Levels = new List<SpecterLevel>();
             Tags = new List<string>();
-            Meta = new Dictionary<string, string>();
+            Meta = new Dictionary<string, object>();
             foreach (var level in data.levels)
             {
                 Levels.Add(new(level));

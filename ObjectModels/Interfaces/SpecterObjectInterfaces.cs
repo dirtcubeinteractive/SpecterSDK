@@ -10,7 +10,7 @@ namespace SpecterSDK.ObjectModels.Interfaces
     public interface ISpecterMasterObject
     {
         public List<string> Tags { get; set; }
-        public Dictionary<string, string> Meta { get; set; }
+        public Dictionary<string, object> Meta { get; set; }
 
         public bool TryGetMeta<T>(string key, out T val)
         {
@@ -19,10 +19,10 @@ namespace SpecterSDK.ObjectModels.Interfaces
             
             try
             {
-                if (Meta.TryGetValue(key, out string str))
+                if (Meta.TryGetValue(key, out object objVal))
                 {
-                    val = SpecterJson.DeserializeObject<T>(str);
-                    success = true;
+                    if (SpecterJson.TryConvertObject<T>(objVal, out val))
+                        success = true;
                 }
                 else
                     Debug.LogError($"No meta data with key {key} exists. Please check your configuration on the Specter dashboard");
