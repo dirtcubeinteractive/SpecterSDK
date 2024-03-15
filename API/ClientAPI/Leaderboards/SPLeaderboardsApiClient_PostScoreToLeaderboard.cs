@@ -16,7 +16,7 @@ namespace SpecterSDK.API.ClientAPI.Leaderboards
         /// <summary>
         /// ID of the leaderboard where the score is to be posted.
         /// </summary>
-        public string leaderboardId { get; set; }
+        public List<string> leaderboardIds { get; set; }
         
         /// <summary>
         /// The score obtained by the player.
