@@ -14,7 +14,7 @@ namespace SpecterSDK.API.ClientAPI.Leaderboards
     public class SPPostScoreToLeaderboardRequest : SPApiRequestBase
     {
         /// <summary>
-        /// ID of the leaderboard where the score is to be posted.
+        /// IDs of the leaderboards where the score is to be posted.
         /// </summary>
         public List<string> leaderboardIds { get; set; }
         
