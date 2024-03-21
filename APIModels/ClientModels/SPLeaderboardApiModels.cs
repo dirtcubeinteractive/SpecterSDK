@@ -21,6 +21,7 @@ namespace SpecterSDK.APIModels.ClientModels
         public SPLeaderboardEntryData currentPlayerEntry { get; set; }
         public List<SPLeaderboardEntryData> leaderboardEntries { get; set; }
         public int totalEntries { get; set; }
+        public DateTime? resetTime { get; set; }
     }
 
     [Serializable]

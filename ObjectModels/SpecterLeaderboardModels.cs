@@ -19,6 +19,7 @@ namespace SpecterSDK.ObjectModels
         public int TotalCount;
         public SpecterLeaderboardEntry CurrentPlayerEntry;
         public List<SpecterLeaderboardEntry> LeaderboardEntries;
+        public DateTime? ResetTime { get; set; }
         
         public List<string> Tags { get; set; }
         public Dictionary<string, object> Meta { get; set; }
@@ -36,6 +37,7 @@ namespace SpecterSDK.ObjectModels
             LeaderboardSourceType = data.sourceType.name;
             LeaderboardInterval = data.interval?.name;
             TotalCount = data.totalEntries;
+            ResetTime = data.resetTime;
             
             if (data.match != null)
                 Match = new SpecterMatchBase(data.match);
