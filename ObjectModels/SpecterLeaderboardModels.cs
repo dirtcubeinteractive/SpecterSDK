@@ -79,7 +79,8 @@ namespace SpecterSDK.ObjectModels
         public int Rank;
         public int Score;
         public SpecterLeaderboardPlayerInfo PlayerInfo;
-        
+
+        public SpecterLeaderboardEntry() { }
         public SpecterLeaderboardEntry(SPLeaderboardEntryData data)
         {
             Rank = data.rank;
