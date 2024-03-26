@@ -165,7 +165,7 @@ namespace SpecterSDK.APIModels.ClientModels
     public abstract class SPInventoryResourceResponseData : SPResourceResponseData
     {
         public string instanceId { get; set; }
-        public int totalUsesAvailable { get; set; }
+        public int? totalUsesAvailable { get; set; }
         public bool isEquipped { get; set; }
         public int quantity { get; set; }
         public string collectionId { get; set; }

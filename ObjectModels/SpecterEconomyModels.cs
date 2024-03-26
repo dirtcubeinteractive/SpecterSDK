@@ -224,7 +224,7 @@ namespace SpecterSDK.ObjectModels
     public class SpecterInventoryResource : SpecterResource
     {
         public string InstanceId;
-        public int TotalUsesAvailable;
+        public int? TotalUsesAvailable;
         public bool IsEquipped;
         public int Quantity;
         public string CollectionId;
