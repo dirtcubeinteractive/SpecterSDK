@@ -93,22 +93,22 @@ namespace SpecterSDK.API.ClientAPI.Rewards
         public List<SpecterRewardHistoryEntry> ProgressionMarkers;
         
         /// <summary>
-        /// Map of consolidated <see cref="SpecterRewardHistoryDetails"/> based on the reward source type and source ID.
+        /// Map of consolidated <see cref="SpecterRewardSet"/> based on the reward source type and source ID.
         /// <remarks>
         /// This is a convenience data structure to easily access reward information for a particular reward source.
         /// </remarks>
         /// <seealso cref="SPRewardSourceType"/>
         /// </summary>
-        public Dictionary<SPRewardSourceType, Dictionary<string, SpecterRewardHistoryDetails>> RewardsMap;
+        public Dictionary<SPRewardSourceType, Dictionary<string, SpecterRewardSet>> RewardsMap;
 
         protected override void InitSpecterObjectsInternal()
         {
-            RewardsMap = new Dictionary<SPRewardSourceType, Dictionary<string, SpecterRewardHistoryDetails>>
+            RewardsMap = new Dictionary<SPRewardSourceType, Dictionary<string, SpecterRewardSet>>
             {
-                { SPRewardSourceType.Level, new Dictionary<string, SpecterRewardHistoryDetails>() },
-                { SPRewardSourceType.Task, new Dictionary<string, SpecterRewardHistoryDetails>() },
-                { SPRewardSourceType.TaskGroup, new Dictionary<string, SpecterRewardHistoryDetails>() },
-                { SPRewardSourceType.Custom, new Dictionary<string, SpecterRewardHistoryDetails>() }
+                { SPRewardSourceType.Level, new Dictionary<string, SpecterRewardSet>() },
+                { SPRewardSourceType.Task, new Dictionary<string, SpecterRewardSet>() },
+                { SPRewardSourceType.TaskGroup, new Dictionary<string, SpecterRewardSet>() },
+                { SPRewardSourceType.Custom, new Dictionary<string, SpecterRewardSet>() }
             };
 
             Items = new List<SpecterRewardHistoryEntry>(); 
@@ -147,45 +147,13 @@ namespace SpecterSDK.API.ClientAPI.Rewards
 
             if (!RewardsMap[rewardHistoryEntry.SourceType].ContainsKey(rewardHistoryEntry.SourceId))
             {
-                SpecterRewardHistoryDetails specterRewards = new SpecterRewardHistoryDetails(rewardHistoryEntry.SourceId, rewardHistoryEntry.SourceType, rewardHistoryEntry.Status, rewardHistoryEntry.RewardGrant);
-                switch (rewardType)
-                {
-                    case SPRewardType.ProgressionMarker:
-                        specterRewards.ProgressionMarkers.Add(rewardHistoryEntry);
-                        break;
-                    case SPRewardType.Currency:
-                        specterRewards.Currencies.Add(rewardHistoryEntry);
-                        break;
-                    case SPRewardType.Item:
-                        specterRewards.Items.Add(rewardHistoryEntry);
-                        break;
-                    case SPRewardType.Bundle:
-                        specterRewards.Bundles.Add(rewardHistoryEntry);
-                        break;
-                    default:
-                        break;
-                } 
+                SpecterRewardSet specterRewards = new SpecterRewardSet(rewardHistoryEntry);
+                specterRewards.AddReward(rewardHistoryEntry);
                 RewardsMap[rewardHistoryEntry.SourceType].Add(rewardHistoryEntry.SourceId, specterRewards);
             }
             else
             {
-                switch (rewardType)
-                {
-                    case SPRewardType.ProgressionMarker:
-                        RewardsMap[rewardHistoryEntry.SourceType][rewardHistoryEntry.SourceId].ProgressionMarkers.Add(rewardHistoryEntry);
-                        break;
-                    case SPRewardType.Currency:
-                        RewardsMap[rewardHistoryEntry.SourceType][rewardHistoryEntry.SourceId].Currencies.Add(rewardHistoryEntry);
-                        break;
-                    case SPRewardType.Item:
-                        RewardsMap[rewardHistoryEntry.SourceType][rewardHistoryEntry.SourceId].Items.Add(rewardHistoryEntry);
-                        break;
-                    case SPRewardType.Bundle:
-                        RewardsMap[rewardHistoryEntry.SourceType][rewardHistoryEntry.SourceId].Bundles.Add(rewardHistoryEntry);
-                        break;
-                    default:
-                        break;
-                }
+                RewardsMap[rewardHistoryEntry.SourceType][rewardHistoryEntry.SourceId].AddReward(rewardHistoryEntry);
             }
             return rewardHistoryEntry;
         }

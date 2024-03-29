@@ -48,6 +48,16 @@ namespace SpecterSDK.API.ClientAPI.Rewards
         public SPRewardsToGrant rewards;
         
         /// <summary>
+        /// Flag to tell the server to ignore any access and eligibility configurations for any of the rewards (eg: progression or item locks)
+        /// </summary>
+        public bool? bypassLockCondition { get; set; }
+        
+        /// <summary>
+        /// Flag to tell the server to bypass any limited edition configurations only applicable for item and bundle rewards.
+        /// </summary>
+        public bool? bypassLimitedEdition { get; set; }
+        
+        /// <summary>
         /// <para>
         /// A for any meta data you wish to store for the granted rewards.
         /// this info is relevant when retrieving the reward history for any custom needs.
@@ -84,6 +94,12 @@ namespace SpecterSDK.API.ClientAPI.Rewards
         public string id { get; set; }
         
         /// <summary>
+        /// ID of the instance of the reward set if the same source could result in rewards multiple times (eg: recurring tasks)
+        /// This ID is retrieved when fetching the reward history.
+        /// </summary>
+        public string instanceId { get; set; }
+        
+        /// <summary>
         /// The type of the source. See <see cref="SPRewardSourceType"/> for possible reward source types.
         /// </summary>
         public SPRewardSourceType type { get; set; }
@@ -108,6 +124,16 @@ namespace SpecterSDK.API.ClientAPI.Rewards
         /// The amount of the resource to be granted as a reward.
         /// </summary>
         public int amount;
+        
+        /// <summary>
+        /// Flag to tell the server to ignore any access and eligibility configurations for this specific reward (eg: progression or item locks)
+        /// </summary>
+        public bool? bypassLockCondition { get; set; }
+        
+        /// <summary>
+        /// Flag to tell the server to bypass any limited edition configurations for this reward. Only applicable for item and bundle rewards.
+        /// </summary>
+        public bool? bypassLimitedEdition { get; set; }
     }
 
     /// <summary>
