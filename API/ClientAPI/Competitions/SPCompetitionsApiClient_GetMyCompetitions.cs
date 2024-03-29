@@ -31,7 +31,7 @@ namespace SpecterSDK.API.ClientAPI.Competitions
     {
         public async Task<SPGetMyCompetitionsResult> GetMyCompetitionsAsync(SPGetMyCompetitionsRequest request)
         {
-            var result = await PostAsync<SPGetMyCompetitionsResult, SPResponseDataList<SPEnteredCompetitionResponseData>>("/v1/client/competitions/my-competitions", AuthType, request);
+            var result = await PostAsync<SPGetMyCompetitionsResult, SPResponseDataList<SPEnteredCompetitionResponseData>>("/v1/client/competitions/get-my-competitions", AuthType, request);
             return result;
         }
     }
