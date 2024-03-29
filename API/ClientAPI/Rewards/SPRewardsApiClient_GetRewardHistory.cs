@@ -101,6 +101,8 @@ namespace SpecterSDK.API.ClientAPI.Rewards
         /// </summary>
         public Dictionary<SPRewardSourceType, Dictionary<string, SpecterRewardSet>> RewardsMap;
 
+        public Dictionary<string, SpecterRewardSet> RewardSetInstanceMap;
+
         protected override void InitSpecterObjectsInternal()
         {
             RewardsMap = new Dictionary<SPRewardSourceType, Dictionary<string, SpecterRewardSet>>
@@ -111,37 +113,39 @@ namespace SpecterSDK.API.ClientAPI.Rewards
                 { SPRewardSourceType.Custom, new Dictionary<string, SpecterRewardSet>() }
             };
 
+            RewardSetInstanceMap = new Dictionary<string, SpecterRewardSet>();
+
             Items = new List<SpecterRewardHistoryEntry>(); 
             foreach (var item in Response.data.items)
             {
-                var itemEntry = GetEntryAndAddToMap(item, SPRewardType.Item);
+                var itemEntry = GetEntryAndAddToMaps(item, SPRewardType.Item);
                 Items.Add(itemEntry);
             }
             
             Bundles = new List<SpecterRewardHistoryEntry>();
             foreach (var bundle in Response.data.bundles)
             {
-                var bundleEntry = GetEntryAndAddToMap(bundle, SPRewardType.Bundle);
+                var bundleEntry = GetEntryAndAddToMaps(bundle, SPRewardType.Bundle);
                 Bundles.Add(bundleEntry);
             }
             
             Currencies = new List<SpecterRewardHistoryEntry>();
             foreach (var currency in Response.data.currencies)
             {
-                var currencyEntry = GetEntryAndAddToMap(currency, SPRewardType.Currency);
+                var currencyEntry = GetEntryAndAddToMaps(currency, SPRewardType.Currency);
                 Currencies.Add(currencyEntry);
             }
             
             ProgressionMarkers = new List<SpecterRewardHistoryEntry>();
             foreach (var progress in Response.data.progressionMarkers)
             {
-                var progressionMarkerEntry = GetEntryAndAddToMap(progress, SPRewardType.ProgressionMarker);
+                var progressionMarkerEntry = GetEntryAndAddToMaps(progress, SPRewardType.ProgressionMarker);
                 ProgressionMarkers.Add(progressionMarkerEntry);
             }
         }
 
 
-        private SpecterRewardHistoryEntry GetEntryAndAddToMap (SPRewardHistoryEntryData entryData, SPRewardType rewardType)
+        private SpecterRewardHistoryEntry GetEntryAndAddToMaps(SPRewardHistoryEntryData entryData, SPRewardType rewardType)
         {
             SpecterRewardHistoryEntry rewardHistoryEntry = new SpecterRewardHistoryEntry(entryData, rewardType);
 
@@ -150,10 +154,12 @@ namespace SpecterSDK.API.ClientAPI.Rewards
                 SpecterRewardSet specterRewards = new SpecterRewardSet(rewardHistoryEntry);
                 specterRewards.AddReward(rewardHistoryEntry);
                 RewardsMap[rewardHistoryEntry.SourceType].Add(rewardHistoryEntry.SourceId, specterRewards);
+                RewardSetInstanceMap.Add(specterRewards.InstanceId, specterRewards);
             }
             else
             {
                 RewardsMap[rewardHistoryEntry.SourceType][rewardHistoryEntry.SourceId].AddReward(rewardHistoryEntry);
+                RewardSetInstanceMap[rewardHistoryEntry.InstanceId].AddReward(rewardHistoryEntry);
             }
             return rewardHistoryEntry;
         }
