@@ -23,9 +23,9 @@ namespace SpecterSDK.ObjectModels
     public class SpecterCompetition : SpecterCompetitionBase, ISpecterMasterObject
     {
         public int MinPlayers;
-        public int MaxPlayers;
-        public int MaxEntryAllowed;
-        public int MaxAttemptAllowed;
+        public int? MaxPlayers;
+        public int? MaxEntryAllowed;
+        public int? MaxAttemptAllowed;
         public SPCompetitionStatus Status;
         public SPCompetitionFormat Format;
         public SPCompetitionMatchData MatchData;
@@ -37,7 +37,7 @@ namespace SpecterSDK.ObjectModels
 
         public SpecterCompetition(SPCompetitionResponseData data) : base(data)
         {
-            MinPlayers = data.minPlayers;
+            MinPlayers = data.minPlayers ?? 1;
             MaxPlayers = data.maxPlayers;
             MaxEntryAllowed = data.maxEntryAllowed;
             MaxAttemptAllowed = data.maxAttemptAllowed;

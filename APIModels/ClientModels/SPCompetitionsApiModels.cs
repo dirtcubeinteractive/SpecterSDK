@@ -29,16 +29,16 @@ namespace SpecterSDK.APIModels.ClientModels
     [Serializable]
     public class SPCompetitionResponseBaseData : SPResourceResponseData
     {
-        public int maxEntryAllowed {  get; set; }
-        public int maxAttemptAllowed { get; set; }
+        public int? maxEntryAllowed {  get; set; }
+        public int? maxAttemptAllowed { get; set; }
         public SPCompetitionStatus status { get; set; }
     }
     
     [Serializable]
     public class SPCompetitionResponseData : SPCompetitionResponseBaseData, ISpecterMasterData
     {
-        public int minPlayers { get; set; }
-        public int maxPlayers { get; set; }
+        public int? minPlayers { get; set; }
+        public int? maxPlayers { get; set; }
         public SPCompetitionFormatData formatType { get; set; }
         public SPCompetitionMatchData match { get; set; }
         public SPCompetitionGameData game { get; set; }
@@ -61,6 +61,7 @@ namespace SpecterSDK.APIModels.ClientModels
     public class SPCompetitionEntryData
     {
         public string entryId { get; set; }
+        public int? numberOfAttemptsLeft { get; set; }
     }
 
     [Serializable]
