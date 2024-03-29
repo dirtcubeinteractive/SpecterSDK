@@ -29,23 +29,25 @@ namespace SpecterSDK.APIModels.ClientModels
     [Serializable]
     public class SPCompetitionResponseBaseData : SPResourceResponseData
     {
+        public int? minPlayers { get; set; }
+        public int? maxPlayers { get; set; }
         public int? maxEntryAllowed {  get; set; }
         public int? maxAttemptAllowed { get; set; }
+        public int? recurrenceCount { get; set; }
+        public SPLeaderboardInterval recurrenceType { get; set; }
         public SPCompetitionStatus status { get; set; }
+        public SPCompetitionFormatData formatType { get; set; }
+        public SPCompetitionMatchData match { get; set; }
+        public SPCompetitionGameData game { get; set; }
+        public DateTime startDate { get; set; }
+        public DateTime? endDate { get; set; }
     }
     
     [Serializable]
     public class SPCompetitionResponseData : SPCompetitionResponseBaseData, ISpecterMasterData
     {
-        public int? minPlayers { get; set; }
-        public int? maxPlayers { get; set; }
-        public SPCompetitionFormatData formatType { get; set; }
-        public SPCompetitionMatchData match { get; set; }
-        public SPCompetitionGameData game { get; set; }
-
         public List<SPUnlockConditionResponseData> unlockConditions { get; set; }
-
-
+        
         public List<string> tags { get; set; }
         public Dictionary<string, object> meta { get; set; }
     }
