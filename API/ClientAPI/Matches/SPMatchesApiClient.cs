@@ -18,6 +18,11 @@ namespace SpecterSDK.API.ClientAPI.Matches
         /// </summary>
         [JsonRequired]
         public string id;
+
+        /// <summary>
+        /// ID of the entry within a competition if participating in a competition <see cref="SpecterSDK.API.ClientAPI.Competitions.SPCompetitionsApiClient"/>.
+        /// </summary>
+        public string entryId;
     }
 
     /// <summary>
@@ -74,7 +79,7 @@ namespace SpecterSDK.API.ClientAPI.Matches
         /// is associated with. This is an optional field.
         /// </summary>
         public string competitionId;
-        
+
         /// <summary>
         /// User information within a match session.
         /// </summary>

@@ -8,10 +8,9 @@ using Newtonsoft.Json;
 
 namespace SpecterSDK.API.ClientAPI.App
 {
-
     [Serializable]
     [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPGetCompetitionRequest : SPPaginatedApiRequest
+    public class SPGetCompetitionsRequest : SPPaginatedApiRequest
     {
         public List<string> competitionIds {  get; set; }
         public List<SPApiRequestEntity> entities { get; set; }
@@ -19,7 +18,7 @@ namespace SpecterSDK.API.ClientAPI.App
     }
 
 
-    public class SPGetCompetitionResult : SpecterApiResultBase<SPGetCompetitionsResponseData>
+    public class SPGetCompetitionsResult : SpecterApiResultBase<SPGetCompetitionsResponseData>
     {
 
         public List<SpecterCompetition> Competitions;
@@ -41,9 +40,9 @@ namespace SpecterSDK.API.ClientAPI.App
 
     public partial class SPAppApiClient
     {
-        public async Task<SPGetCompetitionResult> GetCompetitionAsync(SPGetCompetitionRequest request)
+        public async Task<SPGetCompetitionsResult> GetCompetitionsAsync(SPGetCompetitionsRequest request)
         {
-            var result = await PostAsync<SPGetCompetitionResult, SPGetCompetitionsResponseData>("/v1/client/app/get-competitions", AuthType, request);
+            var result = await PostAsync<SPGetCompetitionsResult, SPGetCompetitionsResponseData>("/v1/client/app/get-competitions", AuthType, request);
             return result;
         }
     }

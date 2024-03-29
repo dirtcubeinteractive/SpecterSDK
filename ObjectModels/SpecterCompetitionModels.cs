@@ -26,9 +26,8 @@ namespace SpecterSDK.ObjectModels
         public int MaxPlayers;
         public int MaxEntryAllowed;
         public int MaxAttemptAllowed;
-        public int NumberOfWinners;
-        public SPCompetitionStatusType Status;
-        public SPCompetitionFormatType FormatType;
+        public SPCompetitionStatus Status;
+        public SPCompetitionFormat Format;
         public SPCompetitionMatchData MatchData;
         public SPCompetitionGameData GameData;
         public List<SPUnlockConditionResponseData> UnlockCondition;
@@ -42,9 +41,8 @@ namespace SpecterSDK.ObjectModels
             MaxPlayers = data.maxPlayers;
             MaxEntryAllowed = data.maxEntryAllowed;
             MaxAttemptAllowed = data.maxAttemptAllowed;
-            NumberOfWinners = data.numberOfWinners;
             Status = data.status;
-            FormatType = data.formatType.name;
+            Format = data.formatType.name;
             MatchData = data.match;
             GameData = data.game;
             UnlockCondition = data.unlockConditions;

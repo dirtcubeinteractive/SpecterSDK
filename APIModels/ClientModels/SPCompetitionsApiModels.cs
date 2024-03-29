@@ -7,6 +7,19 @@ using UnityEngine;
 
 namespace SpecterSDK.APIModels.ClientModels
 {
+    [Serializable]
+    public class SPEnterCompetitionResponseData : ISpecterApiResponseData
+    {
+        public string entryId { get; set; }
+    }
+
+    [Serializable]
+    public class SPCheckCompetitionAttemptsResponseData : ISpecterApiResponseData
+    {
+        public int? numberOfAttemptsLeft { get; set; }
+    }
+    
+    [Serializable]
     public class SPGetCompetitionsResponseData : ISpecterApiResponseData
     {
         public List<SPCompetitionResponseData> competitions { get; set; }
@@ -14,14 +27,18 @@ namespace SpecterSDK.APIModels.ClientModels
     }
 
     [Serializable]
-    public class SPCompetitionResponseData : SPResourceResponseData, ISpecterMasterData
+    public class SPCompetitionResponseBaseData : SPResourceResponseData
     {
-        public int minPlayers { get; set; }
-        public int maxPlayers { get; set; }        
         public int maxEntryAllowed {  get; set; }
         public int maxAttemptAllowed { get; set; }
-        public int numberOfWinners { get; set; }
-        public SPCompetitionStatusType status { get; set; }
+        public SPCompetitionStatus status { get; set; }
+    }
+    
+    [Serializable]
+    public class SPCompetitionResponseData : SPCompetitionResponseBaseData, ISpecterMasterData
+    {
+        public int minPlayers { get; set; }
+        public int maxPlayers { get; set; }
         public SPCompetitionFormatData formatType { get; set; }
         public SPCompetitionMatchData match { get; set; }
         public SPCompetitionGameData game { get; set; }
@@ -34,11 +51,23 @@ namespace SpecterSDK.APIModels.ClientModels
     }
 
     [Serializable]
+    public class SPEnteredCompetitionResponseData : SPCompetitionResponseBaseData
+    {
+        public string instanceId { get; set; }
+        public List<SPCompetitionEntryData> entries { get; set; }
+    }
+
+    [Serializable]
+    public class SPCompetitionEntryData
+    {
+        public string entryId { get; set; }
+    }
+
+    [Serializable]
     public class SPCompetitionFormatData
     {
         public int id { get; set; }
-
-        public SPCompetitionFormatType name { get; set; }
+        public SPCompetitionFormat name { get; set; }
     }
 
     [Serializable]

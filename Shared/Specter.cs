@@ -4,6 +4,7 @@ using System.Linq;
 using SpecterSDK.API;
 using SpecterSDK.API.ClientAPI.App;
 using SpecterSDK.API.ClientAPI.Authentication;
+using SpecterSDK.API.ClientAPI.Competitions;
 using SpecterSDK.API.ClientAPI.Events;
 using SpecterSDK.API.ClientAPI.Inventory;
 using SpecterSDK.API.ClientAPI.Leaderboards;
@@ -73,6 +74,11 @@ namespace SpecterSDK
         /// Provides methods to authenticate users, manage sessions, and handle user credentials.
         /// </summary>
         public static SPAuthApiClient Auth { get; private set; }
+
+        /// <summary>
+        /// Provides methods for interacting with the Competitions API.
+        /// </summary>
+        public static SPCompetitionsApiClient Competitions { get; private set; }
 
         /// <summary>
         /// Provides access to the Specter custom events API.
@@ -236,6 +242,7 @@ namespace SpecterSDK
 
             App = new SPAppApiClient(Config);
             Auth = new SPAuthApiClient(Config);
+            Competitions = new SPCompetitionsApiClient(Config);
             Events = new SPEventsApiClient(Config);
             Inventory = new SPInventoryApiClient(Config);
             Leaderboards = new SPLeaderboardsApiClient(Config);
@@ -304,6 +311,7 @@ namespace SpecterSDK
         {
             App = null;
             Auth = null;
+            Competitions = null;
             Events = null;
             Inventory = null;
             Leaderboards = null;
