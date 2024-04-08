@@ -21,7 +21,12 @@ namespace SpecterSDK.APIModels.ClientModels
     }
 
     [Serializable]
-    public class SPStoreResponseDataList : SPResponseDataList<SPStoreResponseData> { }
+    public class SPGetStoresResponseData : ISpecterApiResponseData
+    {
+        public List<SPStoreResponseData> stores { get; set; }
+        public int totalCount { get; set; }
+        public DateTime? lastUpdate { get; set; }
+    }
     
     #endregion
 
