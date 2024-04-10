@@ -13,7 +13,7 @@ namespace SpecterSDK.Editor.API
     [Serializable]
     public class SPGetProgressionSystemsAdminRequest : SPApiRequestBase, IProjectConfigurable
     {
-        public string projectId { get; set; }
+        //public string projectId { get; set; }
         public List<string> ids { get; set; }
     }
 
@@ -36,7 +36,7 @@ namespace SpecterSDK.Editor.API
     [Serializable]
     public class SPGetTaskListAdminRequest : SPApiRequestBase, IProjectConfigurable
     {
-        public string projectId { get; set; }
+        //public string projectId { get; set; }
         public List<string> ids { get; set; } = new();
         public int limit { get; set; } = 50;
         public int offset { get; set; }

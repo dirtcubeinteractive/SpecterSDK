@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using PlasticPipe.Server;
 using SpecterSDK.APIModels;
 using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.ObjectModels;
@@ -60,18 +61,24 @@ namespace SpecterSDK.API.ClientAPI.Stores
     /// <summary>
     /// Represents the result of a GetStoresAsync request.
     /// </summary>
-    public class SPGetStoresResult : SpecterApiResultBase<SPStoreResponseDataList>
+    public class SPGetStoresResult : SpecterApiResultBase<SPGetStoresResponseData>
     {
         // List of stores fetched.
         public List<SpecterStore> Stores;
+
+        public int TotalCount;
+        public DateTime? LastUpdated;
         
         protected override void InitSpecterObjectsInternal()
         {
             Stores = new();
-            foreach (var store in Response.data)
+            foreach (var store in Response.data.stores)
             {
                 Stores.Add(new(store));
             }
+
+            TotalCount = Response.data.totalCount;
+            LastUpdated = Response.data.lastUpdate;
         }
     }
     
@@ -91,7 +98,7 @@ namespace SpecterSDK.API.ClientAPI.Stores
         /// </returns>
         public async Task<SPGetStoresResult> GetStoresAsync(SPGetStoresRequest request)
         {
-            var result = await PostAsync<SPGetStoresResult, SPStoreResponseDataList>("/v1/client/stores/get-stores", AuthType, request);
+            var result = await PostAsync<SPGetStoresResult, SPGetStoresResponseData>("/v1/client/stores/get-stores", AuthType, request);
             return result;
         }
     }
