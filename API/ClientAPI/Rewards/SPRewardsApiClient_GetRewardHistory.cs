@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SpecterSDK.APIModels;
@@ -76,22 +77,22 @@ namespace SpecterSDK.API.ClientAPI.Rewards
         /// List of <see cref="SpecterRewardHistoryEntry"/> representing encapsulated info about item rewards.
         /// </summary>
         public List<SpecterRewardHistoryEntry> Items;
-        
+
         /// <summary>
         /// List of <see cref="SpecterRewardHistoryEntry"/> representing encapsulated info about bundle rewards.
         /// </summary>
         public List<SpecterRewardHistoryEntry> Bundles;
-        
+
         /// <summary>
         /// List of <see cref="SpecterRewardHistoryEntry"/> representing encapsulated info about currency rewards.
         /// </summary>
         public List<SpecterRewardHistoryEntry> Currencies;
-        
+
         /// <summary>
         /// List of <see cref="SpecterRewardHistoryEntry"/> representing encapsulated info about progression marker rewards.
         /// </summary>
         public List<SpecterRewardHistoryEntry> ProgressionMarkers;
-        
+
         /// <summary>
         /// Map of consolidated <see cref="SpecterRewardSet"/> based on the reward source type and source ID.
         /// <remarks>
@@ -99,71 +100,71 @@ namespace SpecterSDK.API.ClientAPI.Rewards
         /// </remarks>
         /// <seealso cref="SPRewardSourceType"/>
         /// </summary>
-        public Dictionary<SPRewardSourceType, Dictionary<string, SpecterRewardSet>> RewardsMap;
+        public Dictionary<SPRewardSourceType, Dictionary<string, List<SpecterRewardSet>>> RewardsMap;
 
         public Dictionary<string, SpecterRewardSet> RewardSetInstanceMap;
 
         protected override void InitSpecterObjectsInternal()
         {
-            RewardsMap = new Dictionary<SPRewardSourceType, Dictionary<string, SpecterRewardSet>>
+            RewardsMap = new Dictionary<SPRewardSourceType, Dictionary<string, List<SpecterRewardSet>>>
             {
-                { SPRewardSourceType.Level, new Dictionary<string, SpecterRewardSet>() },
-                { SPRewardSourceType.Task, new Dictionary<string, SpecterRewardSet>() },
-                { SPRewardSourceType.TaskGroup, new Dictionary<string, SpecterRewardSet>() },
-                { SPRewardSourceType.Custom, new Dictionary<string, SpecterRewardSet>() }
+                { SPRewardSourceType.Level, new Dictionary<string,  List<SpecterRewardSet>>() },
+                { SPRewardSourceType.Task, new Dictionary<string, List<SpecterRewardSet>>() },
+                { SPRewardSourceType.TaskGroup, new Dictionary<string, List<SpecterRewardSet>>() },
+                { SPRewardSourceType.Competition, new Dictionary<string, List<SpecterRewardSet>>()},
+                { SPRewardSourceType.Leaderboard, new Dictionary<string, List<SpecterRewardSet>>()},
+                { SPRewardSourceType.Custom, new Dictionary<string, List<SpecterRewardSet>>() }
             };
-
             RewardSetInstanceMap = new Dictionary<string, SpecterRewardSet>();
 
-            Items = new List<SpecterRewardHistoryEntry>(); 
-            foreach (var item in Response.data.items)
-            {
-                var itemEntry = GetEntryAndAddToMaps(item, SPRewardType.Item);
-                Items.Add(itemEntry);
-            }
-            
+            Items = new List<SpecterRewardHistoryEntry>();
+            ProcessRewardHistory(Response.data.items, SPRewardType.Item, Items);
+
             Bundles = new List<SpecterRewardHistoryEntry>();
-            foreach (var bundle in Response.data.bundles)
-            {
-                var bundleEntry = GetEntryAndAddToMaps(bundle, SPRewardType.Bundle);
-                Bundles.Add(bundleEntry);
-            }
-            
+            ProcessRewardHistory(Response.data.bundles, SPRewardType.Bundle, Bundles);
+
             Currencies = new List<SpecterRewardHistoryEntry>();
-            foreach (var currency in Response.data.currencies)
-            {
-                var currencyEntry = GetEntryAndAddToMaps(currency, SPRewardType.Currency);
-                Currencies.Add(currencyEntry);
-            }
-            
+            ProcessRewardHistory(Response.data.currencies, SPRewardType.Currency, Currencies);
+
             ProgressionMarkers = new List<SpecterRewardHistoryEntry>();
-            foreach (var progress in Response.data.progressionMarkers)
+            ProcessRewardHistory(Response.data.progressionMarkers, SPRewardType.ProgressionMarker, ProgressionMarkers);
+        }
+
+        private void ProcessRewardHistory(IEnumerable<SPRewardHistoryEntryData> historyEntries, SPRewardType rewardType, List<SpecterRewardHistoryEntry> targetList)
+        {
+            foreach (var entry in historyEntries)
             {
-                var progressionMarkerEntry = GetEntryAndAddToMaps(progress, SPRewardType.ProgressionMarker);
-                ProgressionMarkers.Add(progressionMarkerEntry);
+                var rewardHistoryEntry = new SpecterRewardHistoryEntry(entry, rewardType);
+                AddToRewardMaps(rewardHistoryEntry);
+                targetList.Add(rewardHistoryEntry);
             }
         }
 
-
-        private SpecterRewardHistoryEntry GetEntryAndAddToMaps(SPRewardHistoryEntryData entryData, SPRewardType rewardType)
+        private void AddToRewardMaps(SpecterRewardHistoryEntry rewardHistoryEntry)
         {
-            SpecterRewardHistoryEntry rewardHistoryEntry = new SpecterRewardHistoryEntry(entryData, rewardType);
+            var sourceMap = RewardsMap[rewardHistoryEntry.SourceType];
 
-            if (!RewardsMap[rewardHistoryEntry.SourceType].ContainsKey(rewardHistoryEntry.SourceId))
+            if (!sourceMap.TryGetValue(rewardHistoryEntry.SourceId, out var rewardSets))
             {
-                SpecterRewardSet specterRewards = new SpecterRewardSet(rewardHistoryEntry);
-                specterRewards.AddReward(rewardHistoryEntry);
-                RewardsMap[rewardHistoryEntry.SourceType].Add(rewardHistoryEntry.SourceId, specterRewards);
-                RewardSetInstanceMap.Add(specterRewards.InstanceId, specterRewards);
+                rewardSets = new List<SpecterRewardSet>();
+                sourceMap[rewardHistoryEntry.SourceId] = rewardSets;
             }
-            else
+
+            var rewardSet = rewardSets.FirstOrDefault(r => r.InstanceId == rewardHistoryEntry.InstanceId);
+            if (rewardSet == null)
             {
-                RewardsMap[rewardHistoryEntry.SourceType][rewardHistoryEntry.SourceId].AddReward(rewardHistoryEntry);
-                RewardSetInstanceMap[rewardHistoryEntry.InstanceId].AddReward(rewardHistoryEntry);
+                rewardSet = new SpecterRewardSet(rewardHistoryEntry);
+                rewardSets.Add(rewardSet);
             }
-            return rewardHistoryEntry;
+
+            rewardSet.AddReward(rewardHistoryEntry);
+            if (!RewardSetInstanceMap.ContainsKey(rewardHistoryEntry.InstanceId))
+            {
+                RewardSetInstanceMap[rewardHistoryEntry.InstanceId] = rewardSet;
+            }
         }
     }
+
 
     public partial class SPRewardsApiClient
     {
