@@ -266,8 +266,7 @@ namespace SpecterSDK.ObjectModels
         public double Price;
         public float Discount;
         public float BonusCashAllowance;
-        public int? GamePlatformMasterId;
-        public SpecterCurrencyBase VirtualCurrency;
+        public SpecterCurrencyBase CurrencyDetails;
         public SpecterRealCurrency RealCurrency;
 
         public SpecterPrice(SPPriceData data)
@@ -278,8 +277,7 @@ namespace SpecterSDK.ObjectModels
             Price = data.price;
             Discount = data.discount ?? 0;
             BonusCashAllowance = data.bonusCashAllowance ?? 0;
-            GamePlatformMasterId = data.gamePlatformMasterId;
-            VirtualCurrency = data.virtualCurrency != null ? new SpecterCurrencyBase(data.virtualCurrency) : null;
+            CurrencyDetails = data.currencyDetails != null ? new SpecterCurrencyBase(data.currencyDetails) : null;
             RealCurrency = data.realWorldCurrency != null ? new SpecterRealCurrency(data.realWorldCurrency) : null;
         }
     }

@@ -189,7 +189,7 @@ namespace SpecterSDK.APIModels.ClientModels
     #region Price Response Data Models
 
     [Serializable]
-    public class SPPriceData
+    public class SPPriceBaseData
     {
         public string uuid { get; set; }
         public string id { get; set; }
@@ -197,10 +197,13 @@ namespace SpecterSDK.APIModels.ClientModels
         public double price { get; set; }
         public float? discount { get; set; }
         public float? bonusCashAllowance { get; set; }
-        public int? gamePlatformMasterId { get; set; }
-
+    }
+    
+    [Serializable]
+    public class SPPriceData : SPPriceBaseData
+    {
         // This is any currency configured on the Specter dashboard
-        public SPCurrencyResponseBaseData virtualCurrency { get; set; }
+        public SPCurrencyResponseBaseData currencyDetails { get; set; }
         // This is an actual currency (eg: USD, INR, etc.)
         public SPRealWorldCurrencyResponseData realWorldCurrency { get; set; }
     }
