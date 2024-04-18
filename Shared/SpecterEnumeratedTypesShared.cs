@@ -111,6 +111,15 @@ namespace SpecterSDK.Shared
         
         private SPPriceTypes(int id, string name, string displayName = null) : base(id, name, displayName) { }
     }
+
+    [Serializable]
+    public class SPHostingFeeTypes : SPEnum<SPHostingFeeTypes>
+    {
+        public static readonly SPHostingFeeTypes Flat = new SPHostingFeeTypes(0, nameof(Flat).ToLower(), nameof(Flat));
+        public static readonly SPHostingFeeTypes Percentage = new SPHostingFeeTypes(1, nameof(Percentage).ToLower(), nameof(Percentage));
+
+        private SPHostingFeeTypes(int id, string name, string displayName = null) : base(id, name, displayName) { }
+    }
     
     #endregion
 

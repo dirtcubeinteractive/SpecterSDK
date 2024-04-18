@@ -258,18 +258,17 @@ namespace SpecterSDK.ObjectModels
     #endregion
 
     #region Specter Price
-    
-    [Serializable]
-    public class SpecterPrice : SpecterObject
+
+    public class SpecterPriceBase : SpecterObject
     {
         public SPPriceTypes Type;
         public double Price;
         public float Discount;
         public float BonusCashAllowance;
         public SpecterCurrencyBase CurrencyDetails;
-        public SpecterRealCurrency RealCurrency;
-
-        public SpecterPrice(SPPriceData data)
+        
+        public SpecterPriceBase() {}
+        public SpecterPriceBase(SPPriceBaseData data)
         {
             Uuid = data.uuid;
             Id = data.id;
@@ -278,7 +277,28 @@ namespace SpecterSDK.ObjectModels
             Discount = data.discount ?? 0;
             BonusCashAllowance = data.bonusCashAllowance ?? 0;
             CurrencyDetails = data.currencyDetails != null ? new SpecterCurrencyBase(data.currencyDetails) : null;
+        }
+    }
+    
+    public class SpecterPrice : SpecterPriceBase
+    {
+        public SpecterRealCurrency RealCurrency;
+
+        public SpecterPrice(SPPriceData data) : base(data)
+        {
             RealCurrency = data.realWorldCurrency != null ? new SpecterRealCurrency(data.realWorldCurrency) : null;
+        }
+    }
+    
+    public class SpecterEntryFee : SpecterPriceBase
+    {
+        public double HostingFee;
+        public SPHostingFeeTypes HostingFeeType;
+
+        public SpecterEntryFee(SPEntryFeeData data) : base(data)
+        {
+            HostingFee = data.hostingFee;
+            HostingFeeType = data.hostingFeeType;
         }
     }
     

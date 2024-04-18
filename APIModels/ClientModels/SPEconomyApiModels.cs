@@ -197,15 +197,22 @@ namespace SpecterSDK.APIModels.ClientModels
         public double price { get; set; }
         public float? discount { get; set; }
         public float? bonusCashAllowance { get; set; }
+        // This is any currency configured on the Specter dashboard
+        public SPCurrencyResponseBaseData currencyDetails { get; set; }
     }
     
     [Serializable]
     public class SPPriceData : SPPriceBaseData
     {
-        // This is any currency configured on the Specter dashboard
-        public SPCurrencyResponseBaseData currencyDetails { get; set; }
         // This is an actual currency (eg: USD, INR, etc.)
         public SPRealWorldCurrencyResponseData realWorldCurrency { get; set; }
+    }
+
+    [Serializable]
+    public class SPEntryFeeData : SPPriceBaseData
+    {
+        public double hostingFee { get; set; }
+        public SPHostingFeeTypes hostingFeeType { get; set; }
     }
 
     #endregion
