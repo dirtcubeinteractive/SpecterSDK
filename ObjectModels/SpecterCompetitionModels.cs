@@ -43,14 +43,34 @@ namespace SpecterSDK.ObjectModels
 
     public class SpecterCompetition : SpecterCompetitionBase, ISpecterMasterObject
     {
-        public List<SPUnlockConditionResponseData> UnlockCondition;
+        public List<SpecterUnlockCondition> UnlockConditions;
+        public List<SpecterEntryFee> EntryFees;
+
+        public bool HasEntryFee => EntryFees.Count > 0;
 
         public List<string> Tags { get; set; }
         public Dictionary<string, object> Meta { get; set; }
 
         public SpecterCompetition(SPCompetitionResponseData data) : base(data)
         {
-            UnlockCondition = data.unlockConditions;
+            UnlockConditions = new List<SpecterUnlockCondition>();
+            if (data.unlockConditions != null)
+            {
+                foreach (var condition in data.unlockConditions)
+                {
+                    UnlockConditions.Add(new SpecterUnlockCondition(condition));
+                }
+            }
+
+            EntryFees = new List<SpecterEntryFee>();
+            if (data.entryFees != null)
+            {
+                foreach (var fee in data.entryFees)
+                {
+                    EntryFees.Add(new SpecterEntryFee(fee));
+                }
+            }
+            
             Tags = data.tags ?? new List<string>();
             Meta = data.meta ?? new Dictionary<string, object>();
         }

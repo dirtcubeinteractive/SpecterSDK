@@ -47,6 +47,7 @@ namespace SpecterSDK.APIModels.ClientModels
     public class SPCompetitionResponseData : SPCompetitionResponseBaseData, ISpecterMasterData
     {
         public List<SPUnlockConditionResponseData> unlockConditions { get; set; }
+        public List<SPEntryFeeData> entryFees { get; set; }
         
         public List<string> tags { get; set; }
         public Dictionary<string, object> meta { get; set; }
