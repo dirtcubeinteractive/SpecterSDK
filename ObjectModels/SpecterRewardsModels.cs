@@ -194,6 +194,7 @@ namespace SpecterSDK.ObjectModels
             Currencies = new List<SpecterRewardHistoryEntry>();
             ProgressionMarkers = new List<SpecterRewardHistoryEntry>();
             PendingRewards = new List<SpecterRewardHistoryEntry>();
+            CompletedRewards = new List<SpecterRewardHistoryEntry>();
         }
 
         public void AddReward(SpecterRewardHistoryEntry entry)
