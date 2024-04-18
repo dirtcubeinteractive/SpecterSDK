@@ -170,6 +170,7 @@ namespace SpecterSDK.ObjectModels
         public List<SpecterRewardHistoryEntry> ProgressionMarkers;
 
         public List<SpecterRewardHistoryEntry> PendingRewards;
+        public List<SpecterRewardHistoryEntry> CompletedRewards;
 
         public SpecterRewardSet() { 
             Items = new List<SpecterRewardHistoryEntry>();
@@ -177,6 +178,7 @@ namespace SpecterSDK.ObjectModels
             Currencies = new List<SpecterRewardHistoryEntry>();
             ProgressionMarkers = new List<SpecterRewardHistoryEntry>();
             PendingRewards = new List<SpecterRewardHistoryEntry>();
+            CompletedRewards = new List<SpecterRewardHistoryEntry>();
         }
 
         public SpecterRewardSet(SpecterRewardHistoryEntry entry)
@@ -192,6 +194,7 @@ namespace SpecterSDK.ObjectModels
             Currencies = new List<SpecterRewardHistoryEntry>();
             ProgressionMarkers = new List<SpecterRewardHistoryEntry>();
             PendingRewards = new List<SpecterRewardHistoryEntry>();
+            CompletedRewards = new List<SpecterRewardHistoryEntry>();
         }
 
         public void AddReward(SpecterRewardHistoryEntry entry)
@@ -212,8 +215,16 @@ namespace SpecterSDK.ObjectModels
                     break;
             }
             
-            if (Status == SPRewardClaimStatus.Completed && entry.Status != SPRewardClaimStatus.Completed)
+            if (entry.Status == SPRewardClaimStatus.Pending)
+            {
                 PendingRewards.Add(entry);
+                Status = SPRewardClaimStatus.Pending; 
+            }
+
+            if (entry.Status == SPRewardClaimStatus.Completed)
+            {
+                CompletedRewards.Add(entry);
+            }
         }
     }
 
