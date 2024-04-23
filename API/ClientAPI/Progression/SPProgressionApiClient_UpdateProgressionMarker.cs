@@ -1,7 +1,9 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SpecterSDK.APIModels;
 using SpecterSDK.APIModels.ClientModels;
+using SpecterSDK.APIModels.Interfaces;
 using SpecterSDK.ObjectModels;
 using SpecterSDK.Shared;
 
@@ -11,7 +13,7 @@ namespace SpecterSDK.API.ClientAPI.Progression
     /// Represents a request to update the progression marker amount for a user in the Specter SDK.
     /// </summary>
     [System.Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPUpdateProgressionMarkerRequest : SPApiRequestBase
+    public class SPUpdateProgressionMarkerRequest : SPApiRequestBase, ISpecterEventConfigurable
     {   
         /// <summary>
         /// The operation for the update. See <see cref="SPOperations"/> for possible values.
@@ -27,6 +29,16 @@ namespace SpecterSDK.API.ClientAPI.Progression
         /// The dashboard specified ID of the progression marker.
         /// </summary>
         public string progressionMarkerId { get; set; }
+        
+        /// <summary>
+        /// Dictionary of optional Specter params to be sent with the API call
+        /// </summary>
+        public Dictionary<string, object> specterParams { get; set; }
+            
+        /// <summary>
+        /// Dictionary of optional custom params to be sent with the API call
+        /// </summary>
+        public Dictionary<string, object> customParams { get; set; }
     }
 
     /// <summary>

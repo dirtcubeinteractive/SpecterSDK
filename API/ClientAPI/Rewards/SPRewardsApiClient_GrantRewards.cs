@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SpecterSDK.APIModels;
 using SpecterSDK.APIModels.ClientModels;
+using SpecterSDK.APIModels.Interfaces;
 using SpecterSDK.ObjectModels;
 using SpecterSDK.Shared;
 
@@ -29,7 +30,7 @@ namespace SpecterSDK.API.ClientAPI.Rewards
     /// <seealso cref="SPRewardSourceType"/>
     /// </summary>
     [Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPRewardGrantInfo
+    public class SPRewardGrantInfo : ISpecterEventConfigurable
     {
         /// <summary>
         /// An instance of <see cref="SPRewardSourceInfo"/> to represent the source of the reward.
@@ -73,6 +74,16 @@ namespace SpecterSDK.API.ClientAPI.Rewards
         /// <seealso cref="SPRewardSourceInfo"/>
         /// </summary>
         public Dictionary<string, object> meta;
+        
+        /// <summary>
+        /// Dictionary of optional Specter params to be sent with the API call
+        /// </summary>
+        public Dictionary<string, object> specterParams { get; set; }
+            
+        /// <summary>
+        /// Dictionary of optional custom params to be sent with the API call
+        /// </summary>
+        public Dictionary<string, object> customParams { get; set; }
     }
     
     /// <summary>
@@ -113,7 +124,7 @@ namespace SpecterSDK.API.ClientAPI.Rewards
     /// <see cref="SPRewardsToGrant"/>
     /// </summary>
     [Serializable]
-    public abstract class SPRewardedResourceInfoBase
+    public abstract class SPRewardedResourceInfoBase : ISpecterEventConfigurable
     {
         /// <summary>
         /// The dashboard specified ID of the resource.
@@ -134,6 +145,16 @@ namespace SpecterSDK.API.ClientAPI.Rewards
         /// Flag to tell the server to bypass any limited edition configurations for this reward. Only applicable for item and bundle rewards.
         /// </summary>
         public bool? bypassLimitedEdition { get; set; }
+        
+        /// <summary>
+        /// Dictionary of optional Specter params to be sent with the API call
+        /// </summary>
+        public Dictionary<string, object> specterParams { get; set; }
+            
+        /// <summary>
+        /// Dictionary of optional custom params to be sent with the API call
+        /// </summary>
+        public Dictionary<string, object> customParams { get; set; }
     }
 
     /// <summary>

@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using SpecterSDK.APIModels.Interfaces;
 using SpecterSDK.Shared;
 
 namespace SpecterSDK.API.ClientAPI.Stores
@@ -35,7 +37,7 @@ namespace SpecterSDK.API.ClientAPI.Stores
     /// Represents the data needed to carry out a store purchase.
     /// </summary>
     [Serializable]
-    public class SPStorePurchaseData
+    public class SPStorePurchaseData : ISpecterEventConfigurable
     {
         /// <summary>
         /// ID of the resource being purchased (i.e. item ID, bundle ID, etc.)
@@ -64,5 +66,15 @@ namespace SpecterSDK.API.ClientAPI.Stores
         /// more info about collection IDs.
         /// </summary>
         public string collectionId { get; set; }
+        
+        /// <summary>
+        /// Dictionary of optional Specter params to be sent with the API call
+        /// </summary>
+        public Dictionary<string, object> specterParams { get; set; }
+            
+        /// <summary>
+        /// Dictionary of optional custom params to be sent with the API call
+        /// </summary>
+        public Dictionary<string, object> customParams { get; set; }
     }
 }

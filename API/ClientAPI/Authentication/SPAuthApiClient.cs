@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using SpecterSDK.APIModels;
 using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.APIModels.Interfaces;
@@ -12,13 +13,8 @@ namespace SpecterSDK.API.ClientAPI.Authentication
     /// Represents the base structure for all authentication login requests in the SDK.
     /// </summary>
     [Serializable]
-    public abstract class SPAuthLoginRequestBase : SPApiRequestBase, IProjectConfigurable
+    public abstract class SPAuthLoginRequestBase : SPApiRequestBase, ISpecterEventConfigurable
     {
-        /// <summary>
-        /// Your App Id which you can find on the Specter dashboard in your app's Overview section.
-        /// </summary>
-        public string projectId { get; set; }
-
         /// <summary>
         /// Sets whether to create a new account for the user during login.
         /// </summary>
@@ -31,6 +27,16 @@ namespace SpecterSDK.API.ClientAPI.Authentication
         /// subsequently be logged in.
         /// </example>
         public bool createAccount { get; set; }
+        
+        /// <summary>
+        /// Dictionary of optional Specter params to be sent with the API call
+        /// </summary>
+        public Dictionary<string, object> specterParams { get; set; }
+            
+        /// <summary>
+        /// Dictionary of optional custom params to be sent with the API call
+        /// </summary>
+        public Dictionary<string, object> customParams { get; set; }
     }
 
     /// <summary>

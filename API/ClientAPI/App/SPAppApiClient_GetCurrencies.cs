@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SpecterSDK.APIModels;
 using SpecterSDK.APIModels.ClientModels;
+using SpecterSDK.APIModels.Interfaces;
 using SpecterSDK.ObjectModels;
 using UnityEngine.Serialization;
 
@@ -25,7 +26,7 @@ namespace SpecterSDK.API.ClientAPI.App
     /// </remarks>
     [Serializable]
     [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPGetCurrenciesRequest : SPPaginatedApiRequest
+    public class SPGetCurrenciesRequest : SPPaginatedApiRequest, ITagFilterable
     {
         /// <summary>
         /// Represents a list of currency IDs used as filter criteria for retrieving currencies from the Specter App API.
@@ -39,6 +40,14 @@ namespace SpecterSDK.API.ClientAPI.App
         /// </para>
         /// </remarks>
         public List<string> currencyIds { get; set; }
+        
+        /// <summary>
+        /// Represent a list of tags which you configured on the dashboard
+        /// <remarks>
+        /// This property is used to filter out resources which contain the specified tags and return only those in the API call.
+        /// </remarks>>
+        /// </summary>
+        public List<string> includeTags { get; set; }
         
         /// <summary>
         /// Type of currency to fetch. See <see cref="SPCurrencyType"/> for available types

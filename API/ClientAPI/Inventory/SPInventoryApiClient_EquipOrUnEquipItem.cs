@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SpecterSDK.APIModels;
+using SpecterSDK.APIModels.Interfaces;
 
 namespace SpecterSDK.API.ClientAPI.Inventory
 {
@@ -11,7 +12,7 @@ namespace SpecterSDK.API.ClientAPI.Inventory
     /// This includes the identification of the item and the action (equip/unequip) to be performed.
     /// </summary>
     [Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPEquipUnequipItemInfo
+    public class SPEquipUnequipItemInfo : ISpecterEventConfigurable
     {
         /// <summary>
         /// ID of the item as configured on the dashboard.
@@ -39,6 +40,16 @@ namespace SpecterSDK.API.ClientAPI.Inventory
         /// Collection ID of the item. See <see cref="SPInventoryApiClient.SPInventoryEntityInfo"/> for more details about the collection ID.
         /// </summary>
         public string collectionId;
+        
+        /// <summary>
+        /// Dictionary of optional Specter params to be sent with the API call
+        /// </summary>
+        public Dictionary<string, object> specterParams { get; set; }
+            
+        /// <summary>
+        /// Dictionary of optional custom params to be sent with the API call
+        /// </summary>
+        public Dictionary<string, object> customParams { get; set; }
     }
 
     /// <summary>

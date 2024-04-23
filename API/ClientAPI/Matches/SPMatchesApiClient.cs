@@ -11,7 +11,7 @@ namespace SpecterSDK.API.ClientAPI.Matches
     /// Represents the base required user information within a match session.
     /// </summary>
     [Serializable]
-    public class SPMatchUserInfo
+    public class SPMatchUserInfo : ISpecterEventConfigurable
     {
         /// <summary>
         /// ID of the user participating in the match
@@ -23,6 +23,16 @@ namespace SpecterSDK.API.ClientAPI.Matches
         /// ID of the entry within a competition if participating in a competition <see cref="SpecterSDK.API.ClientAPI.Competitions.SPCompetitionsApiClient"/>.
         /// </summary>
         public string entryId;
+        
+        /// <summary>
+        /// Dictionary of optional Specter params to be sent with the API call
+        /// </summary>
+        public Dictionary<string, object> specterParams { get; set; }
+            
+        /// <summary>
+        /// Dictionary of optional custom params to be sent with the API call
+        /// </summary>
+        public Dictionary<string, object> customParams { get; set; }
     }
 
     /// <summary>
@@ -51,16 +61,6 @@ namespace SpecterSDK.API.ClientAPI.Matches
         /// </example>
         /// </summary>
         public int outcome;
-        
-        /// <summary>
-        /// Any custom parameters you wish to send.
-        /// </summary>
-        public Dictionary<string, object> customParams { get; set; }
-        
-        /// <summary>
-        /// Any Specter parameters you wish to send.
-        /// </summary>
-        public Dictionary<string, object> specterParams { get; set; }
     }
     
     /// <summary>

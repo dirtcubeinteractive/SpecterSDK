@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using SpecterSDK.APIModels;
 using SpecterSDK.APIModels.ClientModels;
+using SpecterSDK.APIModels.Interfaces;
 using SpecterSDK.ObjectModels;
 using SpecterSDK.Shared;
 
@@ -11,7 +13,7 @@ namespace SpecterSDK.API.ClientAPI.Wallet
     /// Represents a request to update a currency amount for a user in the Specter SDK.
     /// </summary>
     [Serializable]
-    public class SPUpdateWalletBalanceRequest : SPApiRequestBase 
+    public class SPUpdateWalletBalanceRequest : SPApiRequestBase, ISpecterEventConfigurable 
     {
         /// <summary>
         /// The amount to update the currency by.
@@ -27,6 +29,16 @@ namespace SpecterSDK.API.ClientAPI.Wallet
         /// The operation for the update. See <see cref="SPOperations"/> for possible values.
         /// </summary>
         public SPOperations operation { get; set; }
+        
+        /// <summary>
+        /// Dictionary of optional Specter params to be sent with the API call
+        /// </summary>
+        public Dictionary<string, object> specterParams { get; set; }
+            
+        /// <summary>
+        /// Dictionary of optional custom params to be sent with the API call
+        /// </summary>
+        public Dictionary<string, object> customParams { get; set; }
     }
 
     /// <summary>

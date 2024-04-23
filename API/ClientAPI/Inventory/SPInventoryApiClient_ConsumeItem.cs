@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SpecterSDK.APIModels;
 using SpecterSDK.APIModels.ClientModels;
+using SpecterSDK.APIModels.Interfaces;
 
 namespace SpecterSDK.API.ClientAPI.Inventory
 {
@@ -12,7 +13,7 @@ namespace SpecterSDK.API.ClientAPI.Inventory
     /// Includes the amount to be consumed and identifiers to locate the item within the inventory.
     /// </summary>
     [Serializable]
-    public class SPConsumeItemInfo
+    public class SPConsumeItemInfo : ISpecterEventConfigurable
     {
         /// <summary>
         /// The ID for the item configured on the dashboard.
@@ -38,6 +39,16 @@ namespace SpecterSDK.API.ClientAPI.Inventory
         /// If your game allows players to buy several kinds of vehicles, you may have collection IDs like <b>bikes_collection</b>, <b>cars_collection</b>, <b>trucks_collection</b>, etc.
         /// </example>
         public string collectionId;
+        
+        /// <summary>
+        /// Dictionary of optional Specter params to be sent with the API call
+        /// </summary>
+        public Dictionary<string, object> specterParams { get; set; }
+            
+        /// <summary>
+        /// Dictionary of optional custom params to be sent with the API call
+        /// </summary>
+        public Dictionary<string, object> customParams { get; set; }
     }
 
     /// <summary>

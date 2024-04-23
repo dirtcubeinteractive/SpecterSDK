@@ -38,4 +38,9 @@ namespace SpecterSDK.APIModels.Interfaces
         public Dictionary<string, object> specterParams { get; set; }
 
     }
+
+    public interface ITagFilterable
+    {
+        public List<string> includeTags { get; set; }
+    }
 }

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SpecterSDK.APIModels;
 using SpecterSDK.APIModels.ClientModels;
+using SpecterSDK.APIModels.Interfaces;
 using SpecterSDK.ObjectModels;
 
 namespace SpecterSDK.API.ClientAPI.App
@@ -24,7 +25,7 @@ namespace SpecterSDK.API.ClientAPI.App
     /// </para>
     /// </remarks>
     [Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPGetTasksRequest : SPPaginatedApiRequest
+    public class SPGetTasksRequest : SPPaginatedApiRequest, ITagFilterable
     {
         /// <summary>
         /// Represents a list of task IDs used as filter criteria for retrieving tasks from the Specter App API.
@@ -38,6 +39,14 @@ namespace SpecterSDK.API.ClientAPI.App
         /// </para>
         /// </remarks>
         public List<string> taskIds { get; set; }
+        
+        /// <summary>
+        /// Represent a list of tags which you configured on the dashboard
+        /// <remarks>
+        /// This property is used to filter out resources which contain the specified tags and return only those in the API call.
+        /// </remarks>>
+        /// </summary>
+        public List<string> includeTags { get; set; }
         
         /// <summary>
         /// Additional attributes of the retrieved tasks that you wish to receive (eg: createdAt, updatedAt etc.)
