@@ -24,7 +24,7 @@ namespace SpecterSDK.API.ClientAPI.App
     /// </para>
     /// </remarks>
     [Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPGetItemsRequest : SPPaginatedApiRequest, IAttributeConfigurable
+    public class SPGetItemsRequest : SPPaginatedApiRequest, IAttributeConfigurable, ITagFilterable
     {
         /// <summary>
         /// Represents a list of item IDs used as filter criteria for retrieving items from the Specter App API.
@@ -40,7 +40,15 @@ namespace SpecterSDK.API.ClientAPI.App
         public List<string> itemIds { get; set; }
         
         /// <summary>
-        /// Additional attributes of the retrieved items that you wish to receive (eg: createdAt, updatedAt etc.)
+        /// Represent a list of tags which you configured on the dashboard
+        /// <remarks>
+        /// This property is used to filter out resources which contain the specified tags and return only those in the API call.
+        /// </remarks>>
+        /// </summary>
+        public List<string> includeTags { get; set; }
+        
+        /// <summary>
+        /// Specific attributes of the retrieved items that you wish to receive (eg: createdAt, updatedAt etc.)
         /// </summary>
         public List<string> attributes { get; set; }
         

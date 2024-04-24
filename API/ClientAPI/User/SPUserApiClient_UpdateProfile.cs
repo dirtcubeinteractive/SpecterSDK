@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SpecterSDK.APIModels;
+using SpecterSDK.APIModels.Interfaces;
 
 namespace SpecterSDK.API.ClientAPI.User
 {
@@ -11,7 +12,7 @@ namespace SpecterSDK.API.ClientAPI.User
     /// </summary>
     [Serializable]
     [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPUpdateUserProfileRequest : SPApiRequestBase
+    public class SPUpdateUserProfileRequest : SPApiRequestBase, ISpecterEventConfigurable
     {
         public string firstName { get; set; }
         public string lastName { get; set; }
@@ -20,6 +21,8 @@ namespace SpecterSDK.API.ClientAPI.User
         /// A unique username for the user.
         /// </summary>
         public string username { get; set; }
+        
+        public string birthdate { get; set; }
         
         /// <summary>
         /// The display name for the user. Non-unique.
@@ -37,14 +40,14 @@ namespace SpecterSDK.API.ClientAPI.User
         public bool? isKycComplete { get; set; }
         
         /// <summary>
-        /// Any custom metadata unrestricted by permissions that you wish to set.
+        /// Dictionary of optional Specter params to be sent with the API call
         /// </summary>
-        public Dictionary<string, object> meta { get; set; }
-        
+        public Dictionary<string, object> specterParams { get; set; }
+            
         /// <summary>
-        /// Custom tags to group a user if needed.
+        /// Dictionary of optional custom params to be sent with the API call
         /// </summary>
-        public List<string> tags { get; set; }
+        public Dictionary<string, object> customParams { get; set; }
     }
 
     /// <summary>

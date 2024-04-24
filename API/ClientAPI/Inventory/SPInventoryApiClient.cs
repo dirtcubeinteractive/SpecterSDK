@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
+using SpecterSDK.APIModels.Interfaces;
 using SpecterSDK.Shared;
 
 namespace SpecterSDK.API.ClientAPI.Inventory
@@ -24,7 +26,7 @@ namespace SpecterSDK.API.ClientAPI.Inventory
         /// This class is an object used to represent information about a bundle or item instance in Inventory API requests.
         /// </summary>
         [Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-        public class SPInventoryEntityInfo
+        public class SPInventoryEntityInfo : ISpecterEventConfigurable
         {
             /// <summary>
             /// The ID of the item or bundle as configured by you on the dashboard
@@ -51,6 +53,16 @@ namespace SpecterSDK.API.ClientAPI.Inventory
             /// If your game allows players to buy several kinds of vehicles, you may have collection IDs like <b>bikes_collection</b>, <b>cars_collection</b>, <b>trucks_collection</b>, etc.
             /// </example>
             public string collectionId;
+            
+            /// <summary>
+            /// Dictionary of optional Specter params to be sent with the API call
+            /// </summary>
+            public Dictionary<string, object> specterParams { get; set; }
+            
+            /// <summary>
+            /// Dictionary of optional custom params to be sent with the API call
+            /// </summary>
+            public Dictionary<string, object> customParams { get; set; }
         }
         
         /// <summary>

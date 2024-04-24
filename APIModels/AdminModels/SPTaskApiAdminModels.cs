@@ -40,9 +40,8 @@ namespace SpecterSDK.APIModels.AdminModels
     }
     
     [Serializable]
-    public class SPCreateTaskAdminRequest : SPApiRequestBase, IProjectConfigurable
+    public class SPCreateTaskAdminRequest : SPApiRequestBase
     {
-        public string projectId { get; set; }
         [JsonRequired]
         public string name;
         [JsonRequired]
