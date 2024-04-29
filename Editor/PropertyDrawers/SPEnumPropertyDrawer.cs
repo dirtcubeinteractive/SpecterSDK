@@ -13,14 +13,24 @@ namespace SpecterSDK.Editor
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
+            var nameProp = property.FindPropertyRelative(SPEnum<TEnum>.NAME_PROP_NAME);
+            var idProp = property.FindPropertyRelative(SPEnum<TEnum>.ID_PROP_NAME);
+            var displayNameProp = property.FindPropertyRelative(SPEnum<TEnum>.DISPLAYNAME_PROP_NAME);
+            
+            EditorGUI.BeginProperty(position, label, property);
             var values = SPEnum<TEnum>.GetValues<TEnum>().ToList();
+            var index = values.IndexOf(values.FirstOrDefault(v => v.Id == idProp.intValue));
             EditorGUI.BeginChangeCheck();
+            index = EditorGUI.Popup(position, label, index, GetValueNames(values));
+            if (EditorGUI.EndChangeCheck())
             {
-                var index = values.ToList().IndexOf(property.GetUnderlyingValue() as TEnum);
-                index = EditorGUI.Popup(position, label, index, GetValueNames(values));
-                property.SetUnderlyingValue(values[index]);
+                var value = values[index];
+                idProp.intValue = value.Id;
+                nameProp.stringValue = value.Name;
+                displayNameProp.stringValue = value.DisplayName;
             }
-            EditorGUI.EndChangeCheck();
+            
+            EditorGUI.EndProperty();
         }
 
         private static GUIContent[] GetValueNames(IReadOnlyList<TEnum> values)

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace SpecterSDK.Shared.SPEnum
@@ -14,21 +15,30 @@ namespace SpecterSDK.Shared.SPEnum
     public abstract class SPEnum<TEnum> : IComparable
     where TEnum : SPEnum<TEnum>
     {
-        public string Name { get; }
-        public int Id { get; }
+        [SerializeField] private string m_Name;
+        public string Name => m_Name;
+
+        [SerializeField] private int m_Id;
+        public int Id => m_Id;
 
         /// <summary>
         /// Retrieves the display name for the current enum value.
         /// </summary>
         /// <returns>The display name associated with the enum value.</returns>
-        private string m_DisplayName;
+        [SerializeField] private string m_DisplayName;
         public string DisplayName
         {
             get => m_DisplayName ?? Name;
             set => m_DisplayName = value;
         }
+        
+#if UNITY_EDITOR
+        public const string NAME_PROP_NAME = nameof(m_Name);
+        public const string ID_PROP_NAME = nameof(m_Id);
+        public const string DISPLAYNAME_PROP_NAME = nameof(m_DisplayName);
+#endif
 
-        protected SPEnum(int id, string name, string displayName = null) => (Id, Name, m_DisplayName) = (id, name, displayName);
+        protected SPEnum(int id, string name, string displayName = null) => (m_Id, m_Name, m_DisplayName) = (id, name, displayName);
 
         public override string ToString() => Name;
         
