@@ -13,7 +13,7 @@ namespace SpecterSDK.API.ClientAPI.Inventory
     /// inventory management system. For more details, refer to the Inventory section in the <a href="https://doc.specterap.xyz">Specter API Docs</a>.
     /// </summary>
     [Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPAddInInventoryRequest : SPApiEventConfigurableRequestBase
+    public class SPAddInInventoryRequest : SPApiRequestBase
     {
         /// <summary>
         /// A list of <see cref="SPInventoryApiClient.SPInventoryEntityInfo"/> objects that contain information about bundles to add to a player's inventory.
