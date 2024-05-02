@@ -38,6 +38,11 @@ namespace SpecterSDK.API.ClientAPI.Tasks
         /// <example>"completed"</example>
         /// </summary>
         public SPTaskStatus status { get; set; }
+        
+        /// <summary>
+        /// Flag to include even tasks that belong to task groups
+        /// </summary>
+        public bool includeTaskGroupTasks { get; set; }
     }
 
     /// <summary>

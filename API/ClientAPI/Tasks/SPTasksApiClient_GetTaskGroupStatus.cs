@@ -36,6 +36,11 @@ namespace SpecterSDK.API.ClientAPI.Tasks
         /// A list of dashboard specific task group IDs to limit retrieval of task group statuses to specific task groups.
         /// </summary>
         public List<string> taskGroupIds { get; set; }
+        
+        /// <summary>
+        /// Flag to fetch even inactive tasks within the current time period cycle
+        /// </summary>
+        public bool includeInactiveTasks { get; set; }
     }
 
     /// <summary>
