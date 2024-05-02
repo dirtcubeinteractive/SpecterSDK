@@ -49,6 +49,11 @@ namespace SpecterSDK.API.ClientAPI.App
         public List<string> includeTags { get; set; }
         
         /// <summary>
+        /// A flag to fetch even tasks that are part of task groups in this api call
+        /// </summary>
+        public bool includeTaskGroupTasks { get; set; }
+        
+        /// <summary>
         /// Additional attributes of the retrieved tasks that you wish to receive (eg: createdAt, updatedAt etc.)
         /// </summary>
         public List<string> attributes { get; set; }

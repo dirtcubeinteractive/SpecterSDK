@@ -55,4 +55,7 @@ namespace SpecterSDK.Editor
     
     [CustomPropertyDrawer(typeof(SPTaskStatus))]
     public class SPTaskStatusPropertyDrawer : SPEnumPropertyDrawer<SPTaskStatus> { }
+    
+    [CustomPropertyDrawer(typeof(SPOperations))]
+    public class SPOperationsPropertyDrawer : SPEnumPropertyDrawer<SPOperations> { }
 }

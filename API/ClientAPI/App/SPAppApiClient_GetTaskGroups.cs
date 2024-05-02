@@ -58,6 +58,12 @@ namespace SpecterSDK.API.ClientAPI.App
         /// </remarks>>
         /// </summary>
         public List<string> includeTags { get; set; }
+        
+        /// <summary>
+        /// A flag to include tasks that are inactive for the current time period cycle (e.g. in Daily Missions, fetch even tasks that
+        /// are not included for the current day)
+        /// </summary>
+        public bool includeInactiveTasks { get; set; }
     }
 
     /// <summary>
