@@ -43,6 +43,11 @@ namespace SpecterSDK.API.ClientAPI.Tasks
         /// Flag to include even tasks that belong to task groups
         /// </summary>
         public bool includeTaskGroupTasks { get; set; }
+        
+        /// <summary>
+        /// A filter to fetch task statuses based on the status of their respective task's schedule. See <see cref="SPScheduleStates"/> for possible values.
+        /// </summary>
+        public List<SPScheduleStates> scheduleStatuses { get; set; }
     }
 
     /// <summary>
