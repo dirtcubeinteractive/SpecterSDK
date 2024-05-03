@@ -64,6 +64,11 @@ namespace SpecterSDK.API.ClientAPI.App
         /// are not included for the current day)
         /// </summary>
         public bool includeInactiveTasks { get; set; }
+        
+        /// <summary>
+        /// A filter to fetch task groups based on the status of their schedule. See <see cref="SPScheduleStates"/> for possible values.
+        /// </summary>
+        public List<SPScheduleStates> scheduleStatuses { get; set; }
     }
 
     /// <summary>

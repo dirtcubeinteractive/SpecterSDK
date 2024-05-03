@@ -6,6 +6,7 @@ using SpecterSDK.APIModels;
 using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.APIModels.Interfaces;
 using SpecterSDK.ObjectModels;
+using SpecterSDK.Shared;
 
 namespace SpecterSDK.API.ClientAPI.App
 {
@@ -52,6 +53,11 @@ namespace SpecterSDK.API.ClientAPI.App
         /// A flag to fetch even tasks that are part of task groups in this api call
         /// </summary>
         public bool includeTaskGroupTasks { get; set; }
+        
+        /// <summary>
+        /// A filter to fetch tasks based on the status of their schedule. See <see cref="SPScheduleStates"/> for possible values.
+        /// </summary>
+        public List<SPScheduleStates> scheduleStatuses { get; set; }
         
         /// <summary>
         /// Additional attributes of the retrieved tasks that you wish to receive (eg: createdAt, updatedAt etc.)

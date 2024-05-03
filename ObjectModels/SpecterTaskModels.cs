@@ -8,8 +8,14 @@ namespace SpecterSDK.ObjectModels
 {
     public class SpecterTaskResource : SpecterResource
     {
+        public SPScheduleStates ScheduleStatus;
+        
         public SpecterTaskResource() { }
-        public SpecterTaskResource(SPTaskResourceResponseData data) : base(data) { }
+
+        public SpecterTaskResource(SPTaskResourceResponseData data) : base(data)
+        {
+            ScheduleStatus = data.scheduleStatus;
+        }
     }
 
     public class SpecterTaskGroupResource : SpecterTaskResource
