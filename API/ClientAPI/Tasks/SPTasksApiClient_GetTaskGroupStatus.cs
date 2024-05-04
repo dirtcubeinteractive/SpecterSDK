@@ -41,6 +41,11 @@ namespace SpecterSDK.API.ClientAPI.Tasks
         /// Flag to fetch even inactive tasks within the current time period cycle
         /// </summary>
         public bool includeInactiveTasks { get; set; }
+        
+        /// <summary>
+        /// A filter to fetch task group statuses based on the status of their respective task group's schedule. See <see cref="SPScheduleStates"/> for possible values.
+        /// </summary>
+        public List<SPScheduleStates> scheduleStatuses { get; set; }
     }
 
     /// <summary>

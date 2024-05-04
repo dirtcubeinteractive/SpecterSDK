@@ -11,6 +11,17 @@ namespace SpecterSDK.Shared
 
         private SPOperations(int id, string name, string displayName = null) : base(id, name, displayName) { }
     }
+
+    [Serializable]
+    public sealed class SPScheduleStates : SPEnum<SPScheduleStates>
+    {
+        public static readonly SPScheduleStates YetToStart = new SPScheduleStates(0, "yet to start", nameof(YetToStart));
+        public static readonly SPScheduleStates InProgress = new SPScheduleStates(1, "in progress", nameof(InProgress));
+        public static readonly SPScheduleStates Stopped = new SPScheduleStates(2, "stopped", nameof(Stopped));
+        public static readonly SPScheduleStates Expired = new SPScheduleStates(3, "expired", nameof(Expired));
+        
+        private SPScheduleStates(int id, string name, string displayName = null) : base(id, name, displayName) { }
+    }
     
     #region Rewards
     
@@ -152,12 +163,12 @@ namespace SpecterSDK.Shared
 
     public sealed class SPCompetitionStatus : SPEnum<SPCompetitionStatus>
     {
-        public static readonly SPCompetitionStatus YetToStart = new SPCompetitionStatus(1, "yet to start", nameof(YetToStart));
+        public static readonly SPCompetitionStatus YetToStart = new SPCompetitionStatus(0, "yet to start", nameof(YetToStart));
         public static readonly SPCompetitionStatus InProgress = new SPCompetitionStatus(1, "in progress", nameof(InProgress));
-        public static readonly SPCompetitionStatus Completed = new SPCompetitionStatus(1, "completed", nameof(Completed));
-        public static readonly SPCompetitionStatus InReview = new SPCompetitionStatus(1, "in review", nameof(InReview));
-        public static readonly SPCompetitionStatus Stopped = new SPCompetitionStatus(1, "stopped", nameof(Stopped));
-        public static readonly SPCompetitionStatus Failed = new SPCompetitionStatus(1, "failed", nameof(Failed));
+        public static readonly SPCompetitionStatus Completed = new SPCompetitionStatus(2, "completed", nameof(Completed));
+        public static readonly SPCompetitionStatus InReview = new SPCompetitionStatus(3, "in review", nameof(InReview));
+        public static readonly SPCompetitionStatus Stopped = new SPCompetitionStatus(4, "stopped", nameof(Stopped));
+        public static readonly SPCompetitionStatus Failed = new SPCompetitionStatus(5, "failed", nameof(Failed));
 
         public SPCompetitionStatus(int id, string name, string displayName = null) : base(id, name, displayName) { }
     }

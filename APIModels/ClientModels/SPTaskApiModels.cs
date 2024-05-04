@@ -10,10 +10,13 @@ namespace SpecterSDK.APIModels.ClientModels
 {
     #region Api Data Models
 
+    [Serializable]
     public class SPTaskResourceResponseData : SPResourceResponseData
     {
+        public SPScheduleStates scheduleStatus { get; set; }
     }
 
+    [Serializable]
     public class SPTaskGroupResourceResponseData : SPTaskResourceResponseData
     {
         public SPTaskGroupType taskGroupType { get; set; }
