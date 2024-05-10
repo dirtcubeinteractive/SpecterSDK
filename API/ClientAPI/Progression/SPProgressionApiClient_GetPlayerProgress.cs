@@ -26,6 +26,12 @@ namespace SpecterSDK.API.ClientAPI.Progression
     public class SPGetUserProgressRequest : SPPaginatedApiRequest
     {
         /// <summary>
+        /// Id of another user whose progress is supposed to be fetched.
+        /// Leave null if fetching for currently logged in user
+        /// </summary>
+        public string userId { get; set; }
+
+        /// <summary>
         /// Represents a list of progression marker IDs used as filter criteria for retrieving progress information from the Specter Progression API.
         /// </summary>
         /// <remarks>
