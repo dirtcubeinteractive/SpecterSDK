@@ -37,7 +37,7 @@ namespace SpecterSDK.ObjectModels
             Format = data.formatType.name;
             MatchData = data.match;
             GameData = data.game;
-            RecurrenceType = data.IntervalUnitUnit;
+            RecurrenceType = data.intervalUnit;
             RecurrenceCount = data.occurrences;
             InstanceStartDate = data.instanceStartDate;
             InstanceEndDate = data.instanceEndDate;

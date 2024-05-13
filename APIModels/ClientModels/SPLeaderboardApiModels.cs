@@ -10,7 +10,7 @@ namespace SpecterSDK.APIModels.ClientModels
     {
         public DateTime instanceStartDate { get; set; }
         public DateTime? instanceEndDate { get; set; }
-        public SPIntervalUnit IntervalUnitUnit { get; set; }
+        public SPIntervalUnit intervalUnit { get; set; }
         public int intervalLength { get; set; }
         public int occurrences { get; set; }
         public SPCompetitionStatus status { get; set; }

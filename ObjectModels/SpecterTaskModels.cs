@@ -48,7 +48,7 @@ namespace SpecterSDK.ObjectModels
         {
             InstanceStartDate = data.instanceStartDate;
             InstanceEndDate = data.instanceEndDate;
-            IntervalUnit = data.IntervalUnitUnit;
+            IntervalUnit = data.intervalUnit;
             IntervalLength = data.intervalLength ?? 1;
             Occurrences = data.occurrences ?? 1;
             
@@ -120,7 +120,7 @@ namespace SpecterSDK.ObjectModels
             
             InstanceStartDate = data.instanceStartDate;
             InstanceEndDate = data.instanceEndDate;
-            IntervalUnit = data.IntervalUnitUnit;
+            IntervalUnit = data.intervalUnit;
             IntervalLength = data.intervalLength;
             Occurrences = data.occurrences ?? 1;
             

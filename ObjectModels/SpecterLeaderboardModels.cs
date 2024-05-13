@@ -35,7 +35,7 @@ namespace SpecterSDK.ObjectModels
             Description = data.description;
             InstanceStartDate = data.instanceStartDate;
             InstanceEndDate = data.instanceEndDate;
-            IntervalUnit = data.IntervalUnitUnit;
+            IntervalUnit = data.intervalUnit;
             IntervalLength = data.intervalLength;
             Occurrences = data.occurrences;
             Status = data.status;
