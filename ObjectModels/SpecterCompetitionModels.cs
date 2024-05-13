@@ -41,6 +41,9 @@ namespace SpecterSDK.ObjectModels
             RecurrenceCount = data.occurrences;
             InstanceStartDate = data.instanceStartDate;
             InstanceEndDate = data.instanceEndDate;
+            IntervalUnit = data.intervalUnit;
+            IntervalLength = data.intervalLength;
+            Occurrences = data.occurrences;
         }
     }
 
