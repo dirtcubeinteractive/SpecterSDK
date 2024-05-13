@@ -28,10 +28,10 @@ namespace SpecterSDK.APIModels.ClientModels
     {
         public SPRewardGrantType rewardGrant { get; set; }
         public SPRewardResourceDetailsResponseData rewardDetails { get; set; }
-        public DateTime? instanceStartDate { get; set; }
+        public DateTime instanceStartDate { get; set; }
         public DateTime? instanceEndDate { get; set; }
         public SPIntervalUnit intervalUnit { get; set; }
-        public int? intervalLength { get; set; }
+        public int intervalLength { get; set; }
         public int? occurrences { get; set; }
         public List<string> tags { get; set; }
         public Dictionary<string, object> meta { get; set; }

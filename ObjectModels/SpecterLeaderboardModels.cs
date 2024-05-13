@@ -12,7 +12,8 @@ namespace SpecterSDK.ObjectModels
         public DateTime? InstanceEndDate;
         public SPIntervalUnit IntervalUnit;
         public int IntervalLength;
-        public int Occurrences;
+        public int? Occurrences;
+        
         public SPCompetitionStatus Status;
         public bool IsRecurring;
         public List<SpecterPrizeDistributionRule> PrizeDistributionRules;
@@ -33,11 +34,13 @@ namespace SpecterSDK.ObjectModels
             Id = data.id;
             Name = data.name;
             Description = data.description;
+            
             InstanceStartDate = data.instanceStartDate;
             InstanceEndDate = data.instanceEndDate;
             IntervalUnit = data.intervalUnit;
             IntervalLength = data.intervalLength;
             Occurrences = data.occurrences;
+            
             Status = data.status;
             IsRecurring = data.isRecurring;
             LeaderboardOutcomeType = data.outcomeType.name;

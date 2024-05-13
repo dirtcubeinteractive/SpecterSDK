@@ -38,7 +38,7 @@ namespace SpecterSDK.APIModels.ClientModels
         public SPCompetitionGameData game { get; set; }
         public DateTime instanceStartDate { get; set; }
         public DateTime? instanceEndDate { get; set; }
-        public int occurrences { get; set; }
+        public int? occurrences { get; set; }
         public SPIntervalUnit intervalUnit { get; set; }
         public int intervalLength { get; set; }
         public SPCompetitionStatus status { get; set; }

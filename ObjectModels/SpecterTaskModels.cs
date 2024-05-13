@@ -34,11 +34,11 @@ namespace SpecterSDK.ObjectModels
     {
         public SPRewardGrantType RewardGrantType;
         public SpecterRewardDetails Rewards;
-        public DateTime? InstanceStartDate;
+        public DateTime InstanceStartDate;
         public DateTime? InstanceEndDate;
         public SPIntervalUnit IntervalUnit;
         public int IntervalLength;
-        public int Occurrences;
+        public int? Occurrences;
         public List<string> Tags { get; set; }
         public Dictionary<string, object> Meta { get; set; }
         public SpecterTaskGroupResource TaskGroupInfo { get; private set; }
@@ -49,7 +49,7 @@ namespace SpecterSDK.ObjectModels
             InstanceStartDate = data.instanceStartDate;
             InstanceEndDate = data.instanceEndDate;
             IntervalUnit = data.intervalUnit;
-            IntervalLength = data.intervalLength ?? 1;
+            IntervalLength = data.intervalLength;
             Occurrences = data.occurrences ?? 1;
             
             RewardGrantType = data.rewardGrant;
@@ -104,7 +104,7 @@ namespace SpecterSDK.ObjectModels
         public DateTime? InstanceEndDate;
         public SPIntervalUnit IntervalUnit;
         public int IntervalLength;
-        public int Occurrences;
+        public int? Occurrences;
         
         public SPTaskType TaskType;
         public List<SpecterTask> Tasks;
@@ -122,7 +122,7 @@ namespace SpecterSDK.ObjectModels
             InstanceEndDate = data.instanceEndDate;
             IntervalUnit = data.intervalUnit;
             IntervalLength = data.intervalLength;
-            Occurrences = data.occurrences ?? 1;
+            Occurrences = data.occurrences;
             
             TaskType = data.taskType;
             Tags = data.tags ?? new List<string>();
