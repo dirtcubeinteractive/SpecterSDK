@@ -18,12 +18,12 @@ namespace SpecterSDK.ObjectModels
         public int RecurrenceCount;
         public DateTime InstanceStartDate;
         public DateTime? InstanceEndDate;
-        public SPLeaderboardInterval RecurrenceType;
+        public SPIntervalUnit RecurrenceType;
         public SPCompetitionFormat Format;
         public SPCompetitionMatchData MatchData;
         public SPCompetitionGameData GameData;
         public SPCompetitionStatus Status;
-        public SPLeaderboardInterval IntervalUnit;
+        public SPIntervalUnit IntervalUnit;
         public int IntervalLength;
         public int Occurrences;
 
@@ -37,7 +37,7 @@ namespace SpecterSDK.ObjectModels
             Format = data.formatType.name;
             MatchData = data.match;
             GameData = data.game;
-            RecurrenceType = data.intervalUnit;
+            RecurrenceType = data.IntervalUnitUnit;
             RecurrenceCount = data.occurrences;
             InstanceStartDate = data.instanceStartDate;
             InstanceEndDate = data.instanceEndDate;

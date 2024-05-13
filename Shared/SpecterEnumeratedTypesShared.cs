@@ -210,16 +210,16 @@ namespace SpecterSDK.Shared
     }
 
     [Serializable]
-    public sealed class SPLeaderboardInterval : SPEnum<SPLeaderboardInterval>
+    public sealed class SPIntervalUnit : SPEnum<SPIntervalUnit>
     {
-        public static readonly SPLeaderboardInterval Days = new SPLeaderboardInterval(1, nameof(Days).ToLower(), nameof(Days));
-        public static readonly SPLeaderboardInterval Weeks = new SPLeaderboardInterval(2, nameof(Weeks).ToLower(), nameof(Weeks));
-        public static readonly SPLeaderboardInterval AllTime = new SPLeaderboardInterval(5, "all_time", nameof(AllTime));
-        public static readonly SPLeaderboardInterval Custom = new SPLeaderboardInterval(6, nameof(Custom).ToLower(), nameof(Custom));
-        public static readonly SPLeaderboardInterval Minutes = new SPLeaderboardInterval(7, nameof(Minutes).ToLower(), nameof(Minutes));
-        public static readonly SPLeaderboardInterval Hours = new SPLeaderboardInterval(8, nameof(Hours).ToLower(), nameof(Hours));
+        public static readonly SPIntervalUnit Days = new SPIntervalUnit(1, nameof(Days).ToLower(), nameof(Days));
+        public static readonly SPIntervalUnit Weeks = new SPIntervalUnit(2, nameof(Weeks).ToLower(), nameof(Weeks));
+        public static readonly SPIntervalUnit AllTime = new SPIntervalUnit(5, "all_time", nameof(AllTime));
+        public static readonly SPIntervalUnit Custom = new SPIntervalUnit(6, nameof(Custom).ToLower(), nameof(Custom));
+        public static readonly SPIntervalUnit Minutes = new SPIntervalUnit(7, nameof(Minutes).ToLower(), nameof(Minutes));
+        public static readonly SPIntervalUnit Hours = new SPIntervalUnit(8, nameof(Hours).ToLower(), nameof(Hours));
         
-        private SPLeaderboardInterval(int id, string name, string displayName = null) : base(id, name, displayName) { }
+        private SPIntervalUnit(int id, string name, string displayName = null) : base(id, name, displayName) { }
     }
 
     #endregion

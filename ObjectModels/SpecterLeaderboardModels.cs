@@ -8,9 +8,9 @@ namespace SpecterSDK.ObjectModels
 {
     public class SpecterLeaderboard : SpecterResource, ISpecterMasterObject
     {
-        public DateTime? InstanceStartDate;
+        public DateTime InstanceStartDate;
         public DateTime? InstanceEndDate;
-        public SPLeaderboardInterval IntervalUnit;
+        public SPIntervalUnit IntervalUnit;
         public int IntervalLength;
         public int Occurrences;
         public SPCompetitionStatus Status;
@@ -35,7 +35,7 @@ namespace SpecterSDK.ObjectModels
             Description = data.description;
             InstanceStartDate = data.instanceStartDate;
             InstanceEndDate = data.instanceEndDate;
-            IntervalUnit = data.intervalUnit;
+            IntervalUnit = data.IntervalUnitUnit;
             IntervalLength = data.intervalLength;
             Occurrences = data.occurrences;
             Status = data.status;

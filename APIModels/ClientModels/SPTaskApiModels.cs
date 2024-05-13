@@ -30,7 +30,7 @@ namespace SpecterSDK.APIModels.ClientModels
         public SPRewardResourceDetailsResponseData rewardDetails { get; set; }
         public DateTime? instanceStartDate { get; set; }
         public DateTime? instanceEndDate { get; set; }
-        public SPLeaderboardInterval intervalUnit { get; set; }
+        public SPIntervalUnit IntervalUnitUnit { get; set; }
         public int? intervalLength { get; set; }
         public int? occurrences { get; set; }
         public List<string> tags { get; set; }
@@ -75,7 +75,7 @@ namespace SpecterSDK.APIModels.ClientModels
         public List<SPTaskResponseData> tasks { get; set; }
         public DateTime instanceStartDate { get; set; }
         public DateTime? instanceEndDate { get; set; }
-        public SPLeaderboardInterval intervalUnit { get; set; }
+        public SPIntervalUnit IntervalUnitUnit { get; set; }
         public int intervalLength { get; set; }
         public int? occurrences { get; set; }
         public List<string> tags { get; set; }

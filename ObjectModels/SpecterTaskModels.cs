@@ -36,7 +36,7 @@ namespace SpecterSDK.ObjectModels
         public SpecterRewardDetails Rewards;
         public DateTime? InstanceStartDate;
         public DateTime? InstanceEndDate;
-        public SPLeaderboardInterval IntervalUnit;
+        public SPIntervalUnit IntervalUnit;
         public int IntervalLength;
         public int Occurrences;
         public List<string> Tags { get; set; }
@@ -48,7 +48,7 @@ namespace SpecterSDK.ObjectModels
         {
             InstanceStartDate = data.instanceStartDate;
             InstanceEndDate = data.instanceEndDate;
-            IntervalUnit = data.intervalUnit;
+            IntervalUnit = data.IntervalUnitUnit;
             IntervalLength = data.intervalLength ?? 1;
             Occurrences = data.occurrences ?? 1;
             
@@ -102,7 +102,7 @@ namespace SpecterSDK.ObjectModels
         
         public DateTime InstanceStartDate;
         public DateTime? InstanceEndDate;
-        public SPLeaderboardInterval IntervalUnit;
+        public SPIntervalUnit IntervalUnit;
         public int IntervalLength;
         public int Occurrences;
         
@@ -120,7 +120,7 @@ namespace SpecterSDK.ObjectModels
             
             InstanceStartDate = data.instanceStartDate;
             InstanceEndDate = data.instanceEndDate;
-            IntervalUnit = data.intervalUnit;
+            IntervalUnit = data.IntervalUnitUnit;
             IntervalLength = data.intervalLength;
             Occurrences = data.occurrences ?? 1;
             

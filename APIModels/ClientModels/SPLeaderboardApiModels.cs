@@ -10,7 +10,7 @@ namespace SpecterSDK.APIModels.ClientModels
     {
         public DateTime instanceStartDate { get; set; }
         public DateTime? instanceEndDate { get; set; }
-        public SPLeaderboardInterval intervalUnit { get; set; }
+        public SPIntervalUnit IntervalUnitUnit { get; set; }
         public int intervalLength { get; set; }
         public int occurrences { get; set; }
         public SPCompetitionStatus status { get; set; }
@@ -66,7 +66,7 @@ namespace SpecterSDK.APIModels.ClientModels
     public class SPLeaderboardIntervalData 
     {
         public int id { get; set; }
-        public SPLeaderboardInterval name { get; set; }
+        public SPIntervalUnit name { get; set; }
     }
 
     [Serializable]
