@@ -8,14 +8,17 @@ namespace SpecterSDK.ObjectModels
 {
     public class SpecterLeaderboard : SpecterResource, ISpecterMasterObject
     {
-        public DateTime? StartDate;
-        public DateTime? EndDate;
+        public DateTime? InstanceStartDate;
+        public DateTime? InstanceEndDate;
+        public SPLeaderboardInterval IntervalUnit;
+        public int IntervalLength;
+        public int Occurrences;
+        public SPCompetitionStatus Status;
         public bool IsRecurring;
         public List<SpecterPrizeDistributionRule> PrizeDistributionRules;
         public SpecterMatchBase Match;
         public SPLeaderboardOutcomeType LeaderboardOutcomeType;
         public SPLeaderboardSourceType LeaderboardSourceType;
-        public SPLeaderboardInterval LeaderboardInterval;
         public int TotalCount;
         public SpecterLeaderboardEntry CurrentPlayerEntry;
         public List<SpecterLeaderboardEntry> LeaderboardEntries;
@@ -30,12 +33,15 @@ namespace SpecterSDK.ObjectModels
             Id = data.id;
             Name = data.name;
             Description = data.description;
-            StartDate = data.startDate;
-            EndDate = data.endDate;
+            InstanceStartDate = data.instanceStartDate;
+            InstanceEndDate = data.instanceEndDate;
+            IntervalUnit = data.intervalUnit;
+            IntervalLength = data.intervalLength;
+            Occurrences = data.occurrences;
+            Status = data.status;
             IsRecurring = data.isRecurring;
             LeaderboardOutcomeType = data.outcomeType.name;
             LeaderboardSourceType = data.sourceType.name;
-            LeaderboardInterval = data.interval?.name;
             TotalCount = data.totalEntries;
             ResetTime = data.resetTime;
             

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.APIModels.Interfaces;
@@ -33,6 +34,11 @@ namespace SpecterSDK.ObjectModels
     {
         public SPRewardGrantType RewardGrantType;
         public SpecterRewardDetails Rewards;
+        public DateTime? InstanceStartDate;
+        public DateTime? InstanceEndDate;
+        public SPLeaderboardInterval IntervalUnit;
+        public int IntervalLength;
+        public int Occurrences;
         public List<string> Tags { get; set; }
         public Dictionary<string, object> Meta { get; set; }
         public SpecterTaskGroupResource TaskGroupInfo { get; private set; }
@@ -40,6 +46,12 @@ namespace SpecterSDK.ObjectModels
         public SpecterTask() { }
         public SpecterTask(SPTaskResponseData data) : base(data)
         {
+            InstanceStartDate = data.instanceStartDate;
+            InstanceEndDate = data.instanceEndDate;
+            IntervalUnit = data.intervalUnit;
+            IntervalLength = data.intervalLength ?? 1;
+            Occurrences = data.occurrences ?? 1;
+            
             RewardGrantType = data.rewardGrant;
             Tags = data.tags ?? new List<string>();
             Meta = data.meta ?? new Dictionary<string, object>();
@@ -87,6 +99,13 @@ namespace SpecterSDK.ObjectModels
         public int? StageLength;
         public int? StepNumber;
         public bool StageReset;
+        
+        public DateTime InstanceStartDate;
+        public DateTime? InstanceEndDate;
+        public SPLeaderboardInterval IntervalUnit;
+        public int IntervalLength;
+        public int Occurrences;
+        
         public SPTaskType TaskType;
         public List<SpecterTask> Tasks;
         public SpecterRewardDetails Rewards;
@@ -98,6 +117,13 @@ namespace SpecterSDK.ObjectModels
             StageLength = data.stageLength;
             StageReset = data.stageReset;
             StepNumber = data.stepNumber;
+            
+            InstanceStartDate = data.instanceStartDate;
+            InstanceEndDate = data.instanceEndDate;
+            IntervalUnit = data.intervalUnit;
+            IntervalLength = data.intervalLength;
+            Occurrences = data.occurrences ?? 1;
+            
             TaskType = data.taskType;
             Tags = data.tags ?? new List<string>();
             Meta = data.meta ?? new Dictionary<string, object>();

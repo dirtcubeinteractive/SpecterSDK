@@ -33,14 +33,15 @@ namespace SpecterSDK.APIModels.ClientModels
         public int? maxPlayers { get; set; }
         public int? maxEntryAllowed {  get; set; }
         public int? maxAttemptAllowed { get; set; }
-        public int? recurrenceCount { get; set; }
-        public SPLeaderboardInterval recurrenceType { get; set; }
-        public SPCompetitionStatus status { get; set; }
         public SPCompetitionFormatData formatType { get; set; }
         public SPCompetitionMatchData match { get; set; }
         public SPCompetitionGameData game { get; set; }
-        public DateTime startDate { get; set; }
-        public DateTime? endDate { get; set; }
+        public DateTime instanceStartDate { get; set; }
+        public DateTime? instanceEndDate { get; set; }
+        public int occurrences { get; set; }
+        public SPLeaderboardInterval intervalUnit { get; set; }
+        public int intervalLength { get; set; }
+        public SPCompetitionStatus status { get; set; }
     }
     
     [Serializable]

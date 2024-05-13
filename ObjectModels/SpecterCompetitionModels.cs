@@ -16,13 +16,16 @@ namespace SpecterSDK.ObjectModels
         public int? MaxEntryAllowed;
         public int? MaxAttemptAllowed;
         public int RecurrenceCount;
-        public DateTime StartDate;
-        public DateTime? EndDate;
+        public DateTime InstanceStartDate;
+        public DateTime? InstanceEndDate;
         public SPLeaderboardInterval RecurrenceType;
-        public SPCompetitionStatus Status;
         public SPCompetitionFormat Format;
         public SPCompetitionMatchData MatchData;
         public SPCompetitionGameData GameData;
+        public SPCompetitionStatus Status;
+        public SPLeaderboardInterval IntervalUnit;
+        public int IntervalLength;
+        public int Occurrences;
 
         public SpecterCompetitionBase(SPCompetitionResponseBaseData data) : base(data)
         {
@@ -34,10 +37,10 @@ namespace SpecterSDK.ObjectModels
             Format = data.formatType.name;
             MatchData = data.match;
             GameData = data.game;
-            RecurrenceType = data.recurrenceType;
-            RecurrenceCount = data.recurrenceCount ?? 1;
-            StartDate = data.startDate;
-            EndDate = data.endDate;
+            RecurrenceType = data.intervalUnit;
+            RecurrenceCount = data.occurrences;
+            InstanceStartDate = data.instanceStartDate;
+            InstanceEndDate = data.instanceEndDate;
         }
     }
 

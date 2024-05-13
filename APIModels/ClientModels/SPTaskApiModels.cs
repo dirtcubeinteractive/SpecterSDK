@@ -28,6 +28,11 @@ namespace SpecterSDK.APIModels.ClientModels
     {
         public SPRewardGrantType rewardGrant { get; set; }
         public SPRewardResourceDetailsResponseData rewardDetails { get; set; }
+        public DateTime? instanceStartDate { get; set; }
+        public DateTime? instanceEndDate { get; set; }
+        public SPLeaderboardInterval intervalUnit { get; set; }
+        public int? intervalLength { get; set; }
+        public int? occurrences { get; set; }
         public List<string> tags { get; set; }
         public Dictionary<string, object> meta { get; set; }
     }
@@ -68,6 +73,11 @@ namespace SpecterSDK.APIModels.ClientModels
         public SPRewardResourceDetailsResponseData rewardDetails { get; set; }
         public SPTaskType taskType { get; set; }
         public List<SPTaskResponseData> tasks { get; set; }
+        public DateTime instanceStartDate { get; set; }
+        public DateTime? instanceEndDate { get; set; }
+        public SPLeaderboardInterval intervalUnit { get; set; }
+        public int intervalLength { get; set; }
+        public int? occurrences { get; set; }
         public List<string> tags { get; set; }
         public Dictionary<string, object> meta { get; set; }
     }

@@ -8,13 +8,16 @@ namespace SpecterSDK.APIModels.ClientModels
     [Serializable]
     public class SPLeaderboardResponseData : SPResourceResponseData, ISpecterMasterData
     {
-        public DateTime? startDate { get; set; }
-        public DateTime? endDate { get; set; }
+        public DateTime instanceStartDate { get; set; }
+        public DateTime? instanceEndDate { get; set; }
+        public SPLeaderboardInterval intervalUnit { get; set; }
+        public int intervalLength { get; set; }
+        public int occurrences { get; set; }
+        public SPCompetitionStatus status { get; set; }
         public bool isRecurring { get; set; }
         public List<SPPrizeDistributionRuleData> prizeDistributionRules { get; set; }
         public SPMatchResponseBaseData match { get; set; }
         public SPLeaderboardOutcomeData outcomeType { get; set; }
-        public SPLeaderboardIntervalData interval { get; set; }
         public SPLeaderboardSourceData sourceType { get; set; }
         public List<string> tags { get; set; }
         public Dictionary<string, object> meta { get; set; }
