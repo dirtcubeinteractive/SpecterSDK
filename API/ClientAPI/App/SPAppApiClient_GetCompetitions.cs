@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using SpecterSDK.ObjectModels;
 using Newtonsoft.Json;
 using SpecterSDK.APIModels.Interfaces;
+using SpecterSDK.Shared;
 
 namespace SpecterSDK.API.ClientAPI.App
 {
@@ -14,7 +15,7 @@ namespace SpecterSDK.API.ClientAPI.App
     public class SPGetCompetitionsRequest : SPPaginatedApiRequest, ITagFilterable
     {
         public List<string> competitionIds {  get; set; }
-        
+        public List<SPCompetitionStatus> status { get; set; }
         /// <summary>
         /// Represent a list of tags which you configured on the dashboard
         /// <remarks>

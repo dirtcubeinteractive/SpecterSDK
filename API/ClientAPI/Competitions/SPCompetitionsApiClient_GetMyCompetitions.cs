@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using SpecterSDK.APIModels;
 using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.ObjectModels;
+using SpecterSDK.Shared;
 
 namespace SpecterSDK.API.ClientAPI.Competitions
 {
@@ -11,6 +12,7 @@ namespace SpecterSDK.API.ClientAPI.Competitions
     public class SPGetMyCompetitionsRequest : SPPaginatedApiRequest
     {
         public List<string> competitionIds { get; set; }
+        public List<SPCompetitionStatus> status { get; set; }
     }
 
     public class SPGetMyCompetitionsResult : SpecterApiResultBase<SPResponseDataList<SPEnteredCompetitionResponseData>>
