@@ -47,6 +47,7 @@ namespace SpecterSDK.ObjectModels
 
     public class SpecterCompetition : SpecterCompetitionBase, ISpecterMasterObject
     {
+        public List<SpecterPrizeDistribution> PrizeDistributions;
         public List<SpecterUnlockCondition> UnlockConditions;
         public List<SpecterEntryFee> EntryFees;
 
@@ -72,6 +73,15 @@ namespace SpecterSDK.ObjectModels
                 foreach (var fee in data.entryFees)
                 {
                     EntryFees.Add(new SpecterEntryFee(fee));
+                }
+            }
+
+            PrizeDistributions = new List<SpecterPrizeDistribution>();
+            if (data.prizeDistributionRules != null)
+            {
+                foreach (var prize in data.prizeDistributionRules)
+                {
+                    PrizeDistributions.Add(new SpecterPrizeDistribution(prize));
                 }
             }
             

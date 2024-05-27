@@ -50,4 +50,12 @@ namespace SpecterSDK.APIModels.ClientModels
         public List<SPRewardHistoryEntryData> currencies { get; set; }
         public List<SPRewardHistoryEntryData> progressionMarkers { get; set; }
     }
+    
+    [Serializable]
+    public class SPPrizeDistributionData
+    {
+        public int startRank { get; set; }
+        public int? endRank { get; set; }
+        public SPRewardResourceDetailsResponseData rewardDetails { get; set; }
+    }
 }

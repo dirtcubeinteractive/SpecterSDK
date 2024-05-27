@@ -14,8 +14,21 @@ namespace SpecterSDK.API.ClientAPI.App
     [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
     public class SPGetCompetitionsRequest : SPPaginatedApiRequest, ITagFilterable
     {
+        /// <summary>
+        /// Filter to retrieve specific competitions by their Id.
+        /// </summary>
         public List<string> competitionIds {  get; set; }
-        public List<SPCompetitionStatus> status { get; set; }
+
+        /// <summary>
+        /// Filter retrieved competition by schedule statuses. See <see cref="SPCompetitionStatus"/> for possible values
+        /// </summary>
+        public List<SPCompetitionStatus> scheduleStatuses { get; set; }
+        
+        /// <summary>
+        /// Filter to retrieve only certain types of competitions. See <see cref="SPCompetitionFormat"/> for possible values
+        /// </summary>
+        public List<SPCompetitionFormat> formatTypes { get; set; }
+        
         /// <summary>
         /// Represent a list of tags which you configured on the dashboard
         /// <remarks>
