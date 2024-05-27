@@ -228,4 +228,20 @@ namespace SpecterSDK.ObjectModels
         }
     }
 
+    public class SpecterPrizeDistribution
+    {
+        public int StartRank;
+        public int? EndRank;
+        public SpecterRewardDetails Rewards;
+        
+        public SpecterPrizeDistribution() { }
+
+        public SpecterPrizeDistribution(SPPrizeDistributionData data)
+        {
+            StartRank = data.startRank;
+            EndRank = data.endRank;
+            Rewards = new SpecterRewardDetails(data.rewardDetails);
+        }
+    }
+
 }

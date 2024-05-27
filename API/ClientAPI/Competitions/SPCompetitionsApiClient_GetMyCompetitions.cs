@@ -11,8 +11,20 @@ namespace SpecterSDK.API.ClientAPI.Competitions
     [Serializable]
     public class SPGetMyCompetitionsRequest : SPPaginatedApiRequest
     {
-        public List<string> competitionIds { get; set; }
-        public List<SPCompetitionStatus> status { get; set; }
+        /// <summary>
+        /// Filter to retrieve specific competitions by their Id.
+        /// </summary>
+        public List<string> competitionIds {  get; set; }
+        
+        /// <summary>
+        /// Filter retrieved competition by schedule statuses. See <see cref="SPCompetitionStatus"/> for possible values
+        /// </summary>
+        public List<SPCompetitionStatus> scheduleStatuses { get; set; }
+        
+        /// <summary>
+        /// Filter to retrieve only certain types of competitions. See <see cref="SPCompetitionFormat"/> for possible values
+        /// </summary>
+        public List<SPCompetitionFormat> formatTypes { get; set; }
     }
 
     public class SPGetMyCompetitionsResult : SpecterApiResultBase<SPResponseDataList<SPEnteredCompetitionResponseData>>
