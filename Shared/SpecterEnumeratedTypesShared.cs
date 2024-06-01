@@ -22,6 +22,8 @@ namespace SpecterSDK.Shared
         
         private SPScheduleStates(int id, string name, string displayName = null) : base(id, name, displayName) { }
     }
+    
+    #region Events and Params
 
     [Serializable]
     public sealed class SPParamIncrementalType : SPEnum<SPParamIncrementalType>
@@ -49,6 +51,8 @@ namespace SpecterSDK.Shared
         public static readonly SPParamType GreaterThanInclusive = new SPParamType(1, "state", nameof(GreaterThanInclusive));
         private SPParamType(int id, string name, string displayName = null) : base(id, name, displayName) { }
     }
+    
+    #endregion
 
 
     #region Rewards

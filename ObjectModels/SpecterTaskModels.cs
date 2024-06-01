@@ -178,22 +178,6 @@ namespace SpecterSDK.ObjectModels
         }
     }
 
-    public class SpecterEventParam
-    {
-        public string Name;
-        public SPParamIncrementalType Type;
-        public SPParamOperatorType @Operator;
-        public SPParamType ParameterValue;
-
-        public SpecterEventParam(SPEventParam data)
-        {
-            Name = data.name;
-            Type = data.type;
-            Operator = data.@operator;
-            ParameterValue = data.parameterValue;
-        }
-    }
-
     public class SpecterParamProgress : SpecterEventParam
     {
         public object CurrentValue;
@@ -208,11 +192,14 @@ namespace SpecterSDK.ObjectModels
 
     public class SpecterTaskProgress : SpecterResource
     {
+        public SpecterEvent Event;
         public string EventName;
         public List<SpecterParamProgress> Progresses;
 
+        public SpecterTaskProgress() : base() { }
         public SpecterTaskProgress(SPTaskProgressResponseData data) : base(data)
         {
+            Event = new SpecterEvent(data.@event);
             EventName = data.eventName;
             Progresses = new List<SpecterParamProgress>();
             foreach (var progress in data.progress)
@@ -226,6 +213,8 @@ namespace SpecterSDK.ObjectModels
     {
         public SPTaskGroupType TaskGroupType;
         public List<SpecterTaskProgress> Tasks;
+        
+        public SpecterTaskGroupProgress() : base() { }
         public SpecterTaskGroupProgress(SPTaskGroupProgressResponseData data) : base(data)
         {
             TaskGroupType = data.taskGroupType;

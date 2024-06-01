@@ -100,15 +100,6 @@ namespace SpecterSDK.APIModels.ClientModels
     public class SPTaskGroupStatusResponseDataList : SPResponseDataList<SPTaskGroupStatusResponseData> { }
 
     [Serializable]
-    public class SPEventParam
-    {
-        public string name { get; set; }
-        public SPParamIncrementalType type { get; set; }
-        public SPParamOperatorType @operator { get; set; }
-        public SPParamType parameterValue { get; set; }
-    }
-
-    [Serializable]
     public class SPParamProgressData : SPEventParam
     {
         public object currentValue { get; set; }
@@ -119,6 +110,7 @@ namespace SpecterSDK.APIModels.ClientModels
     [Serializable]
     public class SPTaskProgressResponseData : SPResourceResponseData
     {
+        public SPEvent @event { get; set; }
         public string eventName { get; set; }
         public List<SPParamProgressData> progress { get; set; }
     }
