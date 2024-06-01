@@ -24,7 +24,7 @@ namespace SpecterSDK.Shared
     }
 
     [Serializable]
-    public sealed class SPParamIncrementalType : SPEnum<SPScheduleStates>
+    public sealed class SPParamIncrementalType : SPEnum<SPParamIncrementalType>
     {
         public static readonly SPParamIncrementalType OneShot = new SPParamIncrementalType(0, "one-shot", nameof(OneShot));
         public static readonly SPParamIncrementalType Cumulative = new SPParamIncrementalType(1, "cumulative", nameof(Cumulative));
@@ -32,7 +32,7 @@ namespace SpecterSDK.Shared
     }
 
     [Serializable]
-    public sealed class SPParamOperatorType : SPEnum<SPScheduleStates>
+    public sealed class SPParamOperatorType : SPEnum<SPParamOperatorType>
     {
         public static readonly SPParamOperatorType Equal = new SPParamOperatorType(0, "equal", nameof(Equal));
         public static readonly SPParamOperatorType GreaterThanInclusive = new SPParamOperatorType(1, "greaterThanInclusive", nameof(GreaterThanInclusive));
@@ -43,7 +43,7 @@ namespace SpecterSDK.Shared
     }
 
     [Serializable]
-    public sealed class SPParamType : SPEnum<SPScheduleStates>
+    public sealed class SPParamType : SPEnum<SPParamType>
     {
         public static readonly SPParamType Equal = new SPParamType(0, "statistic", nameof(Equal));
         public static readonly SPParamType GreaterThanInclusive = new SPParamType(1, "state", nameof(GreaterThanInclusive));
