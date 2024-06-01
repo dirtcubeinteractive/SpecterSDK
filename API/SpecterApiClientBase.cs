@@ -80,6 +80,7 @@ namespace SpecterSDK.API
         /// Core method to make API requests. It handles the entire lifecycle of a request, from constructing the URL to handling various response scenarios.
         /// </summary>
         /// <param name="method">Http method to use, i.e. GET, POST, etc.</param>
+        /// <param name="baseUri">The base url for the api call</param>
         /// <param name="endpoint">Url endpoint appended to the configured base Url</param>
         /// <param name="authType">Authentication mechanism to be set in the request</param>
         /// <param name="requestParams">Query parameters - only applicable in GET requests</param>
@@ -88,6 +89,7 @@ namespace SpecterSDK.API
         /// <returns>A deserialized instance of <see cref="SPApiResponse{T}"/></returns>
         private async Task<SPApiResponse<TData>> MakeRequestAsync<TData>(
             HttpMethod method,
+            string baseUri,
             string endpoint = "",
             SPAuthType authType = SPAuthType.None,
             object requestParams = null,
@@ -106,7 +108,7 @@ namespace SpecterSDK.API
             if (requestBody is IProjectConfigurable bodyProjConfig)
                 ConfigureProjectId(bodyProjConfig);
 
-            var uri = $"{m_Config.BaseUrl}{endpoint}";
+            var uri = $"{baseUri}{endpoint}";
             if (requestParams != null)
             {
                 var query = $"?{SpecterJson.ToQueryString(requestParams)}";
@@ -171,7 +173,7 @@ namespace SpecterSDK.API
             {
                 if (e is JsonSerializationException jsonException)
                 {
-                    SPDebug.LogError($"SP Error Deserializing Response for endpoint {endpoint}: {e.ToString()}");
+                    SPDebug.LogError($"SP Error Deserializing Response for endpoint {endpoint}: {jsonException.ToString()}");
                 }
                 else
                     SPDebug.LogError($"SP Client Side Error for endpoint {endpoint}: {e.ToString()}");
@@ -206,16 +208,17 @@ namespace SpecterSDK.API
         /// </summary>
         /// <returns>A processed instance of <see cref="SpecterApiResultBase{T}"/></returns>
         private async Task<TResult> MakeRequestAsync<TResult, TData>(
-            HttpMethod method, 
-            string endpoint = "", 
+            HttpMethod method,
+            string baseUri,
+            string endpoint, 
             SPAuthType authType = SPAuthType.None,
-            object requestParams = null, 
-            object requestBody = null
+            SPApiRequestBase requestParams = null, 
+            SPApiRequestBase requestBody = null
             ) 
             where TData: class, ISpecterApiResponseData, new()
             where TResult: SpecterApiResultBase<TData>, new()
         {
-            var response = await MakeRequestAsync<TData>(method, endpoint, authType, requestParams, requestBody);
+            var response = await MakeRequestAsync<TData>(method, baseUri, endpoint, authType, requestParams, requestBody);
             return BuildResult<TResult, TData>(response);
         }
 
@@ -238,25 +241,39 @@ namespace SpecterSDK.API
         }
 
         // Convenience methods for making specific types of HTTP requests. These abstract away the HTTP verb details, providing a more semantic way to make requests.
-        protected async Task<TResult> GetAsync<TResult, TData>(string endpoint, SPAuthType authType, SPApiRequestBase queryParams) 
+        protected async Task<TResult> GetAsync<TResult, TData>(string endpoint, SPAuthType authType, SPApiRequestBase request) 
             where TData: class, ISpecterApiResponseData, new()
             where TResult: SpecterApiResultBase<TData>, new()
         {
-            return await MakeRequestAsync<TResult, TData>(HttpMethod.Get, endpoint, authType: authType, requestParams: queryParams);
+            return await MakeRequestAsync<TResult, TData>(HttpMethod.Get, m_Config.BaseUrl, endpoint, authType: authType, requestParams: request);
         }
 
-        protected async Task<TResult> PostAsync<TResult, TData>(string endpoint, SPAuthType authType, SPApiRequestBase bodyParams)
+        protected async Task<TResult> PostAsync<TResult, TData>(string endpoint, SPAuthType authType, SPApiRequestBase request)
             where TData: class, ISpecterApiResponseData, new()
             where TResult: SpecterApiResultBase<TData>, new()
         {
-            return await MakeRequestAsync<TResult, TData>(HttpMethod.Post, endpoint, authType: authType, requestBody: bodyParams);
+            return await MakeRequestAsync<TResult, TData>(HttpMethod.Post, m_Config.BaseUrl, endpoint, authType: authType, requestBody: request);
         }
 
-        protected async Task<TResult> PutAsync<TResult, TData>(string endpoint, SPAuthType authType, SPApiRequestBase bodyParams)
+        protected async Task<TResult> PutAsync<TResult, TData>(string endpoint, SPAuthType authType, SPApiRequestBase request)
             where TData: class, ISpecterApiResponseData, new()
             where TResult: SpecterApiResultBase<TData>, new()
         {
-            return await MakeRequestAsync<TResult, TData>(HttpMethod.Put, endpoint, authType: authType, requestBody: bodyParams);
+            return await MakeRequestAsync<TResult, TData>(HttpMethod.Put, m_Config.BaseUrl, endpoint, authType: authType, requestBody: request);
+        }
+        
+        protected async Task<TResult> SimplePostAsync<TResult, TData>(string baseUri, string endpoint, SPAuthType authType, SPApiRequestBase request)
+            where TData: class, ISpecterApiResponseData, new()
+            where TResult: SpecterApiResultBase<TData>, new()
+        {
+            return await MakeRequestAsync<TResult, TData>(HttpMethod.Post, baseUri, endpoint, authType: authType, requestBody: request);
+        }
+        
+        protected async Task<TResult> SimplePutAsync<TResult, TData>(string baseUri, string endpoint, SPAuthType authType, SPApiRequestBase request)
+            where TData: class, ISpecterApiResponseData, new()
+            where TResult: SpecterApiResultBase<TData>, new()
+        {
+            return await MakeRequestAsync<TResult, TData>(HttpMethod.Put, baseUri, endpoint, authType: authType, requestBody: request);
         }
     }
 }
