@@ -177,4 +177,52 @@ namespace SpecterSDK.ObjectModels
             TotalTasksCount = Tasks.Count;
         }
     }
+
+    public class SpecterParamProgress : SpecterEventParam
+    {
+        public object CurrentValue;
+        public object TargetValue;
+
+        public SpecterParamProgress(SPParamProgressData data) : base(data)
+        {
+            CurrentValue = data.currentValue;
+            TargetValue = data.targetValue;
+        }
+    }
+
+    public class SpecterTaskProgress : SpecterResource
+    {
+        public SpecterEvent Event;
+        public string EventName;
+        public List<SpecterParamProgress> Progresses;
+
+        public SpecterTaskProgress() : base() { }
+        public SpecterTaskProgress(SPTaskProgressResponseData data) : base(data)
+        {
+            Event = new SpecterEvent(data.@event);
+            EventName = data.eventName;
+            Progresses = new List<SpecterParamProgress>();
+            foreach (var progress in data.progress)
+            {
+                Progresses.Add(new SpecterParamProgress(progress));
+            }
+        }
+    }
+
+    public class SpecterTaskGroupProgress : SpecterResource
+    {
+        public SPTaskGroupType TaskGroupType;
+        public List<SpecterTaskProgress> Tasks;
+        
+        public SpecterTaskGroupProgress() : base() { }
+        public SpecterTaskGroupProgress(SPTaskGroupProgressResponseData data) : base(data)
+        {
+            TaskGroupType = data.taskGroupType;
+            Tasks = new List<SpecterTaskProgress>();
+            foreach (var task in data.tasks)
+            {
+                Tasks.Add(new SpecterTaskProgress(task));
+            }
+        }
+    }
 }

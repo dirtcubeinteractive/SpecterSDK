@@ -23,8 +23,40 @@ namespace SpecterSDK.Shared
         private SPScheduleStates(int id, string name, string displayName = null) : base(id, name, displayName) { }
     }
     
-    #region Rewards
+    #region Events and Params
+
+    [Serializable]
+    public sealed class SPParamIncrementalType : SPEnum<SPParamIncrementalType>
+    {
+        public static readonly SPParamIncrementalType OneShot = new SPParamIncrementalType(0, "one-shot", nameof(OneShot));
+        public static readonly SPParamIncrementalType Cumulative = new SPParamIncrementalType(1, "cumulative", nameof(Cumulative));
+        private SPParamIncrementalType(int id, string name, string displayName = null) : base(id, name, displayName) { }
+    }
+
+    [Serializable]
+    public sealed class SPParamOperatorType : SPEnum<SPParamOperatorType>
+    {
+        public static readonly SPParamOperatorType Equal = new SPParamOperatorType(0, "equal", nameof(Equal));
+        public static readonly SPParamOperatorType GreaterThanInclusive = new SPParamOperatorType(1, "greaterThanInclusive", nameof(GreaterThanInclusive));
+        public static readonly SPParamOperatorType LessThanInclusive = new SPParamOperatorType(2, "lessThanInclusive", nameof(LessThanInclusive));
+        public static readonly SPParamOperatorType LessThan = new SPParamOperatorType(3, "lessThan", nameof(LessThan));
+        public static readonly SPParamOperatorType GreaterThan = new SPParamOperatorType(4, "greaterThan", nameof(GreaterThan));
+        private SPParamOperatorType(int id, string name, string displayName = null) : base(id, name, displayName) { }
+    }
+
+    [Serializable]
+    public sealed class SPParamType : SPEnum<SPParamType>
+    {
+        public static readonly SPParamType Equal = new SPParamType(0, "statistic", nameof(Equal));
+        public static readonly SPParamType GreaterThanInclusive = new SPParamType(1, "state", nameof(GreaterThanInclusive));
+        private SPParamType(int id, string name, string displayName = null) : base(id, name, displayName) { }
+    }
     
+    #endregion
+
+
+    #region Rewards
+
     public enum SPRewardType
     {
         ProgressionMarker,

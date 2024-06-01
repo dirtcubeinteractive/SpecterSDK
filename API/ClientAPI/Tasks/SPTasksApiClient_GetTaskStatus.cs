@@ -29,7 +29,7 @@ namespace SpecterSDK.API.ClientAPI.Tasks
     public class SPGetTaskStatusRequest: SPPaginatedApiRequest
     {
         /// <summary>
-        /// A list of dashboard specific task group IDs to limit retrieval of task group statuses to specific task groups.
+        /// A list of dashboard specific task group IDs to limit retrieval of task statuses to specific tasks.
         /// </summary>
         public List<string> taskIds { get; set; }
         

@@ -21,7 +21,7 @@ namespace SpecterSDK.APIModels.ClientModels
     {
         public SPTaskGroupType taskGroupType { get; set; }
     }
-    
+
     // Base for task data in SDK responses
     [Serializable]
     public class SPTaskResponseData : SPTaskResourceResponseData , ISpecterMasterData
@@ -98,6 +98,43 @@ namespace SpecterSDK.APIModels.ClientModels
 
     [Serializable]
     public class SPTaskGroupStatusResponseDataList : SPResponseDataList<SPTaskGroupStatusResponseData> { }
+
+    [Serializable]
+    public class SPParamProgressData : SPEventParam
+    {
+        public object currentValue { get; set; }
+        public object targetValue { get; set; } 
+    }
+
+
+    [Serializable]
+    public class SPTaskProgressResponseData : SPResourceResponseData
+    {
+        public SPEvent @event { get; set; }
+        public string eventName { get; set; }
+        public List<SPParamProgressData> progress { get; set; }
+    }
+
+    [Serializable]
+    public class SPTaskGroupProgressResponseData : SPResourceResponseData
+    {
+        public SPTaskGroupType taskGroupType { get; set; }
+        public List<SPTaskProgressResponseData> tasks { get; set; }
+    }
+
+    [Serializable]
+    public class SPGetTaskProgressResponseData : ISpecterApiResponseData
+    {
+        public List<SPTaskProgressResponseData> taskProgresses { get; set; }
+        public int totalCount { get; set; }
+    }
+
+    [Serializable]
+    public class SPGetTaskGroupProgressResponseData : ISpecterApiResponseData
+    {
+        public List<SPTaskGroupProgressResponseData> taskGroupProgresses { get; set; }
+        public int totalCount { get; set; }
+    }
 
     #endregion
 }
