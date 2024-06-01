@@ -111,14 +111,14 @@ namespace SpecterSDK.API
             {
                 var query = $"?{SpecterJson.ToQueryString(requestParams)}";
                 uri  += query;
-                Debug.Log("SP HTTP Request Query Params: " + query);
+                SPDebug.Log("SP HTTP Request Query Params: " + query);
             }
 
             using var request = new HttpRequestMessage(method, uri);
             request.Headers.Add(SPApiAuthScheme.ApiKey, m_Config.ApiKey);
             
             if (string.IsNullOrEmpty(m_Config.ApiKey))
-                Debug.LogError("Specter Error: API Key is null or empty");
+                SPDebug.LogError("Specter Error: API Key is null or empty");
             
             switch (authType)
             {
@@ -135,18 +135,18 @@ namespace SpecterSDK.API
             {
                 var bodyStr = SpecterJson.SerializeObject(requestBody);
                 request.Content = new StringContent(bodyStr, Encoding.UTF8, SPApiMediaType.ApplicationJson);
-                Debug.Log($"SP HTTP Request Payload for endpoint {endpoint}: " + bodyStr);
+                SPDebug.Log($"SP HTTP Request Payload for endpoint {endpoint}: " + bodyStr);
             }
 
             try
             {
-                Debug.Log("SP HTTP Request Full URL: " + uri);
+                SPDebug.Log("SP HTTP Request Full URL: " + uri);
                 var response = await m_HttpClient.SendAsync(request, new CancellationToken());
 
                 if (!response.IsSuccessStatusCode)
                 {
                     var errResString = await response.Content.ReadAsStringAsync();
-                    Debug.LogError($"SP Api Error for endpoint {endpoint}: {errResString}");
+                    SPDebug.LogError($"SP Api Error for endpoint {endpoint}: {errResString}");
                     
                     var apiError = SpecterJson.DeserializeObject<SPApiError>(errResString);
                     var errResponse = new SPApiResponse<TData>()
@@ -162,7 +162,7 @@ namespace SpecterSDK.API
                 }
 
                 var resString = await response.Content.ReadAsStringAsync();
-                Debug.Log($"SP HTTP Response for Endpoint {endpoint}: {resString}");
+                SPDebug.Log($"SP HTTP Response for Endpoint {endpoint}: {resString}");
                 
                 var apiResponse = SpecterJson.DeserializeObject<SPApiResponse<TData>>(resString);
                 return apiResponse;
@@ -171,10 +171,10 @@ namespace SpecterSDK.API
             {
                 if (e is JsonSerializationException jsonException)
                 {
-                    Debug.LogError($"SP Error Deserializing Response for endpoint {endpoint}: {e.ToString()}");
+                    SPDebug.LogError($"SP Error Deserializing Response for endpoint {endpoint}: {e.ToString()}");
                 }
                 else
-                    Debug.LogError($"SP Client Side Error for endpoint {endpoint}: {e.ToString()}");
+                    SPDebug.LogError($"SP Client Side Error for endpoint {endpoint}: {e.ToString()}");
                 
                 const string message = "An unexpected client side exception occured while making the request ";
                 var errResponse = new SPApiResponse<TData>()
