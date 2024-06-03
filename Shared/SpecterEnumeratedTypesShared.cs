@@ -71,9 +71,10 @@ namespace SpecterSDK.Shared
         public static readonly SPRewardSourceType Task = new SPRewardSourceType(0, nameof(Task).ToLower(), nameof(Task));
         public static readonly SPRewardSourceType TaskGroup = new SPRewardSourceType(1, "task_group", nameof(TaskGroup));
         public static readonly SPRewardSourceType Level = new SPRewardSourceType(2, "level", nameof(Level));
-        public static readonly SPRewardSourceType Competition = new SPRewardSourceType(3, nameof(Competition).ToLower(), nameof(Competition));
-        public static readonly SPRewardSourceType Leaderboard = new SPRewardSourceType(4, nameof(Leaderboard).ToLower(), nameof(Leaderboard));
-        public static readonly SPRewardSourceType Custom = new SPRewardSourceType(5, nameof(Custom).ToLower(), nameof(Custom));
+        public static readonly SPRewardSourceType Tournament = new SPRewardSourceType(3, nameof(Tournament).ToLower(), nameof(Tournament));
+        public static readonly SPRewardSourceType InstantBattle = new SPRewardSourceType(4, "instant_battle", nameof(InstantBattle));
+        public static readonly SPRewardSourceType Leaderboard = new SPRewardSourceType(5, nameof(Leaderboard).ToLower(), nameof(Leaderboard));
+        public static readonly SPRewardSourceType Custom = new SPRewardSourceType(6, nameof(Custom).ToLower(), nameof(Custom));
         
         private SPRewardSourceType(int id, string name, string displayName = null) : base(id, name, displayName) { }
     }

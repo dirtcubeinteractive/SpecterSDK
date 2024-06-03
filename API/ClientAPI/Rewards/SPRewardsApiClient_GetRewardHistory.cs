@@ -106,15 +106,13 @@ namespace SpecterSDK.API.ClientAPI.Rewards
 
         protected override void InitSpecterObjectsInternal()
         {
-            RewardsMap = new Dictionary<SPRewardSourceType, Dictionary<string, List<SpecterRewardSet>>>
+            
+            RewardsMap = new Dictionary<SPRewardSourceType, Dictionary<string, List<SpecterRewardSet>>>();
+            foreach (var value in SPRewardSourceType.GetValues<SPRewardSourceType>())
             {
-                { SPRewardSourceType.Level, new Dictionary<string,  List<SpecterRewardSet>>() },
-                { SPRewardSourceType.Task, new Dictionary<string, List<SpecterRewardSet>>() },
-                { SPRewardSourceType.TaskGroup, new Dictionary<string, List<SpecterRewardSet>>() },
-                { SPRewardSourceType.Competition, new Dictionary<string, List<SpecterRewardSet>>()},
-                { SPRewardSourceType.Leaderboard, new Dictionary<string, List<SpecterRewardSet>>()},
-                { SPRewardSourceType.Custom, new Dictionary<string, List<SpecterRewardSet>>() }
-            };
+                RewardsMap.Add(value, new Dictionary<string, List<SpecterRewardSet>>());
+            }
+            
             RewardSetInstanceMap = new Dictionary<string, SpecterRewardSet>();
 
             Items = new List<SpecterRewardHistoryEntry>();
