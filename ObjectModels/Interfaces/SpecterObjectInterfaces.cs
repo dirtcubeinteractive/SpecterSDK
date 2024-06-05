@@ -24,6 +24,8 @@ namespace SpecterSDK.ObjectModels.Interfaces
                     if (SpecterJson.TryConvertObject<T>(objVal, out val))
                         success = true;
                 }
+                else
+                    SPDebug.LogWarning($"No meta data with key {key} exists. Please check your configuration on the Specter dashboard");
             }
             catch (Exception e)
             {

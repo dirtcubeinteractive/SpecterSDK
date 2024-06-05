@@ -80,6 +80,7 @@ namespace SpecterSDK.API
         /// Core method to make API requests. It handles the entire lifecycle of a request, from constructing the URL to handling various response scenarios.
         /// </summary>
         /// <param name="method">Http method to use, i.e. GET, POST, etc.</param>
+        /// <param name="baseUri">The base url for the api call</param>
         /// <param name="endpoint">Url endpoint appended to the configured base Url</param>
         /// <param name="authType">Authentication mechanism to be set in the request</param>
         /// <param name="requestParams">Query parameters - only applicable in GET requests</param>
@@ -88,6 +89,7 @@ namespace SpecterSDK.API
         /// <returns>A deserialized instance of <see cref="SPApiResponse{T}"/></returns>
         private async Task<SPApiResponse<TData>> MakeRequestAsync<TData>(
             HttpMethod method,
+            string baseUri,
             string endpoint = "",
             SPAuthType authType = SPAuthType.None,
             object requestParams = null,
@@ -106,19 +108,19 @@ namespace SpecterSDK.API
             if (requestBody is IProjectConfigurable bodyProjConfig)
                 ConfigureProjectId(bodyProjConfig);
 
-            var uri = $"{m_Config.BaseUrl}{endpoint}";
+            var uri = $"{baseUri}{endpoint}";
             if (requestParams != null)
             {
                 var query = $"?{SpecterJson.ToQueryString(requestParams)}";
                 uri  += query;
-                Debug.Log("SP HTTP Request Query Params: " + query);
+                SPDebug.Log("SP HTTP Request Query Params: " + query);
             }
 
             using var request = new HttpRequestMessage(method, uri);
             request.Headers.Add(SPApiAuthScheme.ApiKey, m_Config.ApiKey);
             
             if (string.IsNullOrEmpty(m_Config.ApiKey))
-                Debug.LogError("Specter Error: API Key is null or empty");
+                SPDebug.LogError("Specter Error: API Key is null or empty");
             
             switch (authType)
             {
@@ -135,18 +137,18 @@ namespace SpecterSDK.API
             {
                 var bodyStr = SpecterJson.SerializeObject(requestBody);
                 request.Content = new StringContent(bodyStr, Encoding.UTF8, SPApiMediaType.ApplicationJson);
-                Debug.Log($"SP HTTP Request Payload for endpoint {endpoint}: " + bodyStr);
+                SPDebug.Log($"SP HTTP Request Payload for endpoint {endpoint}: " + bodyStr);
             }
 
             try
             {
-                Debug.Log("SP HTTP Request Full URL: " + uri);
+                SPDebug.Log("SP HTTP Request Full URL: " + uri);
                 var response = await m_HttpClient.SendAsync(request, new CancellationToken());
 
                 if (!response.IsSuccessStatusCode)
                 {
                     var errResString = await response.Content.ReadAsStringAsync();
-                    Debug.LogError($"SP Api Error for endpoint {endpoint}: {errResString}");
+                    SPDebug.LogError($"SP Api Error for endpoint {endpoint}: {errResString}");
                     
                     var apiError = SpecterJson.DeserializeObject<SPApiError>(errResString);
                     var errResponse = new SPApiResponse<TData>()
@@ -162,7 +164,7 @@ namespace SpecterSDK.API
                 }
 
                 var resString = await response.Content.ReadAsStringAsync();
-                Debug.Log($"SP HTTP Response for Endpoint {endpoint}: {resString}");
+                SPDebug.Log($"SP HTTP Response for Endpoint {endpoint}: {resString}");
                 
                 var apiResponse = SpecterJson.DeserializeObject<SPApiResponse<TData>>(resString);
                 return apiResponse;
@@ -171,10 +173,10 @@ namespace SpecterSDK.API
             {
                 if (e is JsonSerializationException jsonException)
                 {
-                    Debug.LogError($"SP Error Deserializing Response for endpoint {endpoint}: {e.ToString()}");
+                    SPDebug.LogError($"SP Error Deserializing Response for endpoint {endpoint}: {jsonException.ToString()}");
                 }
                 else
-                    Debug.LogError($"SP Client Side Error for endpoint {endpoint}: {e.ToString()}");
+                    SPDebug.LogError($"SP Client Side Error for endpoint {endpoint}: {e.ToString()}");
                 
                 const string message = "An unexpected client side exception occured while making the request ";
                 var errResponse = new SPApiResponse<TData>()
@@ -206,16 +208,17 @@ namespace SpecterSDK.API
         /// </summary>
         /// <returns>A processed instance of <see cref="SpecterApiResultBase{T}"/></returns>
         private async Task<TResult> MakeRequestAsync<TResult, TData>(
-            HttpMethod method, 
-            string endpoint = "", 
+            HttpMethod method,
+            string baseUri,
+            string endpoint, 
             SPAuthType authType = SPAuthType.None,
-            object requestParams = null, 
-            object requestBody = null
+            SPApiRequestBase requestParams = null, 
+            SPApiRequestBase requestBody = null
             ) 
             where TData: class, ISpecterApiResponseData, new()
             where TResult: SpecterApiResultBase<TData>, new()
         {
-            var response = await MakeRequestAsync<TData>(method, endpoint, authType, requestParams, requestBody);
+            var response = await MakeRequestAsync<TData>(method, baseUri, endpoint, authType, requestParams, requestBody);
             return BuildResult<TResult, TData>(response);
         }
 
@@ -238,25 +241,39 @@ namespace SpecterSDK.API
         }
 
         // Convenience methods for making specific types of HTTP requests. These abstract away the HTTP verb details, providing a more semantic way to make requests.
-        protected async Task<TResult> GetAsync<TResult, TData>(string endpoint, SPAuthType authType, SPApiRequestBase queryParams) 
+        protected async Task<TResult> GetAsync<TResult, TData>(string endpoint, SPAuthType authType, SPApiRequestBase request) 
             where TData: class, ISpecterApiResponseData, new()
             where TResult: SpecterApiResultBase<TData>, new()
         {
-            return await MakeRequestAsync<TResult, TData>(HttpMethod.Get, endpoint, authType: authType, requestParams: queryParams);
+            return await MakeRequestAsync<TResult, TData>(HttpMethod.Get, m_Config.BaseUrl, endpoint, authType: authType, requestParams: request);
         }
 
-        protected async Task<TResult> PostAsync<TResult, TData>(string endpoint, SPAuthType authType, SPApiRequestBase bodyParams)
+        protected async Task<TResult> PostAsync<TResult, TData>(string endpoint, SPAuthType authType, SPApiRequestBase request)
             where TData: class, ISpecterApiResponseData, new()
             where TResult: SpecterApiResultBase<TData>, new()
         {
-            return await MakeRequestAsync<TResult, TData>(HttpMethod.Post, endpoint, authType: authType, requestBody: bodyParams);
+            return await MakeRequestAsync<TResult, TData>(HttpMethod.Post, m_Config.BaseUrl, endpoint, authType: authType, requestBody: request);
         }
 
-        protected async Task<TResult> PutAsync<TResult, TData>(string endpoint, SPAuthType authType, SPApiRequestBase bodyParams)
+        protected async Task<TResult> PutAsync<TResult, TData>(string endpoint, SPAuthType authType, SPApiRequestBase request)
             where TData: class, ISpecterApiResponseData, new()
             where TResult: SpecterApiResultBase<TData>, new()
         {
-            return await MakeRequestAsync<TResult, TData>(HttpMethod.Put, endpoint, authType: authType, requestBody: bodyParams);
+            return await MakeRequestAsync<TResult, TData>(HttpMethod.Put, m_Config.BaseUrl, endpoint, authType: authType, requestBody: request);
+        }
+        
+        protected async Task<TResult> SimplePostAsync<TResult, TData>(string baseUri, string endpoint, SPAuthType authType, SPApiRequestBase request)
+            where TData: class, ISpecterApiResponseData, new()
+            where TResult: SpecterApiResultBase<TData>, new()
+        {
+            return await MakeRequestAsync<TResult, TData>(HttpMethod.Post, baseUri, endpoint, authType: authType, requestBody: request);
+        }
+        
+        protected async Task<TResult> SimplePutAsync<TResult, TData>(string baseUri, string endpoint, SPAuthType authType, SPApiRequestBase request)
+            where TData: class, ISpecterApiResponseData, new()
+            where TResult: SpecterApiResultBase<TData>, new()
+        {
+            return await MakeRequestAsync<TResult, TData>(HttpMethod.Put, baseUri, endpoint, authType: authType, requestBody: request);
         }
     }
 }

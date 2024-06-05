@@ -12,6 +12,29 @@ namespace SpecterSDK.Shared
         Production
     }
 
+    [Flags]
+    public enum SPLogLevel
+    {
+        None = 0,
+        Error = 1,
+        Warning = 2,
+        Debug = 4
+    }
+
+    public static class SPDebug
+    {
+        public static Action<string> Log = Debug.Log;
+        public static Action<string> LogWarning = Debug.LogWarning;
+        public static Action<string> LogError = Debug.LogError;
+
+        public static void SetLogFlags(SPLogLevel level)
+        {
+            Log = level.HasFlag(SPLogLevel.Debug) ? Debug.Log : _ => { };
+            LogWarning = level.HasFlag(SPLogLevel.Warning) ? Debug.LogWarning : _ => { };
+            LogError = level.HasFlag(SPLogLevel.Error) ? Debug.LogError : _ => { };
+        }
+    }
+
     /// <summary>
     /// Provides runtime configuration to the SDK based on the provided SpecterConfigData or manual setup
     /// </summary>
@@ -66,6 +89,7 @@ namespace SpecterSDK.Shared
                 UseDebugCredentials = false;
 
             AuthCredentials.ApiKey = data.GetApiKey();
+            SPDebug.SetLogFlags(data.LogLevel);
         }
     }
 
@@ -83,6 +107,9 @@ namespace SpecterSDK.Shared
     {
         [Tooltip("Auto initialize Specter SDK on launching game or entering Play Mode")]
         [SerializeField] private bool m_AutoInit = true;
+
+        [Tooltip("Log level for SDK. Can be changed at runtime via SPDebug.SetLogFlags method")]
+        [SerializeField] private SPLogLevel m_LogLevel = SPLogLevel.Debug;
         
         [Tooltip("Runtime environment for Specter SDK")]
         [SerializeField] private SPEnvironment m_Environment;
@@ -101,6 +128,8 @@ namespace SpecterSDK.Shared
         [SerializeField] private SPAuthContext m_DebugAuthContext;
 
         public bool AutoInit => m_AutoInit;
+
+        public SPLogLevel LogLevel => m_LogLevel;
         public SPEnvironment Environment => m_Environment;
         public string ProjectId => m_ProjectId;
 
