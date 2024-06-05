@@ -47,8 +47,8 @@ namespace SpecterSDK.Shared
     [Serializable]
     public sealed class SPParamType : SPEnum<SPParamType>
     {
-        public static readonly SPParamType Equal = new SPParamType(0, "statistic", nameof(Equal));
-        public static readonly SPParamType GreaterThanInclusive = new SPParamType(1, "state", nameof(GreaterThanInclusive));
+        public static readonly SPParamType Statistic = new SPParamType(0, "statistic", nameof(Statistic));
+        public static readonly SPParamType State = new SPParamType(1, "state", nameof(State));
         private SPParamType(int id, string name, string displayName = null) : base(id, name, displayName) { }
     }
     
