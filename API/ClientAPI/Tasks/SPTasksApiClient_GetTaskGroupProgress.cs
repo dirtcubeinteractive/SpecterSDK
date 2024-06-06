@@ -2,6 +2,7 @@ using Newtonsoft.Json;
 using SpecterSDK.APIModels;
 using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.ObjectModels;
+using SpecterSDK.Shared;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -32,6 +33,8 @@ namespace SpecterSDK.API.ClientAPI.Tasks
         /// A list of dashboard specific task group IDs to limit retrieval of task group progresses to specific task groups.
         /// </summary>
         public List<string> taskGroupIds { get; set; }
+        public bool includeInactiveTasks { get; set; }
+        public List<SPScheduleStates> scheduleStatuses { get; set; }
     }
 
     /// <summary>
