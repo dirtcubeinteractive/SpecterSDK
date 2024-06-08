@@ -16,8 +16,8 @@ namespace SpecterSDK.ObjectModels
         public int? MaxEntryAllowed;
         public int? MaxAttemptAllowed;
         public SPCompetitionFormat Format;
-        public SPMatchResponseBaseData MatchData;
-        public SPCompetitionGameData GameData;
+        public SpecterMatchBase MatchData;
+        public SpecterGameBase GameData;
         public SPCompetitionStatus Status;
         
         public DateTime InstanceStartDate;
@@ -34,8 +34,8 @@ namespace SpecterSDK.ObjectModels
             MaxAttemptAllowed = data.maxAttemptAllowed;
             Status = data.status;
             Format = data.formatType.name;
-            MatchData = data.match;
-            GameData = data.game;
+            MatchData = data.match != null ? new SpecterMatchBase(data.match) : null;
+            GameData = data.game != null ? new SpecterGameBase(data.game) : null;
             
             InstanceStartDate = data.instanceStartDate;
             InstanceEndDate = data.instanceEndDate;

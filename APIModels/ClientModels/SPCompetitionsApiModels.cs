@@ -35,7 +35,7 @@ namespace SpecterSDK.APIModels.ClientModels
         public int? maxAttemptAllowed { get; set; }
         public SPCompetitionFormatData formatType { get; set; }
         public SPMatchResponseBaseData match { get; set; }
-        public SPCompetitionGameData game { get; set; }
+        public SPGameResponseBaseData game { get; set; }
         public DateTime instanceStartDate { get; set; }
         public DateTime? instanceEndDate { get; set; }
         public int? occurrences { get; set; }
@@ -75,9 +75,6 @@ namespace SpecterSDK.APIModels.ClientModels
         public int id { get; set; }
         public SPCompetitionFormat name { get; set; }
     }
-
-    [Serializable]
-    public class SPCompetitionGameData : SPResourceResponseData { }
 
     [Serializable]
     public class SPESportsResultResponseData : SPResourceResponseData
