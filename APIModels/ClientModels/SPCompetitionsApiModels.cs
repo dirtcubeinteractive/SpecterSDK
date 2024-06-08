@@ -34,7 +34,7 @@ namespace SpecterSDK.APIModels.ClientModels
         public int? maxEntryAllowed {  get; set; }
         public int? maxAttemptAllowed { get; set; }
         public SPCompetitionFormatData formatType { get; set; }
-        public SPCompetitionMatchData match { get; set; }
+        public SPMatchResponseBaseData match { get; set; }
         public SPCompetitionGameData game { get; set; }
         public DateTime instanceStartDate { get; set; }
         public DateTime? instanceEndDate { get; set; }
@@ -77,20 +77,33 @@ namespace SpecterSDK.APIModels.ClientModels
     }
 
     [Serializable]
-    public class SPCompetitionMatchData : SPResourceResponseData
-    {
+    public class SPCompetitionGameData : SPResourceResponseData { }
 
+    [Serializable]
+    public class SPESportsResultResponseData : SPResourceResponseData
+    {
+        public string instanceId { get; set; }
+        public SPCompetitionStatus status { get; set; }
+        public DateTime instanceStartDate { get; set; }
+        public DateTime? instanceEndDate { get; set; }
+        public SPIntervalUnit intervalUnit { get; set; }
+        public int intervalLength { get; set; }
+        public int? occurrences { get; set; }
+        public bool isRecurring { get; set; }
+        public int totalEntries { get; set; }
     }
 
     [Serializable]
-    public class SPCompetitionGameData : SPResourceResponseData
+    public class SPCompetitionResultResponseData : SPESportsResultResponseData
     {
-
+        public SPCompetitionFormatData formatType { get; set; }
+        public List<SPCompetitionLeaderboardEntryData> currentPlayerEntries { get; set; }
+        public List<SPCompetitionLeaderboardEntryData> competitionEntries { get; set; }
     }
 
     [Serializable]
-    public class SPCompetitionUnlockUnlockCondition : SPUnlockConditionResponseData
+    public class SPCompetitionLeaderboardEntryData : SPLeaderboardEntryData
     {
-
+        public string entryId { get; set; }
     }
 }

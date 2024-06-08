@@ -16,14 +16,14 @@ namespace SpecterSDK.ObjectModels
         public int? MaxEntryAllowed;
         public int? MaxAttemptAllowed;
         public SPCompetitionFormat Format;
-        public SPCompetitionMatchData MatchData;
+        public SPMatchResponseBaseData MatchData;
         public SPCompetitionGameData GameData;
         public SPCompetitionStatus Status;
         
         public DateTime InstanceStartDate;
         public DateTime? InstanceEndDate;
         public SPIntervalUnit IntervalUnit;
-        public int IntervalLength;
+        public int? IntervalLength;
         public int? Occurrences;
 
         public SpecterCompetitionBase(SPCompetitionResponseBaseData data) : base(data)
@@ -118,6 +118,67 @@ namespace SpecterSDK.ObjectModels
     {
         public string EntryId { get; set; }
         public int? NumberOfAttemptsLeft { get; set; }
+    }
+
+
+    public class SpecterCompetitionResultEntry : SpecterLeaderboardEntry
+    {
+        public string EntryId; 
+
+        public SpecterCompetitionResultEntry(SPCompetitionLeaderboardEntryData data) : base(data)
+        {
+            EntryId = data.entryId;
+        }
+    }
+
+    public class SpecterESportsResult : SpecterResource
+    {
+        public string InstanceId;
+        public SPCompetitionStatus Status;
+        public DateTime InstanceStartDate;
+        public DateTime? InstanceEndDate;
+        public SPIntervalUnit IntervalUnit;
+        public int IntervalLength; 
+        public int? Occurrences;
+        public bool IsRecurring;
+        public int TotalEntries;
+
+        public SpecterESportsResult(SPESportsResultResponseData data)
+        {
+            InstanceId = data.instanceId;
+            Status = data.status;
+            InstanceStartDate = data.instanceStartDate;
+            InstanceEndDate = data.instanceEndDate;
+            IntervalUnit = data.intervalUnit;
+            IntervalLength = data.intervalLength;
+            Occurrences = data.occurrences;
+            IsRecurring = data.isRecurring;
+            TotalEntries = data.totalEntries;
+        }
+    }
+
+    public class SpecterCompetitionResult : SpecterESportsResult
+    {
+        public SPCompetitionFormat Format;
+        
+        public List<SpecterCompetitionResultEntry> CurrentPlayerEntries;
+        public List<SpecterCompetitionResultEntry> CompetitionEntries;
+
+        public SpecterCompetitionResult(SPCompetitionResultResponseData data) : base(data)
+        {
+            Format = data.formatType.name;
+            CurrentPlayerEntries = new List<SpecterCompetitionResultEntry>();
+            foreach (var currentEntry in data.currentPlayerEntries)
+            {
+                CurrentPlayerEntries.Add(new SpecterCompetitionResultEntry(currentEntry));
+            }
+
+            CompetitionEntries = new List<SpecterCompetitionResultEntry>();
+            foreach (var currentEntry in data.competitionEntries)
+            {
+                CompetitionEntries.Add(new SpecterCompetitionResultEntry(currentEntry));
+            }
+        }
     }
 
 }
