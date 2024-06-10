@@ -18,6 +18,11 @@ namespace SpecterSDK.API.ClientAPI.App
         /// Filter to retrieve specific competitions by their Id.
         /// </summary>
         public List<string> competitionIds {  get; set; }
+        
+        /// <summary>
+        /// Filter to retrieve specific competitions by associated games if configured for a game match in the dashboard.
+        /// </summary>
+        public List<string> gameIds { get; set; }
 
         /// <summary>
         /// Filter retrieved competition by schedule statuses. See <see cref="SPCompetitionStatus"/> for possible values
