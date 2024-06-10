@@ -11,7 +11,7 @@ namespace SpecterSDK.ObjectModels
         public DateTime InstanceStartDate;
         public DateTime? InstanceEndDate;
         public SPIntervalUnit IntervalUnit;
-        public int IntervalLength;
+        public int? IntervalLength;
         public int? Occurrences;
         public SPCompetitionStatus Status;
         public bool IsRecurring;

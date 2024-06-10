@@ -37,7 +37,7 @@ namespace SpecterSDK.ObjectModels
         public DateTime InstanceStartDate;
         public DateTime? InstanceEndDate;
         public SPIntervalUnit IntervalUnit;
-        public int IntervalLength;
+        public int? IntervalLength;
         public int? Occurrences;
         public List<string> Tags { get; set; }
         public Dictionary<string, object> Meta { get; set; }
@@ -103,7 +103,7 @@ namespace SpecterSDK.ObjectModels
         public DateTime InstanceStartDate;
         public DateTime? InstanceEndDate;
         public SPIntervalUnit IntervalUnit;
-        public int IntervalLength;
+        public int? IntervalLength;
         public int? Occurrences;
         
         public SPTaskType TaskType;
