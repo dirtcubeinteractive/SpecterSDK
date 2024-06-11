@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using SpecterSDK.APIModels.Interfaces;
 using SpecterSDK.Shared;
 using SpecterSDK.Shared.SPEnum;
+using UnityEngine;
 
 namespace SpecterSDK.APIModels.ClientModels
 {
@@ -29,6 +30,25 @@ namespace SpecterSDK.APIModels.ClientModels
         public List<SPInventoryBundleResponseData> bundles { get; set; }
         public List<SPWalletCurrencyResponseData> currencies { get; set; }
         public List<SPUserProgressResponseData> progressionMarkers { get; set; }
+        public List<SPFailedRewardsData> failedRewards { get; set; }
+    }
+
+    [Serializable]
+    public class SPFailedRewardsData
+    {
+        public SPRewardSourceType sourceType { get; set; }
+        public string sourceId { get; set; }
+        public string instanceId { get; set; }
+        public List<SPFailedResourceData> failedItems { get; set; }
+        public List<SPFailedResourceData> failedBundles { get; set; }
+        public List<SPFailedResourceData> failedCurrencies { get; set; }
+        public List<SPFailedResourceData> failedProgressionMarkers { get; set; }
+    }
+
+    [Serializable]
+    public class SPFailedResourceData
+    {
+        
     }
 
     [Serializable]
