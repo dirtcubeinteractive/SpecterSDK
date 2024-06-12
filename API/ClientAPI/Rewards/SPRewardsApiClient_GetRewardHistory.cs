@@ -56,6 +56,8 @@ namespace SpecterSDK.API.ClientAPI.Rewards
         /// completion of a level in any progression system.
         /// </summary>
         public List<string> levelIds { get; set; }
+        public List<string> leaderboardIds { get; set; }
+        public List<string> competitionIds { get; set; }
 
         /// <summary>
         /// Optional entities configuration to retrieve only a specific type of reward history entries.
