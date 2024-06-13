@@ -9,7 +9,7 @@ using UnityEngine;
 namespace SpecterSDK.ObjectModels
 {
 
-    public class SpecterCompetitionBase : SpecterEsportsResource
+    public abstract class SpecterCompetitionBase : SpecterEsportsResource
     {
         public int MinPlayers;
         public int? MaxPlayers;
@@ -19,7 +19,7 @@ namespace SpecterSDK.ObjectModels
         public SpecterMatchBase MatchData;
         public SpecterGameBase GameData;
 
-        public SpecterCompetitionBase(SPCompetitionResponseBaseData data) : base(data)
+        protected SpecterCompetitionBase(SPCompetitionResponseBaseData data) : base(data)
         {
             MinPlayers = data.minPlayers ?? 0;
             MaxPlayers = data.maxPlayers;
@@ -114,41 +114,4 @@ namespace SpecterSDK.ObjectModels
         public string EntryId { get; set; }
         public int? NumberOfAttemptsLeft { get; set; }
     }
-
-    /*public class SpecterESportsResult : SpecterEsportsInstance
-    {
-        public string InstanceId;
-        public SPCompetitionStatus Status;
-        public DateTime InstanceStartDate;
-        public DateTime? InstanceEndDate;
-        public SPIntervalUnit IntervalUnit;
-        public int IntervalLength; 
-        public int? Occurrences;
-        public bool IsRecurring;
-        public int TotalEntries;
-
-        public SpecterESportsResult(SPESportsResourceResponseData data)
-        {
-            InstanceId = data.instanceId;
-            Status = data.status;
-            InstanceStartDate = data.instanceStartDate;
-            InstanceEndDate = data.instanceEndDate;
-            IntervalUnit = data.intervalUnit;
-            IntervalLength = data.intervalLength;
-            Occurrences = data.occurrences;
-            IsRecurring = data.isRecurring;
-            TotalEntries = data.totalEntries;
-        }
-    }*/
-
-    /*public class SpecterCompetitionResult : SpecterLeaderboardRankings
-    {
-        public SPCompetitionFormat Format;
-
-        public SpecterCompetitionResult(SPCompetitionResultResponseData data) : base(data)
-        {
-            Format = data.formatType.name;
-        }
-    }*/
-
 }

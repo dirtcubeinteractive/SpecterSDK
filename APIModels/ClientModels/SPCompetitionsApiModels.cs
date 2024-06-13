@@ -74,10 +74,4 @@ namespace SpecterSDK.APIModels.ClientModels
         public int id { get; set; }
         public SPCompetitionFormat name { get; set; }
     }
-
-    /*[Serializable]
-    public class SPCompetitionResultResponseData : SPLeaderboardRankingsResponseData
-    {
-        public SPCompetitionFormatData formatType { get; set; }
-    }*/
 }
