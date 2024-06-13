@@ -40,6 +40,13 @@ namespace SpecterSDK.APIModels.ClientModels
     }
 
     [Serializable]
+    public class SPMatchWinConditionData
+    {
+        public int id { get; set; }
+        public SPMatchWinCondition name { get; set; }
+    }
+
+    [Serializable]
     public class SPGameMatchOutcomeData
     {
         public int id { get; set; }

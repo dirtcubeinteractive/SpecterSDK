@@ -19,13 +19,13 @@ namespace SpecterSDK.API.ClientAPI.Leaderboards
         public string instanceOffset { get; set; }
     }
 
-    public class SPGetLeaderboardResultData : SpecterApiResultBase<SPLeaderboardResponseData>
+    public class SPGetLeaderboardResultData : SpecterApiResultBase<SPLeaderboardRankingsResponseData>
     {
-        public SpecterLeaderboard LeaderboardResult;
+        public SpecterLeaderboardRankings LeaderboardResult;
 
         protected override void InitSpecterObjectsInternal()
         {
-            LeaderboardResult = new SpecterLeaderboard(Response.data);
+            LeaderboardResult = new SpecterLeaderboardRankings(Response.data);
         }
     }
 
@@ -33,7 +33,7 @@ namespace SpecterSDK.API.ClientAPI.Leaderboards
     {
         public async Task<SPGetLeaderboardResultData> GetLeaderboardResultAsync(SPGetLeaderboardResultRequest request)
         {
-            var result = await PostAsync<SPGetLeaderboardResultData, SPLeaderboardResponseData>("/v1/client/leaderboards/get-result", AuthType, request);
+            var result = await PostAsync<SPGetLeaderboardResultData, SPLeaderboardRankingsResponseData>("/v1/client/leaderboards/get-result", AuthType, request);
             return result;
         }
     }

@@ -13,13 +13,13 @@ namespace SpecterSDK.API.ClientAPI.Competitions
         public string instanceId { get; set; }
     }
 
-    public class SPGetTournamentRankingsResult : SpecterApiResultBase<SPCompetitionResultResponseData>
+    public class SPGetTournamentRankingsResult : SpecterApiResultBase<SPLeaderboardRankingsResponseData>
     {
-        public SpecterCompetitionResult TournamentRankings;
+        public SpecterLeaderboardRankings TournamentRankings;
 
         protected override void InitSpecterObjectsInternal()
         {
-            TournamentRankings = new SpecterCompetitionResult(Response.data);
+            TournamentRankings = new SpecterLeaderboardRankings(Response.data);
         }
     }
 
@@ -29,7 +29,7 @@ namespace SpecterSDK.API.ClientAPI.Competitions
             SPGetTournamentRankingsRequest request)
         {
             var result =
-                await PostAsync<SPGetTournamentRankingsResult, SPCompetitionResultResponseData>(
+                await PostAsync<SPGetTournamentRankingsResult, SPLeaderboardRankingsResponseData>(
                     "/v1/client/competitions/get-tournament-rankings", AuthType, request);
             return result;
         }

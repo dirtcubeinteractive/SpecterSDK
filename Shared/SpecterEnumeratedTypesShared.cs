@@ -189,6 +189,15 @@ namespace SpecterSDK.Shared
         private SPGameMatchOutcomeType(int id, string name, string displayName = null) : base(id, name, displayName) { }
     }
 
+    [Serializable]
+    public sealed class SPMatchWinCondition : SPEnum<SPMatchWinCondition>
+    {
+        public static readonly SPMatchWinCondition Higher = new SPMatchWinCondition(1, nameof(Higher).ToLower(), nameof(Higher));
+        public static readonly SPMatchWinCondition Lower = new SPMatchWinCondition(2, nameof(Lower).ToLower(), nameof(Lower));
+        
+        private SPMatchWinCondition(int id, string name, string displayName) : base(id, name, displayName) { }
+    }
+
     #endregion
 
     #region Competition

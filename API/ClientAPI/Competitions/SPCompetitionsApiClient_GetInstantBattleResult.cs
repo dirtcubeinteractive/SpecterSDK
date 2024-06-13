@@ -13,12 +13,12 @@ namespace SpecterSDK.API.ClientAPI.Competitions
         public string entryId { get; set; }
     }
 
-    public class SPGetInstantBattleResultData : SpecterApiResultBase<SPCompetitionResultResponseData>
+    public class SPGetInstantBattleResultData : SpecterApiResultBase<SPLeaderboardRankingsResponseData>
     {
-        public SpecterCompetitionResult InstantBattleResult;
+        public SpecterLeaderboardRankings InstantBattleResult;
         protected override void InitSpecterObjectsInternal()
         {
-            InstantBattleResult = new SpecterCompetitionResult(Response.data);
+            InstantBattleResult = new SpecterLeaderboardRankings(Response.data);
         }
     }
 
@@ -26,7 +26,7 @@ namespace SpecterSDK.API.ClientAPI.Competitions
     {
         public async Task<SPGetInstantBattleResultData> GetInstantBattleResultAsync(SPGetInstantBattleResultRequest request)
         {
-            var result = await PostAsync<SPGetInstantBattleResultData, SPCompetitionResultResponseData>("/v1/client/competitions/get-instantbattle-result", AuthType, request);
+            var result = await PostAsync<SPGetInstantBattleResultData, SPLeaderboardRankingsResponseData>("/v1/client/competitions/get-instantbattle-result", AuthType, request);
             return result;
         }
     }

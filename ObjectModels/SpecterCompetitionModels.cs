@@ -9,7 +9,7 @@ using UnityEngine;
 namespace SpecterSDK.ObjectModels
 {
 
-    public class SpecterCompetitionBase : SpecterResource
+    public class SpecterCompetitionBase : SpecterEsportsResource
     {
         public int MinPlayers;
         public int? MaxPlayers;
@@ -18,13 +18,6 @@ namespace SpecterSDK.ObjectModels
         public SPCompetitionFormat Format;
         public SpecterMatchBase MatchData;
         public SpecterGameBase GameData;
-        public SPCompetitionStatus Status;
-        
-        public DateTime InstanceStartDate;
-        public DateTime? InstanceEndDate;
-        public SPIntervalUnit IntervalUnit;
-        public int? IntervalLength;
-        public int? Occurrences;
 
         public SpecterCompetitionBase(SPCompetitionResponseBaseData data) : base(data)
         {
@@ -32,16 +25,9 @@ namespace SpecterSDK.ObjectModels
             MaxPlayers = data.maxPlayers;
             MaxEntryAllowed = data.maxEntryAllowed;
             MaxAttemptAllowed = data.maxAttemptAllowed;
-            Status = data.status;
             Format = data.formatType.name;
             MatchData = data.match != null ? new SpecterMatchBase(data.match) : null;
             GameData = data.game != null ? new SpecterGameBase(data.game) : null;
-            
-            InstanceStartDate = data.instanceStartDate;
-            InstanceEndDate = data.instanceEndDate;
-            IntervalUnit = data.intervalUnit;
-            IntervalLength = data.intervalLength;
-            Occurrences = data.occurrences;
         }
     }
 
@@ -90,9 +76,18 @@ namespace SpecterSDK.ObjectModels
         }
     }
 
-    public class SpecterEnteredCompetition : SpecterCompetitionBase
+    public class SpecterCompetitionInstance : SpecterCompetitionBase
     {
-        public string InstanceId { get; set; }
+        public string InstanceId;
+        
+        protected SpecterCompetitionInstance(SPCompetitionInstanceResponseData data) : base(data)
+        {
+            InstanceId = data.instanceId;
+        }
+    }
+
+    public class SpecterEnteredCompetition : SpecterCompetitionInstance
+    {
         public List<SpecterCompetitionEntryInfo> Entries { get; set; }
         
         public SpecterEnteredCompetition(SPEnteredCompetitionResponseData data) : base(data)
@@ -120,18 +115,7 @@ namespace SpecterSDK.ObjectModels
         public int? NumberOfAttemptsLeft { get; set; }
     }
 
-
-    public class SpecterCompetitionResultEntry : SpecterLeaderboardEntry
-    {
-        public string EntryId; 
-
-        public SpecterCompetitionResultEntry(SPCompetitionLeaderboardEntryData data) : base(data)
-        {
-            EntryId = data.entryId;
-        }
-    }
-
-    public class SpecterESportsResult : SpecterResource
+    /*public class SpecterESportsResult : SpecterEsportsInstance
     {
         public string InstanceId;
         public SPCompetitionStatus Status;
@@ -143,7 +127,7 @@ namespace SpecterSDK.ObjectModels
         public bool IsRecurring;
         public int TotalEntries;
 
-        public SpecterESportsResult(SPESportsResultResponseData data)
+        public SpecterESportsResult(SPESportsResourceResponseData data)
         {
             InstanceId = data.instanceId;
             Status = data.status;
@@ -155,30 +139,16 @@ namespace SpecterSDK.ObjectModels
             IsRecurring = data.isRecurring;
             TotalEntries = data.totalEntries;
         }
-    }
+    }*/
 
-    public class SpecterCompetitionResult : SpecterESportsResult
+    /*public class SpecterCompetitionResult : SpecterLeaderboardRankings
     {
         public SPCompetitionFormat Format;
-        
-        public List<SpecterCompetitionResultEntry> CurrentPlayerEntries;
-        public List<SpecterCompetitionResultEntry> CompetitionEntries;
 
         public SpecterCompetitionResult(SPCompetitionResultResponseData data) : base(data)
         {
             Format = data.formatType.name;
-            CurrentPlayerEntries = new List<SpecterCompetitionResultEntry>();
-            foreach (var currentEntry in data.currentPlayerEntries)
-            {
-                CurrentPlayerEntries.Add(new SpecterCompetitionResultEntry(currentEntry));
-            }
-
-            CompetitionEntries = new List<SpecterCompetitionResultEntry>();
-            foreach (var currentEntry in data.competitionEntries)
-            {
-                CompetitionEntries.Add(new SpecterCompetitionResultEntry(currentEntry));
-            }
         }
-    }
+    }*/
 
 }

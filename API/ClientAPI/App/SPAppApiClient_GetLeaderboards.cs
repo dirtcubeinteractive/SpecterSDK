@@ -18,15 +18,15 @@ namespace SpecterSDK.API.ClientAPI.App
 
     public class SPGetLeaderboardsResult : SpecterApiResultBase<SPGetLeaderboardsResponseData>
     {
-        public List<SpecterLeaderboardBase> Leaderboards;
+        public List<SpecterLeaderboard> Leaderboards;
         public int TotalLeaderboardCount;
 
         protected override void InitSpecterObjectsInternal()
         {
-            Leaderboards = new List<SpecterLeaderboardBase>();
+            Leaderboards = new List<SpecterLeaderboard>();
             foreach (var leaderboard in Response.data.leaderboards)
             {
-                Leaderboards.Add(new SpecterLeaderboardBase(leaderboard));
+                Leaderboards.Add(new SpecterLeaderboard(leaderboard));
             }
             TotalLeaderboardCount = Response.data.totalCount;
         }

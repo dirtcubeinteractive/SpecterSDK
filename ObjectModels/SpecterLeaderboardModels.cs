@@ -3,26 +3,48 @@ using System.Collections.Generic;
 using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.ObjectModels.Interfaces;
 using SpecterSDK.Shared;
+using UnityEngine.Serialization;
 
 namespace SpecterSDK.ObjectModels
 {
-    public class SpecterLeaderboardBase : SpecterResource , ISpecterMasterObject
+    public abstract class SpecterEsportsResource : SpecterResource
     {
+        public SPCompetitionStatus Status;
         public DateTime InstanceStartDate;
         public DateTime? InstanceEndDate;
         public SPIntervalUnit IntervalUnit;
         public int? IntervalLength;
         public int? Occurrences;
-        public SPCompetitionStatus Status;
         public bool IsRecurring;
+        public SPLeaderboardOutcomeType LeaderboardOutcomeType;
+        public SPLeaderboardSourceType Source;
+        public SPMatchWinCondition WinCondition;
+
+        protected SpecterEsportsResource(SPESportsResourceResponseData data) : base (data)
+        {
+            Status = data.status;
+            
+            LeaderboardOutcomeType = data.outcomeType?.name;
+            Source = data.sourceType.name;
+            WinCondition = data.winCondition?.name;
+            
+            InstanceStartDate = data.instanceStartDate;
+            InstanceEndDate = data.instanceEndDate;
+            IntervalUnit = data.intervalUnit;
+            IntervalLength = data.intervalLength;
+            Occurrences = data.occurrences;
+            IsRecurring = data.isRecurring;
+        }
+    }
+    
+    public class SpecterLeaderboard : SpecterEsportsResource , ISpecterMasterObject
+    {
         public List<SpecterPrizeDistribution> PrizeDistributions;
         public SpecterMatchBase Match;
-        public SPLeaderboardOutcomeType LeaderboardOutcomeType;
-        public SPLeaderboardSourceType LeaderboardSourceType;
         public List<string> Tags { get; set; }
         public Dictionary<string, object> Meta { get; set; }
 
-        public SpecterLeaderboardBase(SPLeaderboardResponseBaseData data) : base(data)
+        public SpecterLeaderboard(SPLeaderboardResponseBaseData data) : base(data)
         {
             InstanceStartDate = data.instanceStartDate;
             InstanceEndDate = data.instanceEndDate;
@@ -33,7 +55,6 @@ namespace SpecterSDK.ObjectModels
             Status = data.status;
             IsRecurring = data.isRecurring;
             LeaderboardOutcomeType = data.outcomeType.name;
-            LeaderboardSourceType = data.sourceType.name;
 
             if (data.match != null)
                 Match = new SpecterMatchBase(data.match);
@@ -49,14 +70,24 @@ namespace SpecterSDK.ObjectModels
         }
     }
 
-    public class SpecterLeaderboard : SpecterLeaderboardBase
+    public class SpecterLeaderboardRankings : SpecterEsportsResource
     {
-        public SpecterLeaderboardEntry CurrentPlayerEntry;
+        public string InstanceId;
+        public List<SpecterLeaderboardEntry> CurrentPlayerEntries;
         public List<SpecterLeaderboardEntry> LeaderboardEntries;
-        public SpecterLeaderboard(SPLeaderboardResponseData data) : base(data)
+        
+        public SpecterLeaderboardRankings(SPLeaderboardRankingsResponseData data) : base(data)
         {
-            if (data.currentPlayerEntry != null)
-                CurrentPlayerEntry = new SpecterLeaderboardEntry(data.currentPlayerEntry);
+            InstanceId = data.instanceId;
+            
+            CurrentPlayerEntries = new List<SpecterLeaderboardEntry>();
+            if (data.currentPlayerEntries != null)
+            {
+                foreach (var entry in data.currentPlayerEntries)
+                {
+                    CurrentPlayerEntries.Add(new SpecterLeaderboardEntry(entry));
+                }
+            }
              
             LeaderboardEntries = new List<SpecterLeaderboardEntry>();
             foreach (var leaderBoardEntry in data.leaderboardEntries)
@@ -70,6 +101,7 @@ namespace SpecterSDK.ObjectModels
     {
         public int Rank;
         public int Score;
+        public string EntryId;
         public SpecterLeaderboardPlayerInfo PlayerInfo;
         public SpecterRewardDetails Prizes;
 
@@ -78,10 +110,11 @@ namespace SpecterSDK.ObjectModels
         {
             Rank = data.rank;
             Score = data.score;
+            EntryId = data.entryId;
             PlayerInfo = new SpecterLeaderboardPlayerInfo(data.userDetails);
 
             if(data.prizes != null)
-            Prizes = new SpecterRewardDetails(data.prizes);
+                Prizes = new SpecterRewardDetails(data.prizes);
         }
     }
 
