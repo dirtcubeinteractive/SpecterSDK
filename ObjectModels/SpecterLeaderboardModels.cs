@@ -25,7 +25,7 @@ namespace SpecterSDK.ObjectModels
         protected SpecterEsportsResource(SPESportsResourceResponseData data) : base (data)
         {
             LeaderboardOutcomeType = data.outcomeType?.name;
-            Source = data.sourceType.name;
+            Source = data.sourceType?.name;
             WinCondition = data.winCondition?.name;
 
             Schedule = new SpecterInstanceSchedule()
@@ -91,9 +91,12 @@ namespace SpecterSDK.ObjectModels
             }
              
             LeaderboardEntries = new List<SpecterLeaderboardEntry>();
-            foreach (var leaderBoardEntry in data.leaderboardEntries)
+            if (data.leaderboardEntries != null)
             {
-                LeaderboardEntries.Add(new SpecterLeaderboardEntry(leaderBoardEntry));
+                foreach (var leaderBoardEntry in data.leaderboardEntries)
+                {
+                    LeaderboardEntries.Add(new SpecterLeaderboardEntry(leaderBoardEntry));
+                }
             }
         }
     }

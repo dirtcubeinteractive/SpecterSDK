@@ -217,10 +217,10 @@ namespace SpecterSDK.Shared
 
     public sealed class SPCompetitionFormat : SPEnum<SPCompetitionFormat>
     {
-        public static readonly SPCompetitionFormat InstantBattle = new SPCompetitionFormat(1, "Instant Battle", nameof(InstantBattle));
-        public static readonly SPCompetitionFormat PaidChallenge = new SPCompetitionFormat(1, "Paid Challenge", nameof(PaidChallenge));
-        public static readonly SPCompetitionFormat Bracket = new SPCompetitionFormat(1, "Bracket", nameof(Bracket));
-        public static readonly SPCompetitionFormat Tournament = new SPCompetitionFormat(1, "Tournament", nameof(Tournament));
+        public static readonly SPCompetitionFormat InstantBattle = new SPCompetitionFormat(3, "Instant Battle", nameof(InstantBattle));
+        public static readonly SPCompetitionFormat PaidChallenge = new SPCompetitionFormat(4, "Paid Challenge", nameof(PaidChallenge));
+        public static readonly SPCompetitionFormat Bracket = new SPCompetitionFormat(5, "Bracket", nameof(Bracket));
+        public static readonly SPCompetitionFormat Tournament = new SPCompetitionFormat(2, "Tournament", nameof(Tournament));
 
         public SPCompetitionFormat(int id, string name, string displayName = null) : base(id, name, displayName) { }
 
