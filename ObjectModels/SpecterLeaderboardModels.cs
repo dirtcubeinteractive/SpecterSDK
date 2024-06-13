@@ -9,31 +9,40 @@ namespace SpecterSDK.ObjectModels
 {
     public abstract class SpecterEsportsResource : SpecterResource
     {
-        public SPCompetitionStatus Status;
-        public DateTime InstanceStartDate;
-        public DateTime? InstanceEndDate;
-        public SPIntervalUnit IntervalUnit;
-        public int? IntervalLength;
-        public int? Occurrences;
-        public bool IsRecurring;
         public SPLeaderboardOutcomeType LeaderboardOutcomeType;
         public SPLeaderboardSourceType Source;
         public SPMatchWinCondition WinCondition;
 
+        private SpecterInstanceSchedule Schedule;
+        public SPCompetitionStatus Status => Schedule.Status;
+        public DateTime InstanceStartDate => Schedule.InstanceStartDate;
+        public DateTime? InstanceEndDate => Schedule.InstanceEndDate;
+        public SPIntervalUnit IntervalUnit => Schedule.IntervalUnit;
+        public int? IntervalLength => Schedule.IntervalLength;
+        public int? Occurrences => Schedule.Occurrences;
+        public bool IsRecurring => Schedule.IsRecurring;
+
         protected SpecterEsportsResource(SPESportsResourceResponseData data) : base (data)
         {
-            Status = data.status;
-            
             LeaderboardOutcomeType = data.outcomeType?.name;
             Source = data.sourceType.name;
             WinCondition = data.winCondition?.name;
-            
-            InstanceStartDate = data.instanceStartDate;
-            InstanceEndDate = data.instanceEndDate;
-            IntervalUnit = data.intervalUnit;
-            IntervalLength = data.intervalLength;
-            Occurrences = data.occurrences;
-            IsRecurring = data.isRecurring;
+
+            Schedule = new SpecterInstanceSchedule()
+            {
+                Status = data.status,
+                InstanceStartDate = data.instanceStartDate,
+                InstanceEndDate = data.instanceEndDate,
+                IntervalUnit = data.intervalUnit,
+                IntervalLength = data.intervalLength,
+                Occurrences = data.occurrences ?? 1,
+                IsRecurring = data.isRecurring,
+            };
+        }
+
+        public void SetSchedule(SpecterInstanceSchedule schedule)
+        {
+            Schedule = schedule;
         }
     }
     
@@ -46,14 +55,6 @@ namespace SpecterSDK.ObjectModels
 
         public SpecterLeaderboard(SPLeaderboardResponseBaseData data) : base(data)
         {
-            InstanceStartDate = data.instanceStartDate;
-            InstanceEndDate = data.instanceEndDate;
-            IntervalUnit = data.intervalUnit;
-            IntervalLength = data.intervalLength;
-            Occurrences = data.occurrences;
-
-            Status = data.status;
-            IsRecurring = data.isRecurring;
             LeaderboardOutcomeType = data.outcomeType.name;
 
             if (data.match != null)
