@@ -155,7 +155,7 @@ namespace SpecterSDK.API
                     {
                         status = SPApiStatus.Error, 
                         errors = new List<SPApiError>() { apiError },
-                        code = apiError.errorCode,
+                        code = apiError.code,
                         message = apiError.message,
                         data = null
                     };
