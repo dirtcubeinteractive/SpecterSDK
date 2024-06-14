@@ -144,27 +144,12 @@ namespace SpecterSDK.API
             {
                 SPDebug.Log("SP HTTP Request Full URL: " + uri);
                 var response = await m_HttpClient.SendAsync(request, new CancellationToken());
-
-                if (!response.IsSuccessStatusCode)
-                {
-                    var errResString = await response.Content.ReadAsStringAsync();
-                    SPDebug.LogError($"SP Api Error for endpoint {endpoint}: {errResString}");
-                    
-                    var apiError = SpecterJson.DeserializeObject<SPApiError>(errResString);
-                    var errResponse = new SPApiResponse<TData>()
-                    {
-                        status = SPApiStatus.Error, 
-                        errors = new List<SPApiError>() { apiError },
-                        code = apiError.code,
-                        message = apiError.message,
-                        data = null
-                    };
-
-                    return errResponse;
-                }
-
                 var resString = await response.Content.ReadAsStringAsync();
-                SPDebug.Log($"SP HTTP Response for Endpoint {endpoint}: {resString}");
+                
+                if (response.IsSuccessStatusCode)
+                    SPDebug.Log($"SP HTTP Response for Endpoint {endpoint}: {resString}");
+                else
+                    SPDebug.LogError($"SP Api Error for endpoint {endpoint}: {resString}");
                 
                 var apiResponse = SpecterJson.DeserializeObject<SPApiResponse<TData>>(resString);
                 return apiResponse;
