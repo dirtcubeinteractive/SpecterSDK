@@ -71,7 +71,6 @@ namespace SpecterSDK.APIModels.ClientModels
         public bool stageReset { get; set; }
         public int? stepNumber { get; set; }
         public SPRewardResourceDetailsResponseData rewardDetails { get; set; }
-        public SPTaskType taskType { get; set; }
         public List<SPTaskResponseData> tasks { get; set; }
         public DateTime instanceStartDate { get; set; }
         public DateTime? instanceEndDate { get; set; }

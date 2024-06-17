@@ -106,7 +106,6 @@ namespace SpecterSDK.ObjectModels
         public int? IntervalLength;
         public int? Occurrences;
         
-        public SPTaskType TaskType;
         public List<SpecterTask> Tasks;
         public SpecterRewardDetails Rewards;
         public List<string> Tags { get; set; }
@@ -124,7 +123,6 @@ namespace SpecterSDK.ObjectModels
             IntervalLength = data.intervalLength;
             Occurrences = data.occurrences;
             
-            TaskType = data.taskType;
             Tags = data.tags ?? new List<string>();
             Meta = data.meta ?? new Dictionary<string, object>();
             

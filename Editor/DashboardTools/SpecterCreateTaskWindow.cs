@@ -233,7 +233,6 @@ namespace SpecterSDK.Editor.DashboardTools
                 EditorGUILayout.Space(8f);
                 EditorGUILayout.BeginHorizontal();
                 {
-                    DrawSPEnumPopupVertical("Task Type", ref m_CreateTask.type);
                     EditorGUILayout.Space(5f);
                     DrawSPEnumPopupVertical("Reward Grant", ref m_CreateTask.rewardGrantType);
                     EditorGUILayout.Space(5f);

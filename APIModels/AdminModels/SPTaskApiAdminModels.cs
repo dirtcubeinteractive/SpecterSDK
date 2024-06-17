@@ -54,8 +54,6 @@ namespace SpecterSDK.APIModels.AdminModels
         public string iconUrl;
         public string description;
         [JsonRequired]
-        public SPTaskType type;
-        [JsonRequired]
         public SPRewardGrantType rewardGrantType;
         [JsonRequired]
         public bool isLockedByLevel;
@@ -78,7 +76,6 @@ namespace SpecterSDK.APIModels.AdminModels
         public SPCreateTaskAdminRequest()
         {
             iconUrl = "task-icon.png";
-            type = SPTaskType.Static;
             rewardGrantType = SPRewardGrantType.Client;
             isLockedByLevel = false;
             isRecurring = false;

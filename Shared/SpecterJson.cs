@@ -1,11 +1,13 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SpecterSDK.APIModels;
 using SpecterSDK.APIModels.ClientModels;
+using SpecterSDK.Shared.Attributes;
 using SpecterSDK.Shared.Extensions;
 using SpecterSDK.Shared.SPEnum;
 using UnityEngine;
@@ -131,19 +133,37 @@ namespace SpecterSDK.Shared
         /// <param name="settings">Settings to initialize & add converters to</param>
         public static void InitializeCustomJsonConverters(JsonSerializerSettings settings)
         {
-            InitializeSpEnumJsonConverters(settings);
+            var types = from assembly in AppDomain.CurrentDomain.GetAssemblies()
+                from type in assembly.GetTypes()
+                select type;
+
+            var enumerable = types as Type[] ?? types.ToArray();
+            InitializeCustomConverters(enumerable, settings);
+            InitializeSpEnumJsonConverters(enumerable, settings);
+        }
+
+        public static void InitializeCustomConverters(Type[] types, JsonSerializerSettings settings)
+        {
+            var customConverters = from type in types
+                where type.GetCustomAttributes(typeof(SpecterCustomJsonConverterAttribute), false).Length == 1
+                select type;
+
+            foreach (var type in customConverters)
+            {
+                if (Activator.CreateInstance(type) is JsonConverter converter)
+                    settings.Converters.Add(converter);
+            }
         }
 
         /// <summary>
         /// Discovers and initializes JsonConverters for SPEnum&lt;T&gt; subclasses.
         /// This ensures that any enum-like classes in the SDK are serialized/deserialized correctly.
         /// </summary>
+        /// <param name="types">Types from assemblies to check for converters</param>
         /// <param name="settings">Settings to initialize and add converters to</param>
-        public static void InitializeSpEnumJsonConverters(JsonSerializerSettings settings)
+        public static void InitializeSpEnumJsonConverters(Type[] types, JsonSerializerSettings settings)
         {
-            var spEnumSubTypes = 
-                from Assembly assembly in AppDomain.CurrentDomain.GetAssemblies()
-                from Type type in assembly.GetTypes()
+            var spEnumSubTypes = from Type type in types
                 where type.IsClass && !type.IsAbstract && type.IsSubclassOfRawGeneric(typeof(SPEnum<>))
                 select type;
 

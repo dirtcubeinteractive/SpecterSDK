@@ -104,16 +104,6 @@ namespace SpecterSDK.Shared
     #region Tasks
     
     [Serializable]
-    public sealed class SPTaskType : SPEnum<SPTaskType>
-    {
-        public static readonly SPTaskType Static = new SPTaskType(0, nameof(Static).ToLower(), nameof(Static));
-        public static readonly SPTaskType Daily = new SPTaskType(1, nameof(Daily).ToLower(), nameof(Daily));
-        public static readonly SPTaskType Weekly = new SPTaskType(2, nameof(Weekly).ToLower(), nameof(Weekly));
-        
-        private SPTaskType(int id, string name, string displayName = null) : base(id, name, displayName) { }
-    }
-    
-    [Serializable]
     public sealed class SPTaskGroupType : SPEnum<SPTaskGroupType>
     {
         public static readonly SPTaskGroupType Mission = new SPTaskGroupType(0, nameof(Mission).ToLower(), nameof(Mission));

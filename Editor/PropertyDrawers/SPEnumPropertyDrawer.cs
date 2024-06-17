@@ -50,9 +50,6 @@ namespace SpecterSDK.Editor
     [CustomPropertyDrawer(typeof(SPRewardGrantType))]
     public class SPRewardGrantTypePropertyDrawer : SPEnumPropertyDrawer<SPRewardGrantType> { }
     
-    [CustomPropertyDrawer(typeof(SPTaskType))]
-    public class SPTaskTypePropertyDrawer : SPEnumPropertyDrawer<SPTaskType> { }
-    
     [CustomPropertyDrawer(typeof(SPTaskStatus))]
     public class SPTaskStatusPropertyDrawer : SPEnumPropertyDrawer<SPTaskStatus> { }
     
