@@ -26,6 +26,7 @@ namespace SpecterSDK.APIModels.ClientModels
     [Serializable]
     public class SPTaskResponseData : SPTaskResourceResponseData , ISpecterMasterData
     {
+        public SPTaskGroupResourceResponseData taskGroupDetails { get; set; }
         public SPRewardGrantType rewardGrant { get; set; }
         public SPRewardResourceDetailsResponseData rewardDetails { get; set; }
         public DateTime instanceStartDate { get; set; }

@@ -57,6 +57,9 @@ namespace SpecterSDK.ObjectModels
             Meta = data.meta ?? new Dictionary<string, object>();
             if (data.rewardDetails != null)
                 Rewards = new SpecterRewardDetails(data.rewardDetails);
+
+            if (data.taskGroupDetails != null)
+                TaskGroupInfo = new SpecterTaskGroupResource(data.taskGroupDetails);
         }
 
         public void SetTaskGroupInfo(SPTaskGroupResourceResponseData data)
