@@ -64,7 +64,7 @@ namespace SpecterSDK.Shared
 
         private string m_ProjectId;
 
-        public string BaseUrl => "https://client.staging.specterapp.xyz";
+        public string BaseUrl => "https://api.specterapp.xyz";
 
         public SPEnvironment Environment => m_Environment;
         public string ProjectId { get => m_ProjectId; set => m_ProjectId = value; }
