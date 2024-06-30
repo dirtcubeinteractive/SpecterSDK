@@ -64,7 +64,8 @@ namespace SpecterSDK.Shared
 
         private string m_ProjectId;
 
-        public string BaseUrl => "https://api.specterapp.xyz";
+        private string m_BaseUrl = "https://api.specterapp.xyz";
+        public string BaseUrl => m_BaseUrl;
 
         public SPEnvironment Environment => m_Environment;
         public string ProjectId { get => m_ProjectId; set => m_ProjectId = value; }
@@ -90,6 +91,17 @@ namespace SpecterSDK.Shared
 
             AuthCredentials.ApiKey = data.GetApiKey();
             SPDebug.SetLogFlags(data.LogLevel);
+        }
+
+        public void SetInternalConfig()
+        {
+            var file = Resources.Load<TextAsset>("specter_config");
+            if (file == null) 
+                return;
+            
+            var dict = SpecterJson.DeserializeObject<Dictionary<string, object>>(file.text);
+            m_BaseUrl = (string)dict["url"];
+            Debug.Log($"Specter: Set base url to {m_BaseUrl}");
         }
     }
 
