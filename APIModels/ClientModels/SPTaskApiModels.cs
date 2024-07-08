@@ -57,6 +57,7 @@ namespace SpecterSDK.APIModels.ClientModels
     public class SPTaskStatusResponseData : SPTaskResourceResponseData
     {
         public SPTaskStatus status { get; set; }
+        public string instanceId { get; set; }
     }
 
     [Serializable]
@@ -93,6 +94,7 @@ namespace SpecterSDK.APIModels.ClientModels
     public class SPTaskGroupStatusResponseData : SPTaskGroupResourceResponseData
     {
         public SPTaskGroupStatus status { get; set; }
+        public string instanceId { get; set; }
         public List<SPTaskStatusResponseData> tasks { get; set; }
     }
 
