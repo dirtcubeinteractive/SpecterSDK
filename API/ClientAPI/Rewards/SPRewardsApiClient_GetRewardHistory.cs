@@ -138,6 +138,7 @@ namespace SpecterSDK.API.ClientAPI.Rewards
                 AddToRewardMaps(rewardHistoryEntry);
                 targetList.Add(rewardHistoryEntry);
             }
+
         }
 
         private void AddToRewardMaps(SpecterRewardHistoryEntry rewardHistoryEntry)
@@ -156,12 +157,15 @@ namespace SpecterSDK.API.ClientAPI.Rewards
                 rewardSet = new SpecterRewardSet(rewardHistoryEntry);
                 rewardSets.Add(rewardSet);
             }
-
             rewardSet.AddReward(rewardHistoryEntry);
-            if (!RewardSetInstanceMap.ContainsKey(rewardHistoryEntry.InstanceId))
+
+
+            if (!RewardSetInstanceMap.TryGetValue(rewardHistoryEntry.InstanceId, out var rs ))
             {
-                RewardSetInstanceMap[rewardHistoryEntry.InstanceId] = rewardSet;
+                rs = new SpecterRewardSet(rewardHistoryEntry);
+                RewardSetInstanceMap[rewardHistoryEntry.InstanceId] = rs;
             }
+            rs.AddReward(rewardHistoryEntry);
         }
     }
 
