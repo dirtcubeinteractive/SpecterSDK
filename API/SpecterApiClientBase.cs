@@ -83,6 +83,7 @@ namespace SpecterSDK.API
                 request.projectId = m_Config.ProjectId;
             }
         }
+
         /// <summary>
         /// Core method to make API requests. It handles the entire lifecycle of a request, from constructing the URL to handling various response scenarios.
         /// </summary>
@@ -92,6 +93,7 @@ namespace SpecterSDK.API
         /// <param name="authType">Authentication mechanism to be set in the request</param>
         /// <param name="requestParams">Query parameters - only applicable in GET requests</param>
         /// <param name="requestBody">Body of the request</param>
+        /// <param name="cancellationToken">Cancellation token for request</param>
         /// <typeparam name="TData">Type of data returned in the <see cref="SPApiResponse{T}"/></typeparam>
         /// <returns>A deserialized instance of <see cref="SPApiResponse{T}"/></returns>
         private async Task<SPApiResponse<TData>> MakeRequestAsync<TData>(
@@ -100,7 +102,8 @@ namespace SpecterSDK.API
             string endpoint = "",
             SPAuthType authType = SPAuthType.None,
             object requestParams = null,
-            object requestBody = null
+            object requestBody = null,
+            CancellationToken cancellationToken = default
             )
         where TData : class, ISpecterApiResponseData, new()
         {
@@ -148,21 +151,18 @@ namespace SpecterSDK.API
 
             }
 
-            await s_RateHandler.WaitForTokenAsync();
-
-            int attempt = 0;
-            TimeSpan delayTime = TimeSpan.FromMilliseconds(m_Config.BaseRetryDelayMillis);
-
-            do
-            {
-                await s_RateHandler.Semaphore.WaitAsync();
-                try
+            var result = await s_RateHandler.ExecuteWithRetryAsync(
+                endpoint: endpoint,
+                httpRequest: async (cancelToken) =>
                 {
-                    SPDebug.Log("SP HTTP Request Full URL: " + uri);
-                    var response = await m_HttpClient.SendAsync(request, new CancellationToken());
-                    var resString = await response.Content.ReadAsStringAsync();
+                    var response = await m_HttpClient.SendAsync(request, cancelToken);
+                    return response;
+                },
+                handleHttpResponse: async (res) =>
+                {
+                    var resString = await res.Content.ReadAsStringAsync();
 
-                    if (response.IsSuccessStatusCode)
+                    if (res.IsSuccessStatusCode)
                     {
                         SPDebug.Log($"SP HTTP Response for Endpoint {endpoint}: {resString}");
                     }
@@ -171,90 +171,13 @@ namespace SpecterSDK.API
                         SPDebug.LogError($"SP Api Error for endpoint {endpoint}: {resString}");
                     }
 
-                    if (!ShouldRetry(response.StatusCode))
-                    {
-                        var apiResponse = SpecterJson.DeserializeObject<SPApiResponse<TData>>(resString);
-                        return apiResponse;
-                    }
-                }
-                catch (Exception e)
-                {
-                    if (e is JsonSerializationException jsonException)
-                    {
-                        SPDebug.LogError($"SP Error Deserializing Response for endpoint {endpoint}: {jsonException.ToString()}");
-                    }
-                    else
-                        SPDebug.LogError($"SP Client Side Error for endpoint {endpoint}: {e.ToString()}");
-
-                    const string message = "An unexpected client side exception occured while making the request ";
-                    var errResponse = new SPApiResponse<TData>()
-                    {
-                        status = SPApiStatus.Error,
-                        code = 500,
-                        message = message,
-                        errors = new List<SPApiError>()
-                        {
-                            new()
-                            {
-                                code = 500,
-                                status = "InternalClientException",
-                                errorCode = 500,
-                                message = message,
-                                errorMessage = e.Message
-                            }
-                        },
-                        data = null
-                    };
-
-                    return errResponse;
-                }
-                finally
-                {
-                    s_RateHandler.Semaphore.Release();
-                }
-
-                attempt++;
-                if (attempt < m_Config.MaxRetries)
-                {
-                    await Task.Delay(delayTime);
-                    delayTime = TimeSpan.FromSeconds(delayTime.TotalSeconds * 2); // Exponential backoff
-                }
-                
-            } while (attempt < m_Config.MaxRetries);
-            
-            return new SPApiResponse<TData>()
-            {
-                status = SPApiStatus.Error,
-                code = 503,
-                message = "Max retries exceeded",
-                errors = new List<SPApiError>()
-                {
-                    new()
-                    {
-                        code = 503,
-                        status = "ServiceUnavailable",
-                        errorCode = 503,
-                        message = "Max retries exceeded",
-                        errorMessage = "Max retries exceeded from client"
-                    }
+                    var apiResponse = SpecterJson.DeserializeObject<SPApiResponse<TData>>(resString);
+                    return apiResponse;
                 },
-                data = null
-            };
-        }
-        
-        private bool ShouldRetry(HttpStatusCode code)
-        {
-            switch (code)
-            {
-                case HttpStatusCode.BadGateway:
-                case HttpStatusCode.RequestTimeout:
-                case HttpStatusCode.GatewayTimeout:
-                case HttpStatusCode.InternalServerError:
-                case HttpStatusCode.ServiceUnavailable:
-                    return true;
-                default:
-                    return false;
-            }
+                cancellationToken: cancellationToken
+            );
+
+            return result;
         }
 
         /// <summary>
@@ -268,12 +191,13 @@ namespace SpecterSDK.API
             string endpoint,
             SPAuthType authType = SPAuthType.None,
             SPApiRequestBase requestParams = null,
-            SPApiRequestBase requestBody = null
+            SPApiRequestBase requestBody = null,
+            CancellationToken cancellationToken = default
             )
             where TData : class, ISpecterApiResponseData, new()
             where TResult : SpecterApiResultBase<TData>, new()
         {
-            var response = await MakeRequestAsync<TData>(method, baseUri, endpoint, authType, requestParams, requestBody);
+            var response = await MakeRequestAsync<TData>(method, baseUri, endpoint, authType, requestParams, requestBody, cancellationToken);
             return BuildResult<TResult, TData>(response);
         }
 
@@ -296,39 +220,39 @@ namespace SpecterSDK.API
         }
 
         // Convenience methods for making specific types of HTTP requests. These abstract away the HTTP verb details, providing a more semantic way to make requests.
-        protected async Task<TResult> GetAsync<TResult, TData>(string endpoint, SPAuthType authType, SPApiRequestBase request)
+        protected async Task<TResult> GetAsync<TResult, TData>(string endpoint, SPAuthType authType, SPApiRequestBase request, CancellationToken cancellationToken = default)
             where TData : class, ISpecterApiResponseData, new()
             where TResult : SpecterApiResultBase<TData>, new()
         {
-            return await MakeRequestAsync<TResult, TData>(HttpMethod.Get, m_Config.BaseUrl, endpoint, authType: authType, requestParams: request);
+            return await MakeRequestAsync<TResult, TData>(HttpMethod.Get, m_Config.BaseUrl, endpoint, authType: authType, requestParams: request, cancellationToken: cancellationToken);
         }
 
-        protected async Task<TResult> PostAsync<TResult, TData>(string endpoint, SPAuthType authType, SPApiRequestBase request)
+        protected async Task<TResult> PostAsync<TResult, TData>(string endpoint, SPAuthType authType, SPApiRequestBase request, CancellationToken cancellationToken = default)
             where TData : class, ISpecterApiResponseData, new()
             where TResult : SpecterApiResultBase<TData>, new()
         {
-            return await MakeRequestAsync<TResult, TData>(HttpMethod.Post, m_Config.BaseUrl, endpoint, authType: authType, requestBody: request);
+            return await MakeRequestAsync<TResult, TData>(HttpMethod.Post, m_Config.BaseUrl, endpoint, authType: authType, requestBody: request, cancellationToken: cancellationToken);
         }
 
-        protected async Task<TResult> PutAsync<TResult, TData>(string endpoint, SPAuthType authType, SPApiRequestBase request)
+        protected async Task<TResult> PutAsync<TResult, TData>(string endpoint, SPAuthType authType, SPApiRequestBase request, CancellationToken cancellationToken = default)
             where TData : class, ISpecterApiResponseData, new()
             where TResult : SpecterApiResultBase<TData>, new()
         {
-            return await MakeRequestAsync<TResult, TData>(HttpMethod.Put, m_Config.BaseUrl, endpoint, authType: authType, requestBody: request);
+            return await MakeRequestAsync<TResult, TData>(HttpMethod.Put, m_Config.BaseUrl, endpoint, authType: authType, requestBody: request, cancellationToken: cancellationToken);
         }
 
-        protected async Task<TResult> SimplePostAsync<TResult, TData>(string baseUri, string endpoint, SPAuthType authType, SPApiRequestBase request)
+        protected async Task<TResult> SimplePostAsync<TResult, TData>(string baseUri, string endpoint, SPAuthType authType, SPApiRequestBase request, CancellationToken cancellationToken = default)
             where TData : class, ISpecterApiResponseData, new()
             where TResult : SpecterApiResultBase<TData>, new()
         {
-            return await MakeRequestAsync<TResult, TData>(HttpMethod.Post, baseUri, endpoint, authType: authType, requestBody: request);
+            return await MakeRequestAsync<TResult, TData>(HttpMethod.Post, baseUri, endpoint, authType: authType, requestBody: request, cancellationToken: cancellationToken);
         }
 
-        protected async Task<TResult> SimplePutAsync<TResult, TData>(string baseUri, string endpoint, SPAuthType authType, SPApiRequestBase request)
+        protected async Task<TResult> SimplePutAsync<TResult, TData>(string baseUri, string endpoint, SPAuthType authType, SPApiRequestBase request, CancellationToken cancellationToken = default)
             where TData : class, ISpecterApiResponseData, new()
             where TResult : SpecterApiResultBase<TData>, new()
         {
-            return await MakeRequestAsync<TResult, TData>(HttpMethod.Put, baseUri, endpoint, authType: authType, requestBody: request);
+            return await MakeRequestAsync<TResult, TData>(HttpMethod.Put, baseUri, endpoint, authType: authType, requestBody: request, cancellationToken: cancellationToken);
         }
     }
 }

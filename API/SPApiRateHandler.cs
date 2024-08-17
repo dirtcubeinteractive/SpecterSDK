@@ -38,7 +38,7 @@ namespace SpecterSDK.API
             m_BaseRetryMillis = config.BaseRetryDelayMillis;
         }
 
-        public async Task WaitForTokenAsync()
+        private async Task WaitForTokenAsync()
         {
             lock (m_TokenBucketLock)
             {
@@ -82,7 +82,7 @@ namespace SpecterSDK.API
         public async Task<SPApiResponse<TData>> ExecuteWithRetryAsync<TData>(
             string endpoint,
             Func<CancellationToken, Task<HttpResponseMessage>> httpRequest,
-            Func<HttpResponseMessage, SPApiResponse<TData>> handleResponse,
+            Func<HttpResponseMessage, Task<SPApiResponse<TData>>> handleHttpResponse,
             CancellationToken cancellationToken = default) where TData : class, ISpecterApiResponseData, new()
         {
             await WaitForTokenAsync();
@@ -98,22 +98,29 @@ namespace SpecterSDK.API
 
                     // Execute the HTTP request
                     var response = await httpRequest(cancellationToken);
+                    var apiResponse = await handleHttpResponse(response);
 
                     // If the response does not require a retry, return the result
                     if (!ShouldRetry(response.StatusCode))
                     {
-                        return handleResponse(response);
+                        return apiResponse;
                     }
+                }
+                catch (JsonSerializationException e)
+                {
+                    SPDebug.LogError($"SP Error Deserializing Response for endpoint {endpoint}: {e.ToString()}");
+                    return CreateErrorResponse<TData>(500, 500, "JsonSerializationException", "Json Deserialization Exception", e.Message);
+
+                }
+                catch (OperationCanceledException e) when (cancellationToken.IsCancellationRequested)
+                {
+                    SPDebug.LogWarning($"SP Request Cancelled By Client for endpoint {endpoint}");
+                    return CreateErrorResponse<TData>(499, 499, "ClientClosedRequest", "Cancellation token was triggered", e.Message);
                 }
                 catch (Exception e)
                 {
-                    // Handle client-side exceptions
-                    if (attempt >= m_MaxRetries)
-                    {
-                        return CreateErrorResponse<TData>(500, "Max retries exceeded", e.Message);
-                    }
-                    
                     SPDebug.LogError($"SP Client Side Error for endpoint {endpoint}: {e.ToString()}");
+                    return CreateErrorResponse<TData>(500, 500, "InternalClientException", "An unexpected client exception occurred", e.Message);
                 }
                 finally
                 {
@@ -123,12 +130,13 @@ namespace SpecterSDK.API
                 attempt++;
                 if (attempt < m_MaxRetries)
                 {
+                    SPDebug.Log($"SP HTTP Request for endpoint {endpoint} retrying {m_MaxRetries - attempt} more times after {delayTime.TotalMilliseconds} millis...");
                     await Task.Delay(delayTime, cancellationToken);
                     delayTime = TimeSpan.FromMilliseconds(delayTime.TotalMilliseconds * 2); // Exponential backoff
                 }
             } while (attempt < m_MaxRetries);
 
-            return CreateErrorResponse<TData>(503, "Max retries exceeded", "Service unavailable after multiple retry attempts.");
+            return CreateErrorResponse<TData>(503, 503, "RetriesExceededException","Max retries exceeded", "Service unavailable after multiple retry attempts.");
         }
 
         private bool ShouldRetry(HttpStatusCode code)
@@ -144,22 +152,22 @@ namespace SpecterSDK.API
             };
         }
 
-        private SPApiResponse<TData> CreateErrorResponse<TData>(int statusCode, string status, string errorMessage)
+        private SPApiResponse<TData> CreateErrorResponse<TData>(int statusCode, int errorCode, string statusMessage, string message, string errorMessage)
             where TData : class, ISpecterApiResponseData, new()
         {
             return new SPApiResponse<TData>
             {
                 status = SPApiStatus.Error,
                 code = statusCode,
-                message = status,
+                message = statusMessage,
                 errors = new List<SPApiError>
                 {
                     new SPApiError
                     {
                         code = statusCode,
-                        status = status,
-                        errorCode = statusCode,
-                        message = status,
+                        status = statusMessage,
+                        message = message,
+                        errorCode = errorCode,
                         errorMessage = errorMessage
                     }
                 },
