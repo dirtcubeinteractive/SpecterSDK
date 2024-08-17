@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
@@ -49,6 +50,9 @@ namespace SpecterSDK.API
     {
         // Shared HTTP client instance for making API requests.
         private static HttpClient m_HttpClient;
+        
+        // Share rate limiter
+        private static SPApiRateHandler s_RateHandler;
 
         // Configuration settings for the Specter runtime.
         protected readonly SpecterRuntimeConfig m_Config;
@@ -63,6 +67,9 @@ namespace SpecterSDK.API
 
             // Initialize the shared Http client only if another API client has not already done so.
             m_HttpClient ??= new HttpClient();
+            
+            // Initialize the shared rate handler only if not already done so.
+            s_RateHandler ??= new SPApiRateHandler(config);
         }
 
         // Ensures that the project ID is always set for requests that require it.
@@ -141,56 +148,113 @@ namespace SpecterSDK.API
 
             }
 
-            try
+            await s_RateHandler.WaitForTokenAsync();
+
+            int attempt = 0;
+            TimeSpan delayTime = TimeSpan.FromMilliseconds(m_Config.BaseRetryDelayMillis);
+
+            do
             {
-                SPDebug.Log("SP HTTP Request Full URL: " + uri);
-                var response = await m_HttpClient.SendAsync(request, new CancellationToken());
-                var resString = await response.Content.ReadAsStringAsync();
-
-                if (response.IsSuccessStatusCode)
+                await s_RateHandler.Semaphore.WaitAsync();
+                try
                 {
+                    SPDebug.Log("SP HTTP Request Full URL: " + uri);
+                    var response = await m_HttpClient.SendAsync(request, new CancellationToken());
+                    var resString = await response.Content.ReadAsStringAsync();
 
-                    SPDebug.Log($"SP HTTP Response for Endpoint {endpoint}: {resString}");
-                }
-                else
-                    SPDebug.LogError($"SP Api Error for endpoint {endpoint}: {resString}");
-
-                var apiResponse = SpecterJson.DeserializeObject<SPApiResponse<TData>>(resString);
-                return apiResponse;
-
-            }
-            catch (Exception e)
-            {
-                if (e is JsonSerializationException jsonException)
-                {
-                    SPDebug.LogError($"SP Error Deserializing Response for endpoint {endpoint}: {jsonException.ToString()}");
-                }
-                else
-                    SPDebug.LogError($"SP Client Side Error for endpoint {endpoint}: {e.ToString()}");
-
-                const string message = "An unexpected client side exception occured while making the request ";
-                var errResponse = new SPApiResponse<TData>()
-                {
-                    status = SPApiStatus.Error,
-                    code = 500,
-                    message = message,
-                    errors = new List<SPApiError>()
+                    if (response.IsSuccessStatusCode)
                     {
-                        new()
+                        SPDebug.Log($"SP HTTP Response for Endpoint {endpoint}: {resString}");
+                    }
+                    else
+                    {
+                        SPDebug.LogError($"SP Api Error for endpoint {endpoint}: {resString}");
+                    }
+
+                    if (!ShouldRetry(response.StatusCode))
+                    {
+                        var apiResponse = SpecterJson.DeserializeObject<SPApiResponse<TData>>(resString);
+                        return apiResponse;
+                    }
+                }
+                catch (Exception e)
+                {
+                    if (e is JsonSerializationException jsonException)
+                    {
+                        SPDebug.LogError($"SP Error Deserializing Response for endpoint {endpoint}: {jsonException.ToString()}");
+                    }
+                    else
+                        SPDebug.LogError($"SP Client Side Error for endpoint {endpoint}: {e.ToString()}");
+
+                    const string message = "An unexpected client side exception occured while making the request ";
+                    var errResponse = new SPApiResponse<TData>()
+                    {
+                        status = SPApiStatus.Error,
+                        code = 500,
+                        message = message,
+                        errors = new List<SPApiError>()
                         {
-                            code = 500,
-                            status = "InternalClientException",
-                            errorCode = 500,
-                            message = message,
-                            errorMessage = e.Message
-                        }
-                    },
-                    data = null
-                };
+                            new()
+                            {
+                                code = 500,
+                                status = "InternalClientException",
+                                errorCode = 500,
+                                message = message,
+                                errorMessage = e.Message
+                            }
+                        },
+                        data = null
+                    };
 
-                return errResponse;
+                    return errResponse;
+                }
+                finally
+                {
+                    s_RateHandler.Semaphore.Release();
+                }
+
+                attempt++;
+                if (attempt < m_Config.MaxRetries)
+                {
+                    await Task.Delay(delayTime);
+                    delayTime = TimeSpan.FromSeconds(delayTime.TotalSeconds * 2); // Exponential backoff
+                }
+                
+            } while (attempt < m_Config.MaxRetries);
+            
+            return new SPApiResponse<TData>()
+            {
+                status = SPApiStatus.Error,
+                code = 503,
+                message = "Max retries exceeded",
+                errors = new List<SPApiError>()
+                {
+                    new()
+                    {
+                        code = 503,
+                        status = "ServiceUnavailable",
+                        errorCode = 503,
+                        message = "Max retries exceeded",
+                        errorMessage = "Max retries exceeded from client"
+                    }
+                },
+                data = null
+            };
+        }
+        
+        private bool ShouldRetry(HttpStatusCode code)
+        {
+            switch (code)
+            {
+                case HttpStatusCode.BadGateway:
+                case HttpStatusCode.RequestTimeout:
+                case HttpStatusCode.GatewayTimeout:
+                case HttpStatusCode.InternalServerError:
+                case HttpStatusCode.ServiceUnavailable:
+                    return true;
+                default:
+                    return false;
             }
-
         }
 
         /// <summary>
