@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using SpecterSDK.APIModels;
 using SpecterSDK.APIModels.Interfaces;
 using SpecterSDK.Shared;
+using UnityEngine;
 
 namespace SpecterSDK.API
 {
@@ -85,6 +86,7 @@ namespace SpecterSDK.API
             Func<HttpResponseMessage, Task<SPApiResponse<TData>>> handleHttpResponse,
             CancellationToken cancellationToken = default) where TData : class, ISpecterApiResponseData, new()
         {
+            var startTime = DateTime.UtcNow;
             await WaitForTokenAsync();
             
             int attempt = 0;
@@ -103,6 +105,8 @@ namespace SpecterSDK.API
                     // If the response does not require a retry, return the result
                     if (!ShouldRetry(response.StatusCode))
                     {
+                        // Log API time even if a non-retryable error occurred
+                        LogApiTime(startTime, endpoint, attempt + 1, response.IsSuccessStatusCode);
                         return apiResponse;
                     }
                 }
@@ -136,6 +140,8 @@ namespace SpecterSDK.API
                 }
             } while (attempt < m_MaxRetries);
 
+            // Log API time for total time taken once retries have been exhausted
+            LogApiTime(startTime, endpoint, attempt, false);
             return CreateErrorResponse<TData>(503, 503, "RetriesExceededException","Max retries exceeded", "Service unavailable after multiple retry attempts.");
         }
 
@@ -150,6 +156,12 @@ namespace SpecterSDK.API
                 HttpStatusCode.ServiceUnavailable => true,
                 _ => false,
             };
+        }
+
+        private void LogApiTime(DateTime startTime, string endpoint, int attempts, bool success)
+        {
+            var time = DateTime.UtcNow - startTime;
+            SPDebug.Log($"SP Api Call for endpoint {endpoint} completed {(success ? "successfully" : "with error")} after total {time.TotalMilliseconds} millis and {attempts} attempts.");
         }
 
         private SPApiResponse<TData> CreateErrorResponse<TData>(int statusCode, int errorCode, string statusMessage, string message, string errorMessage)
