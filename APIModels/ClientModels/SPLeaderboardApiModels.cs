@@ -11,7 +11,6 @@ namespace SpecterSDK.APIModels.ClientModels
     {
         // Will be null for custom competitions
         public SPMatchWinConditionData winCondition { get; set; }
-        
         public SPLeaderboardSourceData sourceType { get; set; }
         
         // Will be null for instant battles

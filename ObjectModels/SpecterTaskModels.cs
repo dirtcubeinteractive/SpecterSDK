@@ -71,11 +71,13 @@ namespace SpecterSDK.ObjectModels
     public class SpecterTaskStatus : SpecterTaskResource
     {
         public SPTaskStatus Status;
+        public string InstanceId;
         public SpecterTaskStatus() { }
 
         public SpecterTaskStatus(SPTaskStatusResponseData data) : base(data)
         {
             Status = data.status;
+            InstanceId = data.instanceId;
         }
     }
 
@@ -146,7 +148,7 @@ namespace SpecterSDK.ObjectModels
     {
         public List<SpecterTaskStatus> Tasks;
         public SPTaskGroupStatus Status;
-        
+        public string InstanceId;
         public int PendingTasksCount { get; set; }
         public int CompletedTasksCount { get; set; }
         public int TaskRewardsClaimedCount { get; set; }
@@ -158,6 +160,7 @@ namespace SpecterSDK.ObjectModels
             PendingTasksCount = 0;
             CompletedTasksCount = 0;
             TaskRewardsClaimedCount = 0;
+            InstanceId = data.instanceId;
 
             Tasks = new List<SpecterTaskStatus>();
             if (data.tasks != null)

@@ -40,6 +40,7 @@ namespace SpecterSDK.Shared
     /// </summary>
     public class SpecterRuntimeConfig
     {
+        private static SpecterApiRateConfig RateConfig { get; set; }
         public static SPAuthContext AuthCredentials = new SPAuthContext();
 
         public string AccessToken 
@@ -64,18 +65,30 @@ namespace SpecterSDK.Shared
 
         private string m_ProjectId;
 
-        public string BaseUrl => "https://client.staging.specterapp.xyz";
+        private string m_BaseUrl = "https://api.specterapp.xyz";
+        public string BaseUrl => m_BaseUrl;
 
         public SPEnvironment Environment => m_Environment;
         public string ProjectId { get => m_ProjectId; set => m_ProjectId = value; }
         public bool UseDebugCredentials { get; }
+        
+        public int MaxConcurrentRequests => RateConfig.m_MaxConcurrentRequests;
+        public int MaxRetries => RateConfig.m_MaxRetries;
+        public int MaxTokens => RateConfig.m_MaxTokens;
+        public int TokenRefillMillis => RateConfig.m_TokenRefillIntervalMillis;
+        public int BaseRetryDelayMillis => RateConfig.m_RetryBaseDelayMillis;
 
-        public SpecterRuntimeConfig(SPEnvironment environment = SPEnvironment.Development, string projectId = "", string apiKey = null)
+        public SpecterRuntimeConfig(
+            SPEnvironment environment = SPEnvironment.Development, 
+            string projectId = "", 
+            string apiKey = null, 
+            SpecterApiRateConfig rateConfig = default)
         {
             m_Environment = environment;
             m_ProjectId = projectId;
 
             AuthCredentials.ApiKey = apiKey;
+            RateConfig = rateConfig ?? new SpecterApiRateConfig();
         }
 
         public SpecterRuntimeConfig(SpecterConfigData data) : this(data.Environment, data.ProjectId)
@@ -89,7 +102,19 @@ namespace SpecterSDK.Shared
                 UseDebugCredentials = false;
 
             AuthCredentials.ApiKey = data.GetApiKey();
+            RateConfig = data.RateConfig;
             SPDebug.SetLogFlags(data.LogLevel);
+        }
+
+        public void SetInternalConfig()
+        {
+            var file = Resources.Load<TextAsset>("specter_config");
+            if (file == null) 
+                return;
+            
+            var dict = SpecterJson.DeserializeObject<Dictionary<string, object>>(file.text);
+            m_BaseUrl = (string)dict["url"];
+            Debug.Log($"Specter: Set base url to {m_BaseUrl}");
         }
     }
 
@@ -127,6 +152,9 @@ namespace SpecterSDK.Shared
         [Tooltip("Debug tokens to test the Specter APIs. These can only be used in Development and QualityAssurance Environments")] 
         [SerializeField] private SPAuthContext m_DebugAuthContext;
 
+        [Tooltip("Configurations to handle SDK rate limiting and retries")] 
+        [SerializeField] private SpecterApiRateConfig m_ApiRateConfig = new SpecterApiRateConfig();
+
         public bool AutoInit => m_AutoInit;
 
         public SPLogLevel LogLevel => m_LogLevel;
@@ -135,6 +163,8 @@ namespace SpecterSDK.Shared
 
         public bool UseDebugCredentials => m_UseDebugCredentials;
         public SPAuthContext DebugAuthContext => m_DebugAuthContext;
+        
+        public SpecterApiRateConfig RateConfig => m_ApiRateConfig;
 
         public string GetApiKey()
         {
@@ -172,5 +202,15 @@ namespace SpecterSDK.Shared
             }
         }
 #endif
+    }
+
+    [Serializable]
+    public class SpecterApiRateConfig
+    {
+        [Range(1, 10)] public int m_MaxRetries = 3;
+        public int m_MaxTokens = 25;
+        public int m_MaxConcurrentRequests = 3;
+        public int m_TokenRefillIntervalMillis = 500;
+        public int m_RetryBaseDelayMillis = 1000;
     }
 }

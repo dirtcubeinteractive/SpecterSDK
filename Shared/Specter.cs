@@ -239,6 +239,8 @@ namespace SpecterSDK
                     "Call Specter.Initialize or Specter.InitializeWithConfig or enable Auto Init " +
                     "in SpecterConfigData Scriptable Object");
             }
+            
+            Config.SetInternalConfig();
 
             App = new SPAppApiClient(Config);
             Auth = new SPAuthApiClient(Config);
