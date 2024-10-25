@@ -24,14 +24,42 @@ namespace SpecterSDK.Shared
     public static class SPDebug
     {
         public static Action<string> Log = Debug.Log;
+        public static Action<string, UnityEngine.Object> LogCtx = LogContext;
         public static Action<string> LogWarning = Debug.LogWarning;
+        public static Action<string, UnityEngine.Object> LogWarningCtx = LogWarningContext;
         public static Action<string> LogError = Debug.LogError;
+        public static Action<string, UnityEngine.Object> LogErrorCtx = LogErrorContext;
 
         public static void SetLogFlags(SPLogLevel level)
         {
             Log = level.HasFlag(SPLogLevel.Debug) ? Debug.Log : _ => { };
+            LogCtx = level.HasFlag(SPLogLevel.Debug) ? LogContext : (_, _) => { };
+
             LogWarning = level.HasFlag(SPLogLevel.Warning) ? Debug.LogWarning : _ => { };
+            LogWarningCtx = level.HasFlag(SPLogLevel.Warning) ? LogWarningContext : (_, _) => { };
+
             LogError = level.HasFlag(SPLogLevel.Error) ? Debug.LogError : _ => { };
+            LogErrorCtx = level.HasFlag(SPLogLevel.Error) ? LogErrorContext : (_, _) => { };
+        }
+
+        private static void LogContext(string message, UnityEngine.Object obj)
+        {
+            Debug.Log($"{GetCtxName(obj)}: {message}", obj);
+        }
+
+        private static void LogWarningContext(string message, UnityEngine.Object obj)
+        {
+            Debug.LogWarning($"{GetCtxName(obj)}: {message}", obj);
+        }
+
+        private static void LogErrorContext(string message, UnityEngine.Object obj)
+        {
+            Debug.LogError($"{GetCtxName(obj)}: {message}", obj);
+        }
+
+        private static string GetCtxName(UnityEngine.Object obj)
+        {
+            return obj == null ? "Logger" : obj.GetType().Name;
         }
     }
 
