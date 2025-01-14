@@ -22,7 +22,7 @@ namespace SpecterSDK.ObjectModels
         public int? Occurrences => Schedule.Occurrences;
         public bool IsRecurring => Schedule.IsRecurring;
 
-        protected SpecterEsportsResource(SPESportsResourceResponseData data) : base (data)
+        protected SpecterEsportsResource(SPESportsResourceResponseData data) : base(data)
         {
             LeaderboardOutcomeType = data.outcomeType?.name;
             Source = data.sourceType?.name;
@@ -45,10 +45,10 @@ namespace SpecterSDK.ObjectModels
             Schedule = schedule;
         }
     }
-    
-    public class SpecterLeaderboard : SpecterEsportsResource , ISpecterMasterObject
+
+    public class SpecterLeaderboard : SpecterEsportsResource, ISpecterMasterObject
     {
-        public List<SpecterPrizeDistribution> PrizeDistributions;
+        public List<SpecterPrizeDistribution> PrizeDistributionRules;
         public SpecterMatchBase Match;
         public List<string> Tags { get; set; }
         public Dictionary<string, object> Meta { get; set; }
@@ -60,10 +60,10 @@ namespace SpecterSDK.ObjectModels
             if (data.match != null)
                 Match = new SpecterMatchBase(data.match);
 
-            PrizeDistributions = new List<SpecterPrizeDistribution>();
+            PrizeDistributionRules = new List<SpecterPrizeDistribution>();
             foreach (var prizeDistributionRule in data.prizeDistributionRules)
             {
-                PrizeDistributions.Add(new SpecterPrizeDistribution(prizeDistributionRule));
+                PrizeDistributionRules.Add(new SpecterPrizeDistribution(prizeDistributionRule));
             }
 
             Tags = data.tags ?? new List<string>();
@@ -76,11 +76,11 @@ namespace SpecterSDK.ObjectModels
         public string InstanceId;
         public List<SpecterLeaderboardEntry> CurrentPlayerEntries;
         public List<SpecterLeaderboardEntry> LeaderboardEntries;
-        
+
         public SpecterLeaderboardRankings(SPLeaderboardRankingsResponseData data) : base(data)
         {
             InstanceId = data.instanceId;
-            
+
             CurrentPlayerEntries = new List<SpecterLeaderboardEntry>();
             if (data.currentPlayerEntries != null)
             {
@@ -89,7 +89,7 @@ namespace SpecterSDK.ObjectModels
                     CurrentPlayerEntries.Add(new SpecterLeaderboardEntry(entry));
                 }
             }
-             
+
             LeaderboardEntries = new List<SpecterLeaderboardEntry>();
             if (data.leaderboardEntries != null)
             {
@@ -117,7 +117,7 @@ namespace SpecterSDK.ObjectModels
             EntryId = data.entryId;
             PlayerInfo = new SpecterLeaderboardPlayerInfo(data.userDetails);
 
-            if(data.prizes != null)
+            if (data.prizes != null)
                 Prizes = new SpecterRewardDetails(data.prizes);
         }
     }
@@ -131,7 +131,7 @@ namespace SpecterSDK.ObjectModels
         public string Username;
         public string DisplayName;
         public string ThumbUrl;
-        
+
         public SpecterLeaderboardPlayerInfo(SPLeaderboardPlayerData data)
         {
             Uuid = data.uuid;
