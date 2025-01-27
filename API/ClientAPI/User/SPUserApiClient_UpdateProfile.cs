@@ -16,34 +16,41 @@ namespace SpecterSDK.API.ClientAPI.User
     {
         public string firstName { get; set; }
         public string lastName { get; set; }
-        
+
         /// <summary>
         /// A unique username for the user.
         /// </summary>
         public string username { get; set; }
-        
+
         public string birthdate { get; set; }
-        
+
         /// <summary>
         /// The display name for the user. Non-unique.
         /// </summary>
         public string displayName { get; set; }
-        
+
+
+        /// <summary>
+        /// The email address for the user.
+        /// </summary>
+        /// <value></value>
+        public string email { get; set; }
+
         /// <summary>
         /// Url for the profile image of the user.
         /// </summary>
         public string thumbUrl { get; set; }
-        
+
         /// <summary>
         /// Flag to indicate if a user has completed their KYC
         /// </summary>
         public bool? isKycComplete { get; set; }
-        
+
         /// <summary>
         /// Dictionary of optional Specter params to be sent with the API call
         /// </summary>
         public Dictionary<string, object> specterParams { get; set; }
-            
+
         /// <summary>
         /// Dictionary of optional custom params to be sent with the API call
         /// </summary>
@@ -59,13 +66,13 @@ namespace SpecterSDK.API.ClientAPI.User
         /// This response returns a simple success message, so no specific object is expected.
         /// </summary>
         public Dictionary<string, object> ObjectDict;
-        
+
         protected override void InitSpecterObjectsInternal()
         {
             ObjectDict = Response.data;
         }
     }
-    
+
     public partial class SPUserApiClient
     {
         /// <summary>
