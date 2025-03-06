@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using SpecterSDK.APIModels;
 using SpecterSDK.APIModels.ClientModels;
-using SpecterSDK.APIModels.Interfaces;
 using SpecterSDK.ObjectModels;
 using SpecterSDK.Shared;
+using SpecterSDK.Shared.Networking;
+using SpecterSDK.Shared.Networking.Interfaces;
+using SpecterSDK.Shared.Networking.Models;
 
 namespace SpecterSDK.API.ClientAPI.Authentication
 {

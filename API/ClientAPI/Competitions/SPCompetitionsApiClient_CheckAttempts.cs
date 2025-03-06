@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using SpecterSDK.APIModels;
 using SpecterSDK.APIModels.ClientModels;
+using SpecterSDK.Shared.Networking.Models;
 
 namespace SpecterSDK.API.ClientAPI.Competitions
 {

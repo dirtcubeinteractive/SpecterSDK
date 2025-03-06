@@ -2,8 +2,9 @@ using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using SpecterSDK.APIModels.ClientModels;
-using SpecterSDK.APIModels.Interfaces;
 using SpecterSDK.Shared;
+using SpecterSDK.Shared.Networking.Interfaces;
+using SpecterSDK.Shared.Networking.Models;
 
 namespace SpecterSDK.APIModels.AdminModels
 {

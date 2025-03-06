@@ -1,10 +1,8 @@
 using System;
 using System.Collections.Generic;
-using SpecterSDK.API;
-using SpecterSDK.APIModels.Interfaces;
-using SpecterSDK.ObjectModels;
+using SpecterSDK.Shared.Networking.Interfaces;
 
-namespace SpecterSDK.APIModels
+namespace SpecterSDK.Shared.Networking.Models
 {
     /// <summary>
     /// Represents the base structure for all API request data in the SDK.

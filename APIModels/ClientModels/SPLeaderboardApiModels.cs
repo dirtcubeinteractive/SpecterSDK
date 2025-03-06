@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
-using SpecterSDK.APIModels.Interfaces;
 using SpecterSDK.Shared;
+using SpecterSDK.Shared.Networking.Interfaces;
 
 namespace SpecterSDK.APIModels.ClientModels
 {

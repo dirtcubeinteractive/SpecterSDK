@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using SpecterSDK.APIModels.Interfaces;
+using SpecterSDK.Shared.Networking.Interfaces;
 
-namespace SpecterSDK.APIModels
+namespace SpecterSDK.Shared.Networking.Models
 {
     /// <summary>
     /// A list of Specter data classes. Used when the response is expected to return a list.

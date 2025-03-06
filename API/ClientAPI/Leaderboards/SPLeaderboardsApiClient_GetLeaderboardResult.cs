@@ -6,6 +6,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using SpecterSDK.Shared.Networking.Models;
 using UnityEngine;
 
 namespace SpecterSDK.API.ClientAPI.Leaderboards

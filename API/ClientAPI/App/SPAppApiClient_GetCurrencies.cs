@@ -4,8 +4,9 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SpecterSDK.APIModels;
 using SpecterSDK.APIModels.ClientModels;
-using SpecterSDK.APIModels.Interfaces;
 using SpecterSDK.ObjectModels;
+using SpecterSDK.Shared.Networking.Interfaces;
+using SpecterSDK.Shared.Networking.Models;
 using UnityEngine.Serialization;
 
 namespace SpecterSDK.API.ClientAPI.App
@@ -26,7 +27,7 @@ namespace SpecterSDK.API.ClientAPI.App
     /// </remarks>
     [Serializable]
     [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPGetCurrenciesRequest : SPPaginatedApiRequest, ITagFilterable
+    public class SPGetCurrenciesRequest : SPPaginatedApiRequest
     {
         /// <summary>
         /// Represents a list of currency IDs used as filter criteria for retrieving currencies from the Specter App API.

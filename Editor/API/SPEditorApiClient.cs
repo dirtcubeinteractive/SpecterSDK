@@ -4,8 +4,10 @@ using System.Threading.Tasks;
 using SpecterSDK.API;
 using SpecterSDK.APIModels;
 using SpecterSDK.APIModels.AdminModels;
-using SpecterSDK.APIModels.Interfaces;
 using SpecterSDK.Shared;
+using SpecterSDK.Shared.Networking;
+using SpecterSDK.Shared.Networking.Interfaces;
+using SpecterSDK.Shared.Networking.Models;
 using UnityEngine;
 
 namespace SpecterSDK.Editor.API

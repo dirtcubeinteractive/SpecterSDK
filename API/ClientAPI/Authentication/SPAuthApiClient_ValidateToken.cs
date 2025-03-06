@@ -1,7 +1,8 @@
 using System;
 using System.Threading.Tasks;
 using SpecterSDK.APIModels;
-using SpecterSDK.APIModels.Interfaces;
+using SpecterSDK.Shared.Networking.Interfaces;
+using SpecterSDK.Shared.Networking.Models;
 
 namespace SpecterSDK.API.ClientAPI.Authentication
 {

@@ -1,8 +1,8 @@
-using SpecterSDK.APIModels.Interfaces;
 using SpecterSDK.Shared;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using SpecterSDK.Shared.Networking.Interfaces;
 using UnityEngine;
 
 namespace SpecterSDK.APIModels.ClientModels

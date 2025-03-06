@@ -4,9 +4,10 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SpecterSDK.APIModels;
 using SpecterSDK.APIModels.ClientModels;
-using SpecterSDK.APIModels.Interfaces;
 using SpecterSDK.ObjectModels;
 using SpecterSDK.Shared;
+using SpecterSDK.Shared.Networking.Interfaces;
+using SpecterSDK.Shared.Networking.Models;
 
 namespace SpecterSDK.API.ClientAPI.App
 {
@@ -26,7 +27,7 @@ namespace SpecterSDK.API.ClientAPI.App
     /// </para>
     /// </remarks>
     [Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPGetTasksRequest : SPPaginatedApiRequest, ITagFilterable
+    public class SPGetTasksRequest : SPPaginatedApiRequest
     {
         /// <summary>
         /// Represents a list of task IDs used as filter criteria for retrieving tasks from the Specter App API.

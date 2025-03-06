@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
-using SpecterSDK.APIModels.Interfaces;
 using SpecterSDK.Shared;
+using SpecterSDK.Shared.Networking;
+using SpecterSDK.Shared.Networking.Interfaces;
 
 namespace SpecterSDK.API.ClientAPI.Stores
 {

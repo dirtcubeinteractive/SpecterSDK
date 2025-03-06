@@ -5,14 +5,15 @@ using SpecterSDK.APIModels.ClientModels;
 using System.Threading.Tasks;
 using SpecterSDK.ObjectModels;
 using Newtonsoft.Json;
-using SpecterSDK.APIModels.Interfaces;
 using SpecterSDK.Shared;
+using SpecterSDK.Shared.Networking.Interfaces;
+using SpecterSDK.Shared.Networking.Models;
 
 namespace SpecterSDK.API.ClientAPI.App
 {
     [Serializable]
     [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPGetCompetitionsRequest : SPPaginatedApiRequest, ITagFilterable
+    public class SPGetCompetitionsRequest : SPPaginatedApiRequest
     {
         /// <summary>
         /// Filter to retrieve specific competitions by their Id.

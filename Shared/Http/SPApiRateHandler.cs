@@ -6,11 +6,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SpecterSDK.APIModels;
-using SpecterSDK.APIModels.Interfaces;
-using SpecterSDK.Shared;
-using UnityEngine;
+using SpecterSDK.Shared.Networking.Interfaces;
+using SpecterSDK.Shared.Networking.Models;
 
-namespace SpecterSDK.API
+namespace SpecterSDK.Shared.Networking
 {
     public class SPApiRateHandler
     {

@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using SpecterSDK.APIModels.Interfaces;
 using SpecterSDK.Shared;
+using SpecterSDK.Shared.Networking;
+using SpecterSDK.Shared.Networking.Interfaces;
 
 namespace SpecterSDK.API.ClientAPI.Inventory
 {

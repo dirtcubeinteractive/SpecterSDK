@@ -1,19 +1,15 @@
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
+using SpecterSDK.API;
 using SpecterSDK.APIModels;
-using SpecterSDK.APIModels.Interfaces;
-using SpecterSDK.Shared;
-using UnityEngine;
+using SpecterSDK.Shared.Networking.Interfaces;
+using SpecterSDK.Shared.Networking.Models;
 using AuthenticationHeaderValue = System.Net.Http.Headers.AuthenticationHeaderValue;
 
-namespace SpecterSDK.API
+namespace SpecterSDK.Shared.Networking
 {
     /// <summary>
     /// Enumeration representing the types of authentication used for API requests.

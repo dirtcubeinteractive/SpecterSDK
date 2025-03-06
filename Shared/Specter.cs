@@ -18,6 +18,7 @@ using SpecterSDK.API.ClientAPI.Wallet;
 using SpecterSDK.ObjectModels;
 using SpecterSDK.Shared;
 using SpecterSDK.Shared.Attributes;
+using SpecterSDK.Shared.Networking;
 using UnityEngine;
 
 namespace SpecterSDK
