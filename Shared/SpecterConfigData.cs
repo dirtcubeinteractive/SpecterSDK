@@ -5,6 +5,15 @@ using UnityEngine;
 
 namespace SpecterSDK.Shared
 {
+    [Flags]
+    public enum SPApiVersions
+    {
+        None = 0,
+        V1 = 1,
+        V2 = 2,
+        All = V1 | V2
+    }
+    
     public enum SPEnvironment
     {
         Development,
@@ -89,6 +98,7 @@ namespace SpecterSDK.Shared
             set => AuthCredentials.ApiKey = value;
         }
 
+        private readonly SPApiVersions m_ApiVersions;
         private readonly SPEnvironment m_Environment;
 
         private string m_ProjectId;
@@ -97,6 +107,7 @@ namespace SpecterSDK.Shared
         public string BaseUrl => m_BaseUrl;
 
         public SPEnvironment Environment => m_Environment;
+        public SPApiVersions ApiVersions => m_ApiVersions;
         public string ProjectId { get => m_ProjectId; set => m_ProjectId = value; }
         public bool UseDebugCredentials { get; }
         
@@ -107,19 +118,21 @@ namespace SpecterSDK.Shared
         public int BaseRetryDelayMillis => RateConfig.m_RetryBaseDelayMillis;
 
         public SpecterRuntimeConfig(
-            SPEnvironment environment = SPEnvironment.Development, 
+            SPEnvironment environment = SPEnvironment.Development,
+            SPApiVersions apiVersions = SPApiVersions.All,
             string projectId = "", 
             string apiKey = null, 
-            SpecterApiRateConfig rateConfig = default)
+            SpecterApiRateConfig rateConfig = null)
         {
             m_Environment = environment;
             m_ProjectId = projectId;
+            m_ApiVersions = apiVersions;
 
             AuthCredentials.ApiKey = apiKey;
             RateConfig = rateConfig ?? new SpecterApiRateConfig();
         }
 
-        public SpecterRuntimeConfig(SpecterConfigData data) : this(data.Environment, data.ProjectId)
+        public SpecterRuntimeConfig(SpecterConfigData data) : this(data.Environment, data.ApiVersions, data.ProjectId)
         {
             if (data.Environment != SPEnvironment.Production && data.UseDebugCredentials)
             {
@@ -167,6 +180,9 @@ namespace SpecterSDK.Shared
         [Tooltip("Runtime environment for Specter SDK")]
         [SerializeField] private SPEnvironment m_Environment;
         
+        [Tooltip("API versions to initialize")]
+        [SerializeField] private SPApiVersions m_ApiVersions = SPApiVersions.All;
+        
         [Tooltip("Project ID aka App ID")]
         [SerializeField] private string m_ProjectId;
 
@@ -188,6 +204,11 @@ namespace SpecterSDK.Shared
         public SPLogLevel LogLevel => m_LogLevel;
         public SPEnvironment Environment => m_Environment;
         public string ProjectId => m_ProjectId;
+        
+        /// <summary>
+        /// Gets the API versions to initialize
+        /// </summary>
+        public SPApiVersions ApiVersions => m_ApiVersions;
 
         public bool UseDebugCredentials => m_UseDebugCredentials;
         public SPAuthContext DebugAuthContext => m_DebugAuthContext;
