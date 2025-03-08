@@ -9,13 +9,13 @@ namespace SpecterSDK.API.ClientAPI.v2.Players
     {
         public override SPAuthType AuthType => SPAuthType.AccessToken;
         
-        public SPOtherPlayerApi Other { get; private set; }
-        public SPMePlayerApi Me { get; private set; }
+        public SPOtherPlayerClientV2 Other { get; private set; }
+        public SPMePlayerClientV2 Me { get; private set; }
         
         public SPPlayersApiClientV2(SpecterRuntimeConfig config) : base(config)
         {
-            Other = new SPOtherPlayerApi(this);
-            Me = new SPMePlayerApi(this);
+            Other = new SPOtherPlayerClientV2(config);
+            Me = new SPMePlayerClientV2(config);
         }
     }
 }
