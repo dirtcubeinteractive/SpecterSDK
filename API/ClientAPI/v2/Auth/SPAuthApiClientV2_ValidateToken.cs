@@ -9,7 +9,7 @@ namespace SpecterSDK.API.ClientAPI.v2.Auth
     /// </summary>
     [Serializable]
     [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPValidateTokenRequestV2 : SPApiRequestBase
+    public class SPValidateTokenRequest : SPApiRequestBase
     {
         /// <summary>
         /// Token identifying the entity (optional).

@@ -9,7 +9,7 @@ namespace SpecterSDK.API.ClientAPI.v2.Auth
     /// </summary>
     [Serializable]
     [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPRefreshAccessTokenRequestV2 : SPApiRequestBase
+    public class SPRefreshAccessTokenRequest : SPApiRequestBase
     {
         /// <summary>
         /// Token identifying the entity.

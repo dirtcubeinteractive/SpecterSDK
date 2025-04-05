@@ -18,11 +18,6 @@ namespace SpecterSDK.API.ClientAPI.v2.Auth
         public string email { get; set; }
         
         /// <summary>
-        /// Project ID associated with the signup.
-        /// </summary>
-        public string projectId { get; set; }
-        
-        /// <summary>
         /// Password for the account.
         /// </summary>
         public string password { get; set; }
