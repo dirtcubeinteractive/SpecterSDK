@@ -2,18 +2,25 @@ using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using SpecterSDK.Shared.Networking.Models;
+using SpecterSDK.Shared.SPEnum;
 
 namespace SpecterSDK.API.ClientAPI.v2.App
 {
-    public static class SPMarkerAttributes
+    /// <summary>
+    /// Represents the attributes available for the Progression Marker endpoint.
+    /// </summary>
+    [Serializable]
+    public sealed class SPMarkerAttribute : SPEnum<SPMarkerAttribute>
     {
-        public const string Tags = "tags";
-        public const string Meta  = "meta";
-        public const string ProgressionSystems = "progressionSystems";
+        public static readonly SPMarkerAttribute Meta = new SPMarkerAttribute(0, "meta", "Meta");
+        public static readonly SPMarkerAttribute Tags = new SPMarkerAttribute(1, "tags", "Tags");
+        public static readonly SPMarkerAttribute ProgressionSystems = new SPMarkerAttribute(2, "progressionSystems", "Progression Systems");
+        
+        private SPMarkerAttribute(int id, string name, string displayName) : base(id, name, displayName) { }
     }
     
     /// <summary>
-    /// Represents a request to get progression markers from the application.
+    /// Represents a request to fetch progression markers from the application.
     /// </summary>
     [Serializable]
     [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
@@ -30,13 +37,13 @@ namespace SpecterSDK.API.ClientAPI.v2.App
         public string search { get; set; }
         
         /// <summary>
-        /// A list of tags to filter or augment the progression marker data.
+        /// A list of tags to filter the progression marker data.
         /// </summary>
         public List<string> includeTags { get; set; }
         
         /// <summary>
-        /// Additional data fields or related entities you can request in the API response
+        /// Specific attributes of progression markers to include in the response. Eg usage: SPMarkerAttribute.ProgressionSystems
         /// </summary>
-        public List<string> attributes { get; set; }
+        public List<SPMarkerAttribute> attributes { get; set; }
     }
 }

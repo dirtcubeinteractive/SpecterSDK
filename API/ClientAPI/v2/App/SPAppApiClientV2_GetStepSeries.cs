@@ -3,18 +3,25 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using SpecterSDK.Shared;
 using SpecterSDK.Shared.Networking.Models;
+using SpecterSDK.Shared.SPEnum;
 
 namespace SpecterSDK.API.ClientAPI.v2.App
 {
-    public static class SPStepSeriesAttributes
+    /// <summary>
+    /// Represents the attributes available for the Step Series endpoint.
+    /// </summary>
+    [Serializable]
+    public sealed class SPStepSeriesAttribute : SPEnum<SPStepSeriesAttribute>
     {
-        public const string Tasks = "tasks";
-        public const string TasksRewardDetails = "tasks.rewardDetails";
-        public const string TasksLinkedRewardDetails = "tasks.linkedRewardDetails";
-        public const string UnlockConditions = "unlockConditions";
-        public const string Schedule = "schedule";
-        public const string Meta = "meta";
-        public const string Tags = "tags";
+        public static readonly SPStepSeriesAttribute TaskRewardDetails = new SPStepSeriesAttribute(0, "tasks.rewardDetails", "Task Reward Details");
+        public static readonly SPStepSeriesAttribute TaskLinkedRewardDetails = new SPStepSeriesAttribute(1, "tasks.linkedRewardDetails", "Task Linked Reward Details");
+        public static readonly SPStepSeriesAttribute Tasks = new SPStepSeriesAttribute(2, "tasks", "Tasks");
+        public static readonly SPStepSeriesAttribute UnlockConditions = new SPStepSeriesAttribute(3, "unlockConditions", "Unlock Conditions");
+        public static readonly SPStepSeriesAttribute Schedule = new SPStepSeriesAttribute(4, "schedule", "Schedule");
+        public static readonly SPStepSeriesAttribute Meta = new SPStepSeriesAttribute(5, "meta", "Meta");
+        public static readonly SPStepSeriesAttribute Tags = new SPStepSeriesAttribute(6, "tags", "Tags");
+        
+        private SPStepSeriesAttribute(int id, string name, string displayName) : base(id, name, displayName) { }
     }
     
     /// <summary>
@@ -35,7 +42,7 @@ namespace SpecterSDK.API.ClientAPI.v2.App
         public bool? includeInactiveTasks { get; set; }
         
         /// <summary>
-        /// An array of schedule statuses to filter the step series tasks.
+        /// An array of schedule statuses to filter the step series tasks. Eg usage: SPTaskScheduleStatus.InProgress
         /// </summary>
         public List<SPScheduleStates> scheduleStatuses { get; set; }
         
@@ -45,8 +52,8 @@ namespace SpecterSDK.API.ClientAPI.v2.App
         public List<string> includeTags { get; set; }
         
         /// <summary>
-        /// Additional data fields or related entities you can request in the API response
+        /// Specific attributes of step series to include in the response. Eg usage: SPStepSeriesAttribute.Tasks
         /// </summary>
-        public List<string> attributes { get; set; }
+        public List<SPStepSeriesAttribute> attributes { get; set; }
     }
 }

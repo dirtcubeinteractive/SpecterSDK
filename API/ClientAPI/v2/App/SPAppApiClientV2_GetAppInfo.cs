@@ -1,38 +1,40 @@
 using System;
 using System.Collections.Generic;
-using SpecterSDK.Shared.Networking.Models;
 using Newtonsoft.Json;
+using SpecterSDK.Shared.Networking.Models;
+using SpecterSDK.Shared.SPEnum;
 
 namespace SpecterSDK.API.ClientAPI.v2.App
 {
-    public static class SPAppAttributes
+    /// <summary>
+    /// Represents the attributes available for the App Info endpoint.
+    /// </summary>
+    [Serializable]
+    public sealed class SPAppInfoAttribute : SPEnum<SPAppInfoAttribute>
     {
-        public const string HowTo = "howTo";
-        public const string ScreenshotUrls = "screenshotUrls";
-        public const string VideoUrls = "videoUrls";
-        public const string Categories = "categories";
-        public const string Genre = "genre";
-        public const string Tags = "tags";
-        public const string Meta  = "meta";
-        public const string Platforms = "platforms";
-        public const string Locations = "locations";
+        public static readonly SPAppInfoAttribute HowTo = new SPAppInfoAttribute(0, "howTo", "How To");
+        public static readonly SPAppInfoAttribute ScreenshotUrls = new SPAppInfoAttribute(1, "screenshotUrls", "Screenshot URLs");
+        public static readonly SPAppInfoAttribute VideoUrls = new SPAppInfoAttribute(2, "videoUrls", "Video URLs");
+        public static readonly SPAppInfoAttribute Categories = new SPAppInfoAttribute(3, "categories", "Categories");
+        public static readonly SPAppInfoAttribute Platforms = new SPAppInfoAttribute(4, "platforms", "Platforms");
+        public static readonly SPAppInfoAttribute Locations = new SPAppInfoAttribute(5, "locations", "Locations");
+        public static readonly SPAppInfoAttribute Genre = new SPAppInfoAttribute(6, "genre", "Genre");
+        public static readonly SPAppInfoAttribute Meta = new SPAppInfoAttribute(7, "meta", "Meta");
+        public static readonly SPAppInfoAttribute Tags = new SPAppInfoAttribute(8, "tags", "Tags");
+        
+        private SPAppInfoAttribute(int id, string name, string displayName) : base(id, name, displayName) { }
     }
     
     /// <summary>
-    /// Represents a request to get detailed information about the application.
+    /// Represents a request to retrieve detailed information about the application.
     /// </summary>
     [Serializable]
     [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
     public class SPGetAppInfoRequest : SPApiRequestBase
     {
         /// <summary>
-        /// Additional data fields or related entities you can request in the API response
+        /// Specific attributes of app info to include in the response. Eg usage: SPAppInfoAttribute.HowTo
         /// </summary>
-        public List<string> attributes { get; set; }
-    }
-    
-    public partial class SPAppApiClientV2
-    {
-        
+        public List<SPAppInfoAttribute> attributes { get; set; }
     }
 }

@@ -3,20 +3,27 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using SpecterSDK.Shared;
 using SpecterSDK.Shared.Networking.Models;
+using SpecterSDK.Shared.SPEnum;
 
 namespace SpecterSDK.API.ClientAPI.v2.App
 {
-    public static class SPMissionAttributes
+    /// <summary>
+    /// Represents the attributes available for the Missions endpoint.
+    /// </summary>
+    [Serializable]
+    public sealed class SPMissionAttribute : SPEnum<SPMissionAttribute>
     {
-        public const string RewardDetails = "rewardDetails";
-        public const string LinkedRewardDetails = "linkedRewardDetails";
-        public const string UnlockConditions = "unlockConditions";
-        public const string Schedule = "schedule";
-        public const string Tasks = "tasks";
-        public const string TasksRewardDetails = "tasks.rewardDetails";
-        public const string TasksLinkedRewardDetails = "tasks.linkedRewardDetails";
-        public const string Meta = "meta";
-        public const string Tags = "tags";
+        public static readonly SPMissionAttribute RewardDetails = new SPMissionAttribute(0, "rewardDetails", "Reward Details");
+        public static readonly SPMissionAttribute UnlockConditions = new SPMissionAttribute(1, "unlockConditions", "Unlock Conditions");
+        public static readonly SPMissionAttribute Schedule = new SPMissionAttribute(2, "schedule", "Schedule");
+        public static readonly SPMissionAttribute Tasks = new SPMissionAttribute(3, "tasks", "Tasks");
+        public static readonly SPMissionAttribute LinkedRewardDetails = new SPMissionAttribute(4, "linkedRewardDetails", "Linked Reward Details");
+        public static readonly SPMissionAttribute Meta = new SPMissionAttribute(5, "meta", "Meta");
+        public static readonly SPMissionAttribute Tags = new SPMissionAttribute(6, "tags", "Tags");
+        public static readonly SPMissionAttribute TaskRewardDetails = new SPMissionAttribute(7, "tasks.rewardDetails", "Task Reward Details");
+        public static readonly SPMissionAttribute TaskLinkedRewardDetails = new SPMissionAttribute(8, "tasks.linkedRewardDetails", "Task Linked Reward Details");
+        
+        private SPMissionAttribute(int id, string name, string displayName) : base(id, name, displayName) { }
     }
     
     /// <summary>
@@ -37,7 +44,7 @@ namespace SpecterSDK.API.ClientAPI.v2.App
         public bool? includeInactiveTasks { get; set; }
         
         /// <summary>
-        /// An array of schedule status values to filter the missions based on their timing or progress.
+        /// An array of schedule status values to filter the missions based on their timing or progress. Eg usage: SPTaskScheduleStatus.InProgress
         /// </summary>
         public List<SPScheduleStates> scheduleStatuses { get; set; }
         
@@ -47,8 +54,8 @@ namespace SpecterSDK.API.ClientAPI.v2.App
         public List<string> includeTags { get; set; }
         
         /// <summary>
-        /// Additional data fields or related entities you can request in the API response
+        /// Specific attributes of missions to include in the response. Eg usage: SPMissionAttribute.Tasks
         /// </summary>
-        public List<string> attributes { get; set; }
+        public List<SPMissionAttribute> attributes { get; set; }
     }
 }

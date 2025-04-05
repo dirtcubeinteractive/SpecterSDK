@@ -3,23 +3,30 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using SpecterSDK.Shared;
 using SpecterSDK.Shared.Networking.Models;
+using SpecterSDK.Shared.SPEnum;
 
 namespace SpecterSDK.API.ClientAPI.v2.App
 {
-    public static class SPTaskAttributes
+    /// <summary>
+    /// Represents the attributes available for the Tasks endpoint.
+    /// </summary>
+    [Serializable]
+    public sealed class SPTaskAttribute : SPEnum<SPTaskAttribute>
     {
-        public const string RewardDetails = "rewardDetails";
-        public const string UnlockConditions = "unlockConditions";
-        public const string Schedule = "schedule";
-        public const string Parameters = "parameters";
-        public const string BusinessLogic = "businessLogic";
-        public const string LinkedRewardDetails = "linkedRewardDetails";
-        public const string Meta = "meta";
-        public const string Tags = "tags";
+        public static readonly SPTaskAttribute RewardDetails = new SPTaskAttribute(0, "rewardDetails", "Reward Details");
+        public static readonly SPTaskAttribute UnlockConditions = new SPTaskAttribute(1, "unlockConditions", "Unlock Conditions");
+        public static readonly SPTaskAttribute Schedule = new SPTaskAttribute(2, "schedule", "Schedule");
+        public static readonly SPTaskAttribute Parameters = new SPTaskAttribute(3, "parameters", "Parameters");
+        public static readonly SPTaskAttribute BusinessLogic = new SPTaskAttribute(4, "businessLogic", "Business Logic");
+        public static readonly SPTaskAttribute LinkedRewardDetails = new SPTaskAttribute(5, "linkedRewardDetails", "Linked Reward Details");
+        public static readonly SPTaskAttribute Meta = new SPTaskAttribute(6, "meta", "Meta");
+        public static readonly SPTaskAttribute Tags = new SPTaskAttribute(7, "tags", "Tags");
+        
+        private SPTaskAttribute(int id, string name, string displayName) : base(id, name, displayName) { }
     }
     
     /// <summary>
-    /// Represents a request to get tasks from the application with various filtering options.
+    /// Represents a request to fetch tasks from the application.
     /// </summary>
     [Serializable]
     [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
@@ -41,13 +48,13 @@ namespace SpecterSDK.API.ClientAPI.v2.App
         public List<string> includeTags { get; set; }
         
         /// <summary>
-        /// An array of schedule statuses to filter tasks.
+        /// An array of schedule statuses to filter tasks. Eg usage: SPTaskScheduleStatus.InProgress
         /// </summary>
-        public List<SPScheduleStates> scheduleStatuses { get; set; } // TODO: refactor ScheduleStates enum
+        public List<SPScheduleStates> scheduleStatuses { get; set; }
         
         /// <summary>
-        /// Additional data fields or related entities you can request in the API response
+        /// Specific attributes of tasks to include in the response. Eg usage: SPTaskAttribute.RewardDetails
         /// </summary>
-        public List<string> attributes { get; set; }
+        public List<SPTaskAttribute> attributes { get; set; }
     }
 }
