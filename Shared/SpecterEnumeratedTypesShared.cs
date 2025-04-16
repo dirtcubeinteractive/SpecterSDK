@@ -3,6 +3,18 @@ using SpecterSDK.Shared.SPEnum;
 
 namespace SpecterSDK.Shared
 {
+    /// <summary>
+    /// Represents the sort order options for inventory items.
+    /// </summary>
+    [Serializable]
+    public sealed class SPSortOrder : SPEnum<SPSortOrder>
+    {
+        public static readonly SPSortOrder Ascending = new SPSortOrder(0, "asc", "Ascending");
+        public static readonly SPSortOrder Descending = new SPSortOrder(1, "desc", "Descending");
+        
+        private SPSortOrder(int id, string name, string displayName) : base(id, name, displayName) { }
+    }
+    
     [Serializable]
     public sealed class SPOperations : SPEnum<SPOperations>
     {
