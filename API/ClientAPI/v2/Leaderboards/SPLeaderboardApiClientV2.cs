@@ -1,5 +1,7 @@
+using System;
 using SpecterSDK.Shared;
 using SpecterSDK.Shared.Networking;
+using SpecterSDK.Shared.SPEnum;
 
 namespace SpecterSDK.API.ClientAPI.v2.Leaderboards
 {
