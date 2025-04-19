@@ -43,5 +43,10 @@ namespace SpecterSDK.API.ClientAPI.v2.Players.Me
         /// Filter and fetch rewards earned by status.
         /// </summary>
         public SPRewardClaimStatus status { get; set; }
+        
+        /// <summary>
+        /// Additional attributes to fetch with the reward history.
+        /// </summary>
+        public List<SPRewardHistoryAttribute> attributes { get; set; }
     }
 }

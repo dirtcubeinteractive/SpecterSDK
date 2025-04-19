@@ -8,17 +8,6 @@ using SpecterSDK.Shared.SPEnum;
 namespace SpecterSDK.API.ClientAPI.v2.Players.Me
 {
     /// <summary>
-    /// Represents the attributes available for the Task Group Status endpoint.
-    /// </summary>
-    [Serializable]
-    public sealed class SPTaskGroupStatusAttribute : SPEnum<SPTaskGroupStatusAttribute>
-    {
-        public static readonly SPTaskGroupStatusAttribute Tasks = new SPTaskGroupStatusAttribute(0, "tasks", "Tasks");
-        
-        private SPTaskGroupStatusAttribute(int id, string name, string displayName) : base(id, name, displayName) { }
-    }
-    
-    /// <summary>
     /// Represents a request to get task group status information.
     /// </summary>
     [Serializable]

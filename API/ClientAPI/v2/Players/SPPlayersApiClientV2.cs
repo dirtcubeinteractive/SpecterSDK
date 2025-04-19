@@ -1,7 +1,9 @@
+using System;
 using SpecterSDK.API.ClientAPI.v2.Players.Me;
 using SpecterSDK.API.ClientAPI.v2.Players.Others;
 using SpecterSDK.Shared;
 using SpecterSDK.Shared.Networking;
+using SpecterSDK.Shared.SPEnum;
 
 namespace SpecterSDK.API.ClientAPI.v2.Players
 {
@@ -17,5 +19,26 @@ namespace SpecterSDK.API.ClientAPI.v2.Players
             Other = new SPOtherPlayerClientV2(config);
             Me = new SPMePlayerClientV2(config);
         }
+    }
+    
+    [Serializable]
+    public class SPRewardHistoryAttribute : SPEnum<SPRewardHistoryAttribute>
+    {
+        public static readonly SPRewardHistoryAttribute RewardDetails = new SPRewardHistoryAttribute(0, "rewardDetails", "Reward Details");
+        
+        public SPRewardHistoryAttribute(int id, string name, string displayName = null) : base(id, name, displayName)
+        {
+        }
+    }
+    
+    /// <summary>
+    /// Represents the attributes available for the Task Group Status endpoint.
+    /// </summary>
+    [Serializable]
+    public sealed class SPTaskGroupStatusAttribute : SPEnum<SPTaskGroupStatusAttribute>
+    {
+        public static readonly SPTaskGroupStatusAttribute Tasks = new SPTaskGroupStatusAttribute(0, "tasks", "Tasks");
+        
+        private SPTaskGroupStatusAttribute(int id, string name, string displayName) : base(id, name, displayName) { }
     }
 }
