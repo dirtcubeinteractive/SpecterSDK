@@ -1,6 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
+using SpecterSDK.Shared;
+using SpecterSDK.Shared.Networking;
+using SpecterSDK.Shared.Networking.Interfaces;
 using SpecterSDK.Shared.Networking.Models;
 
 namespace SpecterSDK.API.ClientAPI.v2.Inventory
@@ -31,11 +35,6 @@ namespace SpecterSDK.API.ClientAPI.v2.Inventory
         /// ID of the stack associated with the item or bundle.
         /// </summary>
         public string stackId { get; set; }
-        
-        /// <summary>
-        /// Additional parameters for item or bundle customization within Specter.
-        /// </summary>
-        public Dictionary<string, object> specterParams { get; set; }
         
         /// <summary>
         /// Any additional custom parameters associated with the item or bundle.

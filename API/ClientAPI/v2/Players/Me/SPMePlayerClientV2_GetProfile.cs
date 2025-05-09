@@ -26,21 +26,6 @@ namespace SpecterSDK.API.ClientAPI.v2.Players.Me
     public class SPGetPlayerProfileRequest : SPApiRequestBase
     {
         /// <summary>
-        /// The unique ID of the user.
-        /// </summary>
-        public string id { get; set; }
-        
-        /// <summary>
-        /// The username of the user.
-        /// </summary>
-        public string username { get; set; }
-        
-        /// <summary>
-        /// The email address of the user.
-        /// </summary>
-        public string email { get; set; }
-        
-        /// <summary>
         /// Specific attributes to include in the response.
         /// </summary>
         public List<SPPlayerProfileAttribute> attributes { get; set; }

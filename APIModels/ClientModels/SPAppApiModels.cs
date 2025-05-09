@@ -13,7 +13,7 @@ namespace SpecterSDK.APIModels.ClientModels
         public List<string> videoUrls { get; set; }
         public SPAppCategoryData categories { get; set; }
         public List<SPAppPlatformData> platforms { get; set; }
-        public List<SPCountryDetailsData> countries { get; set; }
+        public List<SPLocationData> countries { get; set; }
         public List<SPGameGenreData> genre { get; set; }
         public List<string> tags { get; set; }
         public Dictionary<string, object> meta { get; set; }

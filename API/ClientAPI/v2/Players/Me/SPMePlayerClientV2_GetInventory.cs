@@ -20,16 +20,6 @@ namespace SpecterSDK.API.ClientAPI.v2.Players.Me
         public string search { get; set; }
         
         /// <summary>
-        /// The field to sort inventory items by.
-        /// </summary>
-        public string sortField { get; set; }
-        
-        /// <summary>
-        /// The sort order for inventory items.
-        /// </summary>
-        public SPSortOrder sortOrder { get; set; }
-        
-        /// <summary>
         /// The ID of the collection to filter inventory items.
         /// </summary>
         public string collectionId { get; set; }

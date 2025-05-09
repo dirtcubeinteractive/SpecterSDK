@@ -6,13 +6,28 @@ using SpecterSDK.Shared.Networking.Models;
 
 namespace SpecterSDK.APIModels.ClientModels
 {
+    public interface ISpecterResourceData
+    {
+        public string uuid { get; set; }
+        public string id { get; set; }
+        public string name { get; set; }
+        public string description { get; set; }
+        public string iconUrl { get; set; }
+    }
+
+    public interface ISpecterPlatformData
+    {
+        public int id { get; }
+        public string name { get; }
+    }
+    
     /// <summary>
     /// Base class for resource response data in the Specter API client models.
     /// This is the minimum amount of information provided in API response when there are
     /// nested objects within the main data object
     /// </summary>
     [Serializable]
-    public abstract class SPResourceResponseData : ISpecterApiResponseData
+    public abstract class SPResourceResponseData : ISpecterApiResponseData, ISpecterResourceData
     {
         public string uuid { get; set; }
         public string id { get; set; }
@@ -93,7 +108,7 @@ namespace SpecterSDK.APIModels.ClientModels
     /// Base class for platform data in the Specter API client models.
     /// </summary>
     [Serializable]
-    public class SPPlatformBaseData
+    public class SPPlatformBaseData : ISpecterPlatformData
     {
         public int id { get; set; }
         public string name { get; set; }
@@ -128,14 +143,5 @@ namespace SpecterSDK.APIModels.ClientModels
     {
         public int id { get; set; }
         public string name { get; set; }
-        public string countryCode { get; set; }
-    }
-    
-    [Serializable]
-    public class SPCountryDetailsData
-    {
-        public int id { get; set; }
-        public string name { get; set; }
-        public string code { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using SpecterSDK.API.ClientAPI.v2.Players.Me;
 using SpecterSDK.Shared;
 using SpecterSDK.Shared.Networking.Models;
 
@@ -31,6 +32,6 @@ namespace SpecterSDK.API.ClientAPI.v2.Players.Others
         /// <summary>
         /// Specific attributes to include in the response.
         /// </summary>
-        public List<string> attributes { get; set; }
+        public List<SPTournamentHistoryAttribute> attributes { get; set; }
     }
 }

@@ -11,7 +11,7 @@ namespace SpecterSDK.ObjectModels
         public List<string> VideoUrls { get; set; }
         public SpecterAppCategory Categories { get; set; }
         public List<SpecterAppPlatform> Platforms { get; set; }
-        public List<SpecterCountryDetails> Countries { get; set; }
+        public List<SpecterLocation> Countries { get; set; }
         public List<SpecterGameGenre> Genres { get; set; }
         public List<string> Tags { get; set; }
         public Dictionary<string, object> Meta { get; set; }
@@ -35,12 +35,12 @@ namespace SpecterSDK.ObjectModels
                 }
             }
 
-            Countries = new List<SpecterCountryDetails>();
+            Countries = new List<SpecterLocation>();
             if (data.countries != null)
             {
                 foreach (var country in data.countries)
                 {
-                    Countries.Add(new SpecterCountryDetails(country));
+                    Countries.Add(new SpecterLocation(country));
                 }
             }
 

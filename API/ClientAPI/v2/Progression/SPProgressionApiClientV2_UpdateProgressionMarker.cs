@@ -19,9 +19,9 @@ namespace SpecterSDK.API.ClientAPI.v2.Progression
         public string progressionMarkerId { get; set; }
         
         /// <summary>
-        /// The positive amount to adjust the progression marker.
+        /// The amount to adjust the progression marker by (always use a positive amount, subtractions are handled by the operation field)
         /// </summary>
-        public double amount { get; set; }
+        public long amount { get; set; }
         
         /// <summary>
         /// Operation to apply to the progression marker (add or subtract).

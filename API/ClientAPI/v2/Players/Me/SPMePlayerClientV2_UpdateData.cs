@@ -37,6 +37,7 @@ namespace SpecterSDK.API.ClientAPI.v2.Players.Me
         
         /// <summary>
         /// Optional permission level for the data being updated.
+        /// Possible values are 'private' or 'public'
         /// </summary>
         public string permission { get; set; }
     }

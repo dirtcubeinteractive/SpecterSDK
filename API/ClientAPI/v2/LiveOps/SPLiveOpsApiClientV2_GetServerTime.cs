@@ -12,7 +12,8 @@ namespace SpecterSDK.API.ClientAPI.v2.LiveOps
     public class SPGetServerTimeRequest : SPApiRequestBase
     {
         /// <summary>
-        /// The timezone to format the server time in.
+        /// The timezone to format the server time in. Timezone values can be found in moment js timezone
+        /// list <a href="https://gist.github.com/diogocapela/12c6617fc87607d11fd62d2a4f42b02a">here</a>.
         /// </summary>
         public string timezone { get; set; }
     }

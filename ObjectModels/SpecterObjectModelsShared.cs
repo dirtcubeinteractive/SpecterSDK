@@ -134,21 +134,6 @@ namespace SpecterSDK.ObjectModels
         {
             Id = data.id;
             Name = data.name;
-            CountryCode = data.countryCode;
-        }
-    }
-    
-    public class SpecterCountryDetails
-    {
-        public int Id;
-        public string Name;
-        public string Code;
-
-        public SpecterCountryDetails(SPCountryDetailsData data)
-        {
-            Id = data.id;
-            Name = data.name;
-            Code = data.code;
         }
     }
 

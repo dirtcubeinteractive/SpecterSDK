@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
+using SpecterSDK.API.ClientAPI.v2.Players.Me;
 using SpecterSDK.Shared.Networking.Models;
 
 namespace SpecterSDK.API.ClientAPI.v2.Players.Others
@@ -12,8 +14,23 @@ namespace SpecterSDK.API.ClientAPI.v2.Players.Others
     public class SPGetOtherPlayerProfileRequest : SPApiRequestBase
     {
         /// <summary>
-        /// ID of the player to retrieve profile for.
+        /// The unique ID of the user.
         /// </summary>
         public string id { get; set; }
+        
+        /// <summary>
+        /// The username of the user.
+        /// </summary>
+        public string username { get; set; }
+        
+        /// <summary>
+        /// The email address of the user.
+        /// </summary>
+        public string email { get; set; }
+        
+        /// <summary>
+        /// Specific attributes to include in the response.
+        /// </summary>
+        public List<SPPlayerProfileAttribute> attributes { get; set; }
     }
 }

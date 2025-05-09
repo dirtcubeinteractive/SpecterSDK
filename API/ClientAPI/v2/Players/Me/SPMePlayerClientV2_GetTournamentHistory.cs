@@ -14,10 +14,10 @@ namespace SpecterSDK.API.ClientAPI.v2.Players.Me
     public sealed class SPTournamentHistoryAttribute : SPEnum<SPTournamentHistoryAttribute>
     {
         public static readonly SPTournamentHistoryAttribute Match = new SPTournamentHistoryAttribute(0, nameof(Match).ToLower(), nameof(Match));
-        public static readonly SPTournamentHistoryAttribute Type = new SPTournamentHistoryAttribute(1, nameof(Type).ToLower(), nameof(Type));
-        public static readonly SPTournamentHistoryAttribute SourceType = new SPTournamentHistoryAttribute(2, "sourceType", "Source Type");
-        public static readonly SPTournamentHistoryAttribute Config = new SPTournamentHistoryAttribute(3, nameof(Config).ToLower(), nameof(Config));
-        public static readonly SPTournamentHistoryAttribute RankingMethod = new SPTournamentHistoryAttribute(4, "rankingMethod", "Ranking Method");
+        public static readonly SPTournamentHistoryAttribute SourceType = new SPTournamentHistoryAttribute(1, "sourceType", "Source Type");
+        public static readonly SPTournamentHistoryAttribute Config = new SPTournamentHistoryAttribute(2, nameof(Config).ToLower(), nameof(Config));
+        public static readonly SPTournamentHistoryAttribute RankingMethod = new SPTournamentHistoryAttribute(3, "rankingMethod", "Ranking Method");
+        public static readonly SPTournamentHistoryAttribute Type = new SPTournamentHistoryAttribute(4, "type", "Type");
         
         private SPTournamentHistoryAttribute(int id, string name, string displayName) : base(id, name, displayName) { }
     }

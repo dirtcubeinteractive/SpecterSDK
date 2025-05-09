@@ -33,11 +33,6 @@ namespace SpecterSDK.API.ClientAPI.v2.Inventory
         public string collectionId { get; set; }
         
         /// <summary>
-        /// Additional customization parameters for the item.
-        /// </summary>
-        public Dictionary<string, object> specterParams { get; set; }
-        
-        /// <summary>
         /// Any additional custom parameters associated with the item.
         /// </summary>
         public Dictionary<string, object> customParams { get; set; }

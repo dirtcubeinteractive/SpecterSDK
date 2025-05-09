@@ -33,11 +33,6 @@ namespace SpecterSDK.API.ClientAPI.v2.Inventory
         public string stackId { get; set; }
         
         /// <summary>
-        /// Additional customization parameters for the bundle.
-        /// </summary>
-        public Dictionary<string, object> specterParams { get; set; }
-        
-        /// <summary>
         /// Any additional custom parameters associated with the bundle.
         /// </summary>
         public Dictionary<string, object> customParams { get; set; }
