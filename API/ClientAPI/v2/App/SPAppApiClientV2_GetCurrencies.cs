@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SpecterSDK.Shared.Networking.Models;
 using SpecterSDK.Shared.SPEnum;
@@ -35,7 +36,7 @@ namespace SpecterSDK.API.ClientAPI.v2.App
     /// </summary>
     [Serializable]
     [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPGetCurrenciesRequest : SPPaginatedApiRequest
+    public class SPGetCurrenciesRequestV2 : SPPaginatedApiRequest
     {
         /// <summary>
         /// An array of currency IDs to filter results by.
@@ -61,5 +62,22 @@ namespace SpecterSDK.API.ClientAPI.v2.App
         /// Specific attributes of currencies to include in the response. Eg usage: SPCurrencyAttribute.Meta
         /// </summary>
         public List<SPCurrencyAttribute> attributes { get; set; }
+    }
+
+    public class SPGetCurrenciesResultV2 : SpecterApiResultBase<SPGetCurrenciesResponse>
+    {
+        protected override void InitSpecterObjectsInternal()
+        {
+            
+        }
+    }
+
+    public partial class SPAppApiClientV2
+    {
+        public async Task<SPGetCurrenciesResultV2> GetCurrenciesAsync(SPGetCurrenciesRequestV2 request)
+        {
+            var result = await PostAsync<SPGetCurrenciesResultV2, SPGetCurrenciesResponse>("/v2/client/app/get-currencies", AuthType, request);
+            return result;
+        }
     }
 }

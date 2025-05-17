@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SpecterSDK.Shared.Networking.Models;
 using SpecterSDK.Shared.SPEnum;
@@ -31,7 +32,7 @@ namespace SpecterSDK.API.ClientAPI.v2.App
     /// </summary>
     [Serializable]
     [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPGetGamesRequest : SPPaginatedApiRequest
+    public class SPGetGamesRequestV2 : SPPaginatedApiRequest
     {
         /// <summary>
         /// An array of unique game identifiers to fetch specific games.
@@ -57,5 +58,22 @@ namespace SpecterSDK.API.ClientAPI.v2.App
         /// Specific attributes of games to include in the response. Eg usage: SPGameAttribute.HowTo
         /// </summary>
         public List<SPGameAttribute> attributes { get; set; }
+    }
+
+    public class SPGetGamesResultV2 : SpecterApiResultBase<SPGetGamesResponse>
+    {
+        protected override void InitSpecterObjectsInternal()
+        {
+            
+        }
+    }
+
+    public partial class SPAppApiClientV2
+    {
+        public async Task<SPGetGamesResultV2> GetGamesAsync(SPGetGamesRequestV2 request)
+        {
+            var result = await PostAsync<SPGetGamesResultV2, SPGetGamesResponse>("/v2/client/app/get-games", AuthType, request);
+            return result;
+        }
     }
 }

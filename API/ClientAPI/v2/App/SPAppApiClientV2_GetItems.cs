@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SpecterSDK.Shared.Networking.Models;
 using SpecterSDK.Shared.SPEnum;
@@ -26,7 +27,7 @@ namespace SpecterSDK.API.ClientAPI.v2.App
     /// </summary>
     [Serializable]
     [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPGetItemsRequest : SPPaginatedApiRequest
+    public class SPGetItemsRequestV2 : SPPaginatedApiRequest
     {
         /// <summary>
         /// An array of item IDs to fetch specific items.
@@ -57,5 +58,22 @@ namespace SpecterSDK.API.ClientAPI.v2.App
         /// Specific attributes of items to include in the response. Eg usage: SPItemAttribute.Properties
         /// </summary>
         public List<SPItemAttribute> attributes { get; set; }
+    }
+
+    public class SPGetItemsResultV2 : SpecterApiResultBase<SPGetItemsResponse>
+    {
+        protected override void InitSpecterObjectsInternal()
+        {
+            
+        }
+    }
+
+    public partial class SPAppApiClientV2
+    {
+        public async Task<SPGetItemsResultV2> GetItemsAsync(SPGetItemsRequestV2 request)
+        {
+            var result = await PostAsync<SPGetItemsResultV2, SPGetItemsResponse>("/v2/client/app/get-items", AuthType, request);
+            return result;
+        }
     }
 }

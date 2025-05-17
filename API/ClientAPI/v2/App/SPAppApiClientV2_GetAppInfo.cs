@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SpecterSDK.Shared.Networking.Models;
 using SpecterSDK.Shared.SPEnum;
@@ -30,11 +31,28 @@ namespace SpecterSDK.API.ClientAPI.v2.App
     /// </summary>
     [Serializable]
     [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPGetAppInfoRequest : SPApiRequestBase
+    public class SPGetAppInfoRequestV2 : SPApiRequestBase
     {
         /// <summary>
         /// Specific attributes of app info to include in the response. Eg usage: SPAppInfoAttribute.HowTo
         /// </summary>
         public List<SPAppInfoAttribute> attributes { get; set; }
+    }
+
+    public class SPGetAppInfoResultV2 : SpecterApiResultBase<SPGetAppInfoResponse>
+    {
+        protected override void InitSpecterObjectsInternal()
+        {
+            
+        }
+    }
+
+    public partial class SPAppApiClientV2
+    {
+        public async Task<SPGetAppInfoResultV2> GetAppInfoAsync(SPGetAppInfoRequestV2 request)
+        {
+            var result = await PostAsync<SPGetAppInfoResultV2, SPGetAppInfoResponse>("/v2/client/app/get-info", AuthType, request);
+            return result;
+        }
     }
 }

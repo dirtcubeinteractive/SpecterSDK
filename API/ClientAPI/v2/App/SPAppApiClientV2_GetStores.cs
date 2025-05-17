@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SpecterSDK.Shared.Networking.Models;
 using SpecterSDK.Shared.SPEnum;
@@ -24,7 +25,7 @@ namespace SpecterSDK.API.ClientAPI.v2.App
     /// </summary>
     [Serializable]
     [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPGetStoresRequest : SPPaginatedApiRequest
+    public class SPGetStoresRequestV2 : SPPaginatedApiRequest
     {
         /// <summary>
         /// Array of store IDs to look up (e.g., 'main_store', 'holiday_shop').
@@ -45,5 +46,22 @@ namespace SpecterSDK.API.ClientAPI.v2.App
         /// Specific attributes of stores to include in the response. Eg usage: SPStoreAttribute.UnlockConditions
         /// </summary>
         public List<SPStoreAttribute> attributes { get; set; }
+    }
+
+    public class SPGetStoresResultV2 : SpecterApiResultBase<SPGetStoresResponse>
+    {
+        protected override void InitSpecterObjectsInternal()
+        {
+            
+        }
+    }
+
+    public partial class SPAppApiClientV2
+    {
+        public async Task<SPGetStoresResultV2> GetStoresAsync(SPGetStoresRequestV2 request)
+        {
+            var result = await PostAsync<SPGetStoresResultV2, SPGetStoresResponse>("/v2/client/app/get-stores", AuthType, request);
+            return result;
+        }
     }
 }

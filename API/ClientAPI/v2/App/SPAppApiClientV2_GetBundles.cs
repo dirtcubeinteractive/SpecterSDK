@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SpecterSDK.Shared.Networking.Models;
 using SpecterSDK.Shared.SPEnum;
@@ -27,7 +28,7 @@ namespace SpecterSDK.API.ClientAPI.v2.App
     /// </summary>
     [Serializable]
     [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPGetBundlesRequest : SPPaginatedApiRequest
+    public class SPGetBundlesRequestV2 : SPPaginatedApiRequest
     {
         /// <summary>
         /// Array of specific bundle IDs to look up (e.g., 'starter_pack', 'holiday_bundle').
@@ -53,5 +54,22 @@ namespace SpecterSDK.API.ClientAPI.v2.App
         /// Specific attributes of bundles to include in the response. Eg usage: SPBundleAttribute.Contents
         /// </summary>
         public List<SPBundleAttribute> attributes { get; set; }
+    }
+
+    public class SPGetBundlesResultV2 : SpecterApiResultBase<SPGetBundlesResponse>
+    {
+        protected override void InitSpecterObjectsInternal()
+        {
+            
+        }
+    }
+
+    public partial class SPAppApiClientV2
+    {
+        public async Task<SPGetBundlesResultV2> GetBundlesAsync(SPGetBundlesRequestV2 request)
+        {
+            var result = await PostAsync<SPGetBundlesResultV2, SPGetBundlesResponse>("/v2/client/app/get-bundles", AuthType, request);
+            return result;
+        }
     }
 }
