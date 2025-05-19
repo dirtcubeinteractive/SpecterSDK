@@ -31,25 +31,4 @@ namespace SpecterSDK.APIModels.ClientModels.v2
         public List<string> tags { get; set; }
         public Dictionary<string, object> meta { get; set; }
     }
-
-    [Serializable]
-    public class SPRewardsData
-    {
-        public List<SPRewardedResourceData> items { get; set; }
-        public List<SPRewardedResourceData> bundles { get; set; }
-        public List<SPRewardedResourceData> currencies { get; set; }
-        public List<SPRewardedResourceData> progressionMarkers { get; set; }
-    }
-
-    [Serializable]
-    public class SPRewardedResourceData
-    {
-        public string uuid { get; set; }
-        public string id { get; set; }
-        public string name { get; set; }
-        public string description { get; set; }
-        public string iconUrl { get; set; }
-        public long? amount { get; set; } // TODO: Determine whether to use amount or quantity!
-        public long? quantity { get; set; }
-    }
 }

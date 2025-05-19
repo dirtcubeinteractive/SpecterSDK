@@ -4,21 +4,10 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SpecterSDK.Shared.Networking.Models;
 using SpecterSDK.Shared.SPEnum;
+using SpecterSDK.Shared.v2;
 
 namespace SpecterSDK.API.ClientAPI.v2.App
 {
-    /// <summary>
-    /// Represents the currency types available in the system.
-    /// </summary>
-    [Serializable]
-    public sealed class SPCurrencyTypeV2 : SPEnum<SPCurrencyTypeV2>
-    {
-        public static readonly SPCurrencyTypeV2 Virtual = new SPCurrencyTypeV2(0, "virtual", "Virtual");
-        public static readonly SPCurrencyTypeV2 Real = new SPCurrencyTypeV2(1, "real", "Real");
-        
-        private SPCurrencyTypeV2(int id, string name, string displayName) : base(id, name, displayName) { }
-    }
-    
     /// <summary>
     /// Represents the attributes available for the Currency endpoint.
     /// </summary>

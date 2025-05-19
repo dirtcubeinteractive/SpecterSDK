@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.APIModels.ClientModels.v2;
+using SpecterSDK.Shared.v2;
 
 namespace SpecterSDK.API.ClientAPI.v2.App.DTOs
 {
@@ -12,6 +13,12 @@ namespace SpecterSDK.API.ClientAPI.v2.App.DTOs
         public List<SPAppPlatformData> platforms { get; set; }
         public List<SPLocationData> locations { get; set; }
         public List<SPGameGenreData> genres { get; set; }
+    }
+
+    public interface ISpecterCurrencyData
+    {
+        public string code { get; set; }
+        public SPCurrencyTypeV2 type { get; set; }
     }
 
     public interface ISpecterPricingCurrencyData

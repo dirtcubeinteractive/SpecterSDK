@@ -11,6 +11,8 @@ namespace SpecterSDK.API.ClientAPI.v2.App
    public class SPGetStoresResponse : ISpecterApiResponseData
    {
       public List<SPStoreData> stores { get; set; }
+      public int totalCount { get; set; }
+      public DateTime? lastUpdate { get; set; }
    }
 
    [Serializable]

@@ -11,6 +11,8 @@ namespace SpecterSDK.API.ClientAPI.v2.App
     public class SPGetItemsResponse : ISpecterApiResponseData
     {
         public List<SPItemData> items { get; set; }
+        public int totalCount { get; set; }
+        public DateTime? lastUpdate { get; set; }
     }
 
     [Serializable]

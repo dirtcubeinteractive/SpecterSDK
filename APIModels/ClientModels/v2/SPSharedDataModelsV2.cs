@@ -5,6 +5,28 @@ using SpecterSDK.Shared;
 
 namespace SpecterSDK.APIModels.ClientModels.v2
 {
+    #region App
+
+    [Serializable]
+    public class SPProgressionMarkerResourceData : ISpecterResourceData
+    {
+        public string uuid { get; set; }
+        public string id { get; set; }
+        public string name { get; set; }
+        public string description { get; set; }
+        public string iconUrl { get; set; }
+    }
+    
+    [Serializable]
+    public class SPProgressionSystemResourceData : ISpecterResourceData
+    {
+        public string uuid { get; set; }
+        public string id { get; set; }
+        public string name { get; set; }
+        public string description { get; set; }
+        public string iconUrl { get; set; }
+    }
+    
     [Serializable]
     public class SPMatchResourceData : ISpecterResourceData
     {
@@ -15,8 +37,6 @@ namespace SpecterSDK.APIModels.ClientModels.v2
         public string iconUrl { get; set; }
     }
     
-    #region App
-
     [Serializable]
     public class SPPricingCurrencyData : ISpecterResourceData, ISpecterPricingCurrencyData
     {

@@ -11,6 +11,8 @@ namespace SpecterSDK.API.ClientAPI.v2.App
     public class SPGetBundlesResponse : ISpecterApiResponseData
     {
         public List<SPBundleData> bundles { get; set; }
+        public int totalCount { get; set; }
+        public DateTime? lastUpdate { get; set; }
     }
 
     [Serializable]

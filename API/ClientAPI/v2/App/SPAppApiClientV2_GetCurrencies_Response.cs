@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using SpecterSDK.API.ClientAPI.v2.App.DTOs;
 using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.Shared.Networking.Interfaces;
+using SpecterSDK.Shared.v2;
 
 namespace SpecterSDK.API.ClientAPI.v2.App
 {
@@ -9,10 +11,12 @@ namespace SpecterSDK.API.ClientAPI.v2.App
     public class SPGetCurrenciesResponse : ISpecterApiResponseData
     {
         public List<SPCurrencyData> currencies { get; set; }
+        public int totalCount { get; set; }
+        public DateTime? lastUpdate { get; set; }
     }
 
     [Serializable]
-    public class SPCurrencyData : ISpecterResourceData, ISpecterMasterData
+    public class SPCurrencyData : ISpecterResourceData, ISpecterCurrencyData, ISpecterMasterData
     {
         public string uuid { get; set; }
         public string id { get; set; }

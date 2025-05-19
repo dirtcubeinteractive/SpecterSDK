@@ -30,6 +30,22 @@ namespace SpecterSDK.Shared.v2
 
     #endregion
 
+    #region Economy
+    
+    /// <summary>
+    /// Represents the currency types available in the system.
+    /// </summary>
+    [Serializable]
+    public sealed class SPCurrencyTypeV2 : SPEnum<SPCurrencyTypeV2>
+    {
+        public static readonly SPCurrencyTypeV2 Virtual = new SPCurrencyTypeV2(0, "virtual", "Virtual");
+        public static readonly SPCurrencyTypeV2 Real = new SPCurrencyTypeV2(1, "real", "Real");
+        
+        private SPCurrencyTypeV2(int id, string name, string displayName) : base(id, name, displayName) { }
+    }
+    
+    #endregion
+
     #region LiveOps
 
     /// <summary>
