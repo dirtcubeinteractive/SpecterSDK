@@ -63,6 +63,45 @@ namespace SpecterSDK.Shared.v2
     
     #endregion
 
+    #region Events
+
+    [Serializable]
+    public sealed class SPStatCollectionMode : SPEnum<SPStatCollectionMode>
+    {
+        public static readonly SPStatCollectionMode Cumulative = new SPStatCollectionMode(0, nameof(Cumulative).ToLower(), nameof(Cumulative));
+        public static readonly SPStatCollectionMode One_Shot = new SPStatCollectionMode(1, nameof(One_Shot).Replace("_", "-").ToLower(), nameof(One_Shot).Replace("_", " "));
+        
+        public SPStatCollectionMode(int id, string name, string displayName = null) : base(id, name, displayName)
+        {
+        }
+    }
+
+    [Serializable]
+    public sealed class SPParamDataType : SPEnum<SPParamDataType>
+    {
+        public static readonly SPParamDataType String = new SPParamDataType(1, nameof(String).ToLower(), nameof(String));
+        public static readonly SPParamDataType Integer = new SPParamDataType(2, nameof(Integer).ToLower(), nameof(Integer));
+        public static readonly SPParamDataType Boolean = new SPParamDataType(3, nameof(Boolean).ToLower(), nameof(Boolean));
+        public static readonly SPParameterType Float = new SPParameterType(4, nameof(Float).ToLower(), nameof(Float));
+        
+        public SPParamDataType(int id, string name, string displayName = null) : base(id, name, displayName)
+        {
+        }
+    }
+    
+    [Serializable]
+    public sealed class SPParameterType : SPEnum<SPParameterType>
+    {
+        public static readonly SPParameterType State = new SPParameterType(0, nameof(State).ToLower(), nameof(State));
+        public static readonly SPParameterType Statistic = new SPParameterType(1, nameof(Statistic).ToLower(), nameof(Statistic));
+        
+        public SPParameterType(int id, string name, string displayName = null) : base(id, name, displayName)
+        {
+        }
+    }
+
+    #endregion
+
     #region LiveOps
 
     /// <summary>

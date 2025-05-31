@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SpecterSDK.Shared;
 using SpecterSDK.Shared.Networking.Models;
@@ -30,7 +31,7 @@ namespace SpecterSDK.API.ClientAPI.v2.App
     /// </summary>
     [Serializable]
     [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPGetTasksRequest : SPPaginatedApiRequest
+    public class SPGetTasksRequestV2 : SPPaginatedApiRequest
     {
         /// <summary>
         /// An array of task IDs to fetch specific tasks.
@@ -56,5 +57,22 @@ namespace SpecterSDK.API.ClientAPI.v2.App
         /// Specific attributes of tasks to include in the response. Eg usage: SPTaskAttribute.RewardDetails
         /// </summary>
         public List<SPTaskAttribute> attributes { get; set; }
+    }
+
+    public class SPGetTasksResultV2 : SpecterApiResultBase<SPGetTasksResponse>
+    {
+        protected override void InitSpecterObjectsInternal()
+        {
+            
+        }
+    }
+
+    public partial class SPAppApiClientV2
+    {
+        public async Task<SPGetTasksResultV2> GetTasksAsync(SPGetTasksRequestV2 request)
+        {
+            var result = await PostAsync<SPGetTasksResultV2, SPGetTasksResponse>("/v2/client/app/get-tasks", AuthType, request);
+            return result;
+        }
     }
 }

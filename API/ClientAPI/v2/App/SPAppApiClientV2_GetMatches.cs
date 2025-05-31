@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SpecterSDK.Shared.Networking.Models;
 using SpecterSDK.Shared.SPEnum;
@@ -25,7 +26,7 @@ namespace SpecterSDK.API.ClientAPI.v2.App
     /// </summary>
     [Serializable]
     [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPGetMatchesRequest : SPPaginatedApiRequest
+    public class SPGetMatchesRequestV2 : SPPaginatedApiRequest
     {
         /// <summary>
         /// Optional array of match IDs to fetch specific matches.
@@ -51,5 +52,22 @@ namespace SpecterSDK.API.ClientAPI.v2.App
         /// Specific attributes of matches to include in the response. Eg usage: SPMatchAttribute.Leaderboards
         /// </summary>
         public List<SPMatchAttribute> attributes { get; set; }
+    }
+
+    public class SPGetMatchesResultV2 : SpecterApiResultBase<SPGetMatchesResponse>
+    {
+        protected override void InitSpecterObjectsInternal()
+        {
+            
+        }
+    }
+
+    public partial class SPAppApiClientV2
+    {
+        public async Task<SPGetMatchesResultV2> GetMatchesAsync(SPGetMatchesRequestV2 request)
+        {
+            var result = await PostAsync<SPGetMatchesResultV2, SPGetMatchesResponse>("/v2/client/app/get-matches", AuthType, request);
+            return result;
+        }
     }
 }

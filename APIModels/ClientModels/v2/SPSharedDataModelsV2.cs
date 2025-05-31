@@ -65,6 +65,31 @@ namespace SpecterSDK.APIModels.ClientModels.v2
     }
     
     [Serializable]
+    public class SPTaskResourceData : ISpecterResourceData
+    {
+        public string uuid { get; set; }
+        public string id { get; set; }
+        public string name { get; set; }
+        public string description { get; set; }
+        public string iconUrl { get; set; }
+        
+        public SPEventData @event { get; set; }
+        
+        public SPRewardsData rewardDetails { get; set; }
+        public SPRewardsData linkedRewardDetails { get; set; }
+    }
+
+    [Serializable]
+    public class SPTaskGroupResourceData : ISpecterResourceData
+    {
+        public string uuid { get; set; }
+        public string id { get; set; }
+        public string name { get; set; }
+        public string description { get; set; }
+        public string iconUrl { get; set; }
+    }
+    
+    [Serializable]
     public class SPPricingCurrencyData : ISpecterResourceData, ISpecterPricingCurrencyData
     {
         public string uuid { get; set; }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SpecterSDK.Shared.Networking.Models;
 using SpecterSDK.Shared.SPEnum;
@@ -61,5 +62,22 @@ namespace SpecterSDK.API.ClientAPI.v2.App
         /// Example: new SPPlayerFilter(SPPlayerFilterType.Username, "player123")
         /// </summary>
         public List<SPPlayerFilter> filters { get; set; }
+    }
+
+    public class SPGetPlayersResult : SpecterApiResultBase<SPGetPlayersResponse>
+    {
+        protected override void InitSpecterObjectsInternal()
+        {
+            
+        }
+    }
+
+    public partial class SPAppApiClientV2
+    {
+        public async Task<SPGetPlayersResult> GetPlayersAsync(SPGetPlayersRequest request)
+        {
+            var result = await PostAsync<SPGetPlayersResult, SPGetPlayersResponse>("/v2/client/app/get-players", AuthType, request);
+            return result;
+        }
     }
 }

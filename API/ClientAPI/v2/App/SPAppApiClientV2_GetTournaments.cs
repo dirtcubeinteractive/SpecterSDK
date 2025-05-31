@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SpecterSDK.Shared;
 using SpecterSDK.Shared.Networking.Models;
@@ -59,5 +60,22 @@ namespace SpecterSDK.API.ClientAPI.v2.App
         /// Specific attributes of tournaments to include in the response. Eg usage: SPTournamentAttribute.PrizeDistribution
         /// </summary>
         public List<SPTournamentAttribute> attributes { get; set; }
+    }
+
+    public class SPGetTournamentsResult : SpecterApiResultBase<SPGetTournamentsResponse>
+    {
+        protected override void InitSpecterObjectsInternal()
+        {
+            
+        }
+    }
+
+    public partial class SPAppApiClientV2
+    {
+        public async Task<SPGetTournamentsResult> GetTournamentsAsync(SPGetTournamentsRequest request)
+        {
+            var result = await PostAsync<SPGetTournamentsResult, SPGetTournamentsResponse>("/v2/client/app/get-tournaments", AuthType, request);
+            return result;
+        }
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SpecterSDK.Shared;
 using SpecterSDK.Shared.Networking.Models;
@@ -57,5 +58,22 @@ namespace SpecterSDK.API.ClientAPI.v2.App
         /// Specific attributes of missions to include in the response. Eg usage: SPMissionAttribute.Tasks
         /// </summary>
         public List<SPMissionAttribute> attributes { get; set; }
+    }
+
+    public class SPGetMissionsResult : SpecterApiResultBase<SPGetMissionsResponse>
+    {
+        protected override void InitSpecterObjectsInternal()
+        {
+            
+        }
+    }
+
+    public partial class SPAppApiClientV2
+    {
+        public async Task<SPGetMissionsResult> GetMissionsAsync(SPGetMissionsRequest request)
+        {
+            var result = await PostAsync<SPGetMissionsResult, SPGetMissionsResponse>("/v2/client/app/get-missions", AuthType, request);
+            return result;
+        }
     }
 }

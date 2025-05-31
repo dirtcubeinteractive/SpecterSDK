@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SpecterSDK.Shared.Networking.Models;
 using SpecterSDK.Shared.SPEnum;
@@ -24,7 +25,7 @@ namespace SpecterSDK.API.ClientAPI.v2.App
     /// </summary>
     [Serializable]
     [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPGetMarkersRequest : SPPaginatedApiRequest
+    public class SPGetProgressionMarkersRequestV2 : SPPaginatedApiRequest
     {
         /// <summary>
         /// An array of progression marker IDs to fetch specific markers.
@@ -45,5 +46,22 @@ namespace SpecterSDK.API.ClientAPI.v2.App
         /// Specific attributes of progression markers to include in the response. Eg usage: SPMarkerAttribute.ProgressionSystems
         /// </summary>
         public List<SPMarkerAttribute> attributes { get; set; }
+    }
+
+    public class SPGetProgressionMarkersResultV2 : SpecterApiResultBase<SPGetProgressionMarkersResponse>
+    {
+        protected override void InitSpecterObjectsInternal()
+        {
+            
+        }
+    }
+
+    public partial class SPAppApiClientV2
+    {
+        public async Task<SPGetProgressionMarkersResultV2> GetProgressionMarkersAsync(SPGetProgressionMarkersRequestV2 request)
+        {
+            var result = await PostAsync<SPGetProgressionMarkersResultV2, SPGetProgressionMarkersResponse>("/v2/client/app/get-markers", AuthType, request);
+            return result;
+        }
     }
 }

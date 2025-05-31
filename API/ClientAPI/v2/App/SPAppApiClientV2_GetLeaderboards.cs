@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SpecterSDK.Shared;
 using SpecterSDK.Shared.Networking.Models;
@@ -26,7 +27,7 @@ namespace SpecterSDK.API.ClientAPI.v2.App
     /// </summary>
     [Serializable]
     [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPGetLeaderboardsRequest : SPPaginatedApiRequest
+    public class SPGetLeaderboardsRequestV2 : SPPaginatedApiRequest
     {
         /// <summary>
         /// An array of leaderboard IDs to fetch specific leaderboards.
@@ -57,5 +58,22 @@ namespace SpecterSDK.API.ClientAPI.v2.App
         /// Specific attributes of leaderboards to include in the response. Eg usage: SPLeaderboardAttribute.PrizeDistribution
         /// </summary>
         public List<SPLeaderboardAttribute> attributes { get; set; }
+    }
+
+    public class SPGetLeaderboardsResultV2 : SpecterApiResultBase<SPGetLeaderboardsResponse>
+    {
+        protected override void InitSpecterObjectsInternal()
+        {
+            
+        }
+    }
+
+    public partial class SPAppApiClientV2
+    {
+        public async Task<SPGetLeaderboardsResultV2> GetLeaderboardsAsync(SPGetLeaderboardsRequestV2 request)
+        {
+            var result = await PostAsync<SPGetLeaderboardsResultV2, SPGetLeaderboardsResponse>("/v2/client/app/get-leaderboards", AuthType, request);
+            return result;
+        }
     }
 }

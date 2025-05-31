@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SpecterSDK.Shared;
 using SpecterSDK.Shared.Networking.Models;
@@ -55,5 +56,22 @@ namespace SpecterSDK.API.ClientAPI.v2.App
         /// Specific attributes of step series to include in the response. Eg usage: SPStepSeriesAttribute.Tasks
         /// </summary>
         public List<SPStepSeriesAttribute> attributes { get; set; }
+    }
+
+    public class SPGetStepSeriesResult : SpecterApiResultBase<SPGetStepSeriesResponse>
+    {
+        protected override void InitSpecterObjectsInternal()
+        {
+            
+        }
+    }
+
+    public partial class SPAppApiClientV2
+    {
+        public async Task<SPGetStepSeriesResult> GetStepSeriesAsync(SPGetStepSeriesRequest request)
+        {
+            var result = await PostAsync<SPGetStepSeriesResult, SPGetStepSeriesResponse>("/v2/client/app/get-step-series", AuthType, request);
+            return result;
+        }
     }
 }

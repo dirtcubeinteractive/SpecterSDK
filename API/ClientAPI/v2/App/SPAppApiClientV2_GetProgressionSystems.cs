@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SpecterSDK.Shared.Networking.Models;
 using SpecterSDK.Shared.SPEnum;
@@ -25,7 +26,7 @@ namespace SpecterSDK.API.ClientAPI.v2.App
     /// </summary>
     [Serializable]
     [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPGetProgressionSystemsRequest : SPPaginatedApiRequest
+    public class SPGetProgressionSystemsRequestV2 : SPPaginatedApiRequest
     {
         /// <summary>
         /// An array of progression system IDs to fetch specific progression systems.
@@ -51,5 +52,22 @@ namespace SpecterSDK.API.ClientAPI.v2.App
         /// Specific attributes of progression systems to include in the response. Eg usage: SPProgressionSystemAttribute.Levels
         /// </summary>
         public List<SPProgressionSystemAttribute> attributes { get; set; }
+    }
+
+    public class SPGetProgressionSystemsResultV2 : SpecterApiResultBase<SPGetProgressionSystemsResponse>
+    {
+        protected override void InitSpecterObjectsInternal()
+        {
+            
+        }
+    }
+
+    public partial class SPAppApiClientV2
+    {
+        public async Task<SPGetProgressionSystemsResultV2> GetProgressionSystemsAsync(SPGetProgressionSystemsRequestV2 request)
+        {
+            var result = await PostAsync<SPGetProgressionSystemsResultV2, SPGetProgressionSystemsResponse>("/v2/client/app/get-progression-systems", AuthType, request);
+            return result;
+        }
     }
 }

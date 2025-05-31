@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SpecterSDK.Shared;
 using SpecterSDK.Shared.Networking.Models;
@@ -59,5 +60,22 @@ namespace SpecterSDK.API.ClientAPI.v2.App
         /// Specific attributes of instant battles to include in the response. Eg usage: SPInstantBattleAttribute.PrizeDistribution
         /// </summary>
         public List<SPInstantBattleAttribute> attributes { get; set; }
+    }
+
+    public class SPGetInstantBattlesResult : SpecterApiResultBase<SPGetInstantBattlesResponse>
+    {
+        protected override void InitSpecterObjectsInternal()
+        {
+            
+        }
+    }
+
+    public partial class SPAppApiClientV2
+    {
+        public async Task<SPGetInstantBattlesResult> GetInstantBattlesAsync(SPGetInstantBattlesRequest request)
+        {
+            var result = await PostAsync<SPGetInstantBattlesResult, SPGetInstantBattlesResponse>("/v2/client/app/get-instant-battles", AuthType, request);
+            return result;
+        }
     }
 }

@@ -6,11 +6,11 @@ using SpecterSDK.Shared.Networking.Models;
 namespace SpecterSDK.API.ClientAPI.v2.App
 {
     /// <summary>
-    /// Represents a request to retrieve a specific document from the application.
+    /// Represents a request to retrieve a specific document's content from Specter.
     /// </summary>
     [Serializable]
     [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPGetDocumentsRequest : SPApiRequestBase
+    public class SPGetDocumentContentRequest : SPApiRequestBase
     {
         /// <summary>
         /// The unique identifier for the document to retrieve.
@@ -18,19 +18,19 @@ namespace SpecterSDK.API.ClientAPI.v2.App
         public string documentId { get; set; }
     }
 
-    public class SPGetDocumentsResult : SpecterApiResultBase<SPGetDocumentsResponse>
+    public class SPGetDocumentContentResult : SpecterApiResultBase<SPGetDocumentContentResponse>
     {
         protected override void InitSpecterObjectsInternal()
         {
             
         }
     }
-
+    
     public partial class SPAppApiClientV2
     {
-        public async Task<SPGetDocumentsResult> GetDocumentsAsync(SPGetDocumentsRequest request)
+        public async Task<SPGetDocumentContentResult> GetDocumentContentAsync(SPGetDocumentContentRequest request)
         {
-            var result = await PostAsync<SPGetDocumentsResult, SPGetDocumentsResponse>("/v2/client/app/get-documents", AuthType, request);
+            var result = await PostAsync<SPGetDocumentContentResult, SPGetDocumentContentResponse>("/v2/client/app/get-document-content", AuthType, request);
             return result;
         }
     }
