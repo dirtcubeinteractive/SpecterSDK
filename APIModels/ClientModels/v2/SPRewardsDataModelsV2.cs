@@ -43,4 +43,35 @@ namespace SpecterSDK.APIModels.ClientModels.v2
         public List<SPRewardedResourceData> progressionMarkers { get; set; }
         public List<SPRewardedCurrencyData> currencies { get; set; }
     }
+
+    [Serializable]
+    public class SPPrizeDistributionData
+    {
+        public List<SPPrizeDistributionRuleData> rules { get; set; }
+        public string timeOffsetSeconds { get; set; }
+    }
+
+    [Serializable]
+    public class SPPrizeDistributionRuleData
+    {
+        /// <summary>
+        /// Sort order of the rule.
+        /// </summary>
+        public int no { get; set; }
+        
+        /// <summary>
+        /// Start rank of the rule.
+        /// </summary>
+        public int startRank { get; set; }
+        
+        /// <summary>
+        /// End rank of the rule. Null end rank means this rule applies till the last participant.
+        /// </summary>
+        public int? endRank { get; set; }
+        
+        /// <summary>
+        /// Rewards of the rule.
+        /// </summary>
+        public SPRewardsData rewardDetails { get; set; }
+    }
 }

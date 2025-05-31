@@ -8,7 +8,7 @@ using SpecterSDK.Shared.Networking.Interfaces;
 namespace SpecterSDK.API.ClientAPI.v2.App
 {
     [Serializable]
-    public class SPGetGamesResponse : ISpecterApiResponseData
+    public class SPGetGamesResponse : ISpecterMasterResponse
     {
         public List<SPGameData> games { get; set; }
         public int totalCount { get; set; }

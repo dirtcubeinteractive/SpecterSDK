@@ -8,6 +8,43 @@ namespace SpecterSDK.APIModels.ClientModels.v2
     #region App
 
     [Serializable]
+    public class SPGameResourceData
+    {
+        public string uuid { get; set; }
+        public string id { get; set; }
+    }
+    
+    [Serializable]
+    public class SPMatchResourceData : ISpecterResourceData
+    {
+        public string uuid { get; set; }
+        public string id { get; set; }
+        public string name { get; set; }
+        public string description { get; set; }
+        public string iconUrl { get; set; }
+    }
+
+    [Serializable]
+    public class SPLeaderboardResourceData : ISpecterResourceData
+    {
+        public string uuid { get; set; }
+        public string id { get; set; }
+        public string name { get; set; }
+        public string description { get; set; }
+        public string iconUrl { get; set; }
+    }
+
+    [Serializable]
+    public class SPCompetitionResourceData : ISpecterResourceData
+    {
+        public string uuid { get; set; }
+        public string id { get; set; }
+        public string name { get; set; }
+        public string description { get; set; }
+        public string iconUrl { get; set; }
+    }
+
+    [Serializable]
     public class SPProgressionMarkerResourceData : ISpecterResourceData
     {
         public string uuid { get; set; }
@@ -19,16 +56,6 @@ namespace SpecterSDK.APIModels.ClientModels.v2
     
     [Serializable]
     public class SPProgressionSystemResourceData : ISpecterResourceData
-    {
-        public string uuid { get; set; }
-        public string id { get; set; }
-        public string name { get; set; }
-        public string description { get; set; }
-        public string iconUrl { get; set; }
-    }
-    
-    [Serializable]
-    public class SPMatchResourceData : ISpecterResourceData
     {
         public string uuid { get; set; }
         public string id { get; set; }
@@ -61,15 +88,32 @@ namespace SpecterSDK.APIModels.ClientModels.v2
     }
 
     [Serializable]
-    public class SPPriceDataV2
+    public class SPPriceDataV2 : ISpecterPriceData
     {
-        public SPPriceTypes priceType { get; set; }
         public string productId { get; set; }
+        
+        public SPPriceTypes priceType { get; set; }
         public long price { get; set; }
         public float? discount { get; set; }
         public float? bonusCashAllowance { get; set; }
+        
         public SPPricingCurrencyData currencyDetails { get; set; }
         public SPRealWorldCurrencyData realWorldCurrency { get; set; }
+    }
+
+    [Serializable]
+    public class SPEntryFeeDataV2 : ISpecterPriceData
+    {
+        public SPPriceTypes priceType { get; set; }
+        public long price { get; set; }
+        public float? discount { get; set; }
+        public float? bonusCashAllowance { get; set; }
+        
+        public SPPricingCurrencyData currencyDetails { get; set; }
+        public SPRealWorldCurrencyData realWorldCurrency { get; set; }
+        
+        public double? hostingFee { get; set; }
+        public SPHostingFeeTypes hostingFeeType { get; set; }
     }
 
     [Serializable]

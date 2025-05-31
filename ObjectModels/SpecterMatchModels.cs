@@ -37,8 +37,8 @@ namespace SpecterSDK.ObjectModels
             MaxPlayers = data.maxPlayers;
             NumberOfPositions = data.numberOfPositions;
             DefaultOutcomeValue = data.defaultOutcomeValue;
-            MatchFormatType = data.matchFormatType.name;
-            GameMatchOutcomeType = data.matchOutcomeType.name;
+            MatchFormatType = data.matchFormatType.id;
+            GameMatchOutcomeType = data.matchOutcomeType.id;
 
             if (data.game != null)
                 Game = new SpecterGameBase(data.game);

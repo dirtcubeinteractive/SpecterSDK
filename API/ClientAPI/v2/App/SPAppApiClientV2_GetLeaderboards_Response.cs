@@ -4,19 +4,21 @@ using SpecterSDK.API.ClientAPI.v2.App.DTOs;
 using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.APIModels.ClientModels.v2;
 using SpecterSDK.Shared.Networking.Interfaces;
+using SpecterSDK.Shared.v2;
+using SPPrizeDistributionData = SpecterSDK.APIModels.ClientModels.v2.SPPrizeDistributionData;
 
 namespace SpecterSDK.API.ClientAPI.v2.App
 {
     [Serializable]
-    public class SPGetProgressionSystemsResponse : ISpecterMasterResponse
+    public class SPGetLeaderboardsResponse : ISpecterMasterResponse
     {
-        public List<SPProgressionSystemData> progressionSystems { get; set; }
+        public List<SPLeaderboardData> leaderboards { get; set; }
         public int totalCount { get; set; }
         public DateTime? lastUpdate { get; set; }
     }
 
     [Serializable]
-    public class SPProgressionSystemData : ISpecterResourceData, ISpecterMasterData
+    public class SPLeaderboardData : ISpecterResourceData, ISpecterMasterData
     {
         public string uuid { get; set; }
         public string id { get; set; }
@@ -24,24 +26,20 @@ namespace SpecterSDK.API.ClientAPI.v2.App
         public string description { get; set; }
         public string iconUrl { get; set; }
         
-        public SPProgressionMarkerResourceData progressionMarker { get; set; }
-        public List<SPProgressionLevelData> levels { get; set; }
+        public SPScheduleData schedule { get; set; }
+        public SPMatchResourceData match { get; set; }
+        public SPLeaderboardRankingMethodData rankingMethod { get; set; }
+        public SPLeaderboardSourceData sourceType { get; set; }
+        public SPPrizeDistributionData prizeDistribution { get; set; }
         
         public List<string> tags { get; set; }
         public Dictionary<string, object> meta { get; set; }
-        
-        public int totalLevels { get; set; }
     }
 
     [Serializable]
-    public class SPProgressionLevelData
+    public class SPLeaderboardRankingMethodData
     {
-        public string uuid { get; set; }
-        public string id { get; set; }
+        public SPRankingMethod id { get; set; }
         public string name { get; set; }
-        public int levelNo { get; set; }
-        public long incrementalParameterValue { get; set; }
-        public long cumulativeParameterValue { get; set; }
-        public SPRewardsData rewardDetails { get; set; }
     }
 }

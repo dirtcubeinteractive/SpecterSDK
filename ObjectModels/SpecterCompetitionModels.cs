@@ -25,7 +25,7 @@ namespace SpecterSDK.ObjectModels
             MaxPlayers = data.maxPlayers;
             MaxEntryAllowed = data.maxEntryAllowed;
             MaxAttemptAllowed = data.maxAttemptAllowed;
-            Format = data.formatType.name;
+            Format = data.formatType.id;
             MatchData = data.match != null ? new SpecterMatchBase(data.match) : null;
             GameData = data.game != null ? new SpecterGameBase(data.game) : null;
         }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using SpecterSDK.API.ClientAPI.v2.App.DTOs;
 using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.APIModels.ClientModels.v2;
 using SpecterSDK.Shared.Networking.Interfaces;
@@ -7,7 +8,7 @@ using SpecterSDK.Shared.Networking.Interfaces;
 namespace SpecterSDK.API.ClientAPI.v2.App
 {
     [Serializable]
-    public class SPGetProgressionMarkersResponse
+    public class SPGetProgressionMarkersResponse : ISpecterMasterResponse
     {
         public List<SPProgressionMarkerData> markers { get; set; }
         public int totalCount { get; set; }

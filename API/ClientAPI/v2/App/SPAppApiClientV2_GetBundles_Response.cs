@@ -8,7 +8,7 @@ using SpecterSDK.Shared.Networking.Interfaces;
 namespace SpecterSDK.API.ClientAPI.v2.App
 {
     [Serializable]
-    public class SPGetBundlesResponse : ISpecterApiResponseData
+    public class SPGetBundlesResponse : ISpecterMasterResponse
     {
         public List<SPBundleData> bundles { get; set; }
         public int totalCount { get; set; }
@@ -33,7 +33,7 @@ namespace SpecterSDK.API.ClientAPI.v2.App
     }
 
     [Serializable]
-    public class SPBundlePropData : ISpecterVirtualGoodsProps
+    public class SPBundlePropData : ISpecterVirtualGoodsPropsData
     {
         public bool isConsumable { get; set; }
         public bool isTradable { get; set; }

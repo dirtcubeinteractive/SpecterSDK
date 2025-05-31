@@ -71,7 +71,7 @@ namespace SpecterSDK.APIModels.ClientModels
     [Serializable]
     public class SPCompetitionFormatData
     {
-        public int id { get; set; }
-        public SPCompetitionFormat name { get; set; }
+        public SPCompetitionFormat id { get; set; }
+        public string name { get; set; }
     }
 }

@@ -40,7 +40,7 @@ namespace SpecterSDK.Shared.SPEnum
             {
                 try
                 {
-                    return SPEnum<TEnum>.FromDisplayName(name);
+                    return SPEnum<TEnum>.FromName(name);
                 }
                 catch (Exception ex)
                 {

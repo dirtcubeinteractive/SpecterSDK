@@ -35,8 +35,8 @@ namespace SpecterSDK.APIModels.ClientModels
     [Serializable]
     public class SPMatchFormatData
     {
-        public int id { get; set; }
-        public SPMatchFormatType name { get; set; }
+        public SPMatchFormatType id { get; set; }
+        public string name { get; set; }
     }
 
     [Serializable]
@@ -49,8 +49,8 @@ namespace SpecterSDK.APIModels.ClientModels
     [Serializable]
     public class SPGameMatchOutcomeData
     {
-        public int id { get; set; }
-        public SPGameMatchOutcomeType name { get; set; }
+        public SPGameMatchOutcomeType id { get; set; }
+        public string name { get; set; }
     }
 
     [Serializable]

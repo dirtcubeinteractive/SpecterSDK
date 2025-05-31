@@ -25,7 +25,7 @@ namespace SpecterSDK.ObjectModels
         protected SpecterEsportsResource(SPESportsResourceResponseData data) : base (data)
         {
             LeaderboardOutcomeType = data.outcomeType?.name;
-            Source = data.sourceType?.name;
+            Source = data.sourceType?.id;
             WinCondition = data.winCondition?.name;
 
             Schedule = new SpecterInstanceSchedule()

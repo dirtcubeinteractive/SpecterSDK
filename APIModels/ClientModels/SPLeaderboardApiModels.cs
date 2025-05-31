@@ -47,8 +47,8 @@ namespace SpecterSDK.APIModels.ClientModels
     [Serializable]
     public class SPLeaderboardSourceData 
     {
-        public int id { get; set; }
-        public SPLeaderboardSourceType name { get; set; }
+        public SPLeaderboardSourceType id { get; set; }
+        public string name { get; set; }
     }
 
     [Serializable]

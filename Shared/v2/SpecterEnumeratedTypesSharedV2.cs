@@ -30,6 +30,23 @@ namespace SpecterSDK.Shared.v2
 
     #endregion
 
+    #region App
+
+    [Serializable]
+    public sealed class SPRankingMethod : SPEnum<SPRankingMethod>
+    {
+        public static readonly SPRankingMethod High_Score = new SPRankingMethod(1, nameof(High_Score).ToLower(), nameof(High_Score).Replace("_", " "));
+        public static readonly SPRankingMethod Low_Score = new SPRankingMethod(2, "time_trial", nameof(Low_Score).Replace("_", " "));
+        public static readonly SPRankingMethod Position_Weighting = new SPRankingMethod(4, nameof(Position_Weighting).ToLower(), nameof(Position_Weighting).Replace("_", " "));
+        public static readonly SPRankingMethod Cumulative_Score = new SPRankingMethod(5, nameof(Cumulative_Score).ToLower(), nameof(Cumulative_Score).Replace("_", " "));
+        
+        private SPRankingMethod(int id, string name, string displayName = null) : base(id, name, displayName)
+        {
+        }
+    }
+
+    #endregion
+
     #region Economy
     
     /// <summary>
