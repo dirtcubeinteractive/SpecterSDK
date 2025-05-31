@@ -1,7 +1,4 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using SpecterSDK.APIModels;
-using SpecterSDK.Shared.Networking;
 using SpecterSDK.Shared.Networking.Models;
 
 namespace SpecterSDK.API.ClientAPI.v2.App

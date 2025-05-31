@@ -11,6 +11,7 @@ namespace SpecterSDK.API.ClientAPI.v2.App
     [Serializable]
     public class SPGetInstantBattlesResponse : ISpecterMasterResponse
     {
+        public List<SPInstantBattleData> instantbattle { get; set; }
         public int totalCount { get; set; }
         public DateTime? lastUpdate { get; set; }
     }
