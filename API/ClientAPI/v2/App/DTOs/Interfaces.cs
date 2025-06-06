@@ -25,7 +25,7 @@ namespace SpecterSDK.API.ClientAPI.v2.App.DTOs
         public List<SPGameGenreData> genres { get; set; }
     }
 
-    public interface ISpecterCurrencyData
+    public interface ISpecterCurrencyData : ISpecterResourceData
     {
         public string code { get; set; }
         public SPCurrencyTypeV2 type { get; set; }
@@ -76,6 +76,11 @@ namespace SpecterSDK.API.ClientAPI.v2.App.DTOs
     public interface ISpecterUnlockableData
     {
         public SPUnlockConditionsData unlockConditions { get; set; }
+    }
+    
+    public interface ISpecterRewardedResourceData : ISpecterResourceData
+    {
+        public long amount { get; set; }
     }
 
     public interface ISpecterPurchasableData

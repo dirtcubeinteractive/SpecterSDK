@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using SpecterSDK.ObjectModels.v2;
 using SpecterSDK.Shared.Networking.Models;
 using SpecterSDK.Shared.SPEnum;
 
@@ -62,9 +63,15 @@ namespace SpecterSDK.API.ClientAPI.v2.App
 
     public class SPGetGamesResultV2 : SpecterApiResultBase<SPGetGamesResponse>
     {
+        public List<SPGame> Games { get; set; }
+        public int TotalCount { get; set; }
+        public DateTime? LastUpdate { get; set; }
+        
         protected override void InitSpecterObjectsInternal()
         {
-            
+            Games = Response.data?.games == null ? new List<SPGame>() : Response.data.games.ConvertAll(x => new SPGame(x));
+            TotalCount = Response.data?.totalCount ?? 0;
+            LastUpdate = Response.data?.lastUpdate;
         }
     }
 

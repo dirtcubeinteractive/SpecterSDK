@@ -148,6 +148,7 @@ namespace SpecterSDK.APIModels.ClientModels
     {
         public string assetBundleUrl { get; set; }
         public string assetBundleVersion { get; set; }
+        public string minimumGameVersion { get; set; }
     }
     
     /// <summary>

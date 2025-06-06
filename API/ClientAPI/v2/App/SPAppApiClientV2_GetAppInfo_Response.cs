@@ -7,7 +7,10 @@ using SpecterSDK.Shared.Networking.Interfaces;
 namespace SpecterSDK.API.ClientAPI.v2.App
 {
     [Serializable]
-    public class SPGetAppInfoResponse : ISpecterApiResponseData, ISpecterGameData, ISpecterMasterData
+    public class SPGetAppInfoResponse : SPAppInfoData, ISpecterApiResponseData { }
+
+    [Serializable]
+    public class SPAppInfoData : ISpecterGameData, ISpecterMasterData
     {
         public string uuid { get; set; }
         public string id { get; set; }

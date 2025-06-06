@@ -7,6 +7,15 @@ namespace SpecterSDK.ObjectModels.Interfaces
 {
     public interface ISpecterObject { }
 
+    public interface ISpecterResource : ISpecterObject
+    {
+        public string Uuid { get; set; }
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string IconUrl { get; set; }
+    }
+
     public interface ISpecterMasterObject
     {
         public List<string> Tags { get; set; }
@@ -19,6 +28,9 @@ namespace SpecterSDK.ObjectModels.Interfaces
             
             try
             {
+                if (Meta == null)
+                    throw new NullReferenceException("Meta is null");
+                
                 if (Meta.TryGetValue(key, out object objVal))
                 {
                     if (SpecterJson.TryConvertObject<T>(objVal, out val))

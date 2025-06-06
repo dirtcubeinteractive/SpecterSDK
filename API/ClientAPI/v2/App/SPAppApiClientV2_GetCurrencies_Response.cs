@@ -16,7 +16,7 @@ namespace SpecterSDK.API.ClientAPI.v2.App
     }
 
     [Serializable]
-    public class SPCurrencyData : ISpecterResourceData, ISpecterCurrencyData, ISpecterMasterData
+    public class SPCurrencyData : ISpecterCurrencyData, ISpecterMasterData
     {
         public string uuid { get; set; }
         public string id { get; set; }

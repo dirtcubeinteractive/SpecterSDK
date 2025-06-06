@@ -5,13 +5,19 @@ using SpecterSDK.Shared.v2;
 
 namespace SpecterSDK.APIModels.ClientModels.v2
 {
-    public interface ISpecterRewardedResourceData : ISpecterResourceData
+    [Serializable]
+    public class SPRewardedItemData : ISpecterRewardedResourceData
     {
+        public string uuid { get; set; }
+        public string id { get; set; }
+        public string name { get; set; }
+        public string description { get; set; }
+        public string iconUrl { get; set; }
         public long amount { get; set; }
     }
     
     [Serializable]
-    public class SPRewardedResourceData : ISpecterRewardedResourceData
+    public class SPRewardedBundleData : ISpecterRewardedResourceData
     {
         public string uuid { get; set; }
         public string id { get; set; }
@@ -34,13 +40,24 @@ namespace SpecterSDK.APIModels.ClientModels.v2
         public string code { get; set; }
         public SPCurrencyTypeV2 type { get; set; }
     }
+    
+    [Serializable]
+    public class SPRewardedProgressionMarkerData : ISpecterRewardedResourceData
+    {
+        public string uuid { get; set; }
+        public string id { get; set; }
+        public string name { get; set; }
+        public string description { get; set; }
+        public string iconUrl { get; set; }
+        public long amount { get; set; }
+    }
 
     [Serializable]
     public class SPRewardsData
     {
-        public List<SPRewardedResourceData> items { get; set; }
-        public List<SPRewardedResourceData> bundles { get; set; }
-        public List<SPRewardedResourceData> progressionMarkers { get; set; }
+        public List<SPRewardedItemData> items { get; set; }
+        public List<SPRewardedBundleData> bundles { get; set; }
+        public List<SPRewardedProgressionMarkerData> progressionMarkers { get; set; }
         public List<SPRewardedCurrencyData> currencies { get; set; }
     }
 

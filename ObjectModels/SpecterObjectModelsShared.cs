@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using SpecterSDK.APIModels.ClientModels;
+using SpecterSDK.Shared.v2;
 
 namespace SpecterSDK.ObjectModels
 {
@@ -49,7 +50,7 @@ namespace SpecterSDK.ObjectModels
         public string IconUrl;
 
         protected SpecterResource() { }
-        protected SpecterResource(SPResourceResponseData data) : base(data.uuid, data.id)
+        protected SpecterResource(ISpecterResourceData data) : base(data.uuid, data.id)
         {
             Name = data.name;
             Description = data.description;

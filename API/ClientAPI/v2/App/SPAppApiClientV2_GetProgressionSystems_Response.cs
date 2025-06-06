@@ -42,6 +42,7 @@ namespace SpecterSDK.API.ClientAPI.v2.App
         public int levelNo { get; set; }
         public long incrementalParameterValue { get; set; }
         public long cumulativeParameterValue { get; set; }
+        
         public SPRewardsData rewardDetails { get; set; }
     }
 }

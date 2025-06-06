@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using SpecterSDK.ObjectModels.v2;
 using SpecterSDK.Shared.Networking.Models;
 using SpecterSDK.Shared.SPEnum;
 using SpecterSDK.Shared.v2;
@@ -55,9 +56,15 @@ namespace SpecterSDK.API.ClientAPI.v2.App
 
     public class SPGetCurrenciesResultV2 : SpecterApiResultBase<SPGetCurrenciesResponse>
     {
+        public List<SPCurrency> Currencies { get; set; }
+        public int TotalCount { get; set; }
+        public DateTime? LastUpdate { get; set; }
+        
         protected override void InitSpecterObjectsInternal()
         {
-            
+            Currencies = Response.data?.currencies == null ? new List<SPCurrency>() : Response.data.currencies.ConvertAll(x => new SPCurrency(x));
+            TotalCount = Response.data?.totalCount ?? 0;
+            LastUpdate = Response.data?.lastUpdate;
         }
     }
 

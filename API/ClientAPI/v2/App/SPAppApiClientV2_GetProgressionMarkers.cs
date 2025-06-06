@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using SpecterSDK.ObjectModels.v2;
 using SpecterSDK.Shared.Networking.Models;
 using SpecterSDK.Shared.SPEnum;
 
@@ -50,9 +51,15 @@ namespace SpecterSDK.API.ClientAPI.v2.App
 
     public class SPGetProgressionMarkersResultV2 : SpecterApiResultBase<SPGetProgressionMarkersResponse>
     {
+        public List<SPProgressionMarker> Markers { get; set; }
+        public int TotalCount { get; set; }
+        public DateTime? LastUpdate { get; set; }
+        
         protected override void InitSpecterObjectsInternal()
         {
-            
+            Markers = Response.data?.markers == null ? new List<SPProgressionMarker>() : Response.data.markers.ConvertAll(x => new SPProgressionMarker(x));
+            TotalCount = Response.data?.totalCount ?? 0;
+            LastUpdate = Response.data?.lastUpdate;
         }
     }
 

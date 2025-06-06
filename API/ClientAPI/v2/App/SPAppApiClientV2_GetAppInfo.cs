@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using SpecterSDK.ObjectModels.v2;
 using SpecterSDK.Shared.Networking.Models;
 using SpecterSDK.Shared.SPEnum;
 
@@ -41,9 +42,12 @@ namespace SpecterSDK.API.ClientAPI.v2.App
 
     public class SPGetAppInfoResultV2 : SpecterApiResultBase<SPGetAppInfoResponse>
     {
+        public SPApp App { get; private set; }
+        
         protected override void InitSpecterObjectsInternal()
         {
-            
+            if (Response.data != null)
+                App = new SPApp(Response.data);
         }
     }
 
