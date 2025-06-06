@@ -129,7 +129,6 @@ namespace SpecterSDK.ObjectModels
     {
         public int Id { get; private set; }
         public string Name { get; private set; }
-        public string CountryCode { get; private set; }
 
         public SpecterLocation(SPLocationData data)
         {
