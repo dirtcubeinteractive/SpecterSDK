@@ -1,5 +1,6 @@
 using System;
 using SpecterSDK.APIModels.ClientModels;
+using SpecterSDK.APIModels.ClientModels.v1;
 using SpecterSDK.Shared;
 
 namespace SpecterSDK.ObjectModels

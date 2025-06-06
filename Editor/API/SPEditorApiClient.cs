@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using SpecterSDK.API;
 using SpecterSDK.APIModels;
 using SpecterSDK.APIModels.AdminModels;
 using SpecterSDK.Shared;

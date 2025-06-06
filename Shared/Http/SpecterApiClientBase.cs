@@ -3,7 +3,6 @@ using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using SpecterSDK.API;
 using SpecterSDK.APIModels;
 using SpecterSDK.Shared.Networking.Interfaces;
 using SpecterSDK.Shared.Networking.Models;

@@ -1,16 +1,16 @@
-using SpecterSDK.API.ClientAPI.Leaderboards;
-using SpecterSDK.API.ClientAPI.Matches;
-using SpecterSDK.API.ClientAPI.Progression;
-using SpecterSDK.API.ClientAPI.Rewards;
-using SpecterSDK.API.ClientAPI.Stores;
-using SpecterSDK.API.ClientAPI.Tasks;
-using SpecterSDK.API.ClientAPI.User;
-using SpecterSDK.API.ClientAPI.v1.App;
-using SpecterSDK.API.ClientAPI.v1.Authentication;
-using SpecterSDK.API.ClientAPI.v1.Competitions;
-using SpecterSDK.API.ClientAPI.v1.Events;
-using SpecterSDK.API.ClientAPI.v1.Inventory;
-using SpecterSDK.API.ClientAPI.Wallet;
+using SpecterSDK.API.v1.App;
+using SpecterSDK.API.v1.Authentication;
+using SpecterSDK.API.v1.Competitions;
+using SpecterSDK.API.v1.Events;
+using SpecterSDK.API.v1.Inventory;
+using SpecterSDK.API.v1.Leaderboards;
+using SpecterSDK.API.v1.Matches;
+using SpecterSDK.API.v1.Progression;
+using SpecterSDK.API.v1.Rewards;
+using SpecterSDK.API.v1.Stores;
+using SpecterSDK.API.v1.Tasks;
+using SpecterSDK.API.v1.User;
+using SpecterSDK.API.v1.Wallet;
 
 namespace SpecterSDK.Shared.Versions
 {

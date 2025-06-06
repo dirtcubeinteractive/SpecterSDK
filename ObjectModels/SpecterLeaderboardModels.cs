@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using SpecterSDK.APIModels.ClientModels;
+using SpecterSDK.APIModels.ClientModels.v1;
 using SpecterSDK.ObjectModels.Interfaces;
 using SpecterSDK.Shared;
 using UnityEngine.Serialization;

@@ -1,0 +1,41 @@
+using System;
+using System.Collections.Generic;
+using Newtonsoft.Json;
+using SpecterSDK.Shared;
+using SpecterSDK.Shared.Networking.Models;
+
+namespace SpecterSDK.API.v2.Players.Others
+{
+    /// <summary>
+    /// Represents a request to get task progress for another player.
+    /// </summary>
+    [Serializable]
+    [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
+    public class SPGetOtherPlayerTaskProgressRequest : SPPaginatedApiRequest
+    {
+        /// <summary>
+        /// Unique identifier for the user.
+        /// </summary>
+        public string userId { get; set; }
+        
+        /// <summary>
+        /// Array of task IDs for which to retrieve progress.
+        /// </summary>
+        public List<string> taskIds { get; set; }
+        
+        /// <summary>
+        /// Filter to retrieve tasks by status.
+        /// </summary>
+        public SPTaskStatus status { get; set; }
+        
+        /// <summary>
+        /// Array of schedule statuses to filter tasks.
+        /// </summary>
+        public List<SPScheduleStates> scheduleStatuses { get; set; }
+        
+        /// <summary>
+        /// Include tasks from task groups if set to true.
+        /// </summary>
+        public bool? includeTaskGroupTasks { get; set; }
+    }
+}

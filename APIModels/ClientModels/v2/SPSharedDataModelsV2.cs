@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using SpecterSDK.API.ClientAPI.v2.App.DTOs;
+using SpecterSDK.API.v2.App.DTOs;
 using SpecterSDK.Shared;
 using SpecterSDK.Shared.v2;
 
