@@ -85,6 +85,20 @@ namespace SpecterSDK.Shared.v2
     #endregion
 
     #region Economy
+
+    [Serializable]
+    public sealed class SPRarity : SPEnum<SPRarity>
+    {
+        public static readonly SPRarity Common = new SPRarity(1, nameof(Common).ToLower(), nameof(Common));
+        public static readonly SPRarity Uncommon = new SPRarity(2, nameof(Uncommon).ToLower(), nameof(Uncommon));
+        public static readonly SPRarity Rare = new SPRarity(3, nameof(Rare).ToLower(), nameof(Rare));
+        public static readonly SPRarity Epic = new SPRarity(4, nameof(Epic).ToLower(), nameof(Epic));
+        public static readonly SPRarity Legendary = new SPRarity(5, nameof(Legendary).ToLower(), nameof(Legendary));
+        
+        public SPRarity(int id, string name, string displayName = null) : base(id, name, displayName)
+        {
+        }
+    }
     
     /// <summary>
     /// Represents the currency types available in the system.

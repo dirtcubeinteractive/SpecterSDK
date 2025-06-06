@@ -76,13 +76,15 @@ namespace SpecterSDK.ObjectModels.v2
         }
     }
     
-    public class SPItem : ISpecterResource, ISpecterVirtualGood, ISpecterMasterObject, ISpecterUnlockable
+    public class SPItem : ISpecterResource, ISpecterEconomyResource, ISpecterVirtualGood, ISpecterMasterObject, ISpecterUnlockable
     {
         public string Uuid { get; set; }
         public string Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public string IconUrl { get; set; }
+        
+        public SPRarity Rarity { get; set; }
         
         public ISpecterVirtualGoodsProps Properties => ItemProperties;
         public SPItemProps ItemProperties { get; set; }
@@ -105,6 +107,8 @@ namespace SpecterSDK.ObjectModels.v2
             Description = data.description;
             IconUrl = data.iconUrl;
             
+            Rarity = data.rarity.id;
+            
             ItemProperties = data.properties == null ? null : new SPItemProps(data.properties);
             UnlockConditions = data.unlockConditions == null ? null : new SPUnlockConditions(data.unlockConditions);
             
@@ -113,13 +117,15 @@ namespace SpecterSDK.ObjectModels.v2
         }
     }
 
-    public class SPBundle : ISpecterResource, ISpecterVirtualGood, ISpecterMasterObject, ISpecterUnlockable
+    public class SPBundle : ISpecterResource, ISpecterEconomyResource, ISpecterVirtualGood, ISpecterMasterObject, ISpecterUnlockable
     {
         public string Uuid { get; set; }
         public string Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public string IconUrl { get; set; }
+        
+        public SPRarity Rarity { get; set; }
         
         public ISpecterVirtualGoodsProps Properties => BundleProperties;
         public SPBundleProps BundleProperties { get; set; }
@@ -142,6 +148,8 @@ namespace SpecterSDK.ObjectModels.v2
             Name = data.name;
             Description = data.description;
             IconUrl = data.iconUrl;
+            
+            Rarity = data.rarity.id;
             
             BundleProperties = data.properties == null ? null : new SPBundleProps(data.properties);
             Contents = data.contents == null ? null : new SPBundleContents(data.contents);
@@ -173,14 +181,15 @@ namespace SpecterSDK.ObjectModels.v2
         }
     }
 
-    public class SPBundleResource : ISpecterResource
+    public class SPBundleResource : ISpecterResource, ISpecterEconomyResource
     {
         public string Uuid { get; set; }
         public string Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public string IconUrl { get; set; }
-        
+        public SPRarity Rarity { get; set; }
+
         public int Quantity { get; set; }
         
         public SPBundleResource() { }
@@ -191,6 +200,7 @@ namespace SpecterSDK.ObjectModels.v2
             Name = data.name;
             Description = data.description;
             IconUrl = data.iconUrl;
+            Rarity = data.rarity.id;
             Quantity = data.quantity;
         }
     }
@@ -202,6 +212,8 @@ namespace SpecterSDK.ObjectModels.v2
         public string Name { get; set; }
         public string Description { get; set; }
         public string IconUrl { get; set; }
+        
+        public SPRarity Rarity { get; set; }
         
         public string Code { get; set; }
         public SPCurrencyTypeV2 Type { get; set; }
@@ -220,6 +232,8 @@ namespace SpecterSDK.ObjectModels.v2
             Name = data.name;
             Description = data.description;
             IconUrl = data.iconUrl;
+            
+            Rarity = data.rarity.id;
             
             Code = data.code;
             Type = data.type;

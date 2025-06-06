@@ -14,12 +14,25 @@ namespace SpecterSDK.ObjectModels.v2
         public List<SpecterGameGenre> Genres { get; set; }
     }
 
-    public interface ISpecterCurrency : ISpecterResource
+    public interface ISpecterEconomyResource : ISpecterResource
+    {
+        public SPRarity Rarity { get; set; }
+    }
+
+    public interface ISpecterCurrency : ISpecterEconomyResource
     {
         public string Code { get; set; }
         public SPCurrencyTypeV2 Type { get; set; }
         public bool IsVirtual { get; }
         public bool IsReal { get; }
+    }
+
+    public interface ISpecterPricingCurrency
+    {
+        public string Uuid { get; set; }
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public string Code { get; set; }
     }
 
     public interface ISpecterVirtualGoodsProps

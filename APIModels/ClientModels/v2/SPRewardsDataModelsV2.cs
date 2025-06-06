@@ -6,24 +6,26 @@ using SpecterSDK.Shared.v2;
 namespace SpecterSDK.APIModels.ClientModels.v2
 {
     [Serializable]
-    public class SPRewardedItemData : ISpecterRewardedResourceData
+    public class SPRewardedItemData : ISpecterRewardedResourceData, ISpecterEconomyResourceData
     {
         public string uuid { get; set; }
         public string id { get; set; }
         public string name { get; set; }
         public string description { get; set; }
         public string iconUrl { get; set; }
+        public SPRarityData rarity { get; set; }
         public long amount { get; set; }
     }
     
     [Serializable]
-    public class SPRewardedBundleData : ISpecterRewardedResourceData
+    public class SPRewardedBundleData : ISpecterRewardedResourceData, ISpecterEconomyResourceData
     {
         public string uuid { get; set; }
         public string id { get; set; }
         public string name { get; set; }
         public string description { get; set; }
         public string iconUrl { get; set; }
+        public SPRarityData rarity { get; set; }
         public long amount { get; set; }
     }
 
@@ -35,6 +37,7 @@ namespace SpecterSDK.APIModels.ClientModels.v2
         public string name { get; set; }
         public string description { get; set; }
         public string iconUrl { get; set; }
+        public SPRarityData rarity { get; set; }
         public long amount { get; set; }
         
         public string code { get; set; }

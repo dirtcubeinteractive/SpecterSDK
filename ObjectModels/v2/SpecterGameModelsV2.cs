@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using SpecterSDK.API.ClientAPI.v2.App;
+using SpecterSDK.APIModels.ClientModels.v2;
 using SpecterSDK.ObjectModels.Interfaces;
 using SpecterSDK.Shared.v2;
 
@@ -87,6 +88,19 @@ namespace SpecterSDK.ObjectModels.v2
             
             Tags = data.tags ?? new List<string>();
             Meta = data.meta ?? new Dictionary<string, object>();
+        }
+    }
+
+    public class SPGameResource : ISpecterObject
+    {
+        public string Uuid { get; set; }
+        public string Id { get; set; }
+        
+        public SPGameResource() { }
+        public SPGameResource(SPGameResourceData data)
+        {
+            Uuid = data.uuid;
+            Id = data.id;
         }
     }
 }

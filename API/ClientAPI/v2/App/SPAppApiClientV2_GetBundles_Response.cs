@@ -16,7 +16,7 @@ namespace SpecterSDK.API.ClientAPI.v2.App
     }
 
     [Serializable]
-    public class SPBundleData : ISpecterResourceData, ISpecterMasterData, ISpecterUnlockableData
+    public class SPBundleData : ISpecterResourceData, ISpecterEconomyResourceData, ISpecterMasterData, ISpecterUnlockableData, ISpecterPurchasableData
     {
         public string uuid { get; set; }
         public string id { get; set; }
@@ -24,9 +24,12 @@ namespace SpecterSDK.API.ClientAPI.v2.App
         public string description { get; set; }
         public string iconUrl { get; set; }
         
+        public SPRarityData rarity { get; set; }
+        
         public SPBundlePropData properties { get; set; }
         public SPBundleContentsData contents { get; set; }
         public SPUnlockConditionsData unlockConditions { get; set; }
+        public List<SPPriceDataV2> prices { get; set; }
 
         public List<string> tags { get; set; }
         public Dictionary<string, object> meta { get; set; }
@@ -57,7 +60,7 @@ namespace SpecterSDK.API.ClientAPI.v2.App
     }
 
     [Serializable]
-    public class SPBundleResourceData : ISpecterResourceData
+    public class SPBundleResourceData : ISpecterResourceData, ISpecterEconomyResourceData
     {
         public string id { get; set; } 
         public string uuid { get; set; }
@@ -65,5 +68,6 @@ namespace SpecterSDK.API.ClientAPI.v2.App
         public string description { get; set; }
         public string iconUrl { get; set; }
         public int quantity { get; set; }
+        public SPRarityData rarity { get; set; }
     }
 }

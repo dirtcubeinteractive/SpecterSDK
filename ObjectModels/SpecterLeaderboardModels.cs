@@ -26,7 +26,7 @@ namespace SpecterSDK.ObjectModels
         {
             LeaderboardOutcomeType = data.outcomeType?.name;
             Source = data.sourceType?.id;
-            WinCondition = data.winCondition?.name;
+            WinCondition = data.winCondition?.id;
 
             Schedule = new SpecterInstanceSchedule()
             {

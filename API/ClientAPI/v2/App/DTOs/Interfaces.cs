@@ -25,10 +25,15 @@ namespace SpecterSDK.API.ClientAPI.v2.App.DTOs
         public List<SPGameGenreData> genres { get; set; }
     }
 
-    public interface ISpecterCurrencyData : ISpecterResourceData
+    public interface ISpecterCurrencyData : ISpecterEconomyResourceData
     {
         public string code { get; set; }
         public SPCurrencyTypeV2 type { get; set; }
+    }
+
+    public interface ISpecterEconomyResourceData : ISpecterResourceData
+    {
+        public SPRarityData rarity { get; set; }
     }
 
     public interface ISpecterPricingCurrencyData

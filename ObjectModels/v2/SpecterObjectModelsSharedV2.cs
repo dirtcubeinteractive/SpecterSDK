@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.APIModels.ClientModels.v2;
+using SpecterSDK.ObjectModels.Interfaces;
 using SpecterSDK.Shared.v2;
 
 namespace SpecterSDK.ObjectModels.v2
@@ -89,5 +90,46 @@ namespace SpecterSDK.ObjectModels.v2
             Id = data.id;
             Name = data.name;
         }
+    }
+
+    public class SPPricingCurrencyInfo : ISpecterCurrency, ISpecterPricingCurrency
+    {
+        public string Uuid { get; set; }
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string IconUrl { get; set; }
+        public string Code { get; set; }
+        
+        public SPCurrencyTypeV2 Type { get; set; }
+        public bool IsVirtual => Type == SPCurrencyTypeV2.Virtual;
+        public bool IsReal => Type == SPCurrencyTypeV2.Real;
+        
+        public SPRarity Rarity { get; set; }
+        
+        public SPPricingCurrencyInfo() { }
+
+        public SPPricingCurrencyInfo(SPPricingCurrencyData data)
+        {
+            Uuid = data.uuid;
+            Id = data.id;
+            Name = data.name;
+            Description = data.description;
+            IconUrl = data.iconUrl;
+            Rarity = data.rarity.id;
+            Code = data.code;
+            Type = (SPCurrencyTypeV2)data.type;
+        }
+    }
+
+    public class SPRealWorldCurrencyInfo : ISpecterPricingCurrency
+    {
+        public string Uuid { get; set; }
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public string Code { get; set; }
+        
+        public string Symbol { get; set; }
+        public string CountryName { get; set; }
     }
 }

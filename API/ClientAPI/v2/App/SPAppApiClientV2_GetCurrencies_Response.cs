@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using SpecterSDK.API.ClientAPI.v2.App.DTOs;
 using SpecterSDK.APIModels.ClientModels;
+using SpecterSDK.APIModels.ClientModels.v2;
 using SpecterSDK.Shared.Networking.Interfaces;
 using SpecterSDK.Shared.v2;
 
@@ -16,13 +17,15 @@ namespace SpecterSDK.API.ClientAPI.v2.App
     }
 
     [Serializable]
-    public class SPCurrencyData : ISpecterCurrencyData, ISpecterMasterData
+    public class SPCurrencyData : ISpecterResourceData, ISpecterEconomyResourceData, ISpecterCurrencyData, ISpecterMasterData
     {
         public string uuid { get; set; }
         public string id { get; set; }
         public string name { get; set; }
         public string description { get; set; }
         public string iconUrl { get; set; }
+        
+        public SPRarityData rarity { get; set; }
         
         public string code { get; set; }
         public SPCurrencyTypeV2 type { get; set; }

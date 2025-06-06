@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using SpecterSDK.API.ClientAPI.v2.App.DTOs;
 using SpecterSDK.Shared;
+using SpecterSDK.Shared.v2;
 
 namespace SpecterSDK.APIModels.ClientModels.v2
 {
@@ -90,13 +91,14 @@ namespace SpecterSDK.APIModels.ClientModels.v2
     }
     
     [Serializable]
-    public class SPPricingCurrencyData : ISpecterResourceData, ISpecterPricingCurrencyData
+    public class SPPricingCurrencyData : ISpecterResourceData, ISpecterEconomyResourceData, ISpecterPricingCurrencyData
     {
         public string uuid { get; set; }
         public string id { get; set; }
         public string name { get; set; }
         public string description { get; set; }
         public string iconUrl { get; set; }
+        public SPRarityData rarity { get; set; }
         public string code { get; set; }
         public string type { get; set; }
     }
@@ -154,6 +156,13 @@ namespace SpecterSDK.APIModels.ClientModels.v2
     {
         public int lockedLevelNo  { get; set; }
         public SPUnlockResourceData unlockProgressionSystem { get; set; }
+    }
+
+    [Serializable]
+    public class SPRarityData
+    {
+        public SPRarity id { get; set; }
+        public string name { get; set; }
     }
     
     #endregion

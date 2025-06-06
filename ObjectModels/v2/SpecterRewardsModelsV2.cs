@@ -6,13 +6,15 @@ using SpecterSDK.Shared.v2;
 
 namespace SpecterSDK.ObjectModels.v2
 {
-    public class SPItemReward : ISpecterRewardedResource 
+    public class SPItemReward : ISpecterRewardedResource, ISpecterEconomyResource 
     {
         public string Uuid { get; set; }
         public string Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public string IconUrl { get; set; }
+        
+        public SPRarity Rarity { get; set; }
         
         public SPResourceType ResourceType => SPResourceType.Item;
         public long Amount { get; set; }
@@ -26,16 +28,20 @@ namespace SpecterSDK.ObjectModels.v2
             Description = data.description;
             IconUrl = data.iconUrl;
             Amount = data.amount;
+            
+            Rarity = data.rarity.id;
         }
     }
 
-    public class SPBundleReward : ISpecterRewardedResource
+    public class SPBundleReward : ISpecterRewardedResource, ISpecterEconomyResource
     {
         public string Uuid { get; set; }
         public string Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public string IconUrl { get; set; }
+        
+        public SPRarity Rarity { get; set; }
         
         public SPResourceType ResourceType => SPResourceType.Bundle;
         public long Amount { get; set; }
@@ -49,6 +55,8 @@ namespace SpecterSDK.ObjectModels.v2
             Description = data.description;
             IconUrl = data.iconUrl;
             Amount = data.amount;
+
+            Rarity = data.rarity.id;
         }
     }
 
@@ -59,6 +67,8 @@ namespace SpecterSDK.ObjectModels.v2
         public string Name { get; set; }
         public string Description { get; set; }
         public string IconUrl { get; set; }
+        
+        public SPRarity Rarity { get; set; }
         
         public SPResourceType ResourceType => SPResourceType.Currency;
         public long Amount { get; set; }
@@ -78,6 +88,8 @@ namespace SpecterSDK.ObjectModels.v2
             Description = data.description;
             IconUrl = data.iconUrl;
             Amount = data.amount;
+            
+            Rarity = data.rarity.id;
             
             Code = data.code;
             Type = data.type;

@@ -16,7 +16,7 @@ namespace SpecterSDK.API.ClientAPI.v2.App
     }
 
     [Serializable]
-    public class SPItemData : ISpecterResourceData, ISpecterMasterData, ISpecterUnlockableData
+    public class SPItemData : ISpecterResourceData, ISpecterEconomyResourceData, ISpecterMasterData, ISpecterUnlockableData, ISpecterPurchasableData
     {
         public string uuid { get; set; }
         public string id { get; set; }
@@ -24,8 +24,11 @@ namespace SpecterSDK.API.ClientAPI.v2.App
         public string description { get; set; }
         public string iconUrl { get; set; }
         
+        public SPRarityData rarity { get; set; }
+        
         public SPItemPropData properties { get; set; }
         public SPUnlockConditionsData unlockConditions { get; set; }
+        public List<SPPriceDataV2> prices { get; set; }
 
         public List<string> tags { get; set; }
         public Dictionary<string, object> meta { get; set; }
