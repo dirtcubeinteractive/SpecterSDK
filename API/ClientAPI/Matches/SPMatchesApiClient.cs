@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using SpecterSDK.APIModels;
 using SpecterSDK.Shared;
 using Newtonsoft.Json;
+using SpecterSDK.API.ClientAPI.v1.Competitions;
 using SpecterSDK.Shared.Networking;
 using SpecterSDK.Shared.Networking.Interfaces;
 using SpecterSDK.Shared.Networking.Models;
@@ -22,7 +23,7 @@ namespace SpecterSDK.API.ClientAPI.Matches
         public string id;
 
         /// <summary>
-        /// ID of the entry within a competition if participating in a competition <see cref="SpecterSDK.API.ClientAPI.Competitions.SPCompetitionsApiClient"/>.
+        /// ID of the entry within a competition if participating in a competition <see cref="SPCompetitionsApiClient"/>.
         /// </summary>
         public string entryId;
         

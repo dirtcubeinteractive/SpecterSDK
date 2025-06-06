@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using SpecterSDK.API.ClientAPI.v1.Inventory;
 using SpecterSDK.APIModels;
 using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.ObjectModels;
@@ -166,7 +167,7 @@ namespace SpecterSDK.API.ClientAPI.Rewards
     {
         /// <summary>
         /// The ID of the collection within the player's inventory in which the rewarded item must
-        /// be added. See <see cref="SpecterSDK.API.ClientAPI.Inventory.SPInventoryApiClient.SPInventoryEntityInfo"/> for
+        /// be added. See <see cref="SPInventoryApiClient.SPInventoryEntityInfo"/> for
         /// more info about collection IDs.
         /// </summary>
         public string collectionId;

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using SpecterSDK.API.ClientAPI.v1.Inventory;
 using SpecterSDK.Shared;
 using SpecterSDK.Shared.Networking;
 using SpecterSDK.Shared.Networking.Interfaces;
@@ -63,7 +64,7 @@ namespace SpecterSDK.API.ClientAPI.Stores
         /// <summary>
         /// The ID of the collection within the player's inventory in which the purchase must
         /// be added. Only applicable when purchasing an item or bundle.
-        /// See <see cref="SpecterSDK.API.ClientAPI.Inventory.SPInventoryApiClient.SPInventoryEntityInfo"/> for
+        /// See <see cref="SPInventoryApiClient.SPInventoryEntityInfo"/> for
         /// more info about collection IDs.
         /// </summary>
         public string collectionId { get; set; }
