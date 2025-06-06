@@ -5,6 +5,7 @@ using SpecterSDK.APIModels;
 using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.ObjectModels;
 using SpecterSDK.Shared;
+using SpecterSDK.Shared.Networking.Models;
 
 namespace SpecterSDK.API.ClientAPI.Competitions
 {

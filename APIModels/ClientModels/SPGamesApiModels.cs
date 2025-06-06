@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
-using SpecterSDK.APIModels.Interfaces;
+using SpecterSDK.Shared.Networking.Interfaces;
 
 namespace SpecterSDK.APIModels.ClientModels
 {
@@ -24,7 +24,7 @@ namespace SpecterSDK.APIModels.ClientModels
         public bool isDraft { get; set; }
         public bool isDefault { get; set; }
         public List<SPGamePlatformData> platforms { get; set; }
-        public List<SPCountryDetailsData> countries { get; set; }
+        public List<SPLocationData> countries { get; set; }
         public List<SPGameGenreData> genre { get; set; }
         public List<SPMatchResponseBaseData> matches { get; set; }
         public List<string> tags { get; set; }

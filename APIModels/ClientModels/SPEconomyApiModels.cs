@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
-using SpecterSDK.APIModels.Interfaces;
 using SpecterSDK.Shared;
+using SpecterSDK.Shared.Networking.Interfaces;
+using SpecterSDK.Shared.Networking.Models;
 using SpecterSDK.Shared.SPEnum;
 
 namespace SpecterSDK.APIModels.ClientModels

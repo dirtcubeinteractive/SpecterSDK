@@ -3,6 +3,7 @@ using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.ObjectModels;
 using System;
 using System.Threading.Tasks;
+using SpecterSDK.Shared.Networking.Models;
 
 namespace SpecterSDK.API.ClientAPI.Competitions
 {

@@ -3,6 +3,18 @@ using SpecterSDK.Shared.SPEnum;
 
 namespace SpecterSDK.Shared
 {
+    /// <summary>
+    /// Represents the sort order options for inventory items.
+    /// </summary>
+    [Serializable]
+    public sealed class SPSortOrder : SPEnum<SPSortOrder>
+    {
+        public static readonly SPSortOrder Ascending = new SPSortOrder(0, "asc", "Ascending");
+        public static readonly SPSortOrder Descending = new SPSortOrder(1, "desc", "Descending");
+        
+        private SPSortOrder(int id, string name, string displayName) : base(id, name, displayName) { }
+    }
+    
     [Serializable]
     public sealed class SPOperations : SPEnum<SPOperations>
     {
@@ -164,7 +176,6 @@ namespace SpecterSDK.Shared
     {
         public static readonly SPMatchFormatType SinglePlayer = new SPMatchFormatType(1, "single_player", nameof(SinglePlayer));
         public static readonly SPMatchFormatType MultiPlayer = new SPMatchFormatType(2, "multi_player", nameof(MultiPlayer));
-        public static readonly SPMatchFormatType MultiPlayerTeam = new SPMatchFormatType(3, "multi_player_team", nameof(MultiPlayerTeam));
         private SPMatchFormatType(int id, string name, string displayName = null) : base(id, name, displayName) { }
     }
 
@@ -208,8 +219,6 @@ namespace SpecterSDK.Shared
     public sealed class SPCompetitionFormat : SPEnum<SPCompetitionFormat>
     {
         public static readonly SPCompetitionFormat InstantBattle = new SPCompetitionFormat(3, "Instant Battle", nameof(InstantBattle));
-        public static readonly SPCompetitionFormat PaidChallenge = new SPCompetitionFormat(4, "Paid Challenge", nameof(PaidChallenge));
-        public static readonly SPCompetitionFormat Bracket = new SPCompetitionFormat(5, "Bracket", nameof(Bracket));
         public static readonly SPCompetitionFormat Tournament = new SPCompetitionFormat(2, "Tournament", nameof(Tournament));
 
         public SPCompetitionFormat(int id, string name, string displayName = null) : base(id, name, displayName) { }
@@ -235,7 +244,6 @@ namespace SpecterSDK.Shared
     public sealed class SPLeaderboardSourceType : SPEnum<SPLeaderboardSourceType>
     {
         public static readonly SPLeaderboardSourceType Match = new SPLeaderboardSourceType(1, "match", nameof(Match));
-        public static readonly SPLeaderboardSourceType Statistics = new SPLeaderboardSourceType(2, "statistics", nameof(Statistics));
         public static readonly SPLeaderboardSourceType Custom = new SPLeaderboardSourceType(3, "custom", nameof(Custom));
         
         private SPLeaderboardSourceType(int id, string name, string displayName = null) : base(id, name, displayName) { }

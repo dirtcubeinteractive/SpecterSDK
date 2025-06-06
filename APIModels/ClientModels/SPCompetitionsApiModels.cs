@@ -1,8 +1,8 @@
-using SpecterSDK.APIModels.Interfaces;
 using SpecterSDK.Shared;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using SpecterSDK.Shared.Networking.Interfaces;
 using UnityEngine;
 
 namespace SpecterSDK.APIModels.ClientModels
@@ -71,7 +71,7 @@ namespace SpecterSDK.APIModels.ClientModels
     [Serializable]
     public class SPCompetitionFormatData
     {
-        public int id { get; set; }
-        public SPCompetitionFormat name { get; set; }
+        public SPCompetitionFormat id { get; set; }
+        public string name { get; set; }
     }
 }

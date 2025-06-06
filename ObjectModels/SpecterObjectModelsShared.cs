@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using SpecterSDK.APIModels.ClientModels;
-using SpecterSDK.APIModels.Interfaces;
+using SpecterSDK.Shared.v2;
 
 namespace SpecterSDK.ObjectModels
 {
@@ -50,7 +50,7 @@ namespace SpecterSDK.ObjectModels
         public string IconUrl;
 
         protected SpecterResource() { }
-        protected SpecterResource(SPResourceResponseData data) : base(data.uuid, data.id)
+        protected SpecterResource(ISpecterResourceData data) : base(data.uuid, data.id)
         {
             Name = data.name;
             Description = data.description;
@@ -129,27 +129,11 @@ namespace SpecterSDK.ObjectModels
     {
         public int Id { get; private set; }
         public string Name { get; private set; }
-        public string CountryCode { get; private set; }
 
         public SpecterLocation(SPLocationData data)
         {
             Id = data.id;
             Name = data.name;
-            CountryCode = data.countryCode;
-        }
-    }
-    
-    public class SpecterCountryDetails
-    {
-        public int Id;
-        public string Name;
-        public string Code;
-
-        public SpecterCountryDetails(SPCountryDetailsData data)
-        {
-            Id = data.id;
-            Name = data.name;
-            Code = data.code;
         }
     }
 

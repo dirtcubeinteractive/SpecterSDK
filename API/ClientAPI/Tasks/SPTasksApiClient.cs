@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.Shared;
+using SpecterSDK.Shared.Networking;
 
 namespace SpecterSDK.API.ClientAPI.Tasks
 {

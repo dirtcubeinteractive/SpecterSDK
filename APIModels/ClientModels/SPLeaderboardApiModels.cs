@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
-using SpecterSDK.APIModels.Interfaces;
 using SpecterSDK.Shared;
+using SpecterSDK.Shared.Networking.Interfaces;
 
 namespace SpecterSDK.APIModels.ClientModels
 {
@@ -47,8 +47,8 @@ namespace SpecterSDK.APIModels.ClientModels
     [Serializable]
     public class SPLeaderboardSourceData 
     {
-        public int id { get; set; }
-        public SPLeaderboardSourceType name { get; set; }
+        public SPLeaderboardSourceType id { get; set; }
+        public string name { get; set; }
     }
 
     [Serializable]

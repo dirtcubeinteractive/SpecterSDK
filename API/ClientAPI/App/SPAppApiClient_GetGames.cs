@@ -4,8 +4,9 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SpecterSDK.APIModels;
 using SpecterSDK.APIModels.ClientModels;
-using SpecterSDK.APIModels.Interfaces;
 using SpecterSDK.ObjectModels;
+using SpecterSDK.Shared.Networking.Interfaces;
+using SpecterSDK.Shared.Networking.Models;
 
 namespace SpecterSDK.API.ClientAPI.App
 {
@@ -25,7 +26,7 @@ namespace SpecterSDK.API.ClientAPI.App
     /// </remarks>
     [Serializable]
     [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPGetGamesRequest : SPPaginatedApiRequest, ITagFilterable
+    public class SPGetGamesRequest : SPPaginatedApiRequest
     {
         /// <summary>
         /// Represents a list of game IDs used as filter criteria for retrieving games from the Specter App API.

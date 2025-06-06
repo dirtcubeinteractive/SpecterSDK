@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using SpecterSDK.APIModels.Interfaces;
 using SpecterSDK.Shared;
+using SpecterSDK.Shared.Networking.Interfaces;
 
 namespace SpecterSDK.APIModels.ClientModels
 {
@@ -35,22 +35,22 @@ namespace SpecterSDK.APIModels.ClientModels
     [Serializable]
     public class SPMatchFormatData
     {
-        public int id { get; set; }
-        public SPMatchFormatType name { get; set; }
+        public SPMatchFormatType id { get; set; }
+        public string name { get; set; }
     }
 
     [Serializable]
     public class SPMatchWinConditionData
     {
-        public int id { get; set; }
-        public SPMatchWinCondition name { get; set; }
+        public SPMatchWinCondition id { get; set; }
+        public string name { get; set; }
     }
 
     [Serializable]
     public class SPGameMatchOutcomeData
     {
-        public int id { get; set; }
-        public SPGameMatchOutcomeType name { get; set; }
+        public SPGameMatchOutcomeType id { get; set; }
+        public string name { get; set; }
     }
 
     [Serializable]

@@ -32,7 +32,7 @@ namespace SpecterSDK.ObjectModels
         public bool IsDraft;
         public bool IsDefault;
         public List<SpecterGamePlatform> Platforms;
-        public List<SpecterCountryDetails> Countries;
+        public List<SpecterLocation> Countries;
         public List<SpecterGameGenre> Genres;
         public List<SpecterMatchBase> Matches;
 
@@ -61,12 +61,12 @@ namespace SpecterSDK.ObjectModels
                 }
             }
             
-            Countries = new List<SpecterCountryDetails>();
+            Countries = new List<SpecterLocation>();
             if (data.countries != null)
             {
                 foreach (var country in data.countries)
                 {
-                    Countries.Add(new SpecterCountryDetails(country));
+                    Countries.Add(new SpecterLocation(country));
                 }
             }
             

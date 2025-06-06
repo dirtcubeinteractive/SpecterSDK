@@ -1,23 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using SpecterSDK.API;
-using SpecterSDK.API.ClientAPI.App;
-using SpecterSDK.API.ClientAPI.Authentication;
-using SpecterSDK.API.ClientAPI.Competitions;
-using SpecterSDK.API.ClientAPI.Events;
-using SpecterSDK.API.ClientAPI.Inventory;
-using SpecterSDK.API.ClientAPI.Leaderboards;
-using SpecterSDK.API.ClientAPI.Matches;
-using SpecterSDK.API.ClientAPI.Progression;
-using SpecterSDK.API.ClientAPI.Rewards;
-using SpecterSDK.API.ClientAPI.Stores;
-using SpecterSDK.API.ClientAPI.Tasks;
-using SpecterSDK.API.ClientAPI.User;
-using SpecterSDK.API.ClientAPI.Wallet;
 using SpecterSDK.ObjectModels;
 using SpecterSDK.Shared;
 using SpecterSDK.Shared.Attributes;
+using SpecterSDK.Shared.Networking;
+using SpecterSDK.Shared.Versions;
 using UnityEngine;
 
 namespace SpecterSDK
@@ -60,6 +48,7 @@ namespace SpecterSDK
             public SPEnvironment Environment { get; set; }
             public string ProjectId { get; set; }
             public SPAuthContext AuthContext { get; set; }
+            public SPApiVersions ApiVersions { get; set; } = SPApiVersions.All;
         }
         
         /// <summary>
@@ -68,67 +57,15 @@ namespace SpecterSDK
         /// </summary>
         public static SpecterRuntimeConfig Config;
         
-        public static SPAppApiClient App { get; private set; }
+        /// <summary>
+        /// Namespace for v1 API clients.
+        /// </summary>
+        public static SpecterApiV1 V1 { get; private set; }
         
         /// <summary>
-        /// Provides methods to authenticate users, manage sessions, and handle user credentials.
+        /// Namespace for v2 API clients.
         /// </summary>
-        public static SPAuthApiClient Auth { get; private set; }
-
-        /// <summary>
-        /// Provides methods for interacting with the Competitions API.
-        /// </summary>
-        public static SPCompetitionsApiClient Competitions { get; private set; }
-
-        /// <summary>
-        /// Provides access to the Specter custom events API.
-        /// </summary>
-        public static SPEventsApiClient Events { get; private set; }
-
-        /// <summary>
-        /// Provides methods to retrieve, update and manage a user's inventory in your game.
-        /// </summary>
-        public static SPInventoryApiClient Inventory { get; private set; }
-
-        /// <summary>
-        /// Provides methods to retrieve, update and manage leaderboards in your game.
-        /// </summary>
-        public static SPLeaderboardsApiClient Leaderboards { get; private set; }
-        
-        /// <summary>
-        /// Provides methods to manage match sessions when a user plays your game.
-        /// </summary>
-        public static SPMatchesApiClient Matches { get; private set; }
-        
-        /// <summary>
-        /// Provides methods to retrieve and manage info about a user's progress, update their progress, etc.
-        /// </summary>
-        public static SPProgressionApiClient Progression { get; private set; }
-        
-        /// <summary>
-        /// Provides methods to retrieve and manage info about a user's rewards, grant rewards, etc.
-        /// </summary>
-        public static SPRewardsApiClient Rewards { get; private set; }
-        
-        /// <summary>
-        /// Provides methods to retrieve and manage info about stores created for your app, store categories and other stores related APIs.
-        /// </summary>
-        public static SPStoreApiClient Stores { get; private set; }
-
-        /// <summary>
-        /// Provides methods to retrieve and manage tasks, grant rewards, and other task related data.
-        /// </summary>
-        public static SPTasksApiClient Tasks { get; private set; }
-        
-        /// <summary>
-        /// Provides methods to retrieve and manage user profiles, attributes, and other user-related data.
-        /// </summary>
-        public static SPUserApiClient User { get; private set; }
-        
-        /// <summary>
-        /// Provides methods to retrieve and manage user currencies (eg: retrieving balance, updating balance, etc.).
-        /// </summary>
-        public static SPWalletApiClient Wallet { get; private set; }
+        public static SpecterApiV2 V2 { get; private set; }
         
         /// <summary>
         /// Represents a dictionary of custom Specter API clients. Custom API clients can be created by subclassing
@@ -202,7 +139,7 @@ namespace SpecterSDK
         public static void Initialize(InitOptions options)
         {
             options ??= new InitOptions() { Environment = SPEnvironment.Development, ProjectId = ""};
-            Config = new SpecterRuntimeConfig(options.Environment, options.ProjectId, options.AuthContext?.ApiKey);
+            Config = new SpecterRuntimeConfig(options.Environment, options.ApiVersions, options.ProjectId, options.AuthContext?.ApiKey);
 
             if (options.AuthContext != null)
             {
@@ -242,19 +179,11 @@ namespace SpecterSDK
             
             Config.SetInternalConfig();
 
-            App = new SPAppApiClient(Config);
-            Auth = new SPAuthApiClient(Config);
-            Competitions = new SPCompetitionsApiClient(Config);
-            Events = new SPEventsApiClient(Config);
-            Inventory = new SPInventoryApiClient(Config);
-            Leaderboards = new SPLeaderboardsApiClient(Config);
-            Matches = new SPMatchesApiClient(Config);
-            Progression = new SPProgressionApiClient(Config);
-            Rewards = new SPRewardsApiClient(Config);
-            Stores = new SPStoreApiClient(Config);
-            Tasks = new SPTasksApiClient(Config);
-            User = new SPUserApiClient(Config);
-            Wallet = new SPWalletApiClient(Config);
+            V1 ??= new SpecterApiV1();
+            V1.Initialize(Config);
+            
+            V2 ??= new SpecterApiV2();
+            V2.Initialize(Config);
             
             LoadCustomClients();
             
@@ -311,20 +240,8 @@ namespace SpecterSDK
         /// </remarks>
         public static void Dispose()
         {
-            App = null;
-            Auth = null;
-            Competitions = null;
-            Events = null;
-            Inventory = null;
-            Leaderboards = null;
-            Matches = null;
-            Progression = null;
-            Rewards = null;
-            Stores = null;
-            Tasks = null;
-            User = null;
-            Wallet = null;
-            
+            V1.Dispose();
+            V2.Dispose();
             CustomClients.Clear();
             
             Config = null;

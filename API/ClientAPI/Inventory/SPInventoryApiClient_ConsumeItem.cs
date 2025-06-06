@@ -4,7 +4,8 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SpecterSDK.APIModels;
 using SpecterSDK.APIModels.ClientModels;
-using SpecterSDK.APIModels.Interfaces;
+using SpecterSDK.Shared.Networking.Interfaces;
+using SpecterSDK.Shared.Networking.Models;
 
 namespace SpecterSDK.API.ClientAPI.Inventory
 {

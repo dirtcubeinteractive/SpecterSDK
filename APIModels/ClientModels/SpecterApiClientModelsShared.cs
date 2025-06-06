@@ -1,17 +1,59 @@
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using SpecterSDK.APIModels.Interfaces;
+using SpecterSDK.Shared.Networking.Interfaces;
+using SpecterSDK.Shared.Networking.Models;
 
 namespace SpecterSDK.APIModels.ClientModels
 {
+    public interface ISpecterResourceData
+    {
+        /// <summary>
+        /// The database identifier for the resource. Only used internally on the Specter backend, NOT for use in APIs
+        /// </summary>
+        public string uuid { get; set; }
+        
+        /// <summary>
+        /// The unique identifier for the resource set on the Specter dashboard. Use this property in Specter APIs
+        /// </summary>
+        public string id { get; set; }
+        
+        /// <summary>
+        /// Name of the resource
+        /// </summary>
+        public string name { get; set; }
+        
+        /// <summary>
+        /// Description of the resource
+        /// </summary>
+        public string description { get; set; }
+        
+        /// <summary>
+        /// URL to fetch the icon for the resource set on the Specter dashboard.
+        /// </summary>
+        public string iconUrl { get; set; }
+    }
+
+    public interface ISpecterPlatformData
+    {
+        /// <summary>
+        /// Unique identifier for the platform.
+        /// </summary>
+        public int id { get; }
+        
+        /// <summary>
+        /// Name of the platform.
+        /// </summary>
+        public string name { get; }
+    }
+    
     /// <summary>
     /// Base class for resource response data in the Specter API client models.
     /// This is the minimum amount of information provided in API response when there are
     /// nested objects within the main data object
     /// </summary>
     [Serializable]
-    public abstract class SPResourceResponseData : ISpecterApiResponseData
+    public abstract class SPResourceResponseData : ISpecterApiResponseData, ISpecterResourceData
     {
         public string uuid { get; set; }
         public string id { get; set; }
@@ -92,7 +134,7 @@ namespace SpecterSDK.APIModels.ClientModels
     /// Base class for platform data in the Specter API client models.
     /// </summary>
     [Serializable]
-    public class SPPlatformBaseData
+    public class SPPlatformBaseData : ISpecterPlatformData
     {
         public int id { get; set; }
         public string name { get; set; }
@@ -106,6 +148,7 @@ namespace SpecterSDK.APIModels.ClientModels
     {
         public string assetBundleUrl { get; set; }
         public string assetBundleVersion { get; set; }
+        public string minimumGameVersion { get; set; }
     }
     
     /// <summary>
@@ -127,14 +170,5 @@ namespace SpecterSDK.APIModels.ClientModels
     {
         public int id { get; set; }
         public string name { get; set; }
-        public string countryCode { get; set; }
-    }
-    
-    [Serializable]
-    public class SPCountryDetailsData
-    {
-        public int id { get; set; }
-        public string name { get; set; }
-        public string code { get; set; }
     }
 }

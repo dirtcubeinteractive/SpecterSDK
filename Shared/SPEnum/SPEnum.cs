@@ -73,13 +73,13 @@ namespace SpecterSDK.Shared.SPEnum
 
         public static TEnum FromValue(int value)
         {
-            var matchingItem = Parse<TEnum, int>(value, "value", item => item.Id == value);
+            var matchingItem = Parse<TEnum, int>(value, "int (Id) value", item => item.Id == value);
             return matchingItem;
         }
 
-        public static TEnum FromDisplayName(string displayName)
+        public static TEnum FromName(string name)
         {
-            var matchingItem = Parse<TEnum, string>(displayName, "display name", item => item.Name == displayName);
+            var matchingItem = Parse<TEnum, string>(name, "string (Name) value", item => item.Name == name);
             return matchingItem;
         }
 
@@ -91,6 +91,16 @@ namespace SpecterSDK.Shared.SPEnum
                 throw new InvalidOperationException($"'{value}' is not a valid {description} in {typeof(T)}");
 
             return matchingItem;
+        }
+
+        public bool EqualsStringValue(string val)
+        {
+            return Name == val;
+        }
+
+        public bool EqualsIntValue(int val)
+        {
+            return Id == val;
         }
 
         public int CompareTo(object other) => Id.CompareTo(((SPEnum<TEnum>)other).Id);
@@ -108,14 +118,32 @@ namespace SpecterSDK.Shared.SPEnum
             return !(lhs == rhs);
         }
 
+        public static bool operator ==(string lhs, SPEnum<TEnum> rhs)
+        {
+            if (lhs == null)
+                return rhs == null || rhs.Name == null;
+            
+            return lhs == rhs?.Name;
+        }
+        
+        public static bool operator !=(string lhs, SPEnum<TEnum> rhs)
+        {
+            return !(lhs == rhs);
+        }
+
         public static implicit operator int(SPEnum<TEnum> spEnum)
         {
-            return spEnum?.Id ?? default;
+            return spEnum?.Id ?? 0;
         }
 
         public static explicit operator SPEnum<TEnum>(int id)
         {
             return FromValue(id);
+        }
+
+        public static explicit operator SPEnum<TEnum>(string name)
+        {
+            return FromName(name);
         }
     }
 }

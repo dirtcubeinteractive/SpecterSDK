@@ -4,8 +4,9 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SpecterSDK.APIModels;
 using SpecterSDK.APIModels.ClientModels;
-using SpecterSDK.APIModels.Interfaces;
 using SpecterSDK.ObjectModels;
+using SpecterSDK.Shared.Networking.Interfaces;
+using SpecterSDK.Shared.Networking.Models;
 
 namespace SpecterSDK.API.ClientAPI.App
 {
@@ -24,7 +25,7 @@ namespace SpecterSDK.API.ClientAPI.App
     /// </para>
     /// </remarks>
     [Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPGetItemsRequest : SPPaginatedApiRequest, IAttributeConfigurable, ITagFilterable
+    public class SPGetItemsRequest : SPPaginatedApiRequest
     {
         /// <summary>
         /// Represents a list of item IDs used as filter criteria for retrieving items from the Specter App API.

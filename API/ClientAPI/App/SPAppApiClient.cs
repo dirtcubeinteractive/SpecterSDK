@@ -1,4 +1,5 @@
 using SpecterSDK.Shared;
+using SpecterSDK.Shared.Networking;
 
 namespace SpecterSDK.API.ClientAPI.App
 {
