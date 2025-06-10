@@ -25,15 +25,24 @@ namespace SpecterSDK.Shared.SPEnum
         {
             if (reader.Value == null)
                 return null;
-                
-            switch (reader.TokenType)
+
+            try
             {
-                case JsonToken.String:
-                    return GetFromName((string)reader.Value);
-                case JsonToken.Integer:
-                    return GetFromID(reader.Value!);
-                default:
-                    throw new JsonSerializationException($"Unexpected token {reader.TokenType} when parsing an SP enum.");
+                switch (reader.TokenType)
+                {
+                    case JsonToken.String:
+                        return GetFromName((string)reader.Value);
+                    case JsonToken.Integer:
+                        return GetFromID(reader.Value!);
+                    default:
+                        throw new JsonSerializationException(
+                            $"Unexpected token {reader.TokenType} when parsing an SP enum.");
+                }
+            }
+            catch (Exception ex)
+            {
+                SPDebug.LogError($"Error deserializing {reader.Value} into SPEnum: {typeof(TEnum).Name} -- {ex.ToString()}");
+                return null;
             }
             
             TEnum GetFromName(string name)

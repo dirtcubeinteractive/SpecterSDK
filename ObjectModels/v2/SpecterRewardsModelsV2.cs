@@ -30,7 +30,7 @@ namespace SpecterSDK.ObjectModels.v2
             IconUrl = data.iconUrl;
             Amount = data.amount;
             
-            Rarity = data.rarity.id;
+            Rarity = (SPRarity)data.rarity.id;
         }
     }
 
@@ -57,7 +57,7 @@ namespace SpecterSDK.ObjectModels.v2
             IconUrl = data.iconUrl;
             Amount = data.amount;
 
-            Rarity = data.rarity.id;
+            Rarity = (SPRarity)data.rarity.id;
         }
     }
 
@@ -90,7 +90,7 @@ namespace SpecterSDK.ObjectModels.v2
             IconUrl = data.iconUrl;
             Amount = data.amount;
             
-            Rarity = data.rarity.id;
+            Rarity = (SPRarity)data.rarity.id;
             
             Code = data.code;
             Type = data.type;

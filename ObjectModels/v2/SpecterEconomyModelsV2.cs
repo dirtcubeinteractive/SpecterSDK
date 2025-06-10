@@ -107,7 +107,7 @@ namespace SpecterSDK.ObjectModels.v2
             Description = data.description;
             IconUrl = data.iconUrl;
             
-            Rarity = data.rarity.id;
+            Rarity = (SPRarity)data.rarity.id;
             
             ItemProperties = data.properties == null ? null : new SPItemProps(data.properties);
             UnlockConditions = data.unlockConditions == null ? null : new SPUnlockConditions(data.unlockConditions);
@@ -149,7 +149,7 @@ namespace SpecterSDK.ObjectModels.v2
             Description = data.description;
             IconUrl = data.iconUrl;
             
-            Rarity = data.rarity.id;
+            Rarity = (SPRarity)data.rarity.id;
             
             BundleProperties = data.properties == null ? null : new SPBundleProps(data.properties);
             Contents = data.contents == null ? null : new SPBundleContents(data.contents);
@@ -200,7 +200,7 @@ namespace SpecterSDK.ObjectModels.v2
             Name = data.name;
             Description = data.description;
             IconUrl = data.iconUrl;
-            Rarity = data.rarity.id;
+            Rarity = (SPRarity)data.rarity.id;
             Quantity = data.quantity;
         }
     }
@@ -233,7 +233,7 @@ namespace SpecterSDK.ObjectModels.v2
             Description = data.description;
             IconUrl = data.iconUrl;
             
-            Rarity = data.rarity.id;
+            Rarity = (SPRarity)data.rarity.id;
             
             Code = data.code;
             Type = data.type;

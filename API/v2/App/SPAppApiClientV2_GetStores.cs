@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using SpecterSDK.ObjectModels.v2;
 using SpecterSDK.Shared.Networking.Models;
 using SpecterSDK.Shared.SPEnum;
 
@@ -43,16 +44,22 @@ namespace SpecterSDK.API.v2.App
         public List<string> includeTags { get; set; }
         
         /// <summary>
-        /// Specific attributes of stores to include in the response. Eg usage: SPStoreAttribute.UnlockConditions
+        /// Specific attributes of stores to include in the response. E.g. usage: SPStoreAttribute.UnlockConditions
         /// </summary>
         public List<SPStoreAttribute> attributes { get; set; }
     }
 
     public class SPGetStoresResultV2 : SpecterApiResultBase<SPGetStoresResponse>
     {
+        public List<SPStore> Stores { get; set; }
+        public int TotalCount { get; set; }
+        public DateTime? LastUpdate { get; set; }
+        
         protected override void InitSpecterObjectsInternal()
         {
-            
+            Stores = Response.data == null ? new List<SPStore>() : Response.data.stores.ConvertAll(x => new SPStore(x));
+            TotalCount = Response.data?.totalCount ?? 0;
+            LastUpdate = Response.data?.lastUpdate;
         }
     }
 

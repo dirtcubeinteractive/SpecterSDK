@@ -109,7 +109,6 @@ namespace SpecterSDK.ObjectModels.v2
         public SPRarity Rarity { get; set; }
         
         public SPPricingCurrencyInfo() { }
-
         public SPPricingCurrencyInfo(SPPricingCurrencyData data)
         {
             Uuid = data.uuid;
@@ -117,7 +116,7 @@ namespace SpecterSDK.ObjectModels.v2
             Name = data.name;
             Description = data.description;
             IconUrl = data.iconUrl;
-            Rarity = data.rarity.id;
+            Rarity = (SPRarity)data.rarity.id;
             Code = data.code;
             Type = (SPCurrencyType)data.type;
         }
@@ -132,5 +131,68 @@ namespace SpecterSDK.ObjectModels.v2
         
         public string Symbol { get; set; }
         public string CountryName { get; set; }
+        
+        public SPRealWorldCurrencyInfo() { }
+        public SPRealWorldCurrencyInfo(SPRealWorldCurrencyData data)
+        {
+            Uuid = data.uuid;
+            Id = data.id;
+            Name = data.name;
+            Code = data.code;
+            Symbol = data.symbol;
+            CountryName = data.countryName;
+        }
+    }
+
+    public class SPPriceInfo : ISpecterPrice
+    {
+        public string ProductId { get; set; }
+
+        public SPPriceTypes PriceType { get; set; }
+        public float Discount { get; set; }
+        public float BonusCashAllowance { get; set; }
+        public SPPricingCurrencyInfo CurrencyDetails { get; set; }
+        public SPRealWorldCurrencyInfo RealWorldCurrency { get; set; }
+        
+        public ISpecterPricingCurrency Currency => PriceType == SPPriceTypes.IAP ? RealWorldCurrency : CurrencyDetails;
+        
+        public SPPriceInfo() { }
+        public SPPriceInfo(SPPriceDataV2 data)
+        {
+            ProductId = data.productId;
+            
+            PriceType = data.priceType;
+            Discount = data.discount ?? 0f;
+            BonusCashAllowance = data.bonusCashAllowance ?? 0f;
+            CurrencyDetails = data.currencyDetails == null ? null : new SPPricingCurrencyInfo(data.currencyDetails);
+            RealWorldCurrency = data.realWorldCurrency == null ? null : new SPRealWorldCurrencyInfo(data.realWorldCurrency);
+        }
+    }
+
+    public class SPEntryFeeInfo : ISpecterPrice
+    {
+        public SPPriceTypes PriceType { get; set; }
+        public float Discount { get; set; }
+        public float BonusCashAllowance { get; set; }
+        public SPPricingCurrencyInfo CurrencyDetails { get; set; }
+        public SPRealWorldCurrencyInfo RealWorldCurrency { get; set; }
+        
+        public ISpecterPricingCurrency Currency => PriceType == SPPriceTypes.IAP ? RealWorldCurrency : CurrencyDetails;
+        
+        public double HostingFee { get; set; }
+        public SPHostingFeeTypes HostingFeeType { get; set; }
+        
+        public SPEntryFeeInfo() { }
+        public SPEntryFeeInfo(SPEntryFeeDataV2 data)
+        {
+            PriceType = data.priceType;
+            Discount = data.discount ?? 0f;
+            BonusCashAllowance = data.bonusCashAllowance ?? 0f;
+            CurrencyDetails = data.currencyDetails == null ? null : new SPPricingCurrencyInfo(data.currencyDetails);
+            RealWorldCurrency = data.realWorldCurrency == null ? null : new SPRealWorldCurrencyInfo(data.realWorldCurrency);
+            
+            HostingFee = data.hostingFee ?? 0f;
+            HostingFeeType = data.hostingFeeType;
+        }
     }
 }

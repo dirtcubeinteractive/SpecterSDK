@@ -45,7 +45,7 @@ namespace SpecterSDK.APIModels.ClientModels
     [Serializable]
     public class SPRarityData
     {
-        public SPRarity id { get; set; }
+        public int id { get; set; }
         public string name { get; set; }
     }
     

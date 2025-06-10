@@ -36,6 +36,36 @@ namespace SpecterSDK.ObjectModels.v2
         public string Code { get; set; }
     }
 
+    public interface ISpecterPrice
+    {
+        /// <summary>
+        /// Pricing type - virtual, rmg or IAP.
+        /// </summary>
+        public SPPriceTypes PriceType { get; set; }
+        public float Discount { get; set; }
+        public float BonusCashAllowance { get; set; }
+        
+        /// <summary>
+        /// Virtual or RMG currency details.
+        /// </summary>
+        public SPPricingCurrencyInfo CurrencyDetails { get; set; }
+        
+        /// <summary>
+        /// Info about a real world fiat currency (only available for price type IAP)
+        /// </summary>
+        public SPRealWorldCurrencyInfo RealWorldCurrency { get; set; }
+        
+        /// <summary>
+        /// Use the Currency getter to access common currency info.
+        /// </summary>
+        public ISpecterPricingCurrency Currency { get; }
+    }
+
+    public interface ISpecterPurchasable
+    {
+        public List<SPPriceInfo> Prices { get; set; }
+    }
+
     public interface ISpecterVirtualGoodsProps
     {
         public bool IsConsumable { get; set; }

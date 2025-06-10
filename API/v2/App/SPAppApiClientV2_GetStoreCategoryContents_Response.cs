@@ -18,13 +18,14 @@ namespace SpecterSDK.API.v2.App
     }
 
     [Serializable]
-    public class SPStoreEntityData : ISpecterResourceData, ISpecterPurchasableData
+    public class SPStoreEntityData : ISpecterEconomyResourceData, ISpecterPurchasableData
     {
         public string uuid { get; set; }
         public string id { get; set; }
         public string name { get; set; }
         public string description { get; set; }
         public string iconUrl { get; set; }
+        public SPRarityData rarity { get; set; }
 
         public int? quantity { get; set; }
         public List<SPPriceDataV2> prices { get; set; }

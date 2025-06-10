@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using SpecterSDK.ObjectModels.v2;
 using SpecterSDK.Shared.Networking.Models;
 
 namespace SpecterSDK.API.v2.App
@@ -31,9 +32,11 @@ namespace SpecterSDK.API.v2.App
 
     public class SPGetStoreCategoriesResultV2 : SpecterApiResultBase<SPGetStoreCategoriesResponse>
     {
+        public List<SPStoreCategory> StoreCategories { get; set; }
+        
         protected override void InitSpecterObjectsInternal()
         {
-            
+            StoreCategories = Response.data == null ? new List<SPStoreCategory>() : Response.data.ConvertAll(x => new SPStoreCategory(x));
         }
     }
 
