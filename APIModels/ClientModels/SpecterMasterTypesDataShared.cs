@@ -1,4 +1,6 @@
 using System;
+using SpecterSDK.Shared;
+using SpecterSDK.Shared.v2;
 
 namespace SpecterSDK.APIModels.ClientModels
 {
@@ -37,6 +39,20 @@ namespace SpecterSDK.APIModels.ClientModels
     public class SPPlatformBaseData : ISpecterPlatformData
     {
         public int id { get; set; }
+        public string name { get; set; }
+    }
+
+    [Serializable]
+    public class SPRarityData
+    {
+        public SPRarity id { get; set; }
+        public string name { get; set; }
+    }
+    
+    [Serializable]
+    public class SPCompetitionFormatData
+    {
+        public SPCompetitionFormat id { get; set; }
         public string name { get; set; }
     }
 }

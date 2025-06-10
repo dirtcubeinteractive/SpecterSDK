@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using SpecterSDK.APIModels.ClientModels;
+using SpecterSDK.APIModels.ClientModels.v1;
 using SpecterSDK.ObjectModels;
 using SpecterSDK.Shared.Networking.Models;
 
@@ -16,9 +17,9 @@ namespace SpecterSDK.API.v1.App
         public string timezone { get; set; }
     }
 
-    public class SPGetServerTimeResult : SpecterApiResultBase<SPGetServerTimeResponseData>
+    public class SPGetServerTimeResult : SpecterApiResultBase<SPGetSerVerTimeResponseData>
     {
-        public SpecterServerTime ServerTime;
+        public SPServerTime ServerTime;
         
         // The abbreviated name of the timezone
         public string Abbreviation => ServerTime.Abbreviation;
@@ -67,7 +68,7 @@ namespace SpecterSDK.API.v1.App
 
         protected override void InitSpecterObjectsInternal()
         {
-            ServerTime = new SpecterServerTime(Response.data);
+            ServerTime = new SPServerTime(Response.data);
         }
     }
 
@@ -81,7 +82,7 @@ namespace SpecterSDK.API.v1.App
         /// </returns>
         public async Task<SPGetServerTimeResult> GetServerTimeAsync()
         {
-            var result = await PostAsync<SPGetServerTimeResult, SPGetServerTimeResponseData>("/v1/client/app/get-server-time", AuthType, null);
+            var result = await PostAsync<SPGetServerTimeResult, SPGetSerVerTimeResponseData>("/v1/client/app/get-server-time", AuthType, null);
             return result;
         }
     }

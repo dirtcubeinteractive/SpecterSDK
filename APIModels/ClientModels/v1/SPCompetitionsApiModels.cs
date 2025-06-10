@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using SpecterSDK.Shared;
 using SpecterSDK.Shared.Networking.Interfaces;
 
 namespace SpecterSDK.APIModels.ClientModels.v1
@@ -64,12 +63,5 @@ namespace SpecterSDK.APIModels.ClientModels.v1
     {
         public string entryId { get; set; }
         public int? numberOfAttemptsLeft { get; set; }
-    }
-
-    [Serializable]
-    public class SPCompetitionFormatData
-    {
-        public SPCompetitionFormat id { get; set; }
-        public string name { get; set; }
     }
 }

@@ -58,26 +58,26 @@ namespace SpecterSDK.ObjectModels
         }
     }
 
-    public class SpecterServerTime
+    public class SPServerTime
     {
-        public string Abbreviation;
-        public string ClientIp;
-        public DateTime DateTime;
-        public int DayOfWeek;
-        public int DayOfYear;
-        public bool DST;
-        public string DstFrom;
-        public int DstOffset;
-        public string DstUntil;
-        public int RawOffset;
-        public string Timezone;
-        public int UnixTime;
-        public DateTime UtcDatetime;
-        public string UtcOffset;
-        public int WeekNumber;
+        public string Abbreviation { get; set; }
+        public string ClientIp { get; set; }
+        public DateTime DateTime { get; set; }
+        public int DayOfWeek { get; set; }
+        public int DayOfYear { get; set; }
+        public bool DST { get; set; }
+        public string DstFrom { get; set; }
+        public int DstOffset { get; set; }
+        public string DstUntil { get; set; }
+        public int RawOffset { get; set; }
+        public string Timezone { get; set; }
+        public int UnixTime { get; set; }
+        public DateTime UtcDatetime { get; set; }
+        public string UtcOffset { get; set; }
+        public int WeekNumber { get; set; }
 
-        public SpecterServerTime() { }
-        public SpecterServerTime(SPGetServerTimeResponseData data)
+        public SPServerTime() { }
+        public SPServerTime(SPServerTimeData data)
         {
             Abbreviation = data.abbreviation;
             ClientIp = data.clientIp;

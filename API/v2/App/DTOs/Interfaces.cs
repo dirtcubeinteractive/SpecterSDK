@@ -29,7 +29,7 @@ namespace SpecterSDK.API.v2.App.DTOs
     public interface ISpecterCurrencyData : ISpecterEconomyResourceData
     {
         public string code { get; set; }
-        public SPCurrencyTypeV2 type { get; set; }
+        public SPCurrencyType type { get; set; }
     }
 
     public interface ISpecterEconomyResourceData : ISpecterResourceData

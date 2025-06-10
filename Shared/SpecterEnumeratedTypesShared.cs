@@ -138,6 +138,15 @@ namespace SpecterSDK.Shared
     #region Economy
     
     [Serializable]
+    public sealed class SPCurrencyType : SPEnum<SPCurrencyType>
+    {
+        public static readonly SPCurrencyType Real = new SPCurrencyType(0, nameof(Real).ToLower(), nameof(Real));
+        public static readonly SPCurrencyType Virtual = new SPCurrencyType(1, nameof(Virtual).ToLower(), nameof(Virtual));
+
+        private SPCurrencyType(int id, string name, string displayName = null) : base(id, name, displayName) { }
+    }
+    
+    [Serializable]
     public class SPPriceTypes : SPEnum<SPPriceTypes>
     {
         public static readonly SPPriceTypes RMG = new SPPriceTypes(0, nameof(RMG), nameof(RMG));
@@ -169,14 +178,14 @@ namespace SpecterSDK.Shared
     }
 
     [Serializable]
-    public sealed class SPGameMatchOutcomeType : SPEnum<SPGameMatchOutcomeType>
+    public sealed class SPMatchOutcomeType : SPEnum<SPMatchOutcomeType>
     {
-        public static readonly SPGameMatchOutcomeType Score = new SPGameMatchOutcomeType(1, "score", nameof(Score));
-        public static readonly SPGameMatchOutcomeType CompletionTime = new SPGameMatchOutcomeType(2, "completion_time", nameof(CompletionTime));
-        public static readonly SPGameMatchOutcomeType WinLossDraw = new SPGameMatchOutcomeType(3, "win_loss_draw", nameof(WinLossDraw));
-        public static readonly SPGameMatchOutcomeType FinishPosition = new SPGameMatchOutcomeType(4, "finish_position", nameof(FinishPosition));
-        public static readonly SPGameMatchOutcomeType WinningsCollected = new SPGameMatchOutcomeType(5, "winnings_collected", nameof(WinningsCollected));
-        private SPGameMatchOutcomeType(int id, string name, string displayName = null) : base(id, name, displayName) { }
+        public static readonly SPMatchOutcomeType Score = new SPMatchOutcomeType(1, "score", nameof(Score));
+        public static readonly SPMatchOutcomeType CompletionTime = new SPMatchOutcomeType(2, "completion_time", nameof(CompletionTime));
+        public static readonly SPMatchOutcomeType WinLossDraw = new SPMatchOutcomeType(3, "win_loss_draw", nameof(WinLossDraw));
+        public static readonly SPMatchOutcomeType FinishPosition = new SPMatchOutcomeType(4, "finish_position", nameof(FinishPosition));
+        public static readonly SPMatchOutcomeType WinningsCollected = new SPMatchOutcomeType(5, "winnings_collected", nameof(WinningsCollected));
+        private SPMatchOutcomeType(int id, string name, string displayName = null) : base(id, name, displayName) { }
     }
 
     [Serializable]

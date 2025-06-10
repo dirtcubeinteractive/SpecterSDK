@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SpecterSDK.ObjectModels.v2;
+using SpecterSDK.Shared;
 using SpecterSDK.Shared.Networking.Models;
 using SpecterSDK.Shared.SPEnum;
-using SpecterSDK.Shared.v2;
 
 namespace SpecterSDK.API.v2.App
 {
@@ -36,7 +36,7 @@ namespace SpecterSDK.API.v2.App
         /// <summary>
         /// Filter currencies by a specific type (virtual or real). Eg usage: SPCurrencyTypeV2.Virtual
         /// </summary>
-        public SPCurrencyTypeV2 type { get; set; }
+        public SPCurrencyType type { get; set; }
         
         /// <summary>
         /// A string to search for currencies by name.

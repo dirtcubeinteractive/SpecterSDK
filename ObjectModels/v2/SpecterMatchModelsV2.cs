@@ -39,7 +39,7 @@ namespace SpecterSDK.ObjectModels.v2
         
         public SPGameResource Game { get; set; }
         public SPMatchFormatType Format { get; set; }
-        public SPGameMatchOutcomeType OutcomeType { get; set; }
+        public SPMatchOutcomeType OutcomeType { get; set; }
         public SPMatchWinCondition WinCondition { get; set; }
         
         public List<SPLeaderboardResource> Leaderboards { get; set; }

@@ -10,15 +10,6 @@ namespace SpecterSDK.APIModels.ClientModels.v1
     #region Currency Response Data Models
 
     [Serializable]
-    public sealed class SPCurrencyType : SPEnum<SPCurrencyType>
-    {
-        public static readonly SPCurrencyType Real = new SPCurrencyType(0, nameof(Real).ToLower(), nameof(Real));
-        public static readonly SPCurrencyType Virtual = new SPCurrencyType(1, nameof(Virtual).ToLower(), nameof(Virtual));
-
-        private SPCurrencyType(int id, string name, string displayName = null) : base(id, name, displayName) { }
-    }
-
-    [Serializable]
     public class SPCurrencyResponseBaseData : SPResourceResponseData
     {
         public string code { get; set; }

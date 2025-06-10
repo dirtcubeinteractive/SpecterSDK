@@ -100,25 +100,6 @@ namespace SpecterSDK.Shared.v2
         }
     }
     
-    /// <summary>
-    /// Represents the currency types available in the system.
-    /// </summary>
-    [Serializable]
-    public sealed class SPCurrencyTypeV2 : SPEnum<SPCurrencyTypeV2>
-    {
-        /// <summary>
-        /// Type used for virtual currencies and Real Money Gaming currencies.
-        /// </summary>
-        public static readonly SPCurrencyTypeV2 Virtual = new SPCurrencyTypeV2(0, "virtual", "Virtual");
-        
-        /// <summary>
-        /// Type used for IAP currencies.
-        /// </summary>
-        public static readonly SPCurrencyTypeV2 Real = new SPCurrencyTypeV2(1, "real", "Real");
-        
-        private SPCurrencyTypeV2(int id, string name, string displayName) : base(id, name, displayName) { }
-    }
-    
     #endregion
 
     #region Events

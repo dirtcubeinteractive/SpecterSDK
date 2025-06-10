@@ -49,7 +49,7 @@ namespace SpecterSDK.APIModels.ClientModels.v1
     [Serializable]
     public class SPGameMatchOutcomeData
     {
-        public SPGameMatchOutcomeType id { get; set; }
+        public SPMatchOutcomeType id { get; set; }
         public string name { get; set; }
     }
 

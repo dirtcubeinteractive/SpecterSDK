@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using SpecterSDK.API.v2.App;
 using SpecterSDK.ObjectModels.Interfaces;
+using SpecterSDK.Shared;
 using SpecterSDK.Shared.v2;
 
 namespace SpecterSDK.ObjectModels.v2
@@ -215,10 +216,10 @@ namespace SpecterSDK.ObjectModels.v2
         public SPRarity Rarity { get; set; }
         
         public string Code { get; set; }
-        public SPCurrencyTypeV2 Type { get; set; }
+        public SPCurrencyType Type { get; set; }
         
-        public bool IsVirtual => Type == SPCurrencyTypeV2.Virtual;
-        public bool IsReal => Type == SPCurrencyTypeV2.Real;
+        public bool IsVirtual => Type == SPCurrencyType.Virtual;
+        public bool IsReal => Type == SPCurrencyType.Real;
         
         public List<string> Tags { get; set; }
         public Dictionary<string, object> Meta { get; set; }

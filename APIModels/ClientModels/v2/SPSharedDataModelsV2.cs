@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using SpecterSDK.API.v2.App.DTOs;
 using SpecterSDK.Shared;
-using SpecterSDK.Shared.v2;
 
 namespace SpecterSDK.APIModels.ClientModels.v2
 {
@@ -158,12 +157,5 @@ namespace SpecterSDK.APIModels.ClientModels.v2
         public SPUnlockResourceData unlockProgressionSystem { get; set; }
     }
 
-    [Serializable]
-    public class SPRarityData
-    {
-        public SPRarity id { get; set; }
-        public string name { get; set; }
-    }
-    
     #endregion
 }

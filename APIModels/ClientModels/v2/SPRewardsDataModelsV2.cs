@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using SpecterSDK.API.v2.App.DTOs;
-using SpecterSDK.Shared.v2;
+using SpecterSDK.Shared;
 
 namespace SpecterSDK.APIModels.ClientModels.v2
 {
@@ -41,7 +41,7 @@ namespace SpecterSDK.APIModels.ClientModels.v2
         public long amount { get; set; }
         
         public string code { get; set; }
-        public SPCurrencyTypeV2 type { get; set; }
+        public SPCurrencyType type { get; set; }
     }
     
     [Serializable]

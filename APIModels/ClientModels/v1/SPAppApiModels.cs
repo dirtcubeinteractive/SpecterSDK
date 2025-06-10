@@ -17,4 +17,7 @@ namespace SpecterSDK.APIModels.ClientModels.v1
         public List<string> tags { get; set; }
         public Dictionary<string, object> meta { get; set; }
     }
+    
+    [Serializable]
+    public class SPGetSerVerTimeResponseData : SPServerTimeData, ISpecterApiResponseData { }
 }

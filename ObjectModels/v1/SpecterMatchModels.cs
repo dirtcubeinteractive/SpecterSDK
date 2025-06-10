@@ -26,7 +26,7 @@ namespace SpecterSDK.ObjectModels.v1
         public int DefaultOutcomeValue;
         public SpecterGameBase Game;
         public SPMatchFormatType MatchFormatType;
-        public SPGameMatchOutcomeType GameMatchOutcomeType;
+        public SPMatchOutcomeType GameMatchOutcomeType;
         public List<SpecterLeaderboardInfo> Leaderboards;
         public List<string> Tags { get; set; }
         public Dictionary<string, object> Meta { get; set; }

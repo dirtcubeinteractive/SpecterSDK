@@ -2,9 +2,8 @@ using System;
 using System.Collections.Generic;
 using SpecterSDK.API.v2.App.DTOs;
 using SpecterSDK.APIModels.ClientModels;
-using SpecterSDK.APIModels.ClientModels.v2;
+using SpecterSDK.Shared;
 using SpecterSDK.Shared.Networking.Interfaces;
-using SpecterSDK.Shared.v2;
 
 namespace SpecterSDK.API.v2.App
 {
@@ -28,7 +27,7 @@ namespace SpecterSDK.API.v2.App
         public SPRarityData rarity { get; set; }
         
         public string code { get; set; }
-        public SPCurrencyTypeV2 type { get; set; }
+        public SPCurrencyType type { get; set; }
         
         public List<string> tags { get; set; }
         public Dictionary<string, object> meta { get; set; }
