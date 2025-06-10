@@ -47,7 +47,7 @@ namespace SpecterSDK.API.v2.App
         /// <summary>
         /// An array of schedule status values to filter the missions based on their timing or progress. Eg usage: SPTaskScheduleStatus.InProgress
         /// </summary>
-        public List<SPScheduleStates> scheduleStatuses { get; set; }
+        public List<SPTasksScheduleStatus> scheduleStatuses { get; set; }
         
         /// <summary>
         /// Additional tags to filter or annotate missions.

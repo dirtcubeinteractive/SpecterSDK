@@ -1,10 +1,8 @@
 using System.Collections.Generic;
-using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.APIModels.ClientModels.v1;
 using SpecterSDK.ObjectModels.Interfaces;
-using SpecterSDK.Shared;
 
-namespace SpecterSDK.ObjectModels
+namespace SpecterSDK.ObjectModels.v1
 {
     public class SpecterGameBase : SpecterResource
     {
@@ -33,8 +31,8 @@ namespace SpecterSDK.ObjectModels
         public bool IsDraft;
         public bool IsDefault;
         public List<SpecterGamePlatform> Platforms;
-        public List<SpecterLocation> Countries;
-        public List<SpecterGameGenre> Genres;
+        public List<SPLocation> Countries;
+        public List<SPGenre> Genres;
         public List<SpecterMatchBase> Matches;
 
         public SpecterGame() { }
@@ -62,21 +60,21 @@ namespace SpecterSDK.ObjectModels
                 }
             }
             
-            Countries = new List<SpecterLocation>();
+            Countries = new List<SPLocation>();
             if (data.countries != null)
             {
                 foreach (var country in data.countries)
                 {
-                    Countries.Add(new SpecterLocation(country));
+                    Countries.Add(new SPLocation(country));
                 }
             }
             
-            Genres = new List<SpecterGameGenre>();
+            Genres = new List<SPGenre>();
             if (data.genre != null)
             {
                 foreach (var genre in data.genre)
                 {
-                    Genres.Add(new SpecterGameGenre(genre));
+                    Genres.Add(new SPGenre(genre));
                 }
             }
             

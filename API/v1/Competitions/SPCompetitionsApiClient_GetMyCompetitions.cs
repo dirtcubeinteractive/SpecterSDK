@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.APIModels.ClientModels.v1;
 using SpecterSDK.ObjectModels;
+using SpecterSDK.ObjectModels.v1;
 using SpecterSDK.Shared;
 using SpecterSDK.Shared.Networking.Models;
 
@@ -18,9 +19,9 @@ namespace SpecterSDK.API.v1.Competitions
         public List<string> competitionIds {  get; set; }
         
         /// <summary>
-        /// Filter retrieved competition by schedule statuses. See <see cref="SPCompetitionStatus"/> for possible values
+        /// Filter retrieved competition by schedule statuses. See <see cref="SPScheduleStatus"/> for possible values
         /// </summary>
-        public List<SPCompetitionStatus> scheduleStatuses { get; set; }
+        public List<SPScheduleStatus> scheduleStatuses { get; set; }
         
         /// <summary>
         /// Filter to retrieve only certain types of competitions. See <see cref="SPCompetitionFormat"/> for possible values

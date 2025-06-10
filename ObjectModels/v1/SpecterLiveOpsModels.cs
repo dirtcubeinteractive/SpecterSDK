@@ -1,7 +1,7 @@
 using System;
 using SpecterSDK.Shared;
 
-namespace SpecterSDK.ObjectModels
+namespace SpecterSDK.ObjectModels.v1
 {
     public class SpecterSchedule
     {
@@ -15,7 +15,7 @@ namespace SpecterSDK.ObjectModels
 
     public class SpecterInstanceSchedule : SpecterSchedule
     {
-        public SPCompetitionStatus Status;
+        public SPScheduleStatus Status;
         public DateTime InstanceStartDate;
         public DateTime? InstanceEndDate;
     }

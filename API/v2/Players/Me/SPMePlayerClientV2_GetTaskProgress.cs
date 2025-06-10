@@ -26,7 +26,7 @@ namespace SpecterSDK.API.v2.Players.Me
         /// <summary>
         /// Array of schedule statuses to filter tasks.
         /// </summary>
-        public List<SPScheduleStates> scheduleStatuses { get; set; }
+        public List<SPTasksScheduleStatus> scheduleStatuses { get; set; }
         
         /// <summary>
         /// Include tasks from task groups if set to true.

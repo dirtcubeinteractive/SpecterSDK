@@ -1,12 +1,10 @@
 using System;
 using System.Collections.Generic;
-using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.APIModels.ClientModels.v1;
 using SpecterSDK.ObjectModels.Interfaces;
 using SpecterSDK.Shared;
-using UnityEngine.Serialization;
 
-namespace SpecterSDK.ObjectModels
+namespace SpecterSDK.ObjectModels.v1
 {
     public abstract class SpecterEsportsResource : SpecterResource
     {
@@ -15,7 +13,7 @@ namespace SpecterSDK.ObjectModels
         public SPMatchWinCondition WinCondition;
 
         private SpecterInstanceSchedule Schedule;
-        public SPCompetitionStatus Status => Schedule.Status;
+        public SPScheduleStatus Status => Schedule.Status;
         public DateTime InstanceStartDate => Schedule.InstanceStartDate;
         public DateTime? InstanceEndDate => Schedule.InstanceEndDate;
         public SPIntervalUnit IntervalUnit => Schedule.IntervalUnit;

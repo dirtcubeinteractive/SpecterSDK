@@ -23,7 +23,7 @@ namespace SpecterSDK.API.v2.App.DTOs
         public List<string> videoUrls { get; set; }
         public List<SPAppPlatformData> platforms { get; set; }
         public List<SPLocationData> locations { get; set; }
-        public List<SPGameGenreData> genres { get; set; }
+        public List<SPGenreData> genres { get; set; }
     }
 
     public interface ISpecterCurrencyData : ISpecterEconomyResourceData

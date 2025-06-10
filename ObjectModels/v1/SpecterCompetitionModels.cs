@@ -1,13 +1,9 @@
-using System;
-using SpecterSDK.APIModels.ClientModels;
-using SpecterSDK.ObjectModels.Interfaces;
-using SpecterSDK.Shared;
-using System.Collections;
 using System.Collections.Generic;
 using SpecterSDK.APIModels.ClientModels.v1;
-using UnityEngine;
+using SpecterSDK.ObjectModels.Interfaces;
+using SpecterSDK.Shared;
 
-namespace SpecterSDK.ObjectModels
+namespace SpecterSDK.ObjectModels.v1
 {
 
     public abstract class SpecterCompetitionBase : SpecterEsportsResource

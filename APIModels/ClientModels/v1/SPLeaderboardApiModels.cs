@@ -14,7 +14,7 @@ namespace SpecterSDK.APIModels.ClientModels.v1
         
         // Will be null for instant battles
         public SPLeaderboardOutcomeData outcomeType { get; set; }
-        public SPCompetitionStatus status { get; set; }
+        public SPScheduleStatus status { get; set; }
         public DateTime instanceStartDate { get; set; }
         public DateTime? instanceEndDate { get; set; }
         public SPIntervalUnit intervalUnit { get; set; }

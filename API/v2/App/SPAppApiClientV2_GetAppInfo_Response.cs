@@ -25,7 +25,7 @@ namespace SpecterSDK.API.v2.App
         
         public List<SPAppPlatformData> platforms { get; set; }
         public List<SPLocationData> locations { get; set; }
-        public List<SPGameGenreData> genres { get; set; }
+        public List<SPGenreData> genres { get; set; }
         public List<SPAppCategoryData> categories { get; set; }
         
         public List<string> tags { get; set; }

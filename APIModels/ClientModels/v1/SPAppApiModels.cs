@@ -13,15 +13,8 @@ namespace SpecterSDK.APIModels.ClientModels.v1
         public SPAppCategoryData categories { get; set; }
         public List<SPAppPlatformData> platforms { get; set; }
         public List<SPLocationData> countries { get; set; }
-        public List<SPGameGenreData> genre { get; set; }
+        public List<SPGenreData> genre { get; set; }
         public List<string> tags { get; set; }
         public Dictionary<string, object> meta { get; set; }
-    }
-
-    [Serializable]
-    public class SPAppCategoryData
-    {
-        public int id { get; set; }
-        public string name { get; set; }
     }
 }

@@ -10,8 +10,8 @@ namespace SpecterSDK.ObjectModels.v2
         public List<string> ScreenshotUrls { get; set; }
         public List<string> VideoUrls { get; set; }
         public List<SPAppPlatformInfo> Platforms { get; set; }
-        public List<SpecterLocation> Locations { get; set; }
-        public List<SpecterGameGenre> Genres { get; set; }
+        public List<SPLocation> Locations { get; set; }
+        public List<SPGenre> Genres { get; set; }
     }
 
     public interface ISpecterEconomyResource : ISpecterResource

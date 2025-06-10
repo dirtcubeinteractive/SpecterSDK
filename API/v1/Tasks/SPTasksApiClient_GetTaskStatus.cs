@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.APIModels.ClientModels.v1;
 using SpecterSDK.ObjectModels;
+using SpecterSDK.ObjectModels.v1;
 using SpecterSDK.Shared;
 using SpecterSDK.Shared.Networking.Models;
 
@@ -45,9 +46,9 @@ namespace SpecterSDK.API.v1.Tasks
         public bool includeTaskGroupTasks { get; set; }
         
         /// <summary>
-        /// A filter to fetch task statuses based on the status of their respective task's schedule. See <see cref="SPScheduleStates"/> for possible values.
+        /// A filter to fetch task statuses based on the status of their respective task's schedule. See <see cref="SPTasksScheduleStatus"/> for possible values.
         /// </summary>
-        public List<SPScheduleStates> scheduleStatuses { get; set; }
+        public List<SPTasksScheduleStatus> scheduleStatuses { get; set; }
     }
 
     /// <summary>

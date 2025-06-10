@@ -1,14 +1,9 @@
-using System;
 using System.Collections.Generic;
-using System.Data;
-using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.APIModels.ClientModels.v1;
 using SpecterSDK.ObjectModels.Interfaces;
 using SpecterSDK.Shared;
-using UnityEngine;
-using UnityEngine.Serialization;
 
-namespace SpecterSDK.ObjectModels
+namespace SpecterSDK.ObjectModels.v1
 {
     #region Specter Currencies
     public class SpecterCurrencyBase : SpecterResource

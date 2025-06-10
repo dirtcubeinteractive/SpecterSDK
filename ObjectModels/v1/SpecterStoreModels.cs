@@ -1,14 +1,13 @@
 using System.Collections.Generic;
-using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.APIModels.ClientModels.v1;
 using SpecterSDK.ObjectModels.Interfaces;
 
-namespace SpecterSDK.ObjectModels
+namespace SpecterSDK.ObjectModels.v1
 {
     public class SpecterStore : SpecterResource, ISpecterMasterObject
     {
         public int CategoriesCount;
-        public List<SpecterLocation> StoreLocations;
+        public List<SPLocation> StoreLocations;
         public List<SpecterPlatformBase> StorePlatforms;
         public List<SpecterUnlockCondition> UnlockConditions;
         
@@ -36,10 +35,10 @@ namespace SpecterSDK.ObjectModels
                 StorePlatforms.Add(new SpecterPlatformBase(platformData));
             }
 
-            StoreLocations = new List<SpecterLocation>();
+            StoreLocations = new List<SPLocation>();
             foreach (var locationData in data.storeLocations)
             {
-                StoreLocations.Add(new SpecterLocation(locationData));
+                StoreLocations.Add(new SPLocation(locationData));
             }
         }
     }

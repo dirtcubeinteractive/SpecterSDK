@@ -11,7 +11,7 @@ namespace SpecterSDK.APIModels.ClientModels.v1
     [Serializable]
     public class SPTaskResourceResponseData : SPResourceResponseData
     {
-        public SPScheduleStates scheduleStatus { get; set; }
+        public SPTasksScheduleStatus scheduleStatus { get; set; }
     }
 
     [Serializable]

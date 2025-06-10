@@ -31,7 +31,7 @@ namespace SpecterSDK.API.v2.Players.Others
         /// <summary>
         /// Array of schedule statuses to filter tasks (yet to start | in progress | stopped | expired).
         /// </summary>
-        public List<SPScheduleStates> scheduleStatuses { get; set; }
+        public List<SPTasksScheduleStatus> scheduleStatuses { get; set; }
         
         /// <summary>
         /// A boolean flag to include task group tasks in the results.

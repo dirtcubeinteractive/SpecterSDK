@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.APIModels.ClientModels.v1;
 using SpecterSDK.ObjectModels;
+using SpecterSDK.ObjectModels.v1;
 using SpecterSDK.Shared.Networking.Models;
 
 namespace SpecterSDK.API.v1.Stores

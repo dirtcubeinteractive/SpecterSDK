@@ -45,7 +45,7 @@ namespace SpecterSDK.API.v2.App
         /// <summary>
         /// An array of schedule statuses to filter the step series tasks. Eg usage: SPTaskScheduleStatus.InProgress
         /// </summary>
-        public List<SPScheduleStates> scheduleStatuses { get; set; }
+        public List<SPTasksScheduleStatus> scheduleStatuses { get; set; }
         
         /// <summary>
         /// An array of tags to further filter or categorize the step series.

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.APIModels.ClientModels.v1;
 using SpecterSDK.ObjectModels;
+using SpecterSDK.ObjectModels.v1;
 using SpecterSDK.Shared;
 using SpecterSDK.Shared.Networking;
 using SpecterSDK.Shared.Networking.Interfaces;

@@ -31,7 +31,7 @@ namespace SpecterSDK.API.v2.Players.Others
         /// <summary>
         /// An array of schedule statuses to filter retrieved task group statuses.
         /// </summary>
-        public List<SPScheduleStates> scheduleStatuses { get; set; }
+        public List<SPTasksScheduleStatus> scheduleStatuses { get; set; }
         
         /// <summary>
         /// A boolean flag to include inactive tasks in the results (eg: useful to fetch inactive missions in a Mission group).

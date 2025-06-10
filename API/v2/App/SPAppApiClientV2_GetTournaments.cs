@@ -54,7 +54,7 @@ namespace SpecterSDK.API.v2.App
         /// <summary>
         /// An array of schedule statuses to filter tournaments by timing. Eg usage: SPCompetitionScheduleStatus.InProgress
         /// </summary>
-        public List<SPCompetitionStatus> scheduleStatuses { get; set; }
+        public List<SPScheduleStatus> scheduleStatuses { get; set; }
         
         /// <summary>
         /// Specific attributes of tournaments to include in the response. Eg usage: SPTournamentAttribute.PrizeDistribution

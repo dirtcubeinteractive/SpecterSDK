@@ -23,17 +23,6 @@ namespace SpecterSDK.Shared
 
         private SPOperations(int id, string name, string displayName = null) : base(id, name, displayName) { }
     }
-
-    [Serializable]
-    public sealed class SPScheduleStates : SPEnum<SPScheduleStates>
-    {
-        public static readonly SPScheduleStates YetToStart = new SPScheduleStates(0, "yet to start", nameof(YetToStart));
-        public static readonly SPScheduleStates InProgress = new SPScheduleStates(1, "in progress", nameof(InProgress));
-        public static readonly SPScheduleStates Stopped = new SPScheduleStates(2, "stopped", nameof(Stopped));
-        public static readonly SPScheduleStates Expired = new SPScheduleStates(3, "expired", nameof(Expired));
-        
-        private SPScheduleStates(int id, string name, string displayName = null) : base(id, name, displayName) { }
-    }
     
     #region Events and Params
 
@@ -203,26 +192,12 @@ namespace SpecterSDK.Shared
 
     #region Competition
 
-
-    public sealed class SPCompetitionStatus : SPEnum<SPCompetitionStatus>
-    {
-        public static readonly SPCompetitionStatus YetToStart = new SPCompetitionStatus(0, "yet to start", nameof(YetToStart));
-        public static readonly SPCompetitionStatus InProgress = new SPCompetitionStatus(1, "in progress", nameof(InProgress));
-        public static readonly SPCompetitionStatus Completed = new SPCompetitionStatus(2, "completed", nameof(Completed));
-        public static readonly SPCompetitionStatus InReview = new SPCompetitionStatus(3, "in review", nameof(InReview));
-        public static readonly SPCompetitionStatus Stopped = new SPCompetitionStatus(4, "stopped", nameof(Stopped));
-        public static readonly SPCompetitionStatus Failed = new SPCompetitionStatus(5, "failed", nameof(Failed));
-
-        public SPCompetitionStatus(int id, string name, string displayName = null) : base(id, name, displayName) { }
-    }
-
     public sealed class SPCompetitionFormat : SPEnum<SPCompetitionFormat>
     {
         public static readonly SPCompetitionFormat InstantBattle = new SPCompetitionFormat(3, "Instant Battle", nameof(InstantBattle));
         public static readonly SPCompetitionFormat Tournament = new SPCompetitionFormat(2, "Tournament", nameof(Tournament));
 
-        public SPCompetitionFormat(int id, string name, string displayName = null) : base(id, name, displayName) { }
-
+        private SPCompetitionFormat(int id, string name, string displayName = null) : base(id, name, displayName) { }
     }
 
     #endregion
@@ -249,6 +224,39 @@ namespace SpecterSDK.Shared
         private SPLeaderboardSourceType(int id, string name, string displayName = null) : base(id, name, displayName) { }
     }
 
+    #endregion
+    
+    #region LiveOps
+    
+    /// <summary>
+    /// Values for LiveOps schedule statuses
+    /// </summary>
+    public sealed class SPScheduleStatus : SPEnum<SPScheduleStatus>
+    {
+        public static readonly SPScheduleStatus YetToStart = new SPScheduleStatus(0, "yet to start", nameof(YetToStart));
+        public static readonly SPScheduleStatus InProgress = new SPScheduleStatus(1, "in progress", nameof(InProgress));
+        public static readonly SPScheduleStatus Completed = new SPScheduleStatus(2, "completed", nameof(Completed));
+        public static readonly SPScheduleStatus InReview = new SPScheduleStatus(3, "in review", nameof(InReview));
+        public static readonly SPScheduleStatus Stopped = new SPScheduleStatus(4, "stopped", nameof(Stopped));
+        public static readonly SPScheduleStatus Failed = new SPScheduleStatus(5, "failed", nameof(Failed));
+
+        private SPScheduleStatus(int id, string name, string displayName = null) : base(id, name, displayName) { }
+    }
+    
+    /// <summary>
+    /// Values for Schedule statuses only applicable to tasks and task groups.
+    /// </summary>
+    [Serializable]
+    public sealed class SPTasksScheduleStatus : SPEnum<SPTasksScheduleStatus>
+    {
+        public static readonly SPTasksScheduleStatus YetToStart = new SPTasksScheduleStatus(0, "yet to start", nameof(YetToStart));
+        public static readonly SPTasksScheduleStatus InProgress = new SPTasksScheduleStatus(1, "in progress", nameof(InProgress));
+        public static readonly SPTasksScheduleStatus Stopped = new SPTasksScheduleStatus(2, "stopped", nameof(Stopped));
+        public static readonly SPTasksScheduleStatus Expired = new SPTasksScheduleStatus(3, "expired", nameof(Expired));
+        
+        private SPTasksScheduleStatus(int id, string name, string displayName = null) : base(id, name, displayName) { }
+    }
+    
     [Serializable]
     public sealed class SPIntervalUnit : SPEnum<SPIntervalUnit>
     {
@@ -261,6 +269,6 @@ namespace SpecterSDK.Shared
         
         private SPIntervalUnit(int id, string name, string displayName = null) : base(id, name, displayName) { }
     }
-
+    
     #endregion
 }

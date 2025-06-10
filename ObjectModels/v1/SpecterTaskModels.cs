@@ -1,15 +1,14 @@
 using System;
 using System.Collections.Generic;
-using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.APIModels.ClientModels.v1;
 using SpecterSDK.ObjectModels.Interfaces;
 using SpecterSDK.Shared;
 
-namespace SpecterSDK.ObjectModels
+namespace SpecterSDK.ObjectModels.v1
 {
     public class SpecterTaskResource : SpecterResource
     {
-        public SPScheduleStates ScheduleStatus;
+        public SPTasksScheduleStatus ScheduleStatus;
         
         public SpecterTaskResource() { }
 

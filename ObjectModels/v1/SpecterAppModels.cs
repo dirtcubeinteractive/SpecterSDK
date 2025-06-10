@@ -3,17 +3,17 @@ using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.APIModels.ClientModels.v1;
 using SpecterSDK.ObjectModels.Interfaces;
 
-namespace SpecterSDK.ObjectModels
+namespace SpecterSDK.ObjectModels.v1
 {
     public class SpecterApp : SpecterResource, ISpecterMasterObject
     {
         public string HowTo { get; set; }
         public List<string> ScreenshotUrls { get; set; }
         public List<string> VideoUrls { get; set; }
-        public SpecterAppCategory Categories { get; set; }
+        public SPAppCategory Categories { get; set; }
         public List<SpecterAppPlatform> Platforms { get; set; }
-        public List<SpecterLocation> Countries { get; set; }
-        public List<SpecterGameGenre> Genres { get; set; }
+        public List<SPLocation> Countries { get; set; }
+        public List<SPGenre> Genres { get; set; }
         public List<string> Tags { get; set; }
         public Dictionary<string, object> Meta { get; set; }
 
@@ -25,7 +25,7 @@ namespace SpecterSDK.ObjectModels
             Tags = data.tags ?? new List<string>();
             Meta = data.meta ?? new Dictionary<string, object>();
             
-            Categories = new SpecterAppCategory(data.categories);
+            Categories = new SPAppCategory(data.categories);
 
             Platforms = new List<SpecterAppPlatform>();
             if (data.platforms != null)
@@ -36,32 +36,32 @@ namespace SpecterSDK.ObjectModels
                 }
             }
 
-            Countries = new List<SpecterLocation>();
+            Countries = new List<SPLocation>();
             if (data.countries != null)
             {
                 foreach (var country in data.countries)
                 {
-                    Countries.Add(new SpecterLocation(country));
+                    Countries.Add(new SPLocation(country));
                 }
             }
 
-            Genres = new List<SpecterGameGenre>();
+            Genres = new List<SPGenre>();
             if (data.genre != null)
             {
                 foreach (var genre in data.genre)
                 {
-                    Genres.Add(new SpecterGameGenre(genre));
+                    Genres.Add(new SPGenre(genre));
                 }
             }
         }
     }
 
-    public class SpecterAppCategory
+    public class SPAppCategory
     {
         public int Id { get; set; }
         public string Name { get; set; }
 
-        public SpecterAppCategory(SPAppCategoryData data)
+        public SPAppCategory(SPAppCategoryData data)
         {
             Id = data.id;
             Name = data.name;

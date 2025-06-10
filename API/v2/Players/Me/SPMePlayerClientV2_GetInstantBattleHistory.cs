@@ -36,7 +36,7 @@ namespace SpecterSDK.API.v2.Players.Me
         /// <summary>
         /// An array of schedule statuses to filter instant battles.
         /// </summary>
-        public List<SPCompetitionStatus> scheduleStatuses { get; set; }
+        public List<SPScheduleStatus> scheduleStatuses { get; set; }
         
         /// <summary>
         /// Specific attributes to include in the response.

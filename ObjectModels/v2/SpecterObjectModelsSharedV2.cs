@@ -25,7 +25,7 @@ namespace SpecterSDK.ObjectModels.v2
         public string AssetBundleVersion { get; set; }
         
         /// <summary>
-        /// Minimum version of the game/app required for latest asset bundle to work with.
+        /// A minimum version of the game/app required for the latest asset bundle to work with.
         /// </summary>
         public string MinimumAppVersion { get; set; }
 

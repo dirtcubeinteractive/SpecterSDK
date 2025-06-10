@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.APIModels.ClientModels.v1;
 using SpecterSDK.ObjectModels;
+using SpecterSDK.ObjectModels.v1;
 using SpecterSDK.Shared;
 using SpecterSDK.Shared.Networking.Models;
 
@@ -33,7 +34,7 @@ namespace SpecterSDK.API.v1.Tasks
         /// </summary>
         public List<string> taskGroupIds { get; set; }
         public bool includeInactiveTasks { get; set; }
-        public List<SPScheduleStates> scheduleStatuses { get; set; }
+        public List<SPTasksScheduleStatus> scheduleStatuses { get; set; }
     }
 
     /// <summary>

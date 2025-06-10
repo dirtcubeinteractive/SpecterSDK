@@ -52,7 +52,7 @@ namespace SpecterSDK.API.v2.App
         /// <summary>
         /// An array of schedule statuses to filter leaderboards by timing. Eg usage: SPCompetitionScheduleStatus.InProgress
         /// </summary>
-        public List<SPCompetitionStatus> scheduleStatuses { get; set; }
+        public List<SPScheduleStatus> scheduleStatuses { get; set; }
         
         /// <summary>
         /// Specific attributes of leaderboards to include in the response. Eg usage: SPLeaderboardAttribute.PrizeDistribution
