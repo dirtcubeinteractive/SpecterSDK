@@ -19,7 +19,7 @@ namespace SpecterSDK.API.v2.App
     }
 
     [Serializable]
-    public class SPLeaderboardData : ISpecterResourceData, ISpecterMasterData
+    public class SPLeaderboardData : ISpecterResourceData, ISpecterMasterData, ISpecterLiveOpsEntityData
     {
         public string uuid { get; set; }
         public string id { get; set; }
@@ -28,6 +28,7 @@ namespace SpecterSDK.API.v2.App
         public string iconUrl { get; set; }
         
         public SPScheduleData schedule { get; set; }
+        
         public SPMatchResourceData match { get; set; }
         public SPLeaderboardRankingMethodData rankingMethod { get; set; }
         public SPLeaderboardSourceData sourceType { get; set; }

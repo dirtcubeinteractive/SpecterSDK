@@ -33,9 +33,8 @@ namespace SpecterSDK.ObjectModels.v2
         public string Description { get; set; }
         public string IconUrl { get; set; }
         
-        // TODO: Ensure min and max players is added to Get Matches response
-        /*public int MinPlayers { get; set; }
-        public int MaxPlayers { get; set; }*/
+        public int MinPlayers { get; set; }
+        public int MaxPlayers { get; set; }
         
         public SPGameResource Game { get; set; }
         public SPMatchFormatType Format { get; set; }
@@ -57,8 +56,8 @@ namespace SpecterSDK.ObjectModels.v2
             Description = data.description;
             IconUrl = data.iconUrl;
 
-            /*MinPlayers = data.minPlayers ?? (data.formatType.id != SPMatchFormatType.SinglePlayer ? 2 : 1);
-            MaxPlayers = data.maxPlayers ?? MinPlayers;*/
+            MinPlayers = data.minPlayers ?? (data.formatType.id != SPMatchFormatType.SinglePlayer ? 2 : 1);
+            MaxPlayers = data.maxPlayers ?? MinPlayers;
             
             Game = new SPGameResource(data.game);
             Format = data.formatType?.id;

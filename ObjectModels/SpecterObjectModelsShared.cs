@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using SpecterSDK.APIModels.ClientModels;
+using SpecterSDK.APIModels.ClientModels.v2;
+using SpecterSDK.Shared;
 using SpecterSDK.Shared.v2;
 
 namespace SpecterSDK.ObjectModels
@@ -94,6 +96,84 @@ namespace SpecterSDK.ObjectModels
             UtcDatetime = data.utcDatetime;
             UtcOffset = data.utcOffset;
             WeekNumber = data.weekNumber;
+        }
+    }
+
+    public class SPSchedule
+    {
+        /// <summary>
+        /// The start date of the schedule.
+        /// </summary>
+        public DateTime FirstInstanceStartDate { get; set; }
+        
+        /// <summary>
+        /// The end date of only the first occurence of the schedule.
+        /// In a non-recurring schedule, this will be the end date of the entire schedule.
+        /// </summary>
+        public DateTime? FirstInstanceEndDate { get; set; }
+        
+        /// <summary>
+        /// The unit of time for the length of each occurrence of the schedule.
+        /// </summary>
+        public SPIntervalUnit IntervalUnit { get; set; }
+        
+        /// <summary>
+        /// The length of each occurrence of the schedule.
+        /// </summary>
+        public long IntervalLength { get; set; }
+        
+        /// <summary>
+        /// The number of occurrences of the schedule.
+        /// </summary>
+        public long Occurrences { get; set; }
+        
+        /// <summary>
+        /// Flag indicating whether the schedule is recurring.
+        /// </summary>
+        public bool IsRecurring { get; set; }
+        
+        /// <summary>
+        /// Information about the current instance of the schedule.
+        /// </summary>
+        public SPInstanceSchedule CurrentInstanceSchedule { get; set; }
+        
+        public SPSchedule() { }
+        public SPSchedule(SPScheduleData data)
+        {
+            FirstInstanceStartDate = data.firstInstanceStartDate;
+            FirstInstanceEndDate = data.firstInstanceEndDate;
+            IntervalUnit = data.intervalUnit;
+            IntervalLength = data.intervalLength;
+            Occurrences = data.occurrences;
+            IsRecurring = data.isRecurring;
+            CurrentInstanceSchedule = data.currentInstanceSchedule == null ? null : new SPInstanceSchedule(data.currentInstanceSchedule);
+        }
+    }
+
+    public class SPInstanceSchedule
+    {
+        /// <summary>
+        /// The status of the specified instance. For tasks this can be compared against values found in
+        /// <see cref="SPTasksScheduleStatus"/> and for competitions values can be compared against <see cref="SPScheduleStatus"/> values.
+        /// </summary>
+        public string Status { get; set; }
+        
+        /// <summary>
+        /// The start date of the instance.
+        /// </summary>
+        public DateTime InstanceStartDate { get; set; }
+        
+        /// <summary>
+        /// The end date of the instance.
+        /// </summary>
+        public DateTime? InstanceEndDate { get; set; }
+        
+        public SPInstanceSchedule() { }
+        public SPInstanceSchedule(SPInstanceScheduleData data)
+        {
+            Status = data.status;
+            InstanceStartDate = data.instanceStartDate;
+            InstanceEndDate = data.instanceEndDate;
         }
     }
 }

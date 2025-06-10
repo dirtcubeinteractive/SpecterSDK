@@ -113,4 +113,14 @@ namespace SpecterSDK.ObjectModels.v2
         public SPResourceType ResourceType { get; }
         public long Amount { get; set; }
     }
+
+    public interface ISpecterLiveOpsEntity
+    {
+        public SPSchedule Schedule { get; set; }
+    }
+
+    public interface ISpecterCompetitivePlayEntity
+    {
+        public SPPrizeDistribution PrizeDistribution { get; set; }
+    }
 }

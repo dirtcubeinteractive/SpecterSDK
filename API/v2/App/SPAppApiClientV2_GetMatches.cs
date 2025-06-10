@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using SpecterSDK.ObjectModels.v2;
 using SpecterSDK.Shared.Networking.Models;
 using SpecterSDK.Shared.SPEnum;
 
@@ -56,9 +57,15 @@ namespace SpecterSDK.API.v2.App
 
     public class SPGetMatchesResultV2 : SpecterApiResultBase<SPGetMatchesResponse>
     {
+        public List<SPMatch> Matches { get; set; }
+        public int TotalCount { get; set; }
+        public DateTime? LastUpdate { get; set; }
+        
         protected override void InitSpecterObjectsInternal()
         {
-            
+            Matches = Response.data.matches == null ? new List<SPMatch>() : Response.data.matches.ConvertAll(x => new SPMatch(x));
+            TotalCount = Response.data?.totalCount ?? 0;
+            LastUpdate = Response.data?.lastUpdate;
         }
     }
 

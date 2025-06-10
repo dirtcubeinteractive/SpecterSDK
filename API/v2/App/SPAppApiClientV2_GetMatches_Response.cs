@@ -25,8 +25,8 @@ namespace SpecterSDK.API.v2.App
         public string description { get; set; }
         public string iconUrl { get; set; }
         
-        /*public int? minPlayers { get; set; }
-        public int? maxPlayers { get; set; }*/
+        public int? minPlayers { get; set; }
+        public int? maxPlayers { get; set; }
         
         public SPGameResourceData game { get; set; }
         public SPMatchFormatData formatType { get; set; }

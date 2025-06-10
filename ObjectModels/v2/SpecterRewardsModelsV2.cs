@@ -229,4 +229,39 @@ namespace SpecterSDK.ObjectModels.v2
             }
         }
     }
+
+    public class SPPrizeDistribution
+    {
+        public List<SPPrizeDistributionRuleV2> Rules { get; set; }
+        public string TimeOffsetSeconds { get; set; }
+
+        public SPPrizeDistribution()
+        {
+            Rules = new List<SPPrizeDistributionRuleV2>();
+            TimeOffsetSeconds = "0";
+        }
+        public SPPrizeDistribution(SPPrizeDistributionData data)
+        {
+            Rules = data.rules?.ConvertAll(x => new SPPrizeDistributionRuleV2(x)) ?? new List<SPPrizeDistributionRuleV2>();
+        }
+    }
+
+    public class SPPrizeDistributionRuleV2 : ISpecterRewardable
+    {
+        public int SortOrder { get; set; }
+        public int StartRank { get; set; }
+        public int? EndRank { get; set; }
+        
+        public SPRewards RewardDetails { get; set; }
+        public bool HasRewards => RewardDetails?.All is { Count: > 0 };
+        
+        public SPPrizeDistributionRuleV2() { }
+        public SPPrizeDistributionRuleV2(SPPrizeDistributionRuleData data)
+        {
+            SortOrder = data.no;
+            StartRank = data.startRank;
+            EndRank = data.endRank;
+            RewardDetails = data.rewardDetails == null ? null : new SPRewards(data.rewardDetails);
+        }
+    }
 }
