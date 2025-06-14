@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SpecterSDK.Shared.Networking.Models;
 
@@ -9,8 +10,25 @@ namespace SpecterSDK.API.v2.Players.Me
     /// </summary>
     [Serializable]
     [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPGetWalletBalanceRequest : SPPaginatedApiRequest
+    public class SPGetMyWalletBalanceRequest : SPPaginatedApiRequest
     {
         // All required parameters are inherited from SPPaginatedApiRequest
+    }
+
+    public class SPGetMyWalletBalanceResult : SpecterApiResultBase<SPGetMyWalletBalanceResponse>
+    {
+        protected override void InitSpecterObjectsInternal()
+        {
+            
+        }
+    }
+
+    public partial class SPMePlayerClientV2
+    {
+        public async Task<SPGetMyWalletBalanceResult> GetWalletBalanceAsync(SPGetMyWalletBalanceRequest request)
+        {
+            var result = await PostAsync<SPGetMyWalletBalanceResult, SPGetMyWalletBalanceResponse>("/v2/client/player/me/get-wallet-balance", AuthType, request);
+            return result;
+        }
     }
 }

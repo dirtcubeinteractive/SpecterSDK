@@ -5,18 +5,13 @@ using SpecterSDK.APIModels.ClientModels.v2;
 using SpecterSDK.Shared;
 using SpecterSDK.Shared.Networking.Interfaces;
 
-namespace SpecterSDK.API.v2.App
+namespace SpecterSDK.API.v2.Players.Me
 {
     [Serializable]
-    public class SPGetCurrenciesResponse : ISpecterMasterResponse
-    {
-        public List<SPCurrencyData> currencies { get; set; }
-        public int totalCount { get; set; }
-        public DateTime? lastUpdate { get; set; }
-    }
+    public class SPGetMyWalletBalanceResponse : List<SPWalletCurrencyData>, ISpecterApiResponseData { }
 
     [Serializable]
-    public class SPCurrencyData : ISpecterResourceData, ISpecterEconomyResourceData, ISpecterCurrencyData, ISpecterMasterData
+    public class SPWalletCurrencyData : ISpecterPlayerOwnedEntityData, ISpecterCurrencyData
     {
         public string uuid { get; set; }
         public string id { get; set; }
@@ -29,7 +24,6 @@ namespace SpecterSDK.API.v2.App
         public string code { get; set; }
         public SPCurrencyType type { get; set; }
         
-        public List<string> tags { get; set; }
-        public Dictionary<string, object> meta { get; set; }
+        public double balance { get; set; }
     }
 }

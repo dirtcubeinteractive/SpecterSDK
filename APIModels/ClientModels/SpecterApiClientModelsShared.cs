@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using SpecterSDK.Shared.Networking.Interfaces;
 using SpecterSDK.Shared.Networking.Models;
+using SpecterSDK.Shared.v2;
 
 namespace SpecterSDK.APIModels.ClientModels
 {
@@ -45,6 +46,23 @@ namespace SpecterSDK.APIModels.ClientModels
         /// Name of the platform.
         /// </summary>
         public string name { get; }
+    }
+    
+    /// <summary>
+    /// User authentication account data in SDK responses
+    /// </summary>
+    [Serializable]
+    public class SPUserAuthAccountData
+    {
+        public string authProvider { get; set; }
+        public string userId { get; set; }
+    }
+
+    [Serializable]
+    public class SPUserAuthAccountDataV2
+    {
+        public SPAccountAuthProvider authProvider { get; set; }
+        public string userId { get; set; }
     }
 
     /// <summary>
@@ -91,7 +109,7 @@ namespace SpecterSDK.APIModels.ClientModels
         public string assetBundleVersion { get; set; }
         public string minimumGameVersion { get; set; }
     }
-    
+
     [Serializable]
     public class SPEventData
     {

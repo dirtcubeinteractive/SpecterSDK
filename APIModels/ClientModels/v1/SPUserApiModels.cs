@@ -37,14 +37,6 @@ namespace SpecterSDK.APIModels.ClientModels.v1
         public string phone { get; set; }
         public List<SPUserAuthAccountData> linkedAccounts { get; set; }
     }
-    
-    // User authentication account data in SDK responses
-    [Serializable]
-    public class SPUserAuthAccountData
-    {
-        public string authProvider { get; set; }
-        public string userId { get; set; }
-    }
 
     // Authenticated user data in SDK responses
     [Serializable]

@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using SpecterSDK.API.v2.App.DTOs;
 using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.APIModels.ClientModels.v1;
+using SpecterSDK.APIModels.ClientModels.v2;
 using SpecterSDK.Shared.Networking.Interfaces;
 
 namespace SpecterSDK.API.v2.App

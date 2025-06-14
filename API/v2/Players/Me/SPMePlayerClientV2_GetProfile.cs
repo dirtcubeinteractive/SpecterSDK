@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SpecterSDK.Shared.Networking.Models;
 using SpecterSDK.Shared.SPEnum;
@@ -23,11 +24,28 @@ namespace SpecterSDK.API.v2.Players.Me
     /// </summary>
     [Serializable]
     [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPGetPlayerProfileRequest : SPApiRequestBase
+    public class SPGetMyPlayerProfileRequest : SPApiRequestBase
     {
         /// <summary>
         /// Specific attributes to include in the response.
         /// </summary>
         public List<SPPlayerProfileAttribute> attributes { get; set; }
+    }
+
+    public class SPGetMyPlayerProfileResult : SpecterApiResultBase<SPGetMyPlayerProfileResponse>
+    {
+        protected override void InitSpecterObjectsInternal()
+        {
+            
+        }
+    }
+
+    public partial class SPMePlayerClientV2
+    {
+        public async Task<SPGetMyPlayerProfileResult> GetPlayerProfileAsync(SPGetMyInventoryCollectionsRequest request)
+        {
+            var result = await PostAsync<SPGetMyPlayerProfileResult, SPGetMyPlayerProfileResponse>("/v2/client/player/me/get-profile", AuthType, request);
+            return result;
+        }
     }
 }

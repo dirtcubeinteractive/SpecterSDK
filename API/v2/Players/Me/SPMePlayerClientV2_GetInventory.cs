@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SpecterSDK.Shared.Networking.Models;
 
@@ -10,7 +11,7 @@ namespace SpecterSDK.API.v2.Players.Me
     /// </summary>
     [Serializable]
     [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPGetInventoryRequest : SPPaginatedApiRequest
+    public class SPGetMyInventoryRequest : SPPaginatedApiRequest
     {
         /// <summary>
         /// A search keyword to filter inventory items by name.
@@ -31,5 +32,22 @@ namespace SpecterSDK.API.v2.Players.Me
         /// An array of bundle IDs to fetch specific bundles.
         /// </summary>
         public List<string> bundleIds { get; set; }
+    }
+
+    public class SPGetMyInventoryResult : SpecterApiResultBase<SPGetMyInventoryResponse>
+    {
+        protected override void InitSpecterObjectsInternal()
+        {
+            
+        }
+    }
+
+    public partial class SPMePlayerClientV2
+    {
+        public async Task<SPGetMyInventoryResult> GetMyInventoryAsync(SPGetMyInventoryRequest request)
+        {
+            var result = await PostAsync<SPGetMyInventoryResult, SPGetMyInventoryResponse>("/v2/client/player/me/get-inventory", AuthType, request);
+            return result;
+        }
     }
 }

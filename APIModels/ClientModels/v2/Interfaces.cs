@@ -1,14 +1,11 @@
 using System;
 using System.Collections.Generic;
-using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.APIModels.ClientModels.v1;
-using SpecterSDK.APIModels.ClientModels.v2;
 using SpecterSDK.Shared;
 using SpecterSDK.Shared.Networking.Interfaces;
-using SpecterSDK.Shared.v2;
 using SPPrizeDistributionData = SpecterSDK.APIModels.ClientModels.v2.SPPrizeDistributionData;
 
-namespace SpecterSDK.API.v2.App.DTOs
+namespace SpecterSDK.APIModels.ClientModels.v2
 {
     public interface ISpecterMasterResponse : ISpecterApiResponseData
     {
@@ -35,6 +32,18 @@ namespace SpecterSDK.API.v2.App.DTOs
     public interface ISpecterEconomyResourceData : ISpecterResourceData
     {
         public SPRarityData rarity { get; set; }
+    }
+
+    public interface ISpecterPlayerOwnedEntityData : ISpecterEconomyResourceData { }
+
+    public interface ISpecterInventoryEntityData : ISpecterPlayerOwnedEntityData
+    {
+        public string instanceId { get; set; }
+        public string collectionId { get; set; }
+        public string stackId { get; set; }
+        public int quantity { get; set; }
+        public bool isEquipped { get; set; }
+        public int? totalUsesAvailable { get; set; }
     }
 
     public interface ISpecterPricingCurrencyData
