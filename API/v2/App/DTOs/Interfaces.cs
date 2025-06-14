@@ -108,7 +108,7 @@ namespace SpecterSDK.API.v2.App.DTOs
         public List<SPEntryFeeDataV2> entryFees { get; set; }
     }
 
-    public interface ISpecterTaskGroupData
+    public interface ISpecterTaskGroupData : ISpecterResourceData, ISpecterUnlockableData, ISpecterMasterData, ISpecterLiveOpsEntityData
     {
         public SPTaskGroupType taskGroupType { get; set; }
         public List<SPTaskResourceData> tasks { get; set; }

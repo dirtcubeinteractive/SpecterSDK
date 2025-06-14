@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using SpecterSDK.ObjectModels;
 using SpecterSDK.Shared.Networking.Models;
 
 namespace SpecterSDK.API.v2.App
@@ -20,9 +22,11 @@ namespace SpecterSDK.API.v2.App
 
     public class SPGetDocumentsResult : SpecterApiResultBase<SPGetDocumentsResponse>
     {
+        List<SPDocumentInfo> DocumentInfos { get; set; }
+        
         protected override void InitSpecterObjectsInternal()
         {
-            
+            DocumentInfos = Response.data == null ? new List<SPDocumentInfo>() : Response.data.ConvertAll(x => new SPDocumentInfo(x));
         }
     }
 

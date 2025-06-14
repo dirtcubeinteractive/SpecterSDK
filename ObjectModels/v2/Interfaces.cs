@@ -121,6 +121,15 @@ namespace SpecterSDK.ObjectModels.v2
 
     public interface ISpecterCompetitivePlayEntity
     {
+        public SPLeaderboardSourceType Source { get; set; }
+        public SPMatchResource Match { get; set; }
         public SPPrizeDistribution PrizeDistribution { get; set; }
+    }
+
+    public interface ISpecterCompetition : ISpecterCompetitivePlayEntity
+    {
+        SPCompetitionConfig Config { get; set; }
+        SPCompetitionFormat Type { get; set; }
+        public List<SPEntryFeeInfo> EntryFees { get; set; }
     }
 }

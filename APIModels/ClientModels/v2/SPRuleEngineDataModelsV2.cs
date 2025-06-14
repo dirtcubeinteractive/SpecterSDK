@@ -13,13 +13,6 @@ namespace SpecterSDK.APIModels.ClientModels.v2
         public const string EQUAL = "equal";
         public const string NOT_EQUAL = "notEqual";
     }
-    
-    [Serializable]
-    public class SPEventData
-    {
-        public string id { get; set; }
-        public string name { get; set; }
-    }
 
     [Serializable]
     public class SPRuleParamData

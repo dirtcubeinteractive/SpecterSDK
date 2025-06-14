@@ -1,4 +1,5 @@
 using System;
+using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.APIModels.ClientModels.v1;
 using SpecterSDK.Shared;
 
@@ -11,7 +12,7 @@ namespace SpecterSDK.ObjectModels.v1
         public string Name;
 
         public SpecterEvent() {}
-        public SpecterEvent(SPEvent data)
+        public SpecterEvent(SPEventData data)
         {
             Id = data.id;
             Name = data.name;

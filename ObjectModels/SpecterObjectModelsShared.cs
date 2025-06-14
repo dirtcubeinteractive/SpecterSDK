@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using SpecterSDK.API.v2.App;
 using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.APIModels.ClientModels.v2;
 using SpecterSDK.Shared;
@@ -174,6 +175,87 @@ namespace SpecterSDK.ObjectModels
             Status = data.status;
             InstanceStartDate = data.instanceStartDate;
             InstanceEndDate = data.instanceEndDate;
+        }
+    }
+    
+    public class SPEvent 
+    {
+        public string Id { get; set; }
+        public string Name { get; set; }
+        
+        public SPEvent() { }
+        public SPEvent(SPEventData data)
+        {
+            Id = data.id;
+            Name = data.name;
+        }
+    }
+
+    public class SPRuleParam
+    {
+        public string Name { get; set; }
+        public object TargetValue { get; set; }
+        public string Operator { get; set; }
+        public SPParamDataType DataType { get; set; }
+        public SPStatCollectionMode Mode { get; set; }
+        public SPParameterType Type { get; set; }
+        
+        public SPRuleParam() { }
+        public SPRuleParam(SPRuleParamData data)
+        {
+            Name = data.name;
+            TargetValue = data.targetValue;
+            Operator = data.@operator;
+            DataType = data.dataType;
+            Mode = data.mode;
+            Type = data.type;
+        }
+    }
+
+    public class SPRule
+    {
+        public List<SPRule> All { get; set; }
+        public List<SPRule> Any { get; set; }
+        public string Fact { get; set; }
+        public string Operator { get; set; }
+        public object Value { get; set; }
+        
+        public SPRule() { }
+        public SPRule(SPRuleData data)
+        {
+            All = data.all?.ConvertAll(x => new SPRule(x));
+            Any = data.any?.ConvertAll(x => new SPRule(x));
+            Fact = data.fact;
+            Operator = data.@operator;
+            Value = data.value;
+        }
+    }
+
+    public class SPBusinessLogic
+    {
+        public List<SPRule> All { get; set; }
+        public List<SPRule> Any { get; set; }
+        
+        public SPBusinessLogic() { }
+        public SPBusinessLogic(SPBusinessLogicData data)
+        {
+            All = data.all?.ConvertAll(x => new SPRule(x));
+            Any = data.any?.ConvertAll(x => new SPRule(x));
+        }
+    }
+
+    public class SPDocumentInfo
+    {
+        public string Uuid { get; set; }
+        public string Id { get; set; }
+        public string Name { get; set; }
+        
+        public SPDocumentInfo() { }
+        public SPDocumentInfo(SPDocumentData data)
+        {
+            Uuid = data.uuid;
+            Id = data.id;
+            Name = data.name;
         }
     }
 }

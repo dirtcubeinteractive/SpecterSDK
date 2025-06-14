@@ -110,7 +110,7 @@ namespace SpecterSDK.APIModels.ClientModels.v1
     [Serializable]
     public class SPTaskProgressResponseData : SPResourceResponseData
     {
-        public SPEvent @event { get; set; }
+        public SPEventData @event { get; set; }
         public string eventName { get; set; }
         public List<SPParamProgressData> progress { get; set; }
     }

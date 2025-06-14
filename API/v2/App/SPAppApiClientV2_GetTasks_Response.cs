@@ -26,8 +26,8 @@ namespace SpecterSDK.API.v2.App
         public SPScheduleData schedule { get; set; }
         
         public int? sortingOrder { get; set; }
-        public SPEventData @event { get; set; }
         public SPTaskGroupResourceData taskGroupDetails { get; set; }
+        public SPEventData @event { get; set; }
         public SPBusinessLogicData businessLogic { get; set; }
         public List<SPRuleParamData> parameters { get; set; }
         

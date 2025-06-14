@@ -20,9 +20,11 @@ namespace SpecterSDK.API.v2.App
 
     public class SPGetDocumentContentResult : SpecterApiResultBase<SPGetDocumentContentResponse>
     {
+        public string DocumentContent { get; set; }
+        
         protected override void InitSpecterObjectsInternal()
         {
-            
+            DocumentContent = Response.data?.documentContent;
         }
     }
     

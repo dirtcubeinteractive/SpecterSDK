@@ -12,22 +12,22 @@ namespace SpecterSDK.APIModels.ClientModels
         /// The database identifier for the resource. Only used internally on the Specter backend, NOT for use in APIs
         /// </summary>
         public string uuid { get; set; }
-        
+
         /// <summary>
         /// The unique identifier for the resource set on the Specter dashboard. Use this property in Specter APIs
         /// </summary>
         public string id { get; set; }
-        
+
         /// <summary>
         /// Name of the resource
         /// </summary>
         public string name { get; set; }
-        
+
         /// <summary>
         /// Description of the resource
         /// </summary>
         public string description { get; set; }
-        
+
         /// <summary>
         /// URL to fetch the icon for the resource set on the Specter dashboard.
         /// </summary>
@@ -40,7 +40,7 @@ namespace SpecterSDK.APIModels.ClientModels
         /// Unique identifier for the platform.
         /// </summary>
         public int id { get; }
-        
+
         /// <summary>
         /// Name of the platform.
         /// </summary>
@@ -90,5 +90,12 @@ namespace SpecterSDK.APIModels.ClientModels
         public string assetBundleUrl { get; set; }
         public string assetBundleVersion { get; set; }
         public string minimumGameVersion { get; set; }
+    }
+    
+    [Serializable]
+    public class SPEventData
+    {
+        public string id { get; set; }
+        public string name { get; set; }
     }
 }

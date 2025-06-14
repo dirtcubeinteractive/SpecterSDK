@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using SpecterSDK.ObjectModels.v2;
 using SpecterSDK.Shared.Networking.Models;
 using SpecterSDK.Shared.SPEnum;
 
@@ -66,9 +67,11 @@ namespace SpecterSDK.API.v2.App
 
     public class SPGetPlayersResult : SpecterApiResultBase<SPGetPlayersResponse>
     {
+        public List<SPPlayerProfile> Players { get; set; }
+        
         protected override void InitSpecterObjectsInternal()
         {
-            
+            Players = Response.data?.ConvertAll(x => new SPPlayerProfile(x)) ?? new List<SPPlayerProfile>();
         }
     }
 
