@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SpecterSDK.Shared;
 using SpecterSDK.Shared.Networking.Models;
@@ -11,7 +12,7 @@ namespace SpecterSDK.API.v2.Players.Me
     /// </summary>
     [Serializable]
     [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPGetRewardHistoryRequest : SPPaginatedApiRequest
+    public class SPGetMyRewardHistoryRequest : SPPaginatedApiRequest
     {
         /// <summary>
         /// An array of task IDs for which to fetch rewards earned if present.
@@ -47,5 +48,22 @@ namespace SpecterSDK.API.v2.Players.Me
         /// Additional attributes to fetch with the reward history.
         /// </summary>
         public List<SPRewardHistoryAttribute> attributes { get; set; }
+    }
+
+    public class SPGetMyRewardHistoryResult : SpecterApiResultBase<SPGetMyRewardHistoryResponse>
+    {
+        protected override void InitSpecterObjectsInternal()
+        {
+            
+        }
+    }
+
+    public partial class SPMePlayerClientV2
+    {
+        public async Task<SPGetMyRewardHistoryResult> GetRewardHistoryAsync(SPGetMyRewardHistoryRequest request)
+        {
+            var result = await PostAsync<SPGetMyRewardHistoryResult, SPGetMyRewardHistoryResponse>("/v2/client/player/me/get-reward-history", AuthType, request);
+            return result;
+        }
     }
 }

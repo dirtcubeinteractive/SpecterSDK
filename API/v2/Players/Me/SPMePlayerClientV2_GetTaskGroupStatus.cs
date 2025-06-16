@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SpecterSDK.Shared;
 using SpecterSDK.Shared.Networking.Models;
@@ -11,7 +12,7 @@ namespace SpecterSDK.API.v2.Players.Me
     /// </summary>
     [Serializable]
     [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPGetTaskGroupStatusRequest : SPPaginatedApiRequest
+    public class SPGetMyTaskGroupStatusRequest : SPPaginatedApiRequest
     {
         /// <summary>
         /// An optional array of specific task group IDs for which to fetch statuses.
@@ -37,5 +38,22 @@ namespace SpecterSDK.API.v2.Players.Me
         /// Specific attributes to include in the response.
         /// </summary>
         public List<SPTaskGroupStatusAttribute> attributes { get; set; }
+    }
+
+    public class SPGetMyTaskGroupStatusResult : SpecterApiResultBase<SPGetMyTaskGroupStatusResponse>
+    {
+        protected override void InitSpecterObjectsInternal()
+        {
+            
+        }
+    }
+
+    public partial class SPMePlayerClientV2
+    {
+        public async Task<SPGetMyTaskGroupStatusResult> GetTaskGroupStatusAsync(SPGetMyTaskGroupStatusRequest request)
+        {
+            var result = await PostAsync<SPGetMyTaskGroupStatusResult, SPGetMyTaskGroupStatusResponse>("/v2/client/player/me/get-task-group-status", AuthType, request);
+            return result;
+        }
     }
 }

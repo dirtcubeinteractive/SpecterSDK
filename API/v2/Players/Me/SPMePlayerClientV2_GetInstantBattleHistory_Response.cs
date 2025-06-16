@@ -1,6 +1,10 @@
+using System;
+using SpecterSDK.Shared.Networking.Interfaces;
+
 namespace SpecterSDK.API.v2.Players.Me
 {
-    public class SPMePlayerClientV2_GetInstantBattleHistory_Response
+    [Serializable]
+    public class SPGetMyInstantBattleHistoryResponse : ISpecterApiResponseData
     {
         
     }

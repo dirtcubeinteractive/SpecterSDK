@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SpecterSDK.Shared;
 using SpecterSDK.Shared.Networking.Models;
@@ -26,7 +27,7 @@ namespace SpecterSDK.API.v2.Players.Me
     /// </summary>
     [Serializable]
     [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPGetInstantBattleHistoryRequest : SPPaginatedApiRequest
+    public class SPGetMyInstantBattleHistoryRequest : SPPaginatedApiRequest
     {
         /// <summary>
         /// An array of competition IDs to fetch instant battles.
@@ -42,5 +43,22 @@ namespace SpecterSDK.API.v2.Players.Me
         /// Specific attributes to include in the response.
         /// </summary>
         public List<SPInstantBattleHistoryAttribute> attributes { get; set; }
+    }
+
+    public class SPGetMyInstantBattleHistoryResult : SpecterApiResultBase<SPGetMyInstantBattleHistoryResponse>
+    {
+        protected override void InitSpecterObjectsInternal()
+        {
+            
+        }
+    }
+
+    public partial class SPMePlayerClientV2
+    {
+        public async Task<SPGetMyInstantBattleHistoryResult> GetInstantBattleHistoryAsync(SPGetMyInstantBattleHistoryRequest request)
+        {
+            var result = await PostAsync<SPGetMyInstantBattleHistoryResult, SPGetMyInstantBattleHistoryResponse>("/v2/client/player/me/get-instant-battle-history", AuthType, request);
+            return result;
+        }
     }
 }

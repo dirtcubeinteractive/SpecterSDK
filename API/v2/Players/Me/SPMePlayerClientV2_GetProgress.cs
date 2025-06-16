@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SpecterSDK.Shared.Networking.Models;
 
@@ -10,11 +11,28 @@ namespace SpecterSDK.API.v2.Players.Me
     /// </summary>
     [Serializable]
     [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPGetProgressRequest : SPApiRequestBase
+    public class SPGetMyProgressRequest : SPApiRequestBase
     {
         /// <summary>
         /// An array of progression marker IDs to fetch user progress.
         /// </summary>
         public List<string> progressionMarkerIds { get; set; }
+    }
+
+    public class SPGetMyProgressResult : SpecterApiResultBase<SPGetMyProgressResponse>
+    {
+        protected override void InitSpecterObjectsInternal()
+        {
+            
+        }
+    }
+
+    public partial class SPMePlayerClientV2
+    {
+        public async Task<SPGetMyProgressResult> GetProgressAsync(SPGetMyProgressRequest request)
+        {
+            var result = await PostAsync<SPGetMyProgressResult, SPGetMyProgressResponse>("", AuthType, request);
+            return result;
+        }
     }
 }

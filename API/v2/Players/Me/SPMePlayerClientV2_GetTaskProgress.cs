@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SpecterSDK.Shared;
 using SpecterSDK.Shared.Networking.Models;
@@ -11,7 +12,7 @@ namespace SpecterSDK.API.v2.Players.Me
     /// </summary>
     [Serializable]
     [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPGetTaskProgressRequest : SPPaginatedApiRequest
+    public class SPGetMyTaskProgressRequest : SPPaginatedApiRequest
     {
         /// <summary>
         /// Array of task IDs for which to retrieve progress.
@@ -32,5 +33,22 @@ namespace SpecterSDK.API.v2.Players.Me
         /// Include tasks from task groups if set to true.
         /// </summary>
         public bool? includeTaskGroupTasks { get; set; }
+    }
+
+    public class SPGetMyTaskProgressResult : SpecterApiResultBase<SPGetMyTaskProgressResponse>
+    {
+        protected override void InitSpecterObjectsInternal()
+        {
+            
+        }
+    }
+
+    public partial class SPMePlayerClientV2
+    {
+        public async Task<SPGetMyTaskProgressResult> GetTaskProgressAsync(SPGetMyTaskProgressRequest request)
+        {
+            var result = await PostAsync<SPGetMyTaskProgressResult, SPGetMyTaskProgressResponse>("/v2/client/player/me/get-task-progress", AuthType, request);
+            return result;
+        }
     }
 }

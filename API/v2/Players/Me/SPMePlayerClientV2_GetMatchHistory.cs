@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SpecterSDK.Shared.Networking.Models;
 using SpecterSDK.Shared.SPEnum;
@@ -23,7 +24,7 @@ namespace SpecterSDK.API.v2.Players.Me
     /// </summary>
     [Serializable]
     [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPGetMatchHistoryRequest : SPPaginatedApiRequest
+    public class SPGetMyMatchHistoryRequest : SPPaginatedApiRequest
     {
         /// <summary>
         /// The ID of the match session to fetch.
@@ -34,5 +35,22 @@ namespace SpecterSDK.API.v2.Players.Me
         /// Specific attributes to include in the response.
         /// </summary>
         public List<SPMatchHistoryAttribute> attributes { get; set; }
+    }
+
+    public class SPGetMyMatchHistoryResult : SpecterApiResultBase<SPGetMyMatchHistoryResponse>
+    {
+        protected override void InitSpecterObjectsInternal()
+        {
+            
+        }
+    }
+
+    public partial class SPMePlayerClientV2
+    {
+        public async Task<SPGetMyMatchHistoryResult> GetMatchHistoryAsync(SPGetMyMatchHistoryRequest request)
+        {
+            var result = await PostAsync<SPGetMyMatchHistoryResult, SPGetMyMatchHistoryResponse>("/v2/client/player/me/get-match-history", AuthType, request);
+            return result;
+        }
     }
 }

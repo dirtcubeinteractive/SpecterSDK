@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SpecterSDK.Shared.Networking.Models;
 
@@ -10,7 +11,7 @@ namespace SpecterSDK.API.v2.Players.Me
     /// </summary>
     [Serializable]
     [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPUpdatePlayerProfileRequest : SPApiRequestBase
+    public class SPUpdateMyPlayerProfileRequest : SPApiRequestBase
     {
         /// <summary>
         /// Player's first name.
@@ -56,5 +57,22 @@ namespace SpecterSDK.API.v2.Players.Me
         /// Custom parameters for processing.
         /// </summary>
         public Dictionary<string, object> customParams { get; set; }
+    }
+
+    public class SPUpdateMyPlayerProfileResult : SpecterApiResultBase<SPUpdateMyPlayerProfileResponse>
+    {
+        protected override void InitSpecterObjectsInternal()
+        {
+            
+        }
+    }
+
+    public partial class SPMePlayerClientV2
+    {
+        public async Task<SPUpdateMyPlayerProfileResult> UpdateProfileAsync(SPUpdateMyPlayerProfileRequest request)
+        {
+            var result = await PostAsync<SPUpdateMyPlayerProfileResult, SPUpdateMyPlayerProfileResponse>("/v2/client/player/me/update-profile", AuthType, request);
+            return result;
+        }
     }
 }

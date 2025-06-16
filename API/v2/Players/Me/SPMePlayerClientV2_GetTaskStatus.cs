@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SpecterSDK.Shared;
 using SpecterSDK.Shared.Networking.Models;
@@ -11,7 +12,7 @@ namespace SpecterSDK.API.v2.Players.Me
     /// </summary>
     [Serializable]
     [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPGetTaskStatusRequest : SPPaginatedApiRequest
+    public class SPGetMyTaskStatusRequest : SPPaginatedApiRequest
     {
         /// <summary>
         /// An array of specific task IDs for which to fetch statuses.
@@ -37,5 +38,22 @@ namespace SpecterSDK.API.v2.Players.Me
         /// A boolean flag to include inactive tasks in the results.
         /// </summary>
         public bool? includeInactiveTasks { get; set; }
+    }
+
+    public class SPGetMyTaskStatusResult : SpecterApiResultBase<SPGetMyTaskStatusResponse>
+    {
+        protected override void InitSpecterObjectsInternal()
+        {
+            
+        }
+    }
+
+    public partial class SPMePlayerClientV2
+    {
+        public async Task<SPGetMyTaskStatusResult> GetTaskStatusAsync(SPGetMyTaskStatusRequest request)
+        {
+            var result = await PostAsync<SPGetMyTaskStatusResult, SPGetMyTaskStatusResponse>("/v2/client/player/me/get-task-status", AuthType, request);
+            return result;
+        }
     }
 }

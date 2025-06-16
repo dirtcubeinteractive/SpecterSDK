@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SpecterSDK.Shared.Networking.Models;
 
@@ -28,7 +29,7 @@ namespace SpecterSDK.API.v2.Players.Me
     /// </summary>
     [Serializable]
     [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPUpdatePlayerDataRequest : SPApiRequestBase
+    public class SPUpdateMyPlayerDataRequest : SPApiRequestBase
     {
         /// <summary>
         /// Array of key-value pairs representing player data to be updated or added.
@@ -40,5 +41,22 @@ namespace SpecterSDK.API.v2.Players.Me
         /// Possible values are 'private' or 'public'
         /// </summary>
         public string permission { get; set; }
+    }
+
+    public class SPUpdateMyPlayerDataResult : SpecterApiResultBase<SPUpdateMyPlayerDataResponse>
+    {
+        protected override void InitSpecterObjectsInternal()
+        {
+            
+        }
+    }
+
+    public partial class SPMePlayerClientV2
+    {
+        public async Task<SPUpdateMyPlayerDataResult> UpdatePlayerDataAsync(SPUpdateMyPlayerDataRequest request)
+        {
+            var result = await PostAsync<SPUpdateMyPlayerDataResult, SPUpdateMyPlayerDataResponse>("/v2/client/player/me/update-data", AuthType, request);
+            return result;
+        }
     }
 }

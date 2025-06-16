@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SpecterSDK.Shared;
 using SpecterSDK.Shared.Networking.Models;
@@ -27,7 +28,7 @@ namespace SpecterSDK.API.v2.Players.Me
     /// </summary>
     [Serializable]
     [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPGetTournamentHistoryRequest : SPPaginatedApiRequest
+    public class SPGetMyTournamentHistoryRequest : SPPaginatedApiRequest
     {
         /// <summary>
         /// An array of competition IDs to fetch tournaments.
@@ -43,5 +44,22 @@ namespace SpecterSDK.API.v2.Players.Me
         /// Specific attributes to include in the response.
         /// </summary>
         public List<SPTournamentHistoryAttribute> attributes { get; set; }
+    }
+
+    public class SPGetMyTournamentHistoryResult : SpecterApiResultBase<SPGetMyTournamentHistoryResponse>
+    {
+        protected override void InitSpecterObjectsInternal()
+        {
+            
+        }
+    }
+
+    public partial class SPMePlayerClientV2
+    {
+        public async Task<SPGetMyTournamentHistoryResult> GetTournamentHistory(SPGetMyTournamentHistoryRequest request)
+        {
+            var result = await PostAsync<SPGetMyTournamentHistoryResult, SPGetMyTournamentHistoryResponse>("/v2/client/player/me/get-tournament-history", AuthType, request);
+            return result;
+        }
     }
 }
