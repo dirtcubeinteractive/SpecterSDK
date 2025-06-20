@@ -1,12 +1,42 @@
 using System;
 using System.Collections.Generic;
 using SpecterSDK.API.v2.App;
+using SpecterSDK.API.v2.Players.Me;
 using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.Shared;
 
 namespace SpecterSDK.ObjectModels.v2
 {
-    public class SPPlayerProfile
+    public class SPPlayerProfile : ISpecterBaseUserProfile
+    {
+        public string Uuid { get; set; }
+        public string Id { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Username { get; set; }
+        public string DisplayName { get; set; }
+        public string ThumbUrl { get; set; }
+        
+        public List<SPUserAuthAccount> LinkedAccounts { get; set; }
+        public List<SPInventoryItem> EquippedItems { get; set; }
+        
+        public SPPlayerProfile() { }
+        public SPPlayerProfile(SPMyProfileData data)
+        {
+            Uuid = data.uuid;
+            Id = data.id;
+            FirstName = data.firstName;
+            LastName = data.lastName;
+            DisplayName = data.displayName;
+            Username = data.username;
+            ThumbUrl = data.thumbUrl;
+            
+            LinkedAccounts = data.linkedAccounts?.ConvertAll(x => new SPUserAuthAccount(x));
+            EquippedItems = data.equippedItems?.ConvertAll(x => new SPInventoryItem(x));
+        }
+    }
+    
+    public class SPBasePlayerProfile : ISpecterBaseUserProfile
     {
         public string Uuid { get; set; }
         public string Id { get; set; }
@@ -19,8 +49,8 @@ namespace SpecterSDK.ObjectModels.v2
         public string CustomId { get; set; }
         public string Email { get; set; }
         
-        public SPPlayerProfile() { }
-        public SPPlayerProfile(SPPlayerProfileData data)
+        public SPBasePlayerProfile() { }
+        public SPBasePlayerProfile(SPPlayerProfileData data)
         {
             Uuid = data.uuid;
             Id = data.id;

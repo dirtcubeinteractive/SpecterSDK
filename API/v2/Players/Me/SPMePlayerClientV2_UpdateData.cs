@@ -9,24 +9,6 @@ using SpecterSDK.Shared.Networking.Models;
 namespace SpecterSDK.API.v2.Players.Me
 {
     /// <summary>
-    /// Represents a player data key-value pair.
-    /// </summary>
-    [Serializable]
-    [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPPlayerDataKeyValue
-    {
-        /// <summary>
-        /// Unique key for the data field.
-        /// </summary>
-        public string key { get; set; }
-        
-        /// <summary>
-        /// The value associated with the key.
-        /// </summary>
-        public object value { get; set; }
-    }
-    
-    /// <summary>
     /// Represents a request to update player data.
     /// </summary>
     [Serializable]

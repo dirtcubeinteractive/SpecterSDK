@@ -1,4 +1,5 @@
 using System;
+using Newtonsoft.Json;
 using SpecterSDK.API.v2.Players.Me;
 using SpecterSDK.API.v2.Players.Others;
 using SpecterSDK.Shared;
@@ -40,5 +41,23 @@ namespace SpecterSDK.API.v2.Players
         public static readonly SPTaskGroupStatusAttribute Tasks = new SPTaskGroupStatusAttribute(0, "tasks", "Tasks");
         
         private SPTaskGroupStatusAttribute(int id, string name, string displayName) : base(id, name, displayName) { }
+    }
+    
+    /// <summary>
+    /// Represents a player data key-value pair.
+    /// </summary>
+    [Serializable]
+    [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
+    public class SPPlayerDataKeyValue
+    {
+        /// <summary>
+        /// Unique key for the data field.
+        /// </summary>
+        public string key { get; set; }
+        
+        /// <summary>
+        /// The value associated with the key.
+        /// </summary>
+        public object value { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using SpecterSDK.API.v2.App;
+using SpecterSDK.API.v2.Players.Me;
 using SpecterSDK.APIModels.ClientModels.v1;
 using SpecterSDK.APIModels.ClientModels.v2;
 using SpecterSDK.ObjectModels.Interfaces;
@@ -37,7 +38,7 @@ namespace SpecterSDK.ObjectModels.v2
         }
     }
 
-    public class SPTaskGroupResource : ISpecterResource
+    public class SPTaskGroupResource : ISpecterTaskGroupResource
     {
         public string Uuid { get; set; }
         public string Id { get; set; }
@@ -118,7 +119,7 @@ namespace SpecterSDK.ObjectModels.v2
         }
     }
     
-    public class SPTaskGroup : ISpecterResource, ISpecterMasterObject, ISpecterLiveOpsEntity, ISpecterUnlockable
+    public class SPTaskGroup : ISpecterTaskGroupResource, ISpecterMasterObject, ISpecterLiveOpsEntity, ISpecterUnlockable
     {
         public string Uuid { get; set; }
         public string Id { get; set; }
@@ -183,5 +184,119 @@ namespace SpecterSDK.ObjectModels.v2
     {
         public SPStepSeries() { }
         public SPStepSeries(SPStepSeriesData data) : base(data) { }
+    }
+    
+    public class SPTaskStatusInfo : ISpecterTaskStatusInfo
+    {
+        public string Uuid { get; set; }
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string IconUrl { get; set; }
+        
+        public string InstanceId { get; set; }
+        public SPTaskStatus Status { get; set; }
+        
+        public SPTaskGroupResource TaskGroupDetails { get; set; }
+        
+        public SPTaskStatusInfo() { }
+        public SPTaskStatusInfo(SPTaskStatusInfoData data)
+        {
+            Uuid = data.uuid;
+            Id = data.id;
+            Name = data.name;
+            Description = data.description;
+            IconUrl = data.iconUrl;
+            
+            InstanceId = data.instanceId;
+            Status = data.status;
+            
+            TaskGroupDetails = data.taskGroupDetails == null ? null : new SPTaskGroupResource(data.taskGroupDetails);
+        }
+    }
+
+    public class SPTaskGroupStatusInfo : ISpecterTaskGroupResource
+    {
+        public string Uuid { get; set; }
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string IconUrl { get; set; }
+        public SPTaskGroupType TaskGroupType { get; set; }
+        
+        public string InstanceId { get; set; }
+        public SPTaskGroupStatus Status { get; set; }
+        public List<SPTaskStatusInfoBase> Tasks { get; set; }
+        
+        public SPTaskGroupStatusInfo() { }
+        public SPTaskGroupStatusInfo(SPTaskGroupStatusInfoData data)
+        {
+            Uuid = data.uuid;
+            Id = data.id;
+            Name = data.name;
+            Description = data.description;
+            IconUrl = data.iconUrl;
+            
+            TaskGroupType = data.taskGroupType;
+            
+            InstanceId = data.instanceId;
+            Status = data.status;
+            Tasks = data.tasks?.ConvertAll(x => new SPTaskStatusInfoBase(x));
+        }
+    }
+
+    public class SPTaskStatusInfoBase : ISpecterTaskStatusInfo
+    {
+        public string Uuid { get; set; }
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string IconUrl { get; set; }
+        
+        public string InstanceId { get; set; }
+        public SPTaskStatus Status { get; set; }
+        
+        public SPTaskStatusInfoBase() { }
+        public SPTaskStatusInfoBase(SPTaskStatusInfoBaseData data)
+        {
+            Uuid = data.uuid;
+            Id = data.id;
+            Name = data.name;
+            Description = data.description;
+            IconUrl = data.iconUrl;
+
+            InstanceId = data.instanceId;
+            Status = data.status;
+        }
+    }
+
+    // TODO: Make task/achievement resource interface for task related information models
+    public class SPTaskProgressInfo : ISpecterResource
+    {
+        public string Uuid { get; set; }
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string IconUrl { get; set; }
+        
+        public SPEvent Event { get; set; }
+        public List<SPParamProgress> Progress { get; set; }
+        
+        public string TaskGroupId { get; set; }
+        
+        public SPTaskProgressInfo() { }
+        public SPTaskProgressInfo(SPTaskProgressData data)
+        {
+            Uuid = data.uuid;
+            Id = data.id;
+            Name = data.name;
+            Description = data.description;
+            IconUrl = data.iconUrl;
+            
+            Event = new SPEvent(data.@event);
+            Progress = data.progress?.ConvertAll(x => new SPParamProgress(x)) ?? new List<SPParamProgress>();
+            
+            TaskGroupId = data.taskGroupId;
+        }
     }
 }

@@ -105,12 +105,12 @@ namespace SpecterSDK.Shared.v2
     #region Events
 
     [Serializable]
-    public sealed class SPStatCollectionMode : SPEnum<SPStatCollectionMode>
+    public sealed class SPParamEvalMode : SPEnum<SPParamEvalMode>
     {
-        public static readonly SPStatCollectionMode Cumulative = new SPStatCollectionMode(0, nameof(Cumulative).ToLower(), nameof(Cumulative));
-        public static readonly SPStatCollectionMode One_Shot = new SPStatCollectionMode(1, nameof(One_Shot).Replace("_", "-").ToLower(), nameof(One_Shot).Replace("_", " "));
+        public static readonly SPParamEvalMode Cumulative = new SPParamEvalMode(0, nameof(Cumulative).ToLower(), nameof(Cumulative));
+        public static readonly SPParamEvalMode One_Shot = new SPParamEvalMode(1, nameof(One_Shot).Replace("_", "-").ToLower(), nameof(One_Shot).Replace("_", " "));
         
-        public SPStatCollectionMode(int id, string name, string displayName = null) : base(id, name, displayName)
+        public SPParamEvalMode(int id, string name, string displayName = null) : base(id, name, displayName)
         {
         }
     }

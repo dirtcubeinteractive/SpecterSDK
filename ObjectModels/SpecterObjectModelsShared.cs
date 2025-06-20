@@ -3,13 +3,26 @@ using System.Collections.Generic;
 using SpecterSDK.API.v2.App;
 using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.APIModels.ClientModels.v2;
+using SpecterSDK.ObjectModels.Interfaces;
+using SpecterSDK.ObjectModels.v2;
 using SpecterSDK.Shared;
 using SpecterSDK.Shared.v2;
 
 namespace SpecterSDK.ObjectModels
 {
-    using Interfaces;
-
+    public class SPUserAuthAccount
+    {
+        public SPAccountAuthProvider AuthProvider { get; set; }
+        public string UserId { get; set; }
+        
+        public SPUserAuthAccount() { }
+        public SPUserAuthAccount(SPUserAuthAccountDataV2 data)
+        {
+            AuthProvider = data.authProvider;
+            UserId = data.userId;
+        }
+    }
+    
     /// <summary>
     /// A class that holds credentials needed for API calls requiring authorization.
     /// </summary>
@@ -197,13 +210,13 @@ namespace SpecterSDK.ObjectModels
         }
     }
 
-    public class SPRuleParam
+    public class SPRuleParam : ISpecterRuleParam
     {
         public string Name { get; set; }
         public object TargetValue { get; set; }
         public string Operator { get; set; }
         public SPParamDataType DataType { get; set; }
-        public SPStatCollectionMode Mode { get; set; }
+        public SPParamEvalMode Mode { get; set; }
         public SPParameterType Type { get; set; }
         
         public SPRuleParam() { }
@@ -215,6 +228,31 @@ namespace SpecterSDK.ObjectModels
             DataType = data.dataType;
             Mode = data.mode;
             Type = data.type;
+        }
+    }
+    
+    public class SPParamProgress : ISpecterRuleParam
+    {
+        public string Name { get; set; }
+        public object TargetValue { get; set; }
+        public string Operator { get; set; }
+        public SPParamDataType DataType { get; set; }
+        public SPParamEvalMode Mode { get; set; }
+        public SPParameterType Type { get; set; }
+        
+        public object CurrentValue { get; set; }
+        
+        public SPParamProgress() { }
+        public SPParamProgress(SPParamProgressData data)
+        {
+            Name = data.name;
+            TargetValue = data.targetValue;
+            Operator = data.@operator;
+            DataType = data.dataType;
+            Mode = data.mode;
+            Type = data.type;
+            
+            CurrentValue = data.currentValue;
         }
     }
 

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using SpecterSDK.API.v2.Players.Me;
 using SpecterSDK.APIModels.ClientModels.v2;
 using SpecterSDK.ObjectModels.Interfaces;
 using SpecterSDK.Shared;
@@ -232,21 +233,21 @@ namespace SpecterSDK.ObjectModels.v2
 
     public class SPPrizeDistribution
     {
-        public List<SPPrizeDistributionRuleV2> Rules { get; set; }
+        public List<SPPrizeDistributionRule> Rules { get; set; }
         public string TimeOffsetSeconds { get; set; }
 
         public SPPrizeDistribution()
         {
-            Rules = new List<SPPrizeDistributionRuleV2>();
+            Rules = new List<SPPrizeDistributionRule>();
             TimeOffsetSeconds = "0";
         }
         public SPPrizeDistribution(SPPrizeDistributionData data, SPRewardSourceType sourceType)
         {
-            Rules = data.rules?.ConvertAll(x => new SPPrizeDistributionRuleV2(x, sourceType)) ?? new List<SPPrizeDistributionRuleV2>();
+            Rules = data.rules?.ConvertAll(x => new SPPrizeDistributionRule(x, sourceType)) ?? new List<SPPrizeDistributionRule>();
         }
     }
 
-    public class SPPrizeDistributionRuleV2 : ISpecterRewardable
+    public class SPPrizeDistributionRule : ISpecterRewardable
     {
         public int SortOrder { get; set; }
         public int StartRank { get; set; }
@@ -257,14 +258,33 @@ namespace SpecterSDK.ObjectModels.v2
         
         public SPRewardSourceType RewardSource { get; set; }
         
-        public SPPrizeDistributionRuleV2() { }
-        public SPPrizeDistributionRuleV2(SPPrizeDistributionRuleData data, SPRewardSourceType rewardSource)
+        public SPPrizeDistributionRule() { }
+        public SPPrizeDistributionRule(SPPrizeDistributionRuleData data, SPRewardSourceType rewardSource)
         {
             SortOrder = data.no;
             StartRank = data.startRank;
             EndRank = data.endRank;
             RewardDetails = data.rewardDetails == null ? null : new SPRewards(data.rewardDetails);
             RewardSource = rewardSource;
+        }
+    }
+
+    public class SPRewardHistoryEntry
+    {
+        public string InstanceId { get; set; }
+        public SPRewardClaimStatus Status { get; set; }
+        public SPRewardSourceType SourceType { get; set; }
+        public string SourceId { get; set; }
+        public SPRewards RewardDetails { get; set; }
+        
+        public SPRewardHistoryEntry() { }
+        public SPRewardHistoryEntry(SPRewardHistoryEntryDataV2 data)
+        {
+            InstanceId = data.instanceId;
+            Status = data.status;
+            SourceType = data.sourceType;
+            SourceId = data.sourceId;
+            RewardDetails = data.rewardDetails == null ? null : new SPRewards(data.rewardDetails);
         }
     }
 }

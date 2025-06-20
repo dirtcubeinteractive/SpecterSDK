@@ -48,11 +48,11 @@ namespace SpecterSDK.API.v2.Players.Me
 
     public class SPGetMyTournamentHistoryResult : SpecterApiResultBase<SPGetMyTournamentHistoryResponse>
     {
-        public List<SPTournamentHistoryEntry> History { get; set; }
+        public List<SPTournamentHistoryEntry> Tournaments { get; set; }
         
         protected override void InitSpecterObjectsInternal()
         {
-            History = Response.data == null ? new List<SPTournamentHistoryEntry>() : Response.data.ConvertAll(x => new SPTournamentHistoryEntry(x));
+            Tournaments = Response.data == null ? new List<SPTournamentHistoryEntry>() : Response.data.ConvertAll(x => new SPTournamentHistoryEntry(x));
         }
     }
 

@@ -59,6 +59,7 @@ namespace SpecterSDK.API.v2.Players.Me
         public Dictionary<string, object> customParams { get; set; }
     }
 
+    // TODO: Should updated profile be returned?
     public class SPUpdateMyPlayerProfileResult : SpecterApiResultBase<SPUpdateMyPlayerProfileResponse>
     {
         protected override void InitSpecterObjectsInternal() { }

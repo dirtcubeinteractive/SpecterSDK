@@ -149,12 +149,12 @@ namespace SpecterSDK.APIModels.ClientModels.v2
         
     }
 
-    public interface ISpecterTaskGroupData : ISpecterTaskGroupInfoData, ISpecterUnlockableData, ISpecterMasterData, ISpecterLiveOpsEntityData
+    public interface ISpecterTaskGroupData : ISpecterTaskGroupResourceData, ISpecterUnlockableData, ISpecterMasterData, ISpecterLiveOpsEntityData
     {
         public List<SPTaskResourceData> tasks { get; set; }
     }
 
-    public interface ISpecterTaskGroupInfoData : ISpecterResourceData
+    public interface ISpecterTaskGroupResourceData : ISpecterResourceData
     {
         public SPTaskGroupType taskGroupType { get; set; }
     }
@@ -171,7 +171,7 @@ namespace SpecterSDK.APIModels.ClientModels.v2
         public object targetValue { get; set; }
         public string @operator { get; set; }
         public SPParamDataType dataType { get; set; }
-        public SPStatCollectionMode mode { get; set; }
+        public SPParamEvalMode mode { get; set; }
         public SPParameterType type { get; set; }
     }
 

@@ -8,10 +8,10 @@ using SpecterSDK.Shared.Networking.Interfaces;
 namespace SpecterSDK.API.v2.Players.Me
 {
     [Serializable]
-    public class SPGetMyTaskGroupStatusResponse : List<SPTaskGroupStatusData>, ISpecterApiResponseData { }
+    public class SPGetMyTaskGroupStatusResponse : List<SPTaskGroupStatusInfoData>, ISpecterApiResponseData { }
 
     [Serializable]
-    public class SPTaskGroupStatusData : ISpecterTaskGroupInfoData
+    public class SPTaskGroupStatusInfoData : ISpecterTaskGroupResourceData
     {
         public string uuid { get; set; }
         public string id { get; set; }
@@ -22,12 +22,11 @@ namespace SpecterSDK.API.v2.Players.Me
         
         public string instanceId { get; set; }
         public SPTaskGroupStatus status { get; set; }
-        
-        public List<SPTaskStatusInfoData> tasks { get; set; }
+        public List<SPTaskStatusInfoBaseData> tasks { get; set; }
     }
 
     [Serializable]
-    public class SPTaskStatusInfoData : ISpecterTaskStatusData
+    public class SPTaskStatusInfoBaseData : ISpecterTaskStatusData
     {
         public string uuid { get; set; }
         public string id { get; set; }

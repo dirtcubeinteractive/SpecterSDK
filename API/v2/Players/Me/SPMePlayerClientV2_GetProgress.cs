@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using SpecterSDK.ObjectModels.v2;
 using SpecterSDK.Shared.Networking.Models;
 
 namespace SpecterSDK.API.v2.Players.Me
@@ -21,9 +22,11 @@ namespace SpecterSDK.API.v2.Players.Me
 
     public class SPGetMyProgressResult : SpecterApiResultBase<SPGetMyProgressResponse>
     {
+        public List<SPMarkerProgress> MarkerProgressList { get; set; }
+        
         protected override void InitSpecterObjectsInternal()
         {
-            
+            MarkerProgressList = Response.data?.ConvertAll(x => new SPMarkerProgress(x));
         }
     }
 

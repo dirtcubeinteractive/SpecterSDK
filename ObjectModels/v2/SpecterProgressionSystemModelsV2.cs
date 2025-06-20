@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using SpecterSDK.API.v2.App;
+using SpecterSDK.API.v2.Players.Me;
 using SpecterSDK.APIModels.ClientModels.v2;
 using SpecterSDK.ObjectModels.Interfaces;
 using SpecterSDK.Shared;
+using SpecterSDK.Shared.v2;
 
 namespace SpecterSDK.ObjectModels.v2
 {
@@ -129,6 +131,51 @@ namespace SpecterSDK.ObjectModels.v2
             IncrementalParameterValue = data.incrementalParameterValue;
             CumulativeParameterValue = data.cumulativeParameterValue;
             RewardDetails = data.rewardDetails == null ? null : new SPRewards(data.rewardDetails);
+        }
+    }
+
+    public class SPMarkerProgress : ISpecterPlayerOwnedEntity
+    {
+        public string Uuid { get; set; }
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string IconUrl { get; set; }
+        public SPRarity Rarity { get; set; }
+        
+        public long ProgressionMarkerAmount { get; set; }
+        public List<SPProgressionInfo> ProgressInfo { get; set; }
+        
+        public SPResourceType ResourceType => SPResourceType.ProgressionMarker;
+        public long Amount => ProgressionMarkerAmount;
+        
+        public SPMarkerProgress() { }
+        public SPMarkerProgress(SPMarkerProgressData data)
+        {
+            Uuid = data.uuid;
+            Id = data.id;
+            Name = data.name;
+            Description = data.description;
+            IconUrl = data.iconUrl;
+            ProgressionMarkerAmount = data.progressionMarkerAmount;
+            ProgressInfo = data.progressInfo?.ConvertAll(x => new SPProgressionInfo(x));
+        }
+    }
+
+    public class SPProgressionInfo
+    {
+        public string ProgressionSystemId { get; set; }
+        public int CurrentLevelNo { get; set; }
+        public int PreviousLevelNo { get; set; }
+        public long AmountToNextLevel { get; set; }
+        
+        public SPProgressionInfo() { }
+        public SPProgressionInfo(SPProgressionInfoData data)
+        {
+            ProgressionSystemId = data.progressionSystemId;
+            CurrentLevelNo = data.currentLevelNo;
+            PreviousLevelNo = data.currentLevelNo - 1;
+            AmountToNextLevel = data.amountToNextLevel;
         }
     }
 }

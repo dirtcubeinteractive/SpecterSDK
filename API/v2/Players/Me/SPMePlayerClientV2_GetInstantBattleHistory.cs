@@ -48,11 +48,11 @@ namespace SpecterSDK.API.v2.Players.Me
 
     public class SPGetMyInstantBattleHistoryResult : SpecterApiResultBase<SPGetMyInstantBattleHistoryResponse>
     {
-        public List<SPInstantBattleHistoryEntry> History { get; set; }
+        public List<SPInstantBattleHistoryEntry> InstantBattles { get; set; }
         
         protected override void InitSpecterObjectsInternal()
         {
-            History = Response.data == null ? new List<SPInstantBattleHistoryEntry>() : Response.data.ConvertAll(x => new SPInstantBattleHistoryEntry(x));
+            InstantBattles = Response.data == null ? new List<SPInstantBattleHistoryEntry>() : Response.data.ConvertAll(x => new SPInstantBattleHistoryEntry(x));
         }
     }
 

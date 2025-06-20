@@ -67,11 +67,11 @@ namespace SpecterSDK.API.v2.App
 
     public class SPGetPlayersResult : SpecterApiResultBase<SPGetPlayersResponse>
     {
-        public List<SPPlayerProfile> Players { get; set; }
+        public List<SPBasePlayerProfile> Players { get; set; }
         
         protected override void InitSpecterObjectsInternal()
         {
-            Players = Response.data?.ConvertAll(x => new SPPlayerProfile(x)) ?? new List<SPPlayerProfile>();
+            Players = Response.data?.ConvertAll(x => new SPBasePlayerProfile(x)) ?? new List<SPBasePlayerProfile>();
         }
     }
 

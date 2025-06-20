@@ -212,6 +212,27 @@ namespace SpecterSDK.ObjectModels.v2
         public long Amount { get; set; }
     }
 
+    public interface ISpecterTaskStatusInfo : ISpecterResource
+    {
+        public string InstanceId { get; set; }
+        public SPTaskStatus Status { get; set; }
+    }
+
+    public interface ISpecterTaskGroupResource : ISpecterResource
+    {
+        public SPTaskGroupType TaskGroupType { get; set; }
+    }
+
+    public interface ISpecterRuleParam
+    {
+        public string Name { get; set; }
+        public object TargetValue { get; set; }
+        public string Operator { get; set; }
+        public SPParamDataType DataType { get; set; }
+        public SPParamEvalMode Mode { get; set; }
+        public SPParameterType Type { get; set; }
+    }
+
     public interface ISpecterLiveOpsEntity
     {
         public SPSchedule Schedule { get; set; }

@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using SpecterSDK.ObjectModels.v2;
 using SpecterSDK.Shared.Networking.Models;
 
 namespace SpecterSDK.API.v2.Players.Me
@@ -17,9 +19,11 @@ namespace SpecterSDK.API.v2.Players.Me
 
     public class SPGetMyWalletBalanceResult : SpecterApiResultBase<SPGetMyWalletBalanceResponse>
     {
+        public List<SPWalletCurrency> Currencies { get; set; }
+        
         protected override void InitSpecterObjectsInternal()
         {
-            
+            Currencies = Response.data?.ConvertAll(x => new SPWalletCurrency(x));
         }
     }
 

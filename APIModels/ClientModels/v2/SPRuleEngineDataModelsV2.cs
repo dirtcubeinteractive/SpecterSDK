@@ -21,7 +21,7 @@ namespace SpecterSDK.APIModels.ClientModels.v2
         public object targetValue { get; set; }
         public string @operator { get; set; }
         public SPParamDataType dataType { get; set; }
-        public SPStatCollectionMode mode { get; set; }
+        public SPParamEvalMode mode { get; set; }
         public SPParameterType type { get; set; }
     }
 
@@ -32,10 +32,10 @@ namespace SpecterSDK.APIModels.ClientModels.v2
         public object targetValue { get; set; }
         public string @operator { get; set; }
         public SPParamDataType dataType { get; set; }
-        public SPStatCollectionMode mode { get; set; }
+        public SPParamEvalMode mode { get; set; }
         public SPParameterType type { get; set; }
         
-        public long currentValue { get; set; }
+        public object currentValue { get; set; }
     }
     
     [Serializable]

@@ -7,12 +7,12 @@ using SpecterSDK.Shared.Networking.Interfaces;
 namespace SpecterSDK.API.v2.Players.Me
 {
     [Serializable]
-    public class SPGetMyTaskStatusResponse : List<SPTaskStatusData>, ISpecterApiResponseData
+    public class SPGetMyTaskStatusResponse : List<SPTaskStatusInfoData>, ISpecterApiResponseData
     {
     }
 
     [Serializable]
-    public class SPTaskStatusData : ISpecterTaskStatusData
+    public class SPTaskStatusInfoData : ISpecterTaskStatusData
     {
         public string uuid { get; set; }
         public string id { get; set; }
