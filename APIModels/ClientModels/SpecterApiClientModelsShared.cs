@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using SpecterSDK.Shared;
 using SpecterSDK.Shared.Networking.Interfaces;
 using SpecterSDK.Shared.Networking.Models;
 using SpecterSDK.Shared.v2;
@@ -47,7 +48,17 @@ namespace SpecterSDK.APIModels.ClientModels
         /// </summary>
         public string name { get; }
     }
-    
+
+    [Serializable]
+    public class SPResourceData : ISpecterResourceData
+    {
+        public string uuid { get; set; }
+        public string id { get; set; }
+        public string name { get; set; }
+        public string description { get; set; }
+        public string iconUrl { get; set; }
+    }
+
     /// <summary>
     /// User authentication account data in SDK responses
     /// </summary>
@@ -115,5 +126,12 @@ namespace SpecterSDK.APIModels.ClientModels
     {
         public string id { get; set; }
         public string name { get; set; }
+    }
+    
+    [Serializable]
+    public class SPPlayerDataEntryData
+    {
+        public object value { get; set; }
+        public SPPlayerDataPermission permission { get; set; }
     }
 }

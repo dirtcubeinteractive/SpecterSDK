@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using SpecterSDK.API.v2.App;
 using SpecterSDK.APIModels.ClientModels.v1;
 using SpecterSDK.Shared;
 using SpecterSDK.Shared.Networking.Interfaces;
+using SpecterSDK.Shared.v2;
 using SPPrizeDistributionData = SpecterSDK.APIModels.ClientModels.v2.SPPrizeDistributionData;
 
 namespace SpecterSDK.APIModels.ClientModels.v2
@@ -11,6 +13,17 @@ namespace SpecterSDK.APIModels.ClientModels.v2
     {
         public int totalCount { get; set; }
         public DateTime? lastUpdate { get; set; }
+    }
+
+    public interface ISpecterBaseUserProfileData
+    {
+        public string uuid { get; set; }
+        public string id { get; set; }
+        public string firstName { get; set; }
+        public string lastName { get; set; }
+        public string displayName { get; set; }
+        public string username { get; set; }
+        public string thumbUrl { get; set; }
     }
     
     public interface ISpecterGameData : ISpecterResourceData
@@ -103,11 +116,23 @@ namespace SpecterSDK.APIModels.ClientModels.v2
         public List<SPPriceDataV2> prices { get; set; }
     }
 
+    public interface ISpecterMatchInfoData : ISpecterResourceData
+    {
+        public SPGameResourceData game { get; set; }
+    }
+
     public interface ISpecterLeaderboardData : ISpecterLiveOpsEntityData
     {
+        public SPLeaderboardRankingMethodData rankingMethod { get; set; }
         public SPLeaderboardSourceData source { get; set; }
         public SPMatchResourceData match { get; set; }
         public SPPrizeDistributionData prizeDistribution { get; set; }
+    }
+
+    public interface ISpecterLeaderboardInfoData
+    {
+        public SPLeaderboardSourceData source { get; set; }
+        public SPMatchResourceData match { get; set; }
     }
 
     public interface ISpecterCompetitionData : ISpecterLeaderboardData
@@ -117,10 +142,37 @@ namespace SpecterSDK.APIModels.ClientModels.v2
         public List<SPEntryFeeDataV2> entryFees { get; set; }
     }
 
-    public interface ISpecterTaskGroupData : ISpecterResourceData, ISpecterUnlockableData, ISpecterMasterData, ISpecterLiveOpsEntityData
+    public interface ISpecterCompetitionInfoData : ISpecterLeaderboardInfoData
+    {
+        public SPCompetitionConfigData config { get; set; }
+        public SPCompetitionFormatData type { get; set; }
+        
+    }
+
+    public interface ISpecterTaskGroupData : ISpecterTaskGroupInfoData, ISpecterUnlockableData, ISpecterMasterData, ISpecterLiveOpsEntityData
+    {
+        public List<SPTaskResourceData> tasks { get; set; }
+    }
+
+    public interface ISpecterTaskGroupInfoData : ISpecterResourceData
     {
         public SPTaskGroupType taskGroupType { get; set; }
-        public List<SPTaskResourceData> tasks { get; set; }
+    }
+
+    public interface ISpecterTaskStatusData : ISpecterResourceData
+    {
+        public string instanceId { get; set; }
+        public SPTaskStatus status { get; set; }
+    }
+
+    public interface ISpecterRuleParamData
+    {
+        public string name { get; set; }
+        public object targetValue { get; set; }
+        public string @operator { get; set; }
+        public SPParamDataType dataType { get; set; }
+        public SPStatCollectionMode mode { get; set; }
+        public SPParameterType type { get; set; }
     }
 
     public interface ISpecterLiveOpsEntityData

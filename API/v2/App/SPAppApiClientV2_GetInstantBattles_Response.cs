@@ -17,7 +17,7 @@ namespace SpecterSDK.API.v2.App
     }
 
     [Serializable]
-    public class SPInstantBattleData : ISpecterResourceData, ISpecterMasterData, ISpecterCompetitionData, ISpecterUnlockableData
+    public class SPInstantBattleData : ISpecterResourceData, ISpecterMasterData, ISpecterCompetitionData, ISpecterCompetitionInfoData, ISpecterUnlockableData
     {
         public string uuid { get; set; }
         public string id { get; set; }
@@ -34,6 +34,7 @@ namespace SpecterSDK.API.v2.App
         public SPLeaderboardSourceData source { get; set; }
         public SPMatchResourceData match { get; set; }
         public SPPrizeDistributionData prizeDistribution { get; set; }
+        public SPLeaderboardRankingMethodData rankingMethod { get; set; }
         
         public SPUnlockConditionsData unlockConditions { get; set; }
         

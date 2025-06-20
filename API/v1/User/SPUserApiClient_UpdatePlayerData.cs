@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.APIModels.ClientModels.v1;
+using SpecterSDK.Shared;
 using SpecterSDK.Shared.Networking.Models;
 
 namespace SpecterSDK.API.v1.User
@@ -33,7 +34,7 @@ namespace SpecterSDK.API.v1.User
     public class SPUpdatePlayerDataResult : SpecterApiResultBase<SPUpdatePlayerDataResponseData>
     {
         // The update player data
-        public Dictionary<string, SPPlayerData> PlayerDataDict;
+        public Dictionary<string, SPPlayerDataEntryData> PlayerDataDict;
         
         protected override void InitSpecterObjectsInternal()
         {

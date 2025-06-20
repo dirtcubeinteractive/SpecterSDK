@@ -155,7 +155,7 @@ namespace SpecterSDK.Shared.v2
         public static readonly SPLiveOpsInterval Weeks = new SPLiveOpsInterval(2, "weeks", "Weeks");
         
         /// <summary>
-        /// Custom interval unit is used for 'non-recurring' entities where only the start date and end date are relevant.
+        /// A custom interval unit is used for 'non-recurring' entities where only the start date and end date are relevant.
         /// </summary>
         public static readonly SPLiveOpsInterval Custom = new SPLiveOpsInterval(6, "custom", "Custom");
         

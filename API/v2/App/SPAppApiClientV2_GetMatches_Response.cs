@@ -16,7 +16,7 @@ namespace SpecterSDK.API.v2.App
     }
 
     [Serializable]
-    public class SPMatchData : ISpecterResourceData, ISpecterMasterData
+    public class SPMatchData : ISpecterMatchInfoData, ISpecterMasterData
     {
         public string uuid { get; set; }
         public string id { get; set; }

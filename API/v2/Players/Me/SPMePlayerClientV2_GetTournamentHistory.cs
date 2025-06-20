@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using SpecterSDK.ObjectModels.v2;
 using SpecterSDK.Shared;
 using SpecterSDK.Shared.Networking.Models;
 using SpecterSDK.Shared.SPEnum;
@@ -17,7 +18,6 @@ namespace SpecterSDK.API.v2.Players.Me
         public static readonly SPTournamentHistoryAttribute Match = new SPTournamentHistoryAttribute(0, nameof(Match).ToLower(), nameof(Match));
         public static readonly SPTournamentHistoryAttribute SourceType = new SPTournamentHistoryAttribute(1, "sourceType", "Source Type");
         public static readonly SPTournamentHistoryAttribute Config = new SPTournamentHistoryAttribute(2, nameof(Config).ToLower(), nameof(Config));
-        public static readonly SPTournamentHistoryAttribute RankingMethod = new SPTournamentHistoryAttribute(3, "rankingMethod", "Ranking Method");
         public static readonly SPTournamentHistoryAttribute Type = new SPTournamentHistoryAttribute(4, "type", "Type");
         
         private SPTournamentHistoryAttribute(int id, string name, string displayName) : base(id, name, displayName) { }
@@ -48,9 +48,11 @@ namespace SpecterSDK.API.v2.Players.Me
 
     public class SPGetMyTournamentHistoryResult : SpecterApiResultBase<SPGetMyTournamentHistoryResponse>
     {
+        public List<SPTournamentHistoryEntry> History { get; set; }
+        
         protected override void InitSpecterObjectsInternal()
         {
-            
+            History = Response.data == null ? new List<SPTournamentHistoryEntry>() : Response.data.ConvertAll(x => new SPTournamentHistoryEntry(x));
         }
     }
 

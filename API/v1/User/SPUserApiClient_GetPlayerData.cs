@@ -33,9 +33,9 @@ namespace SpecterSDK.API.v1.User
     {
         /// <summary>
         /// A dictionary of the custom player data. The player data keys are the keys of the dictionary, and
-        /// the player data values are within the <see cref="SPPlayerData"/> objects.
+        /// the player data values are within the <see cref="SPPlayerDataEntryData"/> objects.
         /// </summary>
-        public Dictionary<string, SPPlayerData> PlayerDataDict;
+        public Dictionary<string, SPPlayerDataEntryData> PlayerDataDict;
 
         protected override void InitSpecterObjectsInternal()
         {

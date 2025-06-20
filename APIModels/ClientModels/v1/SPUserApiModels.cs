@@ -46,29 +46,13 @@ namespace SpecterSDK.APIModels.ClientModels.v1
     }
     
     [Serializable]
-    public class SPGetPlayerDataResponseData : Dictionary<string, SPPlayerData>, ISpecterApiResponseData { }
+    public class SPGetPlayerDataResponseData : Dictionary<string, SPPlayerDataEntryData>, ISpecterApiResponseData { }
 
     [Serializable]
-    public class SPUpdatePlayerDataResponseData : Dictionary<string, SPPlayerData>, ISpecterApiResponseData { }
+    public class SPUpdatePlayerDataResponseData : Dictionary<string, SPPlayerDataEntryData>, ISpecterApiResponseData { }
     
     [Serializable]
-    public class SPRemovePlayerDataResponseData : Dictionary<string, SPPlayerData>, ISpecterApiResponseData { }
+    public class SPRemovePlayerDataResponseData : Dictionary<string, SPPlayerDataEntryData>, ISpecterApiResponseData { }
 
-    [Serializable]
-    public class SPPlayerData
-    {
-        public object value { get; set; }
-        public SPPlayerDataPermission permission { get; set; }
-    }
-
-    [Serializable]
-    public sealed class SPPlayerDataPermission : SPEnum<SPPlayerDataPermission>
-    {
-        public static readonly SPPlayerDataPermission Public = new SPPlayerDataPermission(0, nameof(Public).ToLower(), nameof(Public));
-        public static readonly SPPlayerDataPermission Private = new SPPlayerDataPermission(1, nameof(Private).ToLower(), nameof(Private));
-
-        private SPPlayerDataPermission(int id, string name, string displayName = null) : base(id, name, displayName) { }
-    }
-    
     #endregion
 }

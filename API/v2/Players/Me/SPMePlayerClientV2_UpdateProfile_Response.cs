@@ -4,8 +4,5 @@ using SpecterSDK.Shared.Networking.Interfaces;
 namespace SpecterSDK.API.v2.Players.Me
 {
     [Serializable]
-    public class SPUpdateMyPlayerProfileResponse : ISpecterApiResponseData
-    {
-        
-    }
+    public class SPUpdateMyPlayerProfileResponse : ISpecterApiResponseData { }
 }

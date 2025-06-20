@@ -42,6 +42,7 @@ namespace SpecterSDK.ObjectModels.v2
         public string Name { get; set; }
         public string Description { get; set; }
         public string IconUrl { get; set; }
+        public SPTaskGroupType TaskGroupType { get; set; }
         
         public SPTaskGroupResource() { }
         public SPTaskGroupResource(SPTaskGroupResourceData taskGroupResource)
@@ -51,6 +52,7 @@ namespace SpecterSDK.ObjectModels.v2
             Name = taskGroupResource.name;
             Description = taskGroupResource.description;
             IconUrl = taskGroupResource.iconUrl;
+            TaskGroupType = taskGroupResource.taskGroupType;
         }
     }
     

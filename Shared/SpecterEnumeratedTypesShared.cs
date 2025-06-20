@@ -24,6 +24,15 @@ namespace SpecterSDK.Shared
         private SPOperations(int id, string name, string displayName = null) : base(id, name, displayName) { }
     }
     
+    [Serializable]
+    public sealed class SPPlayerDataPermission : SPEnum<SPPlayerDataPermission>
+    {
+        public static readonly SPPlayerDataPermission Public = new SPPlayerDataPermission(0, nameof(Public).ToLower(), nameof(Public));
+        public static readonly SPPlayerDataPermission Private = new SPPlayerDataPermission(1, nameof(Private).ToLower(), nameof(Private));
+
+        private SPPlayerDataPermission(int id, string name, string displayName = null) : base(id, name, displayName) { }
+    }
+    
     #region Events and Params
 
     [Serializable]
@@ -147,6 +156,36 @@ namespace SpecterSDK.Shared
     }
     
     [Serializable]
+    public sealed class SPTransactionPurpose : SPEnum<SPTransactionPurpose>
+    {
+        public static readonly SPTransactionPurpose Withdrawal = new SPTransactionPurpose(1, nameof(Withdrawal).ToLower(), nameof(Withdrawal));
+        public static readonly SPTransactionPurpose Deposit = new SPTransactionPurpose(2, nameof(Deposit).ToLower(), nameof(Deposit));
+        public static readonly SPTransactionPurpose Reward = new SPTransactionPurpose(3, nameof(Reward).ToLower(), nameof(Reward));
+        public static readonly SPTransactionPurpose Payout = new SPTransactionPurpose(4, nameof(Payout).ToLower(), nameof(Payout));
+        public static readonly SPTransactionPurpose Default = new SPTransactionPurpose(5, nameof(Default).ToLower(), nameof(Default));
+        public static readonly SPTransactionPurpose Purchase = new SPTransactionPurpose(6, nameof(Purchase).ToLower(), nameof(Purchase));
+        public static readonly SPTransactionPurpose Custom_Addition = new SPTransactionPurpose(7, "custom addition", nameof(Custom_Addition).Replace("_", " "));
+        public static readonly SPTransactionPurpose Custom_Deduction = new SPTransactionPurpose(8, "custom deduction", nameof(Custom_Deduction).Replace("_", " "));
+        public static readonly SPTransactionPurpose Processing_Fee = new SPTransactionPurpose(9, "processing fee", nameof(Processing_Fee).Replace("_", " "));
+        public static readonly SPTransactionPurpose TDS = new SPTransactionPurpose(10, nameof(TDS), nameof(TDS));
+        public static readonly SPTransactionPurpose Competition_Entry_Fee = new SPTransactionPurpose(11, "Competition Entry Fee", nameof(Competition_Entry_Fee).Replace("_", " "));
+        public static readonly SPTransactionPurpose Competition_Winnings = new SPTransactionPurpose(12, "Competition Winnings", nameof(Competition_Winnings).Replace("_", " "));
+        public static readonly SPTransactionPurpose Competition_Entry_Fee_Refund = new SPTransactionPurpose(13, "Competition Entry Fee Refund", nameof(Competition_Entry_Fee_Refund).Replace("_", " "));
+        public static readonly SPTransactionPurpose GST = new SPTransactionPurpose(14, nameof(GST), nameof(GST));
+        public static readonly SPTransactionPurpose VAT = new SPTransactionPurpose(15, nameof(VAT), nameof(VAT));
+        public static readonly SPTransactionPurpose Platform_Fee = new SPTransactionPurpose(16, "Platform Fee", nameof(Platform_Fee).Replace("_", " "));
+        public static readonly SPTransactionPurpose Sales_Tax = new SPTransactionPurpose(17, "Sales Tax", nameof(Sales_Tax).Replace("_", " "));
+        public static readonly SPTransactionPurpose Commission = new SPTransactionPurpose(18, nameof(Commission).ToLower(), nameof(Commission));
+        public static readonly SPTransactionPurpose Currency_Conversion_Add = new SPTransactionPurpose(19, "Currency Conversion Add", nameof(Currency_Conversion_Add).Replace("_", " "));
+        public static readonly SPTransactionPurpose Currency_Conversion_Deduct = new SPTransactionPurpose(20, "Currency Conversion Deduct", nameof(Currency_Conversion_Deduct).Replace("_", " "));
+        public static readonly SPTransactionPurpose Currency_Decay = new SPTransactionPurpose(21, "Currency Decay", nameof(Currency_Decay).Replace("_", " "));
+    
+        public SPTransactionPurpose(int id, string name, string displayName = null) : base(id, name, displayName)
+        {
+        }
+    }
+    
+    [Serializable]
     public class SPPriceTypes : SPEnum<SPPriceTypes>
     {
         public static readonly SPPriceTypes RMG = new SPPriceTypes(0, nameof(RMG), nameof(RMG));
@@ -200,6 +239,19 @@ namespace SpecterSDK.Shared
     #endregion
 
     #region Competition
+
+    [Serializable]
+    public sealed class SPCompetitionEntryStatus : SPEnum<SPCompetitionEntryStatus>
+    {
+        public static readonly SPCompetitionEntryStatus Entered = new SPCompetitionEntryStatus(1, nameof(Entered).ToLower(), nameof(Entered));
+        public static readonly SPCompetitionEntryStatus Played = new SPCompetitionEntryStatus(2, nameof(Played).ToLower(), nameof(Played));
+        public static readonly SPCompetitionEntryStatus Completed = new SPCompetitionEntryStatus(3, nameof(Completed).ToLower(), nameof(Completed));
+        public static readonly SPCompetitionEntryStatus Not_Entered = new SPCompetitionEntryStatus(4, nameof(Not_Entered).ToLower().Replace("_", " "), nameof(Not_Entered).ToLower().Replace("_", " "));
+        
+        public SPCompetitionEntryStatus(int id, string name, string displayName = null) : base(id, name, displayName)
+        {
+        }
+    }
 
     public sealed class SPCompetitionFormat : SPEnum<SPCompetitionFormat>
     {

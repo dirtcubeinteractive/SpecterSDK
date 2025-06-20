@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using SpecterSDK.ObjectModels.v2;
 using SpecterSDK.Shared;
 using SpecterSDK.Shared.Networking.Models;
 using SpecterSDK.Shared.SPEnum;
@@ -47,9 +48,11 @@ namespace SpecterSDK.API.v2.Players.Me
 
     public class SPGetMyInstantBattleHistoryResult : SpecterApiResultBase<SPGetMyInstantBattleHistoryResponse>
     {
+        public List<SPInstantBattleHistoryEntry> History { get; set; }
+        
         protected override void InitSpecterObjectsInternal()
         {
-            
+            History = Response.data == null ? new List<SPInstantBattleHistoryEntry>() : Response.data.ConvertAll(x => new SPInstantBattleHistoryEntry(x));
         }
     }
 

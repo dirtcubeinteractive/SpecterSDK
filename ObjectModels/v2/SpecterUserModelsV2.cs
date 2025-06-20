@@ -1,4 +1,8 @@
+using System;
+using System.Collections.Generic;
 using SpecterSDK.API.v2.App;
+using SpecterSDK.APIModels.ClientModels;
+using SpecterSDK.Shared;
 
 namespace SpecterSDK.ObjectModels.v2
 {
@@ -27,6 +31,24 @@ namespace SpecterSDK.ObjectModels.v2
             ThumbUrl = data.thumbUrl;
             CustomId = data.customId;
             Email = data.email;
+        }
+    }
+
+    public class SPPlayerDataEntry
+    {
+        public object Value { get; set; }
+        public SPPlayerDataPermission Permission { get; set; }
+        
+        public SPPlayerDataEntry() { }
+        public SPPlayerDataEntry(SPPlayerDataEntryData data)
+        {
+            Value = data.value;
+            Permission = data.permission;
+        }
+        
+        public bool TryConvertValue<T>(out T val)
+        {
+            return SpecterJson.TryConvertObject<T>(Value, out val);
         }
     }
 }

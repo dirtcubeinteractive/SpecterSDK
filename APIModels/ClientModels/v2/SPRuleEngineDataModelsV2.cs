@@ -15,7 +15,7 @@ namespace SpecterSDK.APIModels.ClientModels.v2
     }
 
     [Serializable]
-    public class SPRuleParamData
+    public class SPRuleParamData : ISpecterRuleParamData
     {
         public string name { get; set; }
         public object targetValue { get; set; }
@@ -23,6 +23,19 @@ namespace SpecterSDK.APIModels.ClientModels.v2
         public SPParamDataType dataType { get; set; }
         public SPStatCollectionMode mode { get; set; }
         public SPParameterType type { get; set; }
+    }
+
+    [Serializable]
+    public class SPParamProgressData : ISpecterRuleParamData
+    {
+        public string name { get; set; }
+        public object targetValue { get; set; }
+        public string @operator { get; set; }
+        public SPParamDataType dataType { get; set; }
+        public SPStatCollectionMode mode { get; set; }
+        public SPParameterType type { get; set; }
+        
+        public long currentValue { get; set; }
     }
     
     [Serializable]

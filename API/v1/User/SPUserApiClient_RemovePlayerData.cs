@@ -26,7 +26,7 @@ namespace SpecterSDK.API.v1.User
     public class SPRemovePlayerDataResult : SpecterApiResultBase<SPRemovePlayerDataResponseData>
     {
         // A dictionary representing the remaining player data.
-        public Dictionary<string, SPPlayerData> PlayerDataDict;
+        public Dictionary<string, SPPlayerDataEntryData> PlayerDataDict;
 
         protected override void InitSpecterObjectsInternal()
         {

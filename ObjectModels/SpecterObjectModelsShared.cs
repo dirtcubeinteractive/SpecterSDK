@@ -154,6 +154,11 @@ namespace SpecterSDK.ObjectModels
     public class SPInstanceSchedule
     {
         /// <summary>
+        /// Unique identifier for the instance.
+        /// </summary>
+        public string InstanceId { get; set; }
+        
+        /// <summary>
         /// The status of the specified instance. For tasks this can be compared against values found in
         /// <see cref="SPTasksScheduleStatus"/> and for competitions values can be compared against <see cref="SPScheduleStatus"/> values.
         /// </summary>
@@ -172,6 +177,7 @@ namespace SpecterSDK.ObjectModels
         public SPInstanceSchedule() { }
         public SPInstanceSchedule(SPInstanceScheduleData data)
         {
+            InstanceId = data.instanceId;
             Status = data.status;
             InstanceStartDate = data.instanceStartDate;
             InstanceEndDate = data.instanceEndDate;

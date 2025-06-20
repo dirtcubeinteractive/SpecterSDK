@@ -119,17 +119,78 @@ namespace SpecterSDK.ObjectModels.v2
         public SPSchedule Schedule { get; set; }
     }
 
-    public interface ISpecterCompetitivePlayEntity
+    public interface ISpecterLeaderboard : ISpecterLiveOpsEntity
     {
+        /// <summary>
+        /// The ranking method of the leaderboard or competition. Not applicable for Instant Battles.
+        /// </summary>
+        public SPRankingMethod RankingMethod { get; set; }
+        
+        /// <summary>
+        /// The source of the leaderboard or competition score.
+        /// </summary>
         public SPLeaderboardSourceType Source { get; set; }
+        
+        /// <summary>
+        /// Info about the match backing the leaderboard or competition. Only applicable if the source is a match.
+        /// </summary>
         public SPMatchResource Match { get; set; }
+        
+        /// <summary>
+        /// Prize distribution for the leaderboard or competition.
+        /// </summary>
         public SPPrizeDistribution PrizeDistribution { get; set; }
     }
 
-    public interface ISpecterCompetition : ISpecterCompetitivePlayEntity
+    public interface ISpecterLeaderboardInfo
     {
+        /// <summary>
+        /// The source of the leaderboard or competition score.
+        /// </summary>
+        public SPLeaderboardSourceType Source { get; set; }
+        
+        /// <summary>
+        /// Info about the match backing the leaderboard or competition. Only applicable if the source is a match.
+        /// </summary>
+        public SPMatchResource Match { get; set; }
+    }
+
+    public interface ISpecterCompetition : ISpecterLeaderboard
+    {
+        /// <summary>
+        /// Configuration details for the competition.
+        /// </summary>
         SPCompetitionConfig Config { get; set; }
+        
+        /// <summary>
+        /// Type of the competition. (E.g. Tournament, Instant Battle)
+        /// </summary>
         SPCompetitionFormat Type { get; set; }
+        
+        /// <summary>
+        /// Entry fee structure for the competition.
+        /// </summary>
         public List<SPEntryFeeInfo> EntryFees { get; set; }
+    }
+
+    public interface ISpecterCompetitionInfo : ISpecterLeaderboardInfo
+    {
+        /// <summary>
+        /// Configuration details for the competition.
+        /// </summary>
+        SPCompetitionConfig Config { get; set; }
+        
+        /// <summary>
+        /// Type of the competition. (E.g. Tournament, Instant Battle)
+        /// </summary>
+        SPCompetitionFormat Type { get; set; }
+    }
+
+    public interface ISpecterCompetitionHistoryEntry : ISpecterCompetitionInfo
+    {
+        /// <summary>
+        /// Information about all the entries a player has made in the competition.
+        /// </summary>
+        public List<SPCompetitionEntryInfo> EntryDetails { get; set; }
     }
 }

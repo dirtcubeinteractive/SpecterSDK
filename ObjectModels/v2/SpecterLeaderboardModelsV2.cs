@@ -26,7 +26,7 @@ namespace SpecterSDK.ObjectModels.v2
         }
     }
 
-    public class SPLeaderboard : ISpecterResource, ISpecterMasterObject, ISpecterCompetitivePlayEntity, ISpecterLiveOpsEntity
+    public class SPLeaderboard : ISpecterResource, ISpecterMasterObject, ISpecterLeaderboard, ISpecterLiveOpsEntity
     {
         public string Uuid { get; set; }
         public string Id { get; set; }

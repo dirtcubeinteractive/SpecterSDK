@@ -61,10 +61,7 @@ namespace SpecterSDK.API.v2.Players.Me
 
     public class SPUpdateMyPlayerProfileResult : SpecterApiResultBase<SPUpdateMyPlayerProfileResponse>
     {
-        protected override void InitSpecterObjectsInternal()
-        {
-            
-        }
+        protected override void InitSpecterObjectsInternal() { }
     }
 
     public partial class SPMePlayerClientV2

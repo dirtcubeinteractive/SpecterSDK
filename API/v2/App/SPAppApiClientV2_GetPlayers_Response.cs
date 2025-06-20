@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using SpecterSDK.APIModels.ClientModels.v2;
 using SpecterSDK.Shared.Networking.Interfaces;
 
 namespace SpecterSDK.API.v2.App
@@ -8,7 +9,7 @@ namespace SpecterSDK.API.v2.App
     public class SPGetPlayersResponse : List<SPPlayerProfileData>, ISpecterApiResponseData { }
 
     [Serializable]
-    public class SPPlayerProfileData
+    public class SPPlayerProfileData : ISpecterBaseUserProfileData
     {
         public string uuid { get; set; }
         public string id { get; set; }

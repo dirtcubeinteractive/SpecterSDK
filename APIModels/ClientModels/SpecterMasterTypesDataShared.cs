@@ -4,6 +4,9 @@ using SpecterSDK.Shared.v2;
 
 namespace SpecterSDK.APIModels.ClientModels
 {
+    /// <summary>
+    /// Categories that your app or game fall under.
+    /// </summary>
     [Serializable]
     public class SPAppCategoryData
     {
@@ -42,6 +45,9 @@ namespace SpecterSDK.APIModels.ClientModels
         public string name { get; set; }
     }
 
+    /// <summary>
+    /// Rarity tier of the resource.
+    /// </summary>
     [Serializable]
     public class SPRarityData
     {
@@ -49,10 +55,20 @@ namespace SpecterSDK.APIModels.ClientModels
         public string name { get; set; }
     }
     
+    /// <summary>
+    /// Type of the competition (E.g. Tournament, Instant Battle)
+    /// </summary>
     [Serializable]
     public class SPCompetitionFormatData
     {
         public SPCompetitionFormat id { get; set; }
+        public string name { get; set; }
+    }
+
+    [Serializable]
+    public class SPTransactionPurposeData
+    {
+        public SPTransactionPurpose id { get; set; }
         public string name { get; set; }
     }
 }

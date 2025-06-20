@@ -47,6 +47,11 @@ namespace SpecterSDK.APIModels.ClientModels.v2
     public class SPInstanceScheduleData
     {
         /// <summary>
+        /// Unique identifier for the instance.
+        /// </summary>
+        public string instanceId { get; set; }
+        
+        /// <summary>
         /// The status of the specified instance. For tasks this can be compared against values found in
         /// <see cref="SPTasksScheduleStatus"/> and for competitions values can be compared against <see cref="SPScheduleStatus"/> values.
         /// </summary>
