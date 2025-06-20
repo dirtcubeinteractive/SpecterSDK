@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using SpecterSDK.API.v2.App;
+using SpecterSDK.API.v2.Players.Me;
 using SpecterSDK.APIModels.ClientModels.v2;
 using SpecterSDK.ObjectModels.Interfaces;
 using SpecterSDK.Shared;
@@ -25,7 +27,7 @@ namespace SpecterSDK.ObjectModels.v2
         }
     }
     
-    public class SPMatch : ISpecterResource, ISpecterMasterObject
+    public class SPMatch : ISpecterMatchInfo, ISpecterMasterObject
     {
         public string Uuid { get; set; }
         public string Id { get; set; }
@@ -69,6 +71,73 @@ namespace SpecterSDK.ObjectModels.v2
             
             Tags = data.tags ?? new List<string>();
             Meta = data.meta ?? new Dictionary<string, object>();
+        }
+    }
+
+    public class SPMatchHistoryEntry : ISpecterMatchInfo
+    {
+        public string Uuid { get; set; }
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string IconUrl { get; set; }
+        
+        public SPGameResource Game { get; set; }
+        public SPCompetitionResource Competition { get; set; }
+        
+        public string MatchSessionId { get; set; }
+        public DateTime PlayedAt { get; set; }
+        public long Score { get; set; }
+        
+        public List<SPMatchParticipantInfo> PlayerDetails { get; set; }
+        
+        public bool WasCompetition => Competition != null;
+        
+        public SPMatchHistoryEntry() { }
+        public SPMatchHistoryEntry(SPMatchHistoryEntryData data)
+        {
+            Uuid = data.uuid;
+            Id = data.id;
+            Name = data.name;
+            Description = data.description;
+            IconUrl = data.iconUrl;
+            Game = new SPGameResource(data.game);
+            
+            Competition = data.competition == null ? null : new SPCompetitionResource(data.competition);
+            
+            MatchSessionId = data.matchSessionId;
+            PlayedAt = data.playedAt;
+            Score = data.score;
+            
+            PlayerDetails = data.playerDetails?.ConvertAll(x => new SPMatchParticipantInfo(x));
+        }
+    }
+
+    public class SPMatchParticipantInfo : ISpecterBaseUserProfile
+    {
+        public string Uuid { get; set; }
+        public string Id { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Username { get; set; }
+        public string DisplayName { get; set; }
+        public string ThumbUrl { get; set; }
+        
+        public long Score { get; set; }
+        public int Rank { get; set; }
+        
+        public SPMatchParticipantInfo() { }
+        public SPMatchParticipantInfo(SPMatchParticipantData data)
+        {
+            Uuid = data.uuid;
+            Id = data.id;
+            FirstName = data.firstName;
+            LastName = data.lastName;
+            Username = data.username;
+            DisplayName = data.displayName;
+            ThumbUrl = data.thumbUrl;
+            Score = data.score;
+            Rank = data.rank;
         }
     }
 }

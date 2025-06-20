@@ -29,7 +29,7 @@ namespace SpecterSDK.APIModels.ClientModels.v2
         /// <summary>
         /// Quantity within the stack of this item. Can be greater than 1 only if the item is stackable.
         /// </summary>
-        public int quantity { get; set; }
+        public long quantity { get; set; }
         
         /// <summary>
         /// Flag indicating if the item is equipped.
@@ -71,7 +71,7 @@ namespace SpecterSDK.APIModels.ClientModels.v2
         /// <summary>
         /// Quantity within the stack of this bundle. Can be greater than 1 only if the bundle is stackable.
         /// </summary>
-        public int quantity { get; set; }
+        public long quantity { get; set; }
         
         /// <summary>
         /// Flag indicating if the bundle is equipped.

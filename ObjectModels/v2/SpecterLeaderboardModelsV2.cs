@@ -58,7 +58,7 @@ namespace SpecterSDK.ObjectModels.v2
             Match = data.match == null ? null : new SPMatchResource(data.match);
             RankingMethod = data.rankingMethod.id;
             Source = data.sourceType.id;
-            PrizeDistribution = data.prizeDistribution == null ? null : new SPPrizeDistribution(data.prizeDistribution);
+            PrizeDistribution = data.prizeDistribution == null ? null : new SPPrizeDistribution(data.prizeDistribution, SPRewardSourceType.Leaderboard);
             
             Tags = data.tags;
             Meta = data.meta;

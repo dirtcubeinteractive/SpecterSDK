@@ -240,9 +240,9 @@ namespace SpecterSDK.ObjectModels.v2
             Rules = new List<SPPrizeDistributionRuleV2>();
             TimeOffsetSeconds = "0";
         }
-        public SPPrizeDistribution(SPPrizeDistributionData data)
+        public SPPrizeDistribution(SPPrizeDistributionData data, SPRewardSourceType sourceType)
         {
-            Rules = data.rules?.ConvertAll(x => new SPPrizeDistributionRuleV2(x)) ?? new List<SPPrizeDistributionRuleV2>();
+            Rules = data.rules?.ConvertAll(x => new SPPrizeDistributionRuleV2(x, sourceType)) ?? new List<SPPrizeDistributionRuleV2>();
         }
     }
 
@@ -255,13 +255,16 @@ namespace SpecterSDK.ObjectModels.v2
         public SPRewards RewardDetails { get; set; }
         public bool HasRewards => RewardDetails?.All is { Count: > 0 };
         
+        public SPRewardSourceType RewardSource { get; set; }
+        
         public SPPrizeDistributionRuleV2() { }
-        public SPPrizeDistributionRuleV2(SPPrizeDistributionRuleData data)
+        public SPPrizeDistributionRuleV2(SPPrizeDistributionRuleData data, SPRewardSourceType rewardSource)
         {
             SortOrder = data.no;
             StartRank = data.startRank;
             EndRank = data.endRank;
             RewardDetails = data.rewardDetails == null ? null : new SPRewards(data.rewardDetails);
+            RewardSource = rewardSource;
         }
     }
 }

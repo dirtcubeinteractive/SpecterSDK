@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using SpecterSDK.ObjectModels.v2;
 using SpecterSDK.Shared.Networking.Models;
 using SpecterSDK.Shared.SPEnum;
 
@@ -39,9 +41,11 @@ namespace SpecterSDK.API.v2.Players.Me
 
     public class SPGetMyMatchHistoryResult : SpecterApiResultBase<SPGetMyMatchHistoryResponse>
     {
+        public List<SPMatchHistoryEntry> MatchHistory { get; set; }
+        
         protected override void InitSpecterObjectsInternal()
         {
-            
+            MatchHistory = Response.data?.ConvertAll(x => new SPMatchHistoryEntry(x)) ?? new List<SPMatchHistoryEntry>();
         }
     }
 

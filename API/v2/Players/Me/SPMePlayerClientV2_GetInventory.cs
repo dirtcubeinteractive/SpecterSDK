@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using SpecterSDK.ObjectModels.v2;
 using SpecterSDK.Shared.Networking.Models;
 
 namespace SpecterSDK.API.v2.Players.Me
@@ -36,9 +37,19 @@ namespace SpecterSDK.API.v2.Players.Me
 
     public class SPGetMyInventoryResult : SpecterApiResultBase<SPGetMyInventoryResponse>
     {
+        public List<SPInventoryItem> Items { get; set; }
+        public List<SPInventoryBundle> Bundles { get; set; }
+        
+        public int TotalItemsCount { get; set; }
+        public int TotalBundlesCount { get; set; }
+        
         protected override void InitSpecterObjectsInternal()
         {
+            Items = Response.data?.items?.ConvertAll(x => new SPInventoryItem(x)) ?? new List<SPInventoryItem>();
+            Bundles = Response.data?.bundles?.ConvertAll(x => new SPInventoryBundle(x)) ?? new List<SPInventoryBundle>();
             
+            TotalItemsCount = Response.data?.totalItemsCount ?? 0;
+            TotalBundlesCount = Response.data?.totalBundlesCount ?? 0;
         }
     }
 

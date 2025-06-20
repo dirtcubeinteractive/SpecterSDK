@@ -24,6 +24,8 @@ namespace SpecterSDK.ObjectModels.v2
         public SPRewards LinkedRewardDetails { get; set; }
         public bool HasLinkedRewards => LinkedRewardDetails?.All is { Count: > 0 };
         
+        public SPRewardSourceType RewardSource => SPRewardSourceType.Task;
+        
         public SPTaskResource() { }
         public SPTaskResource(SPTaskResourceData taskResource)
         {
@@ -77,6 +79,8 @@ namespace SpecterSDK.ObjectModels.v2
         
         public SPRewards LinkedRewardDetails { get; set; }
         public bool HasLinkedRewards => LinkedRewardDetails?.All is { Count: > 0 };
+        
+        public SPRewardSourceType RewardSource => SPRewardSourceType.Task;
         
         public SPUnlockConditions UnlockConditions { get; set; }
         public bool IsLocked => UnlockConditions.IsLocked;
@@ -132,6 +136,8 @@ namespace SpecterSDK.ObjectModels.v2
         public bool IsLockedByLevel => UnlockConditions.IsLockedByLevel;
         public bool IsLockedByItem => UnlockConditions.IsLockedByItem;
         public bool IsLockedByBundle => UnlockConditions.IsLockedByBundle;
+        
+        public SPRewardSourceType RewardSource => SPRewardSourceType.TaskGroup;
         
         public List<string> Tags { get; set; }
         public Dictionary<string, object> Meta { get; set; }

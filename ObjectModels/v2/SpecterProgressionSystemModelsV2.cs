@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using SpecterSDK.API.v2.App;
 using SpecterSDK.APIModels.ClientModels.v2;
 using SpecterSDK.ObjectModels.Interfaces;
+using SpecterSDK.Shared;
 
 namespace SpecterSDK.ObjectModels.v2
 {
@@ -115,6 +116,8 @@ namespace SpecterSDK.ObjectModels.v2
         
         public SPRewards RewardDetails { get; set; }
         public bool HasRewards => RewardDetails?.All is { Count: > 0 };
+        
+        public SPRewardSourceType RewardSource => SPRewardSourceType.Level;
         
         public SPProgressionLevel() { }
         public SPProgressionLevel(SPProgressionLevelData data)

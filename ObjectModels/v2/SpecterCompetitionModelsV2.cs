@@ -90,7 +90,7 @@ namespace SpecterSDK.ObjectModels.v2
             RankingMethod = data?.rankingMethod?.id;
             Source = data.source.id;
             Match = new SPMatchResource(data.match);
-            PrizeDistribution = data.prizeDistribution == null ? null : new SPPrizeDistribution(data.prizeDistribution);
+            PrizeDistribution = data.prizeDistribution == null ? null : new SPPrizeDistribution(data.prizeDistribution, SPRewardSourceType.InstantBattle);
             
             UnlockConditions = data.unlockConditions == null ? null : new SPUnlockConditions(data.unlockConditions);
             
@@ -145,7 +145,7 @@ namespace SpecterSDK.ObjectModels.v2
             RankingMethod = data?.rankingMethod?.id;
             Source = data.source.id;
             Match = new SPMatchResource(data.match);
-            PrizeDistribution = data.prizeDistribution == null ? null : new SPPrizeDistribution(data.prizeDistribution);
+            PrizeDistribution = data.prizeDistribution == null ? null : new SPPrizeDistribution(data.prizeDistribution, SPRewardSourceType.Tournament);
             
             UnlockConditions = data.unlockConditions == null ? null : new SPUnlockConditions(data.unlockConditions);
             

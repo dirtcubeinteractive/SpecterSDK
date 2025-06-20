@@ -54,7 +54,7 @@ namespace SpecterSDK.APIModels.ClientModels.v2
         public string instanceId { get; set; }
         public string collectionId { get; set; }
         public string stackId { get; set; }
-        public int quantity { get; set; }
+        public long quantity { get; set; }
         public bool isEquipped { get; set; }
         public int? totalUsesAvailable { get; set; }
     }
