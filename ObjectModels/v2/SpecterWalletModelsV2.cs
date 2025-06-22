@@ -43,15 +43,15 @@ namespace SpecterSDK.ObjectModels.v2
         }
     }
 
-    public class SPWalletTransaction
+    public class SPWalletHistoryEntry : ISpecterTransaction
     {
         public string Uuid { get; set; }
         public string Id { get; set; }
-        public string Status { get; set; }
+        public SPTransactionStatus Status { get; set; }
         
-        public SPWalletTransactionCurrencyInfo CurrencyDetails { get; set; }
+        public SPTransactedCurrencyInfo CurrencyDetails { get; set; }
         
-        public SPWalletTransactionResource PurchasedResource { get; set; }
+        public SPTransactedResource PurchasedResource { get; set; }
         public SPResourceType PurchasedResourceType => PurchasedResource?.ResourceType ?? SPResourceType.None;
         
         public SPTransactionPurpose Purpose { get; set; }
@@ -61,19 +61,19 @@ namespace SpecterSDK.ObjectModels.v2
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
         
-        public SPWalletTransaction() { }
-        public SPWalletTransaction(SPWalletTransactionData data)
+        public SPWalletHistoryEntry() { }
+        public SPWalletHistoryEntry(SPWalletHistoryEntryData data)
         {
             Uuid = data.uuid;
             Id = data.id;
             Status = data.status;
             
-            CurrencyDetails = new SPWalletTransactionCurrencyInfo(data.currencyDetails);
+            CurrencyDetails = new SPTransactedCurrencyInfo(data.currencyDetails);
             
             if (data.purchasedItem != null)
-                PurchasedResource = new SPWalletTransactionResource(data.purchasedItem, SPResourceType.Item);
+                PurchasedResource = new SPTransactedResource(data.purchasedItem, SPResourceType.Item);
             else if (data.purchasedBundle != null)
-                PurchasedResource = new SPWalletTransactionResource(data.purchasedBundle, SPResourceType.Bundle);
+                PurchasedResource = new SPTransactedResource(data.purchasedBundle, SPResourceType.Bundle);
             
             Purpose = data.purpose.id;
             Amount = (long)data.amount;
@@ -84,7 +84,7 @@ namespace SpecterSDK.ObjectModels.v2
         }
     }
 
-    public class SPWalletTransactionResource : ISpecterEconomyResource
+    public class SPTransactedResource : ISpecterEconomyResource
     {
         public string Uuid { get; set; }
         public string Id { get; set; }
@@ -96,8 +96,8 @@ namespace SpecterSDK.ObjectModels.v2
         
         public SPResourceType ResourceType { get; set; }
         
-        public SPWalletTransactionResource() { }
-        public SPWalletTransactionResource(SPWalletTransactionResourceData data, SPResourceType resourceType)
+        public SPTransactedResource() { }
+        public SPTransactedResource(SPTransactedResourceData data, SPResourceType resourceType)
         {
             Uuid = data.uuid;
             Id = data.id;
@@ -110,7 +110,7 @@ namespace SpecterSDK.ObjectModels.v2
         }
     }
 
-    public class SPWalletTransactionCurrencyInfo : ISpecterCurrency
+    public class SPTransactedCurrencyInfo : ISpecterCurrency
     {
         public string Uuid { get; set; }
         public string Id { get; set; }
@@ -124,8 +124,8 @@ namespace SpecterSDK.ObjectModels.v2
         public bool IsVirtual => Type == SPCurrencyType.Virtual;
         public bool IsReal => Type == SPCurrencyType.Real;
         
-        public SPWalletTransactionCurrencyInfo() { }
-        public SPWalletTransactionCurrencyInfo(SPWalletTransactionCurrencyData data)
+        public SPTransactedCurrencyInfo() { }
+        public SPTransactedCurrencyInfo(SPTransactedCurrencyData data)
         {
             Uuid = data.uuid;
             Id = data.id;

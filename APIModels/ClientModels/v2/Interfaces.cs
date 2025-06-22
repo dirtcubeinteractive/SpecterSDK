@@ -5,7 +5,6 @@ using SpecterSDK.APIModels.ClientModels.v1;
 using SpecterSDK.Shared;
 using SpecterSDK.Shared.Networking.Interfaces;
 using SpecterSDK.Shared.v2;
-using SPPrizeDistributionData = SpecterSDK.APIModels.ClientModels.v2.SPPrizeDistributionData;
 
 namespace SpecterSDK.APIModels.ClientModels.v2
 {
@@ -24,6 +23,12 @@ namespace SpecterSDK.APIModels.ClientModels.v2
         public string displayName { get; set; }
         public string username { get; set; }
         public string thumbUrl { get; set; }
+    }
+
+    public interface ISpecterUserProfileData : ISpecterBaseUserProfileData
+    {
+        public string email { get; set; }
+        public string referralCode { get; set; }
     }
     
     public interface ISpecterGameData : ISpecterResourceData
@@ -45,6 +50,15 @@ namespace SpecterSDK.APIModels.ClientModels.v2
     public interface ISpecterEconomyResourceData : ISpecterResourceData
     {
         public SPRarityData rarity { get; set; }
+    }
+
+    public interface ISpecterTransactionData
+    {
+        public string uuid { get; set; }
+        public string id { get; set; }
+        public SPTransactionStatus status { get; set; }
+        public DateTime createdAt { get; set; }
+        public DateTime updatedAt { get; set; }
     }
 
     public interface ISpecterPlayerOwnedEntityData : ISpecterEconomyResourceData { }

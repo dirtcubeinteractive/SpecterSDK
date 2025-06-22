@@ -1,9 +1,5 @@
 using System;
-using System.Collections.Generic;
-using Newtonsoft.Json;
 using SpecterSDK.Shared;
-using SpecterSDK.Shared.Networking.Interfaces;
-using SpecterSDK.Shared.Networking.Models;
 using SpecterSDK.Shared.v2;
 
 namespace SpecterSDK.APIModels.ClientModels

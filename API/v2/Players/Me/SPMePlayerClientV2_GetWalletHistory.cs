@@ -19,11 +19,11 @@ namespace SpecterSDK.API.v2.Players.Me
 
     public class SPGetMyWalletHistoryResult : SpecterApiResultBase<SPGetMyWalletHistoryResponse>
     {
-        private List<SPWalletTransaction> Transactions { get; set; }
+        private List<SPWalletHistoryEntry> Transactions { get; set; }
         
         protected override void InitSpecterObjectsInternal()
         {
-            Transactions = Response.data?.ConvertAll(x => new SPWalletTransaction(x)) ?? new List<SPWalletTransaction>();
+            Transactions = Response.data?.ConvertAll(x => new SPWalletHistoryEntry(x)) ?? new List<SPWalletHistoryEntry>();
         }
     }
 

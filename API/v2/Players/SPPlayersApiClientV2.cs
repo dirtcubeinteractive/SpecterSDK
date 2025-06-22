@@ -44,6 +44,47 @@ namespace SpecterSDK.API.v2.Players
     }
     
     /// <summary>
+    /// Represents the attributes available for the Match History endpoint.
+    /// </summary>
+    [Serializable]
+    public sealed class SPMatchHistoryAttribute : SPEnum<SPMatchHistoryAttribute>
+    {
+        public static readonly SPMatchHistoryAttribute Competition = new SPMatchHistoryAttribute(0, "competition", "Competition");
+        public static readonly SPMatchHistoryAttribute PlayerDetails = new SPMatchHistoryAttribute(1, "playerDetails", "Player Details");
+        
+        private SPMatchHistoryAttribute(int id, string name, string displayName) : base(id, name, displayName) { }
+    }
+    
+    /// <summary>
+    /// Represents the attributes available for the Instant Battle History endpoint.
+    /// </summary>
+    [Serializable]
+    public sealed class SPInstantBattleHistoryAttribute : SPEnum<SPInstantBattleHistoryAttribute>
+    {
+        public static readonly SPInstantBattleHistoryAttribute Match = new SPInstantBattleHistoryAttribute(0, "match", "Match");
+        public static readonly SPInstantBattleHistoryAttribute Config = new SPInstantBattleHistoryAttribute(1, "config", "Configuration");
+        public static readonly SPInstantBattleHistoryAttribute Type = new SPInstantBattleHistoryAttribute(2, "type", "Type");
+        public static readonly SPInstantBattleHistoryAttribute SourceType = new SPInstantBattleHistoryAttribute(3, "sourceType", "Source Type");
+        
+        private SPInstantBattleHistoryAttribute(int id, string name, string displayName) : base(id, name, displayName) { }
+    }
+    
+    // TODO: Verify if rankingMethod should be an attribute for Tourney History
+    /// <summary>
+    /// Represents the attributes available for the Tournament History endpoint.
+    /// </summary>
+    [Serializable]
+    public sealed class SPTournamentHistoryAttribute : SPEnum<SPTournamentHistoryAttribute>
+    {
+        public static readonly SPTournamentHistoryAttribute Match = new SPTournamentHistoryAttribute(0, nameof(Match).ToLower(), nameof(Match));
+        public static readonly SPTournamentHistoryAttribute SourceType = new SPTournamentHistoryAttribute(1, "sourceType", "Source Type");
+        public static readonly SPTournamentHistoryAttribute Config = new SPTournamentHistoryAttribute(2, nameof(Config).ToLower(), nameof(Config));
+        public static readonly SPTournamentHistoryAttribute Type = new SPTournamentHistoryAttribute(4, "type", "Type");
+        
+        private SPTournamentHistoryAttribute(int id, string name, string displayName) : base(id, name, displayName) { }
+    }
+    
+    /// <summary>
     /// Represents a player data key-value pair.
     /// </summary>
     [Serializable]

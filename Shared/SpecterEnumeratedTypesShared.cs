@@ -184,6 +184,18 @@ namespace SpecterSDK.Shared
         {
         }
     }
+
+    [Serializable]
+    public sealed class SPTransactionStatus : SPEnum<SPTransactionStatus>
+    {
+        public static readonly SPTransactionStatus Created = new SPTransactionStatus(0, nameof(Created).ToLower(), nameof(Created));
+        public static readonly SPTransactionStatus In_Progress = new SPTransactionStatus(1, nameof(In_Progress).ToLower().Replace("_", "-"), nameof(In_Progress));
+        public static readonly SPTransactionStatus Processed = new SPTransactionStatus(2, nameof(Processed).ToLower(), nameof(Processed));
+        
+        public SPTransactionStatus(int id, string name, string displayName = null) : base(id, name, displayName)
+        {
+        }
+    }
     
     [Serializable]
     public class SPPriceTypes : SPEnum<SPPriceTypes>

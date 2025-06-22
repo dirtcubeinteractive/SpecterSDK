@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using SpecterSDK.ObjectModels.Interfaces;
 using SpecterSDK.Shared;
@@ -14,6 +15,12 @@ namespace SpecterSDK.ObjectModels.v2
         public string Username { get; set; }
         public string DisplayName { get; set; }
         public string ThumbUrl { get; set; }
+    }
+
+    public interface ISpecterUserProfile : ISpecterBaseUserProfile
+    {
+        public string Email { get; set; }
+        public string ReferralCode { get; set; }
     }
     
     public interface ISpecterGame
@@ -34,6 +41,15 @@ namespace SpecterSDK.ObjectModels.v2
     public interface ISpecterEconomyResource : ISpecterResource
     {
         public SPRarity Rarity { get; set; }
+    }
+
+    public interface ISpecterTransaction
+    {
+        public string Uuid { get; set; }
+        public string Id { get; set; }
+        public SPTransactionStatus Status { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
     }
 
     public interface ISpecterCurrency : ISpecterEconomyResource

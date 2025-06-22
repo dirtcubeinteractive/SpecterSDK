@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
+using SpecterSDK.ObjectModels.v2;
 using SpecterSDK.Shared;
 using SpecterSDK.Shared.Networking.Models;
 
@@ -42,5 +44,24 @@ namespace SpecterSDK.API.v2.Players.Others
         /// A boolean flag to include inactive tasks in the results.
         /// </summary>
         public bool? includeInactiveTasks { get; set; }
+    }
+    
+    public class SPGetOtherPlayerTaskStatusResult : SpecterApiResultBase<SPGetOtherPlayerTaskStatusResponse>
+    {
+        public List<SPTaskStatusInfo> StatusInfos { get; set; }
+        
+        protected override void InitSpecterObjectsInternal()
+        {
+            StatusInfos = Response.data?.ConvertAll(x => new SPTaskStatusInfo(x)) ?? new List<SPTaskStatusInfo>();
+        }
+    }
+
+    public partial class SPOtherPlayerClientV2
+    {
+        public async Task<SPGetOtherPlayerTaskStatusResult> GetTaskStatusAsync(SPGetOtherPlayerTaskStatusRequest request)
+        {
+            var result = await PostAsync<SPGetOtherPlayerTaskStatusResult, SPGetOtherPlayerTaskStatusResponse>("/v2/client/player/get-task-status", AuthType, request);
+            return result;
+        }
     }
 }

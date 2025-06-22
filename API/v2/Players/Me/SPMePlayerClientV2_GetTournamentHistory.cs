@@ -9,19 +9,7 @@ using SpecterSDK.Shared.SPEnum;
 
 namespace SpecterSDK.API.v2.Players.Me
 {
-    /// <summary>
-    /// Represents the attributes available for the Tournament History endpoint.
-    /// </summary>
-    [Serializable]
-    public sealed class SPTournamentHistoryAttribute : SPEnum<SPTournamentHistoryAttribute>
-    {
-        public static readonly SPTournamentHistoryAttribute Match = new SPTournamentHistoryAttribute(0, nameof(Match).ToLower(), nameof(Match));
-        public static readonly SPTournamentHistoryAttribute SourceType = new SPTournamentHistoryAttribute(1, "sourceType", "Source Type");
-        public static readonly SPTournamentHistoryAttribute Config = new SPTournamentHistoryAttribute(2, nameof(Config).ToLower(), nameof(Config));
-        public static readonly SPTournamentHistoryAttribute Type = new SPTournamentHistoryAttribute(4, "type", "Type");
-        
-        private SPTournamentHistoryAttribute(int id, string name, string displayName) : base(id, name, displayName) { }
-    }
+    
     
     /// <summary>
     /// Represents a request to get tournament history for the player.

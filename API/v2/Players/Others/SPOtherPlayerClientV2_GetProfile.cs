@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SpecterSDK.API.v2.Players.Me;
+using SpecterSDK.ObjectModels.v2;
 using SpecterSDK.Shared.Networking.Models;
 
 namespace SpecterSDK.API.v2.Players.Others
@@ -16,21 +18,25 @@ namespace SpecterSDK.API.v2.Players.Others
         /// <summary>
         /// The unique ID of the user.
         /// </summary>
-        public string id { get; set; }
+        public string userId { get; set; }
+    }
+    
+    public class SPGetOtherPlayerProfileResult : SpecterApiResultBase<SPGetOtherPlayerProfileResponse>
+    {
+        public SPPlayerProfile Profile { get; set; }
         
-        /// <summary>
-        /// The username of the user.
-        /// </summary>
-        public string username { get; set; }
-        
-        /// <summary>
-        /// The email address of the user.
-        /// </summary>
-        public string email { get; set; }
-        
-        /// <summary>
-        /// Specific attributes to include in the response.
-        /// </summary>
-        public List<SPPlayerProfileAttribute> attributes { get; set; }
+        protected override void InitSpecterObjectsInternal()
+        {
+            Profile = new SPPlayerProfile(Response.data.user);
+        }
+    }
+
+    public partial class SPOtherPlayerClientV2
+    {
+        public async Task<SPGetOtherPlayerProfileResult> GetPlayerProfileAsync(SPGetOtherPlayerProfileRequest request)
+        {
+            var result = await PostAsync<SPGetOtherPlayerProfileResult, SPGetOtherPlayerProfileResponse>("/v2/client/player/get-profile", AuthType, request);
+            return result;
+        }
     }
 }

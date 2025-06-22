@@ -175,7 +175,7 @@ namespace SpecterSDK.ObjectModels.v2
             ProgressionSystemId = data.progressionSystemId;
             CurrentLevelNo = data.currentLevelNo;
             PreviousLevelNo = data.currentLevelNo - 1;
-            AmountToNextLevel = data.amountToNextLevel;
+            AmountToNextLevel = data.amountToNextLevel ?? 0;
         }
     }
 }

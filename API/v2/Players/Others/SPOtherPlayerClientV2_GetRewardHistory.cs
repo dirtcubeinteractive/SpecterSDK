@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
+using SpecterSDK.ObjectModels.v2;
 using SpecterSDK.Shared;
 using SpecterSDK.Shared.Networking.Models;
 
@@ -52,5 +54,53 @@ namespace SpecterSDK.API.v2.Players.Others
         /// Additional attributes to fetch with the reward history.
         /// </summary>
         public List<SPRewardHistoryAttribute> attributes { get; set; }
+    }
+    
+    public class SPGetOtherPlayerRewardHistoryResult : SpecterApiResultBase<SPGetOtherPlayerRewardHistoryResponse>
+    {
+        public List<SPRewardHistoryEntry> Entries { get; set; }
+        public Dictionary<SPRewardSourceType, List<SPRewardHistoryEntry>> EntriesBySource { get; set; }
+        public Dictionary<SPRewardSourceType, List<SPRewardHistoryEntry>> PendingRewardsBySource { get; set; }
+        public Dictionary<SPRewardSourceType, List<SPRewardHistoryEntry>> ClaimedRewardsBySource { get; set; }
+        
+        protected override void InitSpecterObjectsInternal()
+        {
+            Entries = new List<SPRewardHistoryEntry>();
+            EntriesBySource = new Dictionary<SPRewardSourceType, List<SPRewardHistoryEntry>>();
+            PendingRewardsBySource = new Dictionary<SPRewardSourceType, List<SPRewardHistoryEntry>>();
+            ClaimedRewardsBySource = new Dictionary<SPRewardSourceType, List<SPRewardHistoryEntry>>();
+
+            foreach (var element in Response.data)
+            {
+                var entry = new SPRewardHistoryEntry(element);
+                
+                Entries.Add(entry);
+                if (!EntriesBySource.ContainsKey(entry.SourceType))
+                    EntriesBySource.Add(entry.SourceType, new List<SPRewardHistoryEntry>());
+                EntriesBySource[entry.SourceType].Add(entry);
+
+                if (entry.Status == SPRewardClaimStatus.Pending)
+                {
+                    if (!PendingRewardsBySource.ContainsKey(entry.SourceType))
+                        PendingRewardsBySource.Add(entry.SourceType, new List<SPRewardHistoryEntry>());
+                    PendingRewardsBySource[entry.SourceType].Add(entry);
+                }
+                else
+                {
+                    if (!ClaimedRewardsBySource.ContainsKey(entry.SourceType))
+                        ClaimedRewardsBySource.Add(entry.SourceType, new List<SPRewardHistoryEntry>());
+                    ClaimedRewardsBySource[entry.SourceType].Add(entry);
+                }
+            }
+        }
+    }
+
+    public partial class SPOtherPlayerClientV2
+    {
+        public async Task<SPGetOtherPlayerRewardHistoryResult> GetRewardHistoryAsync(SPGetOtherPlayerRewardHistoryRequest request)
+        {
+            var result = await PostAsync<SPGetOtherPlayerRewardHistoryResult, SPGetOtherPlayerRewardHistoryResponse>("/v2/client/player/get-reward-history", AuthType, request);
+            return result;
+        }
     }
 }

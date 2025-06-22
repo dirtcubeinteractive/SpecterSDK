@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
+using SpecterSDK.ObjectModels.v2;
 using SpecterSDK.Shared;
 using SpecterSDK.Shared.Networking.Models;
 
@@ -37,5 +39,26 @@ namespace SpecterSDK.API.v2.Players.Others
         /// Include tasks from task groups if set to true.
         /// </summary>
         public bool? includeTaskGroupTasks { get; set; }
+    }
+    
+    public class SPGetOtherPlayerTaskProgressResult : SpecterApiResultBase<SPGetOtherPlayerTaskProgressResponse>
+    {
+        public List<SPTaskProgressInfo> TaskProgressInfos { get; set; }
+        public int TotalCount { get; set; }
+        
+        protected override void InitSpecterObjectsInternal()
+        {
+            TaskProgressInfos = Response.data?.taskProgresses == null ? new List<SPTaskProgressInfo>() : Response.data.taskProgresses.ConvertAll(x => new SPTaskProgressInfo(x));
+            TotalCount = Response.data?.totalCount ?? 0;
+        }
+    }
+
+    public partial class SPOtherPlayerClientV2
+    {
+        public async Task<SPGetOtherPlayerTaskProgressResult> GetTaskProgressAsync(SPGetOtherPlayerTaskProgressRequest request)
+        {
+            var result = await PostAsync<SPGetOtherPlayerTaskProgressResult, SPGetOtherPlayerTaskProgressResponse>("/v2/client/player/get-task-progress", AuthType, request);
+            return result;
+        }
     }
 }

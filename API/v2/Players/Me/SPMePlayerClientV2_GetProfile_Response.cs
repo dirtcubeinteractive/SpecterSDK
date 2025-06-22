@@ -13,7 +13,7 @@ namespace SpecterSDK.API.v2.Players.Me
     }
 
     [Serializable]
-    public class SPMyProfileData : ISpecterBaseUserProfileData
+    public class SPMyProfileData : ISpecterUserProfileData
     {
         public string uuid { get; set; }
         public string id { get; set; }

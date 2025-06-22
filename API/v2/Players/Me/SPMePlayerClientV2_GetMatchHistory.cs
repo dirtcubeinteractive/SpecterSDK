@@ -10,18 +10,6 @@ using SpecterSDK.Shared.SPEnum;
 namespace SpecterSDK.API.v2.Players.Me
 {
     /// <summary>
-    /// Represents the attributes available for the Match History endpoint.
-    /// </summary>
-    [Serializable]
-    public sealed class SPMatchHistoryAttribute : SPEnum<SPMatchHistoryAttribute>
-    {
-        public static readonly SPMatchHistoryAttribute Competition = new SPMatchHistoryAttribute(0, "competition", "Competition");
-        public static readonly SPMatchHistoryAttribute PlayerDetails = new SPMatchHistoryAttribute(1, "playerDetails", "Player Details");
-        
-        private SPMatchHistoryAttribute(int id, string name, string displayName) : base(id, name, displayName) { }
-    }
-    
-    /// <summary>
     /// Represents a request to get match history for the player.
     /// </summary>
     [Serializable]

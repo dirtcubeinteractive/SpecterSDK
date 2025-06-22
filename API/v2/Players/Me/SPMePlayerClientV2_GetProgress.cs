@@ -34,7 +34,7 @@ namespace SpecterSDK.API.v2.Players.Me
     {
         public async Task<SPGetMyProgressResult> GetProgressAsync(SPGetMyProgressRequest request)
         {
-            var result = await PostAsync<SPGetMyProgressResult, SPGetMyProgressResponse>("", AuthType, request);
+            var result = await PostAsync<SPGetMyProgressResult, SPGetMyProgressResponse>("/v2/client/player/me/get-progress", AuthType, request);
             return result;
         }
     }

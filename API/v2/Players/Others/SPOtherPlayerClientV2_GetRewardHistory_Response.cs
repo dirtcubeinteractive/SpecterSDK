@@ -1,7 +1,10 @@
+using System;
+using System.Collections.Generic;
+using SpecterSDK.APIModels.ClientModels.v2;
+using SpecterSDK.Shared.Networking.Interfaces;
+
 namespace SpecterSDK.API.v2.Players.Others
 {
-    public class SPOtherPlayerClientV2_GetRewardHistory_Response
-    {
-        
-    }
+    [Serializable]
+    public class SPGetOtherPlayerRewardHistoryResponse : List<SPRewardHistoryEntryDataV2>, ISpecterApiResponseData { }
 }

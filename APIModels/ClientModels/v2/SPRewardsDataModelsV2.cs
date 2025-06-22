@@ -5,6 +5,16 @@ using SpecterSDK.Shared;
 namespace SpecterSDK.APIModels.ClientModels.v2
 {
     [Serializable]
+    public class SPRewardHistoryEntryDataV2
+    {
+        public string instanceId { get; set; }
+        public SPRewardClaimStatus status { get; set; }
+        public SPRewardSourceType sourceType { get; set; }
+        public string sourceId { get; set; }
+        public SPRewardsData rewardDetails { get; set; }
+    }
+
+    [Serializable]
     public class SPRewardedItemData : ISpecterRewardedResourceData, ISpecterEconomyResourceData
     {
         public string uuid { get; set; }
@@ -15,7 +25,7 @@ namespace SpecterSDK.APIModels.ClientModels.v2
         public SPRarityData rarity { get; set; }
         public long amount { get; set; }
     }
-    
+
     [Serializable]
     public class SPRewardedBundleData : ISpecterRewardedResourceData, ISpecterEconomyResourceData
     {
@@ -38,11 +48,11 @@ namespace SpecterSDK.APIModels.ClientModels.v2
         public string iconUrl { get; set; }
         public SPRarityData rarity { get; set; }
         public long amount { get; set; }
-        
+
         public string code { get; set; }
         public SPCurrencyType type { get; set; }
     }
-    
+
     [Serializable]
     public class SPRewardedProgressionMarkerData : ISpecterRewardedResourceData
     {
@@ -77,17 +87,17 @@ namespace SpecterSDK.APIModels.ClientModels.v2
         /// Sort order of the rule.
         /// </summary>
         public int no { get; set; }
-        
+
         /// <summary>
         /// Start rank of the rule.
         /// </summary>
         public int startRank { get; set; }
-        
+
         /// <summary>
         /// End rank of the rule. Null end rank means this rule applies till the last participant.
         /// </summary>
         public int? endRank { get; set; }
-        
+
         /// <summary>
         /// Rewards of the rule.
         /// </summary>

@@ -35,17 +35,17 @@ namespace SpecterSDK.API.v2.Players.Me
 
     public class SPGetMyPlayerProfileResult : SpecterApiResultBase<SPGetMyPlayerProfileResponse>
     {
-        public SPPlayerProfile Profile { get; set; }
+        public SPMyPlayerProfile Profile { get; set; }
         
         protected override void InitSpecterObjectsInternal()
         {
-            Profile = new SPPlayerProfile(Response.data.user);
+            Profile = new SPMyPlayerProfile(Response.data.user);
         }
     }
 
     public partial class SPMePlayerClientV2
     {
-        public async Task<SPGetMyPlayerProfileResult> GetPlayerProfileAsync(SPGetMyInventoryCollectionsRequest request)
+        public async Task<SPGetMyPlayerProfileResult> GetPlayerProfileAsync(SPGetMyPlayerProfileRequest request)
         {
             var result = await PostAsync<SPGetMyPlayerProfileResult, SPGetMyPlayerProfileResponse>("/v2/client/player/me/get-profile", AuthType, request);
             return result;

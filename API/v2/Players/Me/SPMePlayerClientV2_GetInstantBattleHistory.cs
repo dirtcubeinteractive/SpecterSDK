@@ -10,20 +10,6 @@ using SpecterSDK.Shared.SPEnum;
 namespace SpecterSDK.API.v2.Players.Me
 {
     /// <summary>
-    /// Represents the attributes available for the Instant Battle History endpoint.
-    /// </summary>
-    [Serializable]
-    public sealed class SPInstantBattleHistoryAttribute : SPEnum<SPInstantBattleHistoryAttribute>
-    {
-        public static readonly SPInstantBattleHistoryAttribute Match = new SPInstantBattleHistoryAttribute(0, "match", "Match");
-        public static readonly SPInstantBattleHistoryAttribute Config = new SPInstantBattleHistoryAttribute(1, "config", "Configuration");
-        public static readonly SPInstantBattleHistoryAttribute Type = new SPInstantBattleHistoryAttribute(2, "type", "Type");
-        public static readonly SPInstantBattleHistoryAttribute SourceType = new SPInstantBattleHistoryAttribute(3, "sourceType", "Source Type");
-        
-        private SPInstantBattleHistoryAttribute(int id, string name, string displayName) : base(id, name, displayName) { }
-    }
-    
-    /// <summary>
     /// Represents a request to get instant battle history for the player.
     /// </summary>
     [Serializable]
