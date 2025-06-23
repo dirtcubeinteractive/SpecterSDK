@@ -27,4 +27,9 @@ namespace SpecterSDK.API.v2.Auth
         /// </summary>
         public Dictionary<string, object> customParams { get; set; }
     }
+
+    public class SPLoginWithCustomIdResult
+    {
+        
+    }
 }
