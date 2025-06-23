@@ -1,7 +1,12 @@
+using System;
+using SpecterSDK.Shared.Networking.Interfaces;
+
 namespace SpecterSDK.API.v2.Auth
 {
-    public class SPAuthApiClientV2_ValidateToken_Response
+    [Serializable]
+    public class SPValidateTokenResponse : ISpecterApiResponseData
     {
-        
+        public string accessToken { get; set; }
+        public long expires { get; set; }
     }
 }

@@ -43,18 +43,22 @@ namespace SpecterSDK.ObjectModels.v2
         public SPMyPlayerProfile() : base() { }
         public SPMyPlayerProfile(SPMyProfileData data) : base(data)
         {
-            Uuid = data.uuid;
-            Id = data.id;
-            FirstName = data.firstName;
-            LastName = data.lastName;
-            DisplayName = data.displayName;
-            Username = data.username;
-            ThumbUrl = data.thumbUrl;
-            Email = data.email;
-            ReferralCode = data.referralCode;
-            
             LinkedAccounts = data.linkedAccounts?.ConvertAll(x => new SPUserAuthAccount(x));
             EquippedItems = data.equippedItems?.ConvertAll(x => new SPInventoryItem(x));
+        }
+    }
+
+    public class SPAuthenticatedUser : SPPlayerProfile
+    {
+        public bool? IsKycComplete { get; set; }
+        
+        public List<SPUserAuthAccount> LinkedAccounts { get; set; }
+        
+        public SPAuthenticatedUser() : base() { }
+        public SPAuthenticatedUser(SPAuthenticatedUserData data) : base(data)
+        {
+            IsKycComplete = data.isKycComplete;
+            LinkedAccounts = data.linkedAccounts?.ConvertAll(x => new SPUserAuthAccount(x));
         }
     }
     

@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SpecterSDK.Shared.Networking.Models;
 
@@ -20,5 +21,24 @@ namespace SpecterSDK.API.v2.Auth
         /// The access token that is about to expire.
         /// </summary>
         public string expiringAccessToken { get; set; }
+    }
+
+    public class SPRefreshAccessTokenResult : SpecterApiResultBase<SPRefreshAccessTokenResponse>
+    {
+        public string AccessToken { get; set; }
+        
+        protected override void InitSpecterObjectsInternal()
+        {
+            AccessToken = Response.data.accessToken;
+        }
+    }
+
+    public partial class SPAuthApiClientV2
+    {
+        public async Task<SPRefreshAccessTokenResult> RefreshAccessTokenAsync(SPRefreshAccessTokenRequest request)
+        {
+            var result = await PostAsync<SPRefreshAccessTokenResult, SPRefreshAccessTokenResponse>("/v2/client/auth/refresh-token", AuthType, request);
+            return result;
+        }
     }
 }
