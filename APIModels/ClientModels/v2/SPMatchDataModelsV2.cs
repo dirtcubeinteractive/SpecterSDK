@@ -21,7 +21,22 @@ namespace SpecterSDK.APIModels.ClientModels.v2
         
         public List<SPMatchParticipantData> playerDetails { get; set; }
     }
+    
+    /// <summary>
+    /// Basic info about a participant in a match. Returned when retrieving match session details.
+    /// </summary>
+    public class SPMatchSessionPlayerInfoData
+    {
+        public string uuid { get; set; }
+        public string id { get; set; }
+        public string entryId { get; set; }
+        public long score { get; set; }
+        public int rank { get; set; }
+    }
 
+    /// <summary>
+    /// Full info and basic player profile of a match participant. Returned when retrieving match history for a player.
+    /// </summary>
     [Serializable]
     public class SPMatchParticipantData : ISpecterBaseUserProfileData
     {

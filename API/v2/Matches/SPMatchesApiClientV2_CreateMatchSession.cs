@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SpecterSDK.Shared.Networking.Models;
 
@@ -26,5 +27,24 @@ namespace SpecterSDK.API.v2.Matches
         /// An array containing details of users participating in the session.
         /// </summary>
         public List<SPMatchUserInfoV2> userInfo { get; set; }
+    }
+
+    public class SPCreateMatchSessionResult : SpecterApiResultBase<SPCreateMatchSessionResponse>
+    {
+        public string MatchSessionId { get; set; }
+        
+        protected override void InitSpecterObjectsInternal()
+        {
+            MatchSessionId = Response.data.matchSessionId;
+        }
+    }
+
+    public partial class SPMatchesApiClientV2
+    {
+        public async Task<SPCreateMatchSessionResult> CreateMatchSessionAsync(SPCreateMatchSessionRequest request)
+        {
+            var result = await PostAsync<SPCreateMatchSessionResult, SPCreateMatchSessionResponse>("/v2/client/matches/create-session", AuthType, request);
+            return result;
+        }
     }
 }

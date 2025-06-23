@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using SpecterSDK.API.v2.App;
+using SpecterSDK.API.v2.Matches;
 using SpecterSDK.API.v2.Players.Me;
 using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.APIModels.ClientModels.v2;
@@ -137,6 +138,50 @@ namespace SpecterSDK.ObjectModels.v2
             Username = data.username;
             DisplayName = data.displayName;
             ThumbUrl = data.thumbUrl;
+            Score = data.score;
+            Rank = data.rank;
+        }
+    }
+
+    public class SPMatchSessionResultInfo
+    {
+        public string MatchSessionId { get; set; }
+        
+        public SPMatchResource Match { get; set; }
+        public SPGameResource Game { get; set; }
+        public SPCompetitionResource Competition { get; set; }
+        
+        public List<SPMatchSessionPlayerInfo> UserInfos { get; set; }
+        
+        public DateTime? PlayedAt { get; set; }
+        
+        public SPMatchSessionResultInfo() { }
+        public SPMatchSessionResultInfo(SPMatchSessionResultData data)
+        {
+            MatchSessionId = data.matchSessionId;
+            Match = new SPMatchResource(data.match);
+            Game = new SPGameResource(data.game);
+            Competition = data.competition == null ? null : new SPCompetitionResource(data.competition);
+            
+            UserInfos = data.userInfo?.ConvertAll(x => new SPMatchSessionPlayerInfo(x)) ?? new List<SPMatchSessionPlayerInfo>();
+            PlayedAt = data.playedAt;
+        }
+    }
+
+    public class SPMatchSessionPlayerInfo
+    {
+        public string Uuid { get; set; }
+        public string Id { get; set; }
+        public string EntryId { get; set; }
+        public long Score { get; set; }
+        public int Rank { get; set; }
+        
+        public SPMatchSessionPlayerInfo() { }
+        public SPMatchSessionPlayerInfo(SPMatchSessionPlayerInfoData data)
+        {
+            Uuid = data.uuid;
+            Id = data.id;
+            EntryId = data.entryId;
             Score = data.score;
             Rank = data.rank;
         }
