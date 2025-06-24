@@ -64,7 +64,7 @@ namespace SpecterSDK.APIModels.ClientModels.v2
     }
     
     [Serializable]
-    public class SPTaskResourceData : ISpecterResourceData
+    public class SPTaskResourceData : ISpecterTaskResourceData
     {
         public string uuid { get; set; }
         public string id { get; set; }

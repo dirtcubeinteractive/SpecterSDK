@@ -1,7 +1,19 @@
+using System;
+using System.Collections.Generic;
+using SpecterSDK.APIModels.ClientModels.v2;
+using SpecterSDK.Shared;
+using SpecterSDK.Shared.Networking.Interfaces;
+
 namespace SpecterSDK.API.v2.Achievements
 {
-    public class SPAchievementsApiClientV2_GrantRewardBySource_Response
+    [Serializable]
+    public class SPGrantRewardBySourceResponse : ISpecterApiResponseData
     {
+        public List<SPInventoryItemData> items { get; set; }
+        public List<SPInventoryBundleData> bundles { get; set; }
+        public List<SPWalletCurrencyData> currencies { get; set; }
+        public List<SPMarkerProgressData> progressionMarkers { get; set; }
         
+        public List<SPFailedRewardsData> failedRewards { get; set; }
     }
 }

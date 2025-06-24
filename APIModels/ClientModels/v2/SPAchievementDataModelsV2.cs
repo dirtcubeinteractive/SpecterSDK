@@ -5,7 +5,7 @@ using SpecterSDK.Shared;
 namespace SpecterSDK.APIModels.ClientModels.v2
 {
     [Serializable]
-    public class SPTaskStatusInfoData : ISpecterTaskStatusData
+    public class SPTaskStatusInfoData : ISpecterTaskStatusData, ISpecterTaskResourceData
     {
         public string uuid { get; set; }
         public string id { get; set; }

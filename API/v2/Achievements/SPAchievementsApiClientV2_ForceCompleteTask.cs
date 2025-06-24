@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
+using SpecterSDK.ObjectModels.v2;
 using SpecterSDK.Shared.Networking.Models;
 
 namespace SpecterSDK.API.v2.Achievements
@@ -26,5 +28,24 @@ namespace SpecterSDK.API.v2.Achievements
         /// Custom parameters for processing.
         /// </summary>
         public Dictionary<string, object> customParams { get; set; }
+    }
+
+    public class SPForceCompleteTaskResult : SpecterApiResultBase<SPForceCompleteTaskResponse>
+    {
+        public List<SPForceCompletedTaskInfo> ForceCompletedTasks { get; set; }
+        
+        protected override void InitSpecterObjectsInternal()
+        {
+            ForceCompletedTasks = Response.data?.ConvertAll(x => new SPForceCompletedTaskInfo(x));
+        }
+    }
+
+    public partial class SPAchievementsApiClientV2
+    {
+        public async Task<SPForceCompleteTaskResult> ForceCompleteTaskAsync(SPForceCompleteTaskRequest request)
+        {
+            var result = await PostAsync<SPForceCompleteTaskResult, SPForceCompleteTaskResponse>("/v2/client/achievements/force-complete", AuthType, request);
+            return result;
+        }
     }
 }

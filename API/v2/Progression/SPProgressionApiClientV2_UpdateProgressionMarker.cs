@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
+using SpecterSDK.ObjectModels.v2;
 using SpecterSDK.Shared;
 using SpecterSDK.Shared.Networking.Models;
 
@@ -32,5 +34,24 @@ namespace SpecterSDK.API.v2.Progression
         /// Custom parameters for further customization.
         /// </summary>
         public Dictionary<string, object> customParams { get; set; }
+    }
+
+    public class SPUpdateProgressionMarkerResult : SpecterApiResultBase<SPUpdateProgressionMarkerResponse>
+    {
+        public SPMarkerProgress UpdatedMarkerProgress { get; set; }
+        
+        protected override void InitSpecterObjectsInternal()
+        {
+            UpdatedMarkerProgress = new SPMarkerProgress(Response.data);
+        }
+    }
+
+    public partial class SPProgressionApiClientV2
+    {
+        public async Task<SPUpdateProgressionMarkerResult> UpdateProgressionMarkerAsync(SPUpdateProgressionMarkerRequest request)
+        {
+            var result = await PostAsync<SPUpdateProgressionMarkerResult, SPUpdateProgressionMarkerResponse>("/v2/client/progression/update-marker", AuthType, request);
+            return result;
+        }
     }
 }

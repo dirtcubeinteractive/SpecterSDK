@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
+using SpecterSDK.ObjectModels.v2;
 using SpecterSDK.Shared;
 using SpecterSDK.Shared.Networking.Models;
 
@@ -16,7 +18,7 @@ namespace SpecterSDK.API.v2.Achievements
         /// <summary>
         /// An object representing the origin of the rewards.
         /// </summary>
-        public SPRewardSourceWithOverrides source { get; set; }
+        public List<SPRewardSourceWithOverrides> sources { get; set; }
     }
     
     /// <summary>
@@ -60,5 +62,34 @@ namespace SpecterSDK.API.v2.Achievements
         /// Custom parameters for processing.
         /// </summary>
         public Dictionary<string, object> customParams { get; set; }
+    }
+    
+    public class SPGrantRewardBySourceWithOverridesResult : SpecterApiResultBase<SPGrantRewardBySourceWithOverridesResponse>
+    {
+        public List<SPInventoryItem> Items { get; set; }
+        public List<SPInventoryBundle> Bundles { get; set; }
+        public List<SPWalletCurrency> Currencies { get; set; }
+        public List<SPMarkerProgress> ProgressionMarkers { get; set; }
+        
+        public List<SPFailedRewards> FailedRewards { get; set; }
+        
+        protected override void InitSpecterObjectsInternal()
+        {
+            Items = Response.data?.items?.ConvertAll(x => new SPInventoryItem(x)) ?? new List<SPInventoryItem>();
+            Bundles = Response.data?.bundles?.ConvertAll(x => new SPInventoryBundle(x)) ?? new List<SPInventoryBundle>();
+            Currencies = Response.data?.currencies?.ConvertAll(x => new SPWalletCurrency(x)) ?? new List<SPWalletCurrency>();
+            ProgressionMarkers = Response.data?.progressionMarkers?.ConvertAll(x => new SPMarkerProgress(x)) ?? new List<SPMarkerProgress>();
+            
+            FailedRewards = Response.data?.failedRewards?.ConvertAll(x => new SPFailedRewards(x)) ?? new List<SPFailedRewards>();
+        }
+    }
+
+    public partial class SPAchievementsApiClientV2
+    {
+        public async Task<SPGrantRewardBySourceWithOverridesResult> GrantRewardBySourceWithOverridesAsync(SPGrantRewardBySourceWithOverridesRequest request)
+        {
+            var result = await PostAsync<SPGrantRewardBySourceWithOverridesResult, SPGrantRewardBySourceWithOverridesResponse>("/v2/client/achievements/grant-reward-by-source-overrides", AuthType, request);
+            return result;
+        }
     }
 }

@@ -103,4 +103,46 @@ namespace SpecterSDK.APIModels.ClientModels.v2
         /// </summary>
         public SPRewardsData rewardDetails { get; set; }
     }
+    
+    [Serializable]
+    public class SPFailedRewardsData
+    {
+        public SPFailedRewardSourceData source { get; set; }
+        
+        public List<SPFailedInventoryEntityData> itemsFailed { get; set; }
+        public List<SPFailedInventoryEntityData> bundlesFailed { get; set; }
+        public List<SPFailedResourceInfoData> currenciesFailed { get; set; }
+        public List<SPFailedResourceInfoData> progressionMarkersFailed { get; set; }
+    }
+
+    [Serializable]
+    public class SPFailedRewardSourceData : ISpecterRewardSourceData
+    {
+        public string id { get; set; }
+        public SPRewardSourceType type { get; set; }
+        public string instanceId { get; set; }
+    }
+
+    /// <summary>
+    /// Base data model for resources that failed to be granted to a player (e.g. currency, item, bundle).
+    /// </summary>
+    [Serializable]
+    public class SPFailedResourceInfoData
+    {
+        public string id { get; set; }
+        public string reason { get; set; }
+        public string message { get; set; }
+        public long amount { get; set; }
+        public int code { get; set; }
+    }
+
+    /// <summary>
+    /// Data model for resources that failed an inventory action (add/remove).
+    /// </summary>
+    [Serializable]
+    public class SPFailedInventoryEntityData : SPFailedResourceInfoData
+    {
+        public string stackId { get; set; }
+        public string collectionId { get; set; }
+    }
 }

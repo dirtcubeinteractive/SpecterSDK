@@ -228,6 +228,18 @@ namespace SpecterSDK.ObjectModels.v2
         public long Amount { get; set; }
     }
 
+    public interface ISpecterFailedRewardSource
+    {
+        public string Id { get; set; }
+        public string InstanceId { get; set; }
+        public SPRewardSourceType Type { get; set; }
+    }
+
+    public interface ISpecterTaskResource : ISpecterResource
+    {
+        
+    }
+
     public interface ISpecterTaskStatusInfo : ISpecterResource
     {
         public string InstanceId { get; set; }

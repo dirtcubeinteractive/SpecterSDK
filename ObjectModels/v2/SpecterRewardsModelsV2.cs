@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using SpecterSDK.API.v2.Players.Me;
 using SpecterSDK.APIModels.ClientModels.v2;
-using SpecterSDK.ObjectModels.Interfaces;
 using SpecterSDK.Shared;
 using SpecterSDK.Shared.v2;
 
@@ -285,6 +283,78 @@ namespace SpecterSDK.ObjectModels.v2
             SourceType = data.sourceType;
             SourceId = data.sourceId;
             RewardDetails = data.rewardDetails == null ? null : new SPRewards(data.rewardDetails);
+        }
+    }
+
+    public class SPFailedRewardSource
+    {
+        public string Id { get; set; }
+        public string InstanceId { get; set; }
+        public SPRewardSourceType Type { get; set; }
+        
+        public SPFailedRewardSource() { }
+        public SPFailedRewardSource(SPFailedRewardSourceData data)
+        {
+            Id = data.id;
+            InstanceId = data.instanceId;
+            Type = data.type;
+        }
+    }
+
+    public class SPFailedResourceInfo
+    {
+        public string Id { get; set; }
+        public long Amount { get; set; }
+        public string Message { get; set; }
+        public string Reason { get; set; }
+        
+        public SPResourceType ResourceType { get; set; }
+        public int Code { get; set; }
+        
+        public SPFailedResourceInfo() { }
+
+        public SPFailedResourceInfo(SPFailedResourceInfoData data, SPResourceType resourceType)
+        {
+            Id = data.id;
+            Amount = data.amount;
+            Message = data.message;
+            Reason = data.reason;
+            ResourceType = resourceType;
+            Code = data.code;
+        }
+    }
+
+    public class SPFailedInventoryEntityInfo : SPFailedResourceInfo
+    {
+        public string StackId { get; set; }
+        public string CollectionId { get; set; }
+        
+        public SPFailedInventoryEntityInfo() : base() {}
+        public SPFailedInventoryEntityInfo(SPFailedInventoryEntityData data, SPResourceType resourceType) : base(data, resourceType)
+        {
+            StackId = data.stackId;
+            CollectionId = data.collectionId;
+        }
+    }
+
+    public class SPFailedRewards
+    {
+        public SPFailedRewardSource Source { get; set; }
+        
+        public List<SPFailedInventoryEntityInfo> ItemsFailed { get; set; }
+        public List<SPFailedInventoryEntityInfo> BundlesFailed { get; set; }
+        public List<SPFailedResourceInfo> CurrenciesFailed { get; set; }
+        public List<SPFailedResourceInfo> ProgressionMarkersFailed { get; set; }
+        
+        public SPFailedRewards() { }
+        public SPFailedRewards(SPFailedRewardsData data)
+        {
+            Source = new SPFailedRewardSource(data.source);
+
+            ItemsFailed = data.itemsFailed?.ConvertAll(x => new SPFailedInventoryEntityInfo(x, SPResourceType.Item)) ?? new List<SPFailedInventoryEntityInfo>();
+            BundlesFailed = data.bundlesFailed?.ConvertAll(x => new SPFailedInventoryEntityInfo(x, SPResourceType.Bundle)) ?? new List<SPFailedInventoryEntityInfo>();
+            CurrenciesFailed = data.currenciesFailed?.ConvertAll(x => new SPFailedResourceInfo(x, SPResourceType.Currency)) ?? new List<SPFailedResourceInfo>();
+            ProgressionMarkersFailed = data.progressionMarkersFailed?.ConvertAll(x => new SPFailedResourceInfo(x, SPResourceType.ProgressionMarker)) ?? new List<SPFailedResourceInfo>();
         }
     }
 }

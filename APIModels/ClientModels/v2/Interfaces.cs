@@ -119,6 +119,13 @@ namespace SpecterSDK.APIModels.ClientModels.v2
     {
         public SPUnlockConditionsData unlockConditions { get; set; }
     }
+
+    public interface ISpecterRewardSourceData
+    {
+        public string id { get; set; }
+        public SPRewardSourceType type { get; set; }
+        public string instanceId { get; set; }
+    }
     
     public interface ISpecterRewardedResourceData : ISpecterResourceData
     {
@@ -166,6 +173,10 @@ namespace SpecterSDK.APIModels.ClientModels.v2
     public interface ISpecterTaskGroupData : ISpecterTaskGroupResourceData, ISpecterUnlockableData, ISpecterMasterData, ISpecterLiveOpsEntityData
     {
         public List<SPTaskResourceData> tasks { get; set; }
+    }
+
+    public interface ISpecterTaskResourceData : ISpecterResourceData
+    {
     }
 
     public interface ISpecterTaskGroupResourceData : ISpecterResourceData

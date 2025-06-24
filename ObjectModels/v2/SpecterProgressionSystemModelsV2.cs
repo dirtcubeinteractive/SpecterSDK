@@ -168,6 +168,7 @@ namespace SpecterSDK.ObjectModels.v2
         public int CurrentLevelNo { get; set; }
         public int PreviousLevelNo { get; set; }
         public long AmountToNextLevel { get; set; }
+        public bool IsLevelUp { get; set; }
         
         public SPProgressionInfo() { }
         public SPProgressionInfo(SPProgressionInfoData data)
@@ -175,7 +176,10 @@ namespace SpecterSDK.ObjectModels.v2
             ProgressionSystemId = data.progressionSystemId;
             CurrentLevelNo = data.currentLevelNo;
             PreviousLevelNo = data.currentLevelNo - 1;
-            AmountToNextLevel = data.amountToNextLevel ?? 0;
+            AmountToNextLevel = data.amountToNextLevel;
+            
+            // TODO: Once grant reward version of the returned marker dto is implemented, revisit this to consolidate all progression models.
+            IsLevelUp = data.isLevelUp;
         }
     }
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using SpecterSDK.API.v2.Achievements;
 using SpecterSDK.API.v2.App;
 using SpecterSDK.API.v2.Players.Me;
 using SpecterSDK.APIModels.ClientModels.v1;
@@ -8,7 +9,10 @@ using SpecterSDK.Shared;
 
 namespace SpecterSDK.ObjectModels.v2
 {
-    public class SPTaskResource : ISpecterResource, ISpecterRewardable
+    /// <summary>
+    /// Abbreviated information about a task when retrieved in task group objects.
+    /// </summary>
+    public class SPTaskResource : ISpecterTaskResource, ISpecterRewardable
     {
         public string Uuid { get; set; }
         public string Id { get; set; }
@@ -38,6 +42,40 @@ namespace SpecterSDK.ObjectModels.v2
         }
     }
 
+    /// <summary>
+    /// Information about a task that was force completed.
+    /// </summary>
+    public class SPForceCompletedTaskInfo : ISpecterTaskResource, ISpecterRewardable
+    {
+        public string Uuid { get; set; }
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string IconUrl { get; set; }
+        
+        public SPTaskGroupResource TaskGroupDetails { get; set; }
+
+        public SPRewards RewardDetails { get; set; }
+        public bool HasRewards => RewardDetails?.All is { Count: > 0 };
+        public SPRewardSourceType RewardSource => SPRewardSourceType.Task;
+        
+        public SPForceCompletedTaskInfo() { }
+        public SPForceCompletedTaskInfo(SPForceCompletedTaskData data)
+        {
+            Uuid = data.uuid;
+            Id = data.id;
+            Name = data.name;
+            Description = data.description;
+            IconUrl = data.iconUrl;
+            
+            TaskGroupDetails = data.taskGroupDetails == null ? null : new SPTaskGroupResource(data.taskGroupDetails);
+            RewardDetails = data.rewardDetails == null ? null : new SPRewards(data.rewardDetails);
+        }
+    }
+
+    /// <summary>
+    /// Minimum information about a task group.
+    /// </summary>
     public class SPTaskGroupResource : ISpecterTaskGroupResource
     {
         public string Uuid { get; set; }
@@ -59,7 +97,10 @@ namespace SpecterSDK.ObjectModels.v2
         }
     }
     
-    public class SPTask : ISpecterResource, ISpecterMasterObject, ISpecterLiveOpsEntity, ISpecterUnlockable, ISpecterRewardable
+    /// <summary>
+    /// Full information about a task object.
+    /// </summary>
+    public class SPTask : ISpecterTaskResource, ISpecterMasterObject, ISpecterLiveOpsEntity, ISpecterUnlockable, ISpecterRewardable
     {
         public string Uuid { get; set; }
         public string Id { get; set; }
@@ -119,6 +160,9 @@ namespace SpecterSDK.ObjectModels.v2
         }
     }
     
+    /// <summary>
+    /// Full information about a task group object.
+    /// </summary>
     public class SPTaskGroup : ISpecterTaskGroupResource, ISpecterMasterObject, ISpecterLiveOpsEntity, ISpecterUnlockable
     {
         public string Uuid { get; set; }
@@ -186,7 +230,10 @@ namespace SpecterSDK.ObjectModels.v2
         public SPStepSeries(SPStepSeriesData data) : base(data) { }
     }
     
-    public class SPTaskStatusInfo : ISpecterTaskStatusInfo
+    /// <summary>
+    /// Full information about the completion status of a task.
+    /// </summary>
+    public class SPTaskStatusInfo : ISpecterTaskResource, ISpecterTaskStatusInfo
     {
         public string Uuid { get; set; }
         public string Id { get; set; }
@@ -215,6 +262,9 @@ namespace SpecterSDK.ObjectModels.v2
         }
     }
 
+    /// <summary>
+    /// Full information about the completion status of a task group.
+    /// </summary>
     public class SPTaskGroupStatusInfo : ISpecterTaskGroupResource
     {
         public string Uuid { get; set; }
@@ -245,7 +295,10 @@ namespace SpecterSDK.ObjectModels.v2
         }
     }
 
-    public class SPTaskStatusInfoBase : ISpecterTaskStatusInfo
+    /// <summary>
+    /// Minimal information about the completion status of a task. Received as the task information within task group statuses.
+    /// </summary>
+    public class SPTaskStatusInfoBase : ISpecterTaskResource, ISpecterTaskStatusInfo
     {
         public string Uuid { get; set; }
         public string Id { get; set; }
@@ -271,7 +324,11 @@ namespace SpecterSDK.ObjectModels.v2
     }
 
     // TODO: Make task/achievement resource interface for task related information models
-    public class SPTaskProgressInfo : ISpecterResource
+    
+    /// <summary>
+    /// Information about the progress made within a task with full parameter level progress data.
+    /// </summary>
+    public class SPTaskProgressInfo : ISpecterTaskResource
     {
         public string Uuid { get; set; }
         public string Id { get; set; }
