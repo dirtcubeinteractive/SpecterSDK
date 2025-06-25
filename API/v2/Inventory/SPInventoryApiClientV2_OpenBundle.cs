@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
+using SpecterSDK.ObjectModels.v2;
 using SpecterSDK.Shared.Networking.Models;
 
 namespace SpecterSDK.API.v2.Inventory
@@ -36,5 +38,28 @@ namespace SpecterSDK.API.v2.Inventory
         /// Any additional custom parameters associated with the bundle.
         /// </summary>
         public Dictionary<string, object> customParams { get; set; }
+    }
+
+    public class SPOpenBundleResult : SpecterApiResultBase<SPOpenBundleResponse>
+    {
+        public List<SPInventoryItem> Items { get; set; }
+        public List<SPInventoryBundle> Bundles { get; set; }
+        public List<SPWalletCurrency> Currencies { get; set; }
+        
+        protected override void InitSpecterObjectsInternal()
+        {
+            Items = Response.data?.items?.ConvertAll(x => new SPInventoryItem(x)) ?? new List<SPInventoryItem>();
+            Bundles = Response.data?.bundles?.ConvertAll(x => new SPInventoryBundle(x)) ?? new List<SPInventoryBundle>();
+            Currencies = Response.data?.currencies?.ConvertAll(x => new SPWalletCurrency(x)) ?? new List<SPWalletCurrency>();
+        }
+    }
+
+    public partial class SPInventoryApiClientV2
+    {
+        public async Task<SPOpenBundleResult> OpenBundleAsync(SPOpenBundleRequest request)
+        {
+            var result = await PostAsync<SPOpenBundleResult, SPOpenBundleResponse>("/v2/client/inventory/open-bundle", AuthType, request);
+            return result;
+        }
     }
 }

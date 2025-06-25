@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SpecterSDK.Shared.Networking.Models;
 
@@ -49,5 +50,22 @@ namespace SpecterSDK.API.v2.Inventory
         /// Array of items to be consumed from the inventory.
         /// </summary>
         public List<SPConsumeItemInfo> items { get; set; }
+    }
+
+    public class SPConsumeItemResult : SpecterApiResultBase<SPConsumeItemResponse>
+    {
+        protected override void InitSpecterObjectsInternal()
+        {
+            
+        }
+    }
+
+    public partial class SPInventoryApiClientV2
+    {
+        public async Task<SPConsumeItemResult> ConsumeItemAsync(SPConsumeItemRequest request)
+        {
+            var result = await PostAsync<SPConsumeItemResult, SPConsumeItemResponse>("/v2/client/inventory/consume-item", AuthType, request);
+            return result;
+        }
     }
 }

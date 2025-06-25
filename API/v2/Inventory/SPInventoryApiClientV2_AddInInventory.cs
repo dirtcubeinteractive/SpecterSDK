@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
+using SpecterSDK.ObjectModels.v2;
 using SpecterSDK.Shared.Networking.Models;
 
 namespace SpecterSDK.API.v2.Inventory
@@ -54,5 +56,26 @@ namespace SpecterSDK.API.v2.Inventory
         /// Array of bundles to be added to the inventory.
         /// </summary>
         public List<SPInventoryEntityInfo> bundles { get; set; }
+    }
+
+    public class SPAddInInventoryResult : SpecterApiResultBase<SPAddInInventoryResponse>
+    {
+        public List<SPFailedInventoryEntityInfo> ItemsFailed { get; set; }
+        public List<SPFailedInventoryEntityInfo> BundlesFailed { get; set; }
+        
+        protected override void InitSpecterObjectsInternal()
+        {
+            ItemsFailed = Response.data?.itemsFailed?.ConvertAll(x => new SPFailedInventoryEntityInfo(x, SPResourceType.Item)) ?? new List<SPFailedInventoryEntityInfo>();
+            BundlesFailed = Response.data?.bundlesFailed?.ConvertAll(x => new SPFailedInventoryEntityInfo(x, SPResourceType.Bundle)) ?? new List<SPFailedInventoryEntityInfo>();
+        }
+    }
+
+    public partial class SPInventoryApiClientV2
+    {
+        public async Task<SPAddInInventoryResult> AddInInventoryAsync(SPAddInInventoryRequest request)
+        {
+            var result = await PostAsync<SPAddInInventoryResult, SPAddInInventoryResponse>("/v2/client/inventory/add", AuthType, request);
+            return result;
+        }
     }
 }

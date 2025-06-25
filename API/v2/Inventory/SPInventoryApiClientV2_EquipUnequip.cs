@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SpecterSDK.Shared.Networking.Models;
 
@@ -10,7 +11,7 @@ namespace SpecterSDK.API.v2.Inventory
     /// </summary>
     [Serializable]
     [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPEquipUnequipItemInfo
+    public class SPEquipUnequipEntityInfo
     {
         /// <summary>
         /// Instance ID of the item to be equipped or unequipped.
@@ -43,11 +44,28 @@ namespace SpecterSDK.API.v2.Inventory
     /// </summary>
     [Serializable]
     [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPEquipUnequipItemRequest : SPApiRequestBase
+    public class SPEquipUnequipRequest : SPApiRequestBase
     {
         /// <summary>
         /// Array of items to be equipped or unequipped.
         /// </summary>
-        public List<SPEquipUnequipItemInfo> items { get; set; }
+        public List<SPEquipUnequipEntityInfo> items { get; set; }
+    }
+
+    public class SPEquipUnequipResult : SpecterApiResultBase<SPEquipUnequipResponse>
+    {
+        protected override void InitSpecterObjectsInternal()
+        {
+            
+        }
+    }
+
+    public partial class SPInventoryApiClientV2
+    {
+        public async Task<SPEquipUnequipResult> EquipUnequipAsync(SPEquipUnequipRequest request)
+        {
+            var result = await PostAsync<SPEquipUnequipResult, SPEquipUnequipResponse>("/v2/client/inventory/equip-unequip", AuthType, request);
+            return result;
+        }
     }
 }
