@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SpecterSDK.Shared.Networking.Models;
 
@@ -21,5 +22,19 @@ namespace SpecterSDK.API.v2.Events
         /// Additional custom parameters for event processing.
         /// </summary>
         public Dictionary<string, object> customParams { get; set; }
+    }
+
+    public class SPSendCustomEventResult : SpecterApiResultBase<SPSendCustomEventResponse>
+    {
+        protected override void InitSpecterObjectsInternal() { }
+    }
+
+    public partial class SPEventsApiClientV2
+    {
+        public async Task<SPSendCustomEventResult> SendCustomEventAsync(SPSendCustomEventRequest request)
+        {
+            var result = await PostAsync<SPSendCustomEventResult, SPSendCustomEventResponse>("", AuthType, request);
+            return result;
+        }
     }
 }
