@@ -5,7 +5,6 @@ using SpecterSDK.API.v2.Matches;
 using SpecterSDK.API.v2.Players.Me;
 using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.APIModels.ClientModels.v2;
-using SpecterSDK.ObjectModels.Interfaces;
 using SpecterSDK.Shared;
 
 namespace SpecterSDK.ObjectModels.v2

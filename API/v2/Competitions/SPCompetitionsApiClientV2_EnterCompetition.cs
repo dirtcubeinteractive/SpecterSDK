@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SpecterSDK.Shared.Networking.Models;
 
@@ -26,5 +27,26 @@ namespace SpecterSDK.API.v2.Competitions
         /// Additional custom parameters for the competition entry.
         /// </summary>
         public Dictionary<string, object> customParams { get; set; }
+    }
+
+    public class SPEnterCompetitionResult : SpecterApiResultBase<SPEnterCompetitionResponse>
+    {
+        public string EntryId { get; set; }
+        public string CompetitionInstanceId { get; set; }
+        
+        protected override void InitSpecterObjectsInternal()
+        {
+            EntryId = Response.data.entryId;
+            CompetitionInstanceId = Response.data.competitionInstanceId;
+        }
+    }
+
+    public partial class SPCompetitionsApiClientV2
+    {
+        public async Task<SPEnterCompetitionResult> EnterCompetitionAsync(SPEnterCompetitionRequest request)
+        {
+            var result = await PostAsync<SPEnterCompetitionResult, SPEnterCompetitionResponse>("/v2/client/competitions/enter-competition", AuthType, request);
+            return result;
+        }
     }
 }

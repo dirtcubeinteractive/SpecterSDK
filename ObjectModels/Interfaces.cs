@@ -1,11 +1,61 @@
 using System;
 using System.Collections.Generic;
-using SpecterSDK.ObjectModels.Interfaces;
+using SpecterSDK.ObjectModels.v2;
 using SpecterSDK.Shared;
 using SpecterSDK.Shared.v2;
+using UnityEngine;
 
-namespace SpecterSDK.ObjectModels.v2
+namespace SpecterSDK.ObjectModels
 {
+    #region Objects
+    
+    public interface ISpecterObject
+    {
+    }
+
+    public interface ISpecterResource : ISpecterObject
+    {
+        public string Uuid { get; set; }
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string IconUrl { get; set; }
+    }
+    
+    public interface ISpecterMasterObject
+    {
+        public List<string> Tags { get; set; }
+        public Dictionary<string, object> Meta { get; set; }
+
+        public bool TryGetMeta<T>(string key, out T val)
+        {
+            bool success = false;
+            val = default;
+            
+            try
+            {
+                if (Meta == null)
+                    throw new NullReferenceException("Meta is null");
+                
+                if (Meta.TryGetValue(key, out object objVal))
+                {
+                    if (SpecterJson.TryConvertObject<T>(objVal, out val))
+                        success = true;
+                }
+                else
+                    SPDebug.LogWarning($"No meta data with key {key} exists. Please check your configuration on the Specter dashboard");
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"Failed to deserialize meta data {key} with {e.GetType().Name}: {e.Message}");
+            }
+
+            return success;
+        }
+    }
+    
+    #endregion
+
     public interface ISpecterBaseUserProfile
     {
         public string Uuid { get; set; }
@@ -22,7 +72,7 @@ namespace SpecterSDK.ObjectModels.v2
         public string Email { get; set; }
         public string ReferralCode { get; set; }
     }
-    
+
     public interface ISpecterGame
     {
         public string HowTo { get; set; }
@@ -74,19 +124,20 @@ namespace SpecterSDK.ObjectModels.v2
         /// Pricing type - virtual, rmg or IAP.
         /// </summary>
         public SPPriceTypes PriceType { get; set; }
+
         public float Discount { get; set; }
         public float BonusCashAllowance { get; set; }
-        
+
         /// <summary>
         /// Virtual or RMG currency details.
         /// </summary>
         public SPPricingCurrencyInfo CurrencyDetails { get; set; }
-        
+
         /// <summary>
         /// Info about a real world fiat currency (only available for price type IAP)
         /// </summary>
         public SPRealWorldCurrencyInfo RealWorldCurrency { get; set; }
-        
+
         /// <summary>
         /// Use the Currency getter to access common currency info.
         /// </summary>
@@ -131,7 +182,7 @@ namespace SpecterSDK.ObjectModels.v2
         /// Type of resource.
         /// </summary>
         public SPResourceType ResourceType { get; }
-        
+
         /// <summary>
         /// A standardized property to access amount/quantity/balance of a player-owned resource
         /// when using the ISpecterPlayerOwnedEntity interface.
@@ -145,27 +196,27 @@ namespace SpecterSDK.ObjectModels.v2
         /// Unique identifier for the inventory instance of this entity.
         /// </summary>
         public string InstanceId { get; set; }
-        
+
         /// <summary>
         /// Unique developer defined identifier for the collection the entity belongs to.
         /// </summary>
         public string CollectionId { get; set; }
-        
+
         /// <summary>
         /// Unique developer defined identifier for the stack the entity belongs to.
         /// </summary>
         public string StackId { get; set; }
-        
+
         /// <summary>
         /// Quantity within the stack of this entity. Can be greater than 1 only if the entity is stackable.
         /// </summary>
         public long Quantity { get; set; }
-        
+
         /// <summary>
         /// Flag indicating if the entity is equipped.
         /// </summary>
         public bool IsEquipped { get; set; }
-        
+
         /// <summary>
         /// Number of uses remaining if an entity is configured to be consumable by uses.
         /// </summary>
@@ -178,22 +229,22 @@ namespace SpecterSDK.ObjectModels.v2
         /// Rules defining the conditions to unlock an entity (items, bundles, tasks, etc.)
         /// </summary>
         public SPUnlockConditions UnlockConditions { get; set; }
-        
+
         /// <summary>
         /// Flag indicating if the entity is locked.
         /// </summary>
         public bool IsLocked { get; }
-        
+
         /// <summary>
         /// Flag indicating if the entity is locked by a progression system level.
         /// </summary>
         public bool IsLockedByLevel { get; }
-        
+
         /// <summary>
         /// Flag indicating if the entity is locked by an item.
         /// </summary>
         public bool IsLockedByItem { get; }
-        
+
         /// <summary>
         /// Flag indicating if the entity is locked by a bundle.
         /// </summary>
@@ -206,12 +257,12 @@ namespace SpecterSDK.ObjectModels.v2
         /// Information about the rewards for the entity.
         /// </summary>
         public SPRewards RewardDetails { get; set; }
-        
+
         /// <summary>
         /// Flag indicating if the entity has rewards.
         /// </summary>
         public bool HasRewards { get; }
-        
+
         public SPRewardSourceType RewardSource { get; }
     }
 
@@ -221,7 +272,7 @@ namespace SpecterSDK.ObjectModels.v2
         /// Type of rewarded resource.
         /// </summary>
         public SPResourceType ResourceType { get; }
-        
+
         /// <summary>
         /// Amount of the rewarded resource.
         /// </summary>
@@ -237,7 +288,6 @@ namespace SpecterSDK.ObjectModels.v2
 
     public interface ISpecterTaskResource : ISpecterResource
     {
-        
     }
 
     public interface ISpecterTaskStatusInfo : ISpecterResource
@@ -272,17 +322,17 @@ namespace SpecterSDK.ObjectModels.v2
         /// The ranking method of the leaderboard or competition. Not applicable for Instant Battles.
         /// </summary>
         public SPRankingMethod RankingMethod { get; set; }
-        
+
         /// <summary>
         /// The source of the leaderboard or competition score.
         /// </summary>
         public SPLeaderboardSourceType Source { get; set; }
-        
+
         /// <summary>
         /// Info about the match backing the leaderboard or competition. Only applicable if the source is a match.
         /// </summary>
         public SPMatchResource Match { get; set; }
-        
+
         /// <summary>
         /// Prize distribution for the leaderboard or competition.
         /// </summary>
@@ -295,7 +345,7 @@ namespace SpecterSDK.ObjectModels.v2
         /// The source of the leaderboard or competition score.
         /// </summary>
         public SPLeaderboardSourceType Source { get; set; }
-        
+
         /// <summary>
         /// Info about the match backing the leaderboard or competition. Only applicable if the source is a match.
         /// </summary>
@@ -308,12 +358,12 @@ namespace SpecterSDK.ObjectModels.v2
         /// Configuration details for the competition.
         /// </summary>
         SPCompetitionConfig Config { get; set; }
-        
+
         /// <summary>
         /// Type of the competition. (E.g. Tournament, Instant Battle)
         /// </summary>
         SPCompetitionFormat Type { get; set; }
-        
+
         /// <summary>
         /// Entry fee structure for the competition.
         /// </summary>
@@ -326,7 +376,7 @@ namespace SpecterSDK.ObjectModels.v2
         /// Configuration details for the competition.
         /// </summary>
         SPCompetitionConfig Config { get; set; }
-        
+
         /// <summary>
         /// Type of the competition. (E.g. Tournament, Instant Battle)
         /// </summary>

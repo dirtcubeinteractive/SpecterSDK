@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SpecterSDK.Shared.Networking.Models;
 using SpecterSDK.Shared.v2;
@@ -31,5 +32,22 @@ namespace SpecterSDK.API.v2.Account
         /// The new password the user wants to set.
         /// </summary>
         public string password { get; set; }
+    }
+
+    public class SPResetPasswordResult : SpecterApiResultBase<SPResetPasswordResponse>
+    {
+        protected override void InitSpecterObjectsInternal()
+        {
+            
+        }
+    }
+    
+    public partial class SPAccountApiClientV2
+    {
+        public async Task<SPResetPasswordResult> ResetPasswordAsync(SPResetPasswordRequest request)
+        {
+            var result = await PostAsync<SPResetPasswordResult, SPResetPasswordResponse>("/v2/client/account/reset-password", AuthType, request);
+            return result;
+        }
     }
 }

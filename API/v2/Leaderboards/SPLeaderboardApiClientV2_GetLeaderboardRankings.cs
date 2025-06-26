@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SpecterSDK.Shared.Networking.Models;
 using SpecterSDK.Shared.SPEnum;
@@ -39,5 +40,22 @@ namespace SpecterSDK.API.v2.Leaderboards
         /// Specific attributes to include in the response.
         /// </summary>
         public List<SPLeaderboardRankingsAttribute> attributes { get; set; }
+    }
+
+    public class SPGetLeaderboardRankingsResult : SpecterApiResultBase<SPGetLeaderboardRankingsResponse>
+    {
+        protected override void InitSpecterObjectsInternal()
+        {
+            
+        }
+    }
+
+    public partial class SPLeaderboardApiClientV2
+    {
+        public async Task<SPGetLeaderboardRankingsResult> GetLeaderboardRankingsAsync(SPGetLeaderboardRankingsRequest request)
+        {
+            var result = await PostAsync<SPGetLeaderboardRankingsResult, SPGetLeaderboardRankingsResponse>("/v2/client/leaderboards/get-rankings", AuthType, request);
+            return result;
+        }
     }
 }

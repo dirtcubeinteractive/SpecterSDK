@@ -33,7 +33,7 @@ namespace SpecterSDK.API.v2.Events
     {
         public async Task<SPSendCustomEventResult> SendCustomEventAsync(SPSendCustomEventRequest request)
         {
-            var result = await PostAsync<SPSendCustomEventResult, SPSendCustomEventResponse>("", AuthType, request);
+            var result = await PostAsync<SPSendCustomEventResult, SPSendCustomEventResponse>("/v2/client/events/send-custom", AuthType, request);
             return result;
         }
     }

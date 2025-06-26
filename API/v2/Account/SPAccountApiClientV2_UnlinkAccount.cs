@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SpecterSDK.Shared.Networking.Models;
 using SpecterSDK.Shared.v2;
@@ -16,5 +17,22 @@ namespace SpecterSDK.API.v2.Account
         /// Specifies the type of account to unlink, such as a custom ID, Google, or Facebook account.
         /// </summary>
         public SPAccountAuthProvider type { get; set; }
+    }
+
+    public class SPUnlinkAccountResult : SpecterApiResultBase<SPUnlinkAccountResponse>
+    {
+        protected override void InitSpecterObjectsInternal()
+        {
+            
+        }
+    }
+
+    public partial class SPAccountApiClientV2
+    {
+        public async Task<SPUnlinkAccountResult> UnlinkAccountAsync(SPUnlinkAccountRequest request)
+        {
+            var result = await PostAsync<SPUnlinkAccountResult, SPUnlinkAccountResponse>("/v2/client/account/unlink", AuthType, request);
+            return result;
+        }
     }
 }

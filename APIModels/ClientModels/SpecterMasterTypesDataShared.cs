@@ -1,4 +1,5 @@
 using System;
+using SpecterSDK.APIModels.ClientModels.v2;
 using SpecterSDK.Shared;
 using SpecterSDK.Shared.v2;
 

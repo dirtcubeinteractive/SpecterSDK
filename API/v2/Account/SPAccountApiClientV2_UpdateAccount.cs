@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SpecterSDK.Shared.Networking.Models;
 using SpecterSDK.Shared.v2;
@@ -21,5 +22,22 @@ namespace SpecterSDK.API.v2.Account
         /// The unique identifier of the account to be updated, specific to the account type.
         /// </summary>
         public string id { get; set; }
+    }
+
+    public class SPUpdateAccountResult : SpecterApiResultBase<SPUpdateAccountResponse>
+    {
+        protected override void InitSpecterObjectsInternal()
+        {
+            
+        }
+    }
+
+    public partial class SPAccountApiClientV2
+    {
+        public async Task<SPUpdateAccountResult> UpdateAccountAsync(SPUpdateAccountRequest request)
+        {
+            var result = await PostAsync<SPUpdateAccountResult, SPUpdateAccountResponse>("/v2/client/account/update", AuthType, request);
+            return result;
+        }
     }
 }

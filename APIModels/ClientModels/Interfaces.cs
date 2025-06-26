@@ -2,12 +2,65 @@ using System;
 using System.Collections.Generic;
 using SpecterSDK.API.v2.App;
 using SpecterSDK.APIModels.ClientModels.v1;
+using SpecterSDK.APIModels.ClientModels.v2;
 using SpecterSDK.Shared;
 using SpecterSDK.Shared.Networking.Interfaces;
 using SpecterSDK.Shared.v2;
+using SPPrizeDistributionData = SpecterSDK.APIModels.ClientModels.v2.SPPrizeDistributionData;
 
-namespace SpecterSDK.APIModels.ClientModels.v2
+namespace SpecterSDK.APIModels.ClientModels
 {
+    public interface ISpecterResourceData
+    {
+        /// <summary>
+        /// The database identifier for the resource. Only used internally on the Specter backend, NOT for use in APIs
+        /// </summary>
+        public string uuid { get; set; }
+
+        /// <summary>
+        /// The unique identifier for the resource set on the Specter dashboard. Use this property in Specter APIs
+        /// </summary>
+        public string id { get; set; }
+
+        /// <summary>
+        /// Name of the resource
+        /// </summary>
+        public string name { get; set; }
+
+        /// <summary>
+        /// Description of the resource
+        /// </summary>
+        public string description { get; set; }
+
+        /// <summary>
+        /// URL to fetch the icon for the resource set on the Specter dashboard.
+        /// </summary>
+        public string iconUrl { get; set; }
+    }
+
+    public interface ISpecterPlatformData
+    {
+        /// <summary>
+        /// Unique identifier for the platform.
+        /// </summary>
+        public int id { get; }
+
+        /// <summary>
+        /// Name of the platform.
+        /// </summary>
+        public string name { get; }
+    }
+
+    [Serializable]
+    public class SPResourceData : ISpecterResourceData
+    {
+        public string uuid { get; set; }
+        public string id { get; set; }
+        public string name { get; set; }
+        public string description { get; set; }
+        public string iconUrl { get; set; }
+    }
+    
     public interface ISpecterMasterResponse : ISpecterApiResponseData
     {
         public int totalCount { get; set; }

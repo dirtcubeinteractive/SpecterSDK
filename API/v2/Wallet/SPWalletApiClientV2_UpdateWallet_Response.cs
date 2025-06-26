@@ -1,8 +1,10 @@
+using System;
 using SpecterSDK.APIModels.ClientModels.v2;
 using SpecterSDK.Shared.Networking.Interfaces;
 
 namespace SpecterSDK.API.v2.Wallet
 {
+    [Serializable]
     public class SPUpdateWalletResponse : SPWalletCurrencyData, ISpecterApiResponseData
     {
         public long requested { get; set; }

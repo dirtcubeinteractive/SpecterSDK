@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SpecterSDK.Shared.Networking.Models;
 
@@ -21,5 +22,22 @@ namespace SpecterSDK.API.v2.Leaderboards
         /// The score to submit to the leaderboard(s).
         /// </summary>
         public double score { get; set; }
+    }
+
+    public class SPPostScoreToLeaderboardResult : SpecterApiResultBase<SPPostScoreToLeaderboardResponse>
+    {
+        protected override void InitSpecterObjectsInternal()
+        {
+            
+        }
+    }
+
+    public partial class SPLeaderboardApiClientV2
+    {
+        public async Task<SPPostScoreToLeaderboardResult> PostScoreToLeaderboardAsync(SPPostScoreToLeaderboardRequest request)
+        {
+            var result = await PostAsync<SPPostScoreToLeaderboardResult, SPPostScoreToLeaderboardResponse>("/v2/client/leaderboards/post-score", AuthType, request);
+            return result;
+        }
     }
 }

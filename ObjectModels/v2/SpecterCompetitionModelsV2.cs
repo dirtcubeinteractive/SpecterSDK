@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using SpecterSDK.API.v2.App;
 using SpecterSDK.API.v2.Players.Me;
 using SpecterSDK.APIModels.ClientModels.v2;
-using SpecterSDK.ObjectModels.Interfaces;
 using SpecterSDK.Shared;
 using SpecterSDK.Shared.v2;
 

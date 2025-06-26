@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using SpecterSDK.APIModels.ClientModels.v1;
-using SpecterSDK.ObjectModels.Interfaces;
 using SpecterSDK.Shared;
 
 namespace SpecterSDK.ObjectModels.v1

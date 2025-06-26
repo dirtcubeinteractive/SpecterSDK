@@ -1,10 +1,8 @@
 using System.Collections.Generic;
 using SpecterSDK.API.v2.Achievements;
 using SpecterSDK.API.v2.App;
-using SpecterSDK.API.v2.Players.Me;
-using SpecterSDK.APIModels.ClientModels.v1;
+using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.APIModels.ClientModels.v2;
-using SpecterSDK.ObjectModels.Interfaces;
 using SpecterSDK.Shared;
 
 namespace SpecterSDK.ObjectModels.v2
