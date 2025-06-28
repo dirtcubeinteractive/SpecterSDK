@@ -1,6 +1,5 @@
 using System;
 using System.Threading.Tasks;
-using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.APIModels.ClientModels.v1;
 using SpecterSDK.ObjectModels;
 using SpecterSDK.Shared.Networking.Models;
@@ -23,9 +22,6 @@ namespace SpecterSDK.API.v1.App
         
         // The abbreviated name of the timezone
         public string Abbreviation => ServerTime.Abbreviation;
-        
-        // IP address of the client
-        public string ClientIp => ServerTime.ClientIp;
         
         // An ISO8601-valid string representing the current, local date/time
         public DateTime DateTime => ServerTime.DateTime;

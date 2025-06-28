@@ -28,7 +28,6 @@ namespace SpecterSDK.APIModels.ClientModels
     public class SPServerTimeData
     {
         public string abbreviation { get; set; }
-        public string clientIp { get; set; }
         public DateTime datetime { get; set; }
         public int dayOfWeek { get; set; }
         public int dayOfYear { get; set; }

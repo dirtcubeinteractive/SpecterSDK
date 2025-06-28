@@ -274,6 +274,7 @@ namespace SpecterSDK.ObjectModels.v2
         public SPRewardSourceType SourceType { get; set; }
         public string SourceId { get; set; }
         public SPRewards RewardDetails { get; set; }
+        public Dictionary<string, object> Meta { get; set; }
         
         public SPRewardHistoryEntry() { }
         public SPRewardHistoryEntry(SPRewardHistoryEntryDataV2 data)
@@ -283,6 +284,33 @@ namespace SpecterSDK.ObjectModels.v2
             SourceType = data.sourceType;
             SourceId = data.sourceId;
             RewardDetails = data.rewardDetails == null ? null : new SPRewards(data.rewardDetails);
+            Meta = data.meta;
+        }
+
+        public bool TryGetMeta<T>(string key, out T val)
+        {
+            bool success = false;
+            val = default;
+            
+            try
+            {
+                if (Meta == null)
+                    throw new NullReferenceException("Meta is null");
+                
+                if (Meta.TryGetValue(key, out object objVal))
+                {
+                    if (SpecterJson.TryConvertObject<T>(objVal, out val))
+                        success = true;
+                }
+                else
+                    SPDebug.LogWarning($"No meta data with key {key} exists. Please check your configuration on the Specter dashboard");
+            }
+            catch (Exception e)
+            {
+                SPDebug.LogError($"Failed to deserialize meta data {key} with {e.GetType().Name}: {e.Message}");
+            }
+
+            return success;
         }
     }
 

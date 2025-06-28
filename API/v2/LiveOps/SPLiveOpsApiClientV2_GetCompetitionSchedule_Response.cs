@@ -1,7 +1,14 @@
+using System;
+using System.Collections.Generic;
+using SpecterSDK.APIModels.ClientModels.v2;
+using SpecterSDK.Shared.Networking.Interfaces;
+
 namespace SpecterSDK.API.v2.LiveOps
 {
-    public class SPLiveOpsApiClientV2_GetCompetitionSchedule_Response
+    [Serializable]
+    public class SPGetCompetitionScheduleResponse : SPScheduleData, ISpecterApiResponseData
     {
-        
+        public SPCompetitionResourceData competition { get; set; }
+        public List<SPInstanceScheduleData> instances { get; set; }
     }
 }

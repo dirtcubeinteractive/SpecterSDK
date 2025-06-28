@@ -31,6 +31,16 @@ namespace SpecterSDK.API.v2.Achievements
         public string instanceId { get; set; }
         
         /// <summary>
+        /// Unique id for the collection to which the rewards for this source belong. Will only apply to item or bundle rewards.
+        /// </summary>
+        public string collectionId { get; set; }
+        
+        /// <summary>
+        /// Unique id for the stack to which the rewards for this source belong. Will only apply to item or bundle rewards.
+        /// </summary>
+        public string stackId { get; set; }
+        
+        /// <summary>
         /// Flag to bypass lock condition.
         /// </summary>
         public bool? bypassLockCondition { get; set; }

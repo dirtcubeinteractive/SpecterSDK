@@ -76,7 +76,6 @@ namespace SpecterSDK.ObjectModels
     public class SPServerTime
     {
         public string Abbreviation { get; set; }
-        public string ClientIp { get; set; }
         public DateTime DateTime { get; set; }
         public int DayOfWeek { get; set; }
         public int DayOfYear { get; set; }
@@ -95,7 +94,6 @@ namespace SpecterSDK.ObjectModels
         public SPServerTime(SPServerTimeData data)
         {
             Abbreviation = data.abbreviation;
-            ClientIp = data.clientIp;
             DateTime = data.datetime;
             DayOfWeek = data.dayOfWeek;
             DayOfYear = data.dayOfYear;

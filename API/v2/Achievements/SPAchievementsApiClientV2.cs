@@ -25,22 +25,22 @@ namespace SpecterSDK.API.v2.Achievements
         /// <summary>
         /// Array of items to grant.
         /// </summary>
-        public List<SPRewardItem> items { get; set; }
+        public List<SPRewardEntityInfo> items { get; set; }
         
         /// <summary>
         /// Array of bundles to grant.
         /// </summary>
-        public List<SPRewardItem> bundles { get; set; }
+        public List<SPRewardEntityInfo> bundles { get; set; }
         
         /// <summary>
         /// Array of currencies to grant.
         /// </summary>
-        public List<SPRewardItem> currencies { get; set; }
+        public List<SPRewardEntityInfo> currencies { get; set; }
         
         /// <summary>
         /// Array of progression markers to grant.
         /// </summary>
-        public List<SPRewardItem> progressionMarkers { get; set; }
+        public List<SPRewardEntityInfo> progressionMarkers { get; set; }
     }
     
     /// <summary>
@@ -48,7 +48,7 @@ namespace SpecterSDK.API.v2.Achievements
     /// </summary>
     [Serializable]
     [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPRewardItem
+    public class SPRewardEntityInfo
     {
         /// <summary>
         /// Item ID.
@@ -59,5 +59,20 @@ namespace SpecterSDK.API.v2.Achievements
         /// Quantity of the item.
         /// </summary>
         public int amount { get; set; }
+        
+        /// <summary>
+        /// Unique id for the collection this reward should be added to. Only applicable to item and bundle rewards.
+        /// </summary>
+        public string collectionId { get; set; }
+        
+        /// <summary>
+        /// Unique id for the stack this reward should be added to. Only applicable to item and bundle rewards.
+        /// </summary>
+        public string stackId { get; set; }
+        
+        /// <summary>
+        /// Custom information that may need to stored with the reward.
+        /// </summary>
+        public Dictionary<string, object> meta { get; set; }
     }
 }

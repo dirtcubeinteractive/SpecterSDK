@@ -23,6 +23,11 @@ namespace SpecterSDK.API.v2.Achievements
         /// Custom parameters for processing.
         /// </summary>
         public Dictionary<string, object> customParams { get; set; }
+        
+        /// <summary>
+        /// Custom metadata to associate with the rewards.
+        /// </summary>
+        public Dictionary<string, object> meta { get; set; }
     }
     
     public class SPGrantMultipleCustomRewardsResult : SpecterApiResultBase<SPGrantMultipleCustomRewardsResponse>

@@ -1,7 +1,14 @@
+using System;
+using System.Collections.Generic;
+using SpecterSDK.APIModels.ClientModels.v2;
+using SpecterSDK.Shared.Networking.Interfaces;
+
 namespace SpecterSDK.API.v2.LiveOps
 {
-    public class SPLiveOpsApiClientV2_GetLeaderboardSchedule_Response
+    [Serializable]
+    public class SPGetLeaderboardScheduleResponse : SPScheduleData, ISpecterApiResponseData
     {
-        
+        public SPLeaderboardResourceData leaderboard { get; set; }
+        public List<SPInstanceScheduleData> instances { get; set; }
     }
 }

@@ -31,6 +31,16 @@ namespace SpecterSDK.API.v2.Achievements
         public int amount { get; set; }
         
         /// <summary>
+        /// Unique id for the collection to which the reward belongs. Only applicable when granting an item or bundle.
+        /// </summary>
+        public string collectionId { get; set; }
+        
+        /// <summary>
+        /// Unique id for the stack to which the reward belongs. Only applicable when granting an item or bundle.
+        /// </summary>
+        public string stackId { get; set; }
+        
+        /// <summary>
         /// Flag to bypass lock condition.
         /// </summary>
         public bool? bypassLockCondition { get; set; }
@@ -44,6 +54,11 @@ namespace SpecterSDK.API.v2.Achievements
         /// Custom parameters for processing.
         /// </summary>
         public Dictionary<string, object> customParams { get; set; }
+        
+        /// <summary>
+        /// Custom metadata to associate with the reward.
+        /// </summary>
+        public Dictionary<string, object> meta { get; set; }
     }
     
     public class SPGrantRewardSingleResult : SpecterApiResultBase<SPGrantRewardSingleResponse>

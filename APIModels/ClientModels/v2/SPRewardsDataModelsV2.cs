@@ -12,6 +12,7 @@ namespace SpecterSDK.APIModels.ClientModels.v2
         public SPRewardSourceType sourceType { get; set; }
         public string sourceId { get; set; }
         public SPRewardsData rewardDetails { get; set; }
+        public Dictionary<string, object> meta { get; set; }
     }
 
     [Serializable]
