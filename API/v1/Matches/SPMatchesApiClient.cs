@@ -13,7 +13,7 @@ namespace SpecterSDK.API.v1.Matches
     /// Represents the base required user information within a match session.
     /// </summary>
     [Serializable]
-    public class SPMatchUserInfo : ISpecterEventConfigurable
+    public class SPMatchUserInfo
     {
         /// <summary>
         /// ID of the user participating in the match
@@ -49,7 +49,7 @@ namespace SpecterSDK.API.v1.Matches
     /// </remarks>
     /// </summary>
     [Serializable]
-    public class SPEndMatchSessionUserInfo : SPMatchUserInfo, ISpecterEventConfigurable
+    public class SPEndMatchSessionUserInfo : SPMatchUserInfo
     {
         /// <summary>
         /// Outcome of the user at the end of the match session.

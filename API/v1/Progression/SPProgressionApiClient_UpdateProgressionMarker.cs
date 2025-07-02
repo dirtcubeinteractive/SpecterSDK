@@ -15,7 +15,7 @@ namespace SpecterSDK.API.v1.Progression
     /// Represents a request to update the progression marker amount for a user in the Specter SDK.
     /// </summary>
     [System.Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPUpdateProgressionMarkerRequest : SPApiRequestBase, ISpecterEventConfigurable
+    public class SPUpdateProgressionMarkerRequest : SPApiRequestBase
     {   
         /// <summary>
         /// The operation for the update. See <see cref="SPOperations"/> for possible values.

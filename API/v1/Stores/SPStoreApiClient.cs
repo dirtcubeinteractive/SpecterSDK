@@ -39,7 +39,7 @@ namespace SpecterSDK.API.v1.Stores
     /// Represents the data needed to carry out a store purchase.
     /// </summary>
     [Serializable]
-    public class SPStorePurchaseData : ISpecterEventConfigurable
+    public class SPStorePurchaseData
     {
         /// <summary>
         /// ID of the resource being purchased (i.e. item ID, bundle ID, etc.)

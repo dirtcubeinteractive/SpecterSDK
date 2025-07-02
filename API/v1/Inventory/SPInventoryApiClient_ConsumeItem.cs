@@ -12,7 +12,7 @@ namespace SpecterSDK.API.v1.Inventory
     /// Includes the amount to be consumed and identifiers to locate the item within the inventory.
     /// </summary>
     [Serializable]
-    public class SPConsumeItemInfo : ISpecterEventConfigurable
+    public class SPConsumeItemInfo
     {
         /// <summary>
         /// The ID for the item configured on the dashboard.

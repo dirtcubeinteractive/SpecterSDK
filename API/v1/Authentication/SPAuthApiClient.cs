@@ -1,12 +1,9 @@
 using System;
 using System.Collections.Generic;
-using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.APIModels.ClientModels.v1;
-using SpecterSDK.ObjectModels;
 using SpecterSDK.ObjectModels.v1;
 using SpecterSDK.Shared;
 using SpecterSDK.Shared.Http;
-using SpecterSDK.Shared.Http.Interfaces;
 using SpecterSDK.Shared.Http.Models;
 
 namespace SpecterSDK.API.v1.Authentication
@@ -16,7 +13,7 @@ namespace SpecterSDK.API.v1.Authentication
     /// Represents the base structure for all authentication login requests in the SDK.
     /// </summary>
     [Serializable]
-    public abstract class SPAuthLoginRequestBase : SPApiRequestBase, ISpecterEventConfigurable
+    public abstract class SPAuthLoginRequestBase : SPApiRequestBase
     {
         /// <summary>
         /// Sets whether to create a new account for the user during login.

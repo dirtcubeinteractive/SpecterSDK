@@ -15,7 +15,7 @@ namespace SpecterSDK.API.v1.Events
     /// in the Specter User Manual for information about setting up custom events.
     /// </summary>
     [Serializable]
-    public class SPSendCustomEventsRequest : SPApiRequestBase, ISpecterEventConfigurable
+    public class SPSendCustomEventsRequest : SPApiRequestBase
     {
         /// <summary>
         /// Represents the event ID for sending custom events to the Specter API.

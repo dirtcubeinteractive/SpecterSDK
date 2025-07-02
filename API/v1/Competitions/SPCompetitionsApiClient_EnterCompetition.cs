@@ -9,7 +9,7 @@ using SpecterSDK.Shared.Http.Models;
 namespace SpecterSDK.API.v1.Competitions
 {
     [Serializable]
-    public class SPEnterCompetitionRequest : SPApiRequestBase, ISpecterEventConfigurable
+    public class SPEnterCompetitionRequest : SPApiRequestBase
     {
         public string competitionId { get; set; }
         public Dictionary<string, object> specterParams { get; set; }

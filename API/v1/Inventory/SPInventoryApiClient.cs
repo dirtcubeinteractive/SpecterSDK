@@ -27,7 +27,7 @@ namespace SpecterSDK.API.v1.Inventory
         /// This class is an object used to represent information about a bundle or item instance in Inventory API requests.
         /// </summary>
         [Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-        public class SPInventoryEntityInfo : ISpecterEventConfigurable
+        public class SPInventoryEntityInfo
         {
             /// <summary>
             /// The ID of the item or bundle as configured by you on the dashboard

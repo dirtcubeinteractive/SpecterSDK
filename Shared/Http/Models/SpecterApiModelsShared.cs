@@ -9,7 +9,7 @@ namespace SpecterSDK.Shared.Http.Models
     /// This abstract class is extended to include specific properties and configurations for different API endpoints.
     /// </summary>
     [Serializable]
-    public abstract class SPApiRequestBase : IProjectConfigurable
+    public abstract class SPApiRequestBase
     {
         public string projectId { get; set; }
     }

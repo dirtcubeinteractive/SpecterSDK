@@ -15,7 +15,7 @@ namespace SpecterSDK.API.v1.Wallet
     /// Represents a request to update a currency amount for a user in the Specter SDK.
     /// </summary>
     [Serializable]
-    public class SPUpdateWalletBalanceRequest : SPApiRequestBase, ISpecterEventConfigurable 
+    public class SPUpdateWalletBalanceRequest : SPApiRequestBase 
     {
         /// <summary>
         /// The amount to update the currency by.

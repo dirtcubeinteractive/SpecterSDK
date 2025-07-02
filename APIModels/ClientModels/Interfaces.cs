@@ -10,6 +10,17 @@ using SPPrizeDistributionData = SpecterSDK.APIModels.ClientModels.v2.SPPrizeDist
 
 namespace SpecterSDK.APIModels.ClientModels
 {
+    /// <summary>
+    /// Interface for data models that represent master data aka game/app data in the system.
+    /// Master data typically refers to objects configured on the Specter Dashboard
+    /// and has tags for categorization and meta information for custom details.
+    /// </summary>
+    public interface ISpecterMasterData
+    {
+        public List<string> tags { get; set; }
+        public Dictionary<string, object> meta { get; set; }
+    }
+
     public interface ISpecterResourceData
     {
         /// <summary>
@@ -60,7 +71,7 @@ namespace SpecterSDK.APIModels.ClientModels
         public string description { get; set; }
         public string iconUrl { get; set; }
     }
-    
+
     public interface ISpecterMasterResponse : ISpecterApiResponseData
     {
         public int totalCount { get; set; }
@@ -83,7 +94,7 @@ namespace SpecterSDK.APIModels.ClientModels
         public string email { get; set; }
         public string referralCode { get; set; }
     }
-    
+
     public interface ISpecterGameData : ISpecterResourceData
     {
         public string howTo { get; set; }
@@ -114,7 +125,9 @@ namespace SpecterSDK.APIModels.ClientModels
         public DateTime updatedAt { get; set; }
     }
 
-    public interface ISpecterPlayerOwnedEntityData : ISpecterEconomyResourceData { }
+    public interface ISpecterPlayerOwnedEntityData : ISpecterEconomyResourceData
+    {
+    }
 
     public interface ISpecterInventoryEntityData : ISpecterPlayerOwnedEntityData
     {
@@ -137,11 +150,11 @@ namespace SpecterSDK.APIModels.ClientModels
     public interface ISpecterPriceData
     {
         public SPPriceTypes priceType { get; set; }
-        
+
         public long price { get; set; }
         public float? discount { get; set; }
         public float? bonusCashAllowance { get; set; }
-        
+
         public SPPricingCurrencyData currencyDetails { get; set; }
         public SPRealWorldCurrencyData realWorldCurrency { get; set; }
     }
@@ -179,7 +192,7 @@ namespace SpecterSDK.APIModels.ClientModels
         public SPRewardSourceType type { get; set; }
         public string instanceId { get; set; }
     }
-    
+
     public interface ISpecterRewardedResourceData : ISpecterResourceData
     {
         public long amount { get; set; }
@@ -220,10 +233,10 @@ namespace SpecterSDK.APIModels.ClientModels
     {
         public SPCompetitionConfigData config { get; set; }
         public SPCompetitionFormatData type { get; set; }
-        
     }
 
-    public interface ISpecterTaskGroupData : ISpecterTaskGroupResourceData, ISpecterUnlockableData, ISpecterMasterData, ISpecterLiveOpsEntityData
+    public interface ISpecterTaskGroupData : ISpecterTaskGroupResourceData, ISpecterUnlockableData, ISpecterMasterData,
+        ISpecterLiveOpsEntityData
     {
         public List<SPTaskResourceData> tasks { get; set; }
     }

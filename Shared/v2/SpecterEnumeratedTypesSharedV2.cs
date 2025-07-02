@@ -9,12 +9,12 @@ namespace SpecterSDK.Shared.v2
     /// Represents the identification type for resetting password.
     /// </summary>
     [Serializable]
-    public sealed class SPAccountAuthIdType : SPEnum<SPAccountAuthIdType>
+    public sealed class SPPasswordAccountIdType : SPEnum<SPPasswordAccountIdType>
     {
-        public static readonly SPAccountAuthIdType Email = new SPAccountAuthIdType(0, "email", "Email");
-        public static readonly SPAccountAuthIdType Username = new SPAccountAuthIdType(1, "username", "Username");
+        public static readonly SPPasswordAccountIdType Email = new SPPasswordAccountIdType(0, "email", "Email");
+        public static readonly SPPasswordAccountIdType Username = new SPPasswordAccountIdType(1, "username", "Username");
         
-        private SPAccountAuthIdType(int id, string name, string displayName) : base(id, name, displayName) { }
+        private SPPasswordAccountIdType(int id, string name, string displayName) : base(id, name, displayName) { }
     }
     
     /// <summary>
@@ -23,7 +23,19 @@ namespace SpecterSDK.Shared.v2
     [Serializable]
     public sealed class SPAccountAuthProvider : SPEnum<SPAccountAuthProvider>
     {
-        public static readonly SPAccountAuthProvider CustomId = new SPAccountAuthProvider(2, "customId", "Custom ID");
+        public static readonly SPAccountAuthProvider CustomId = new SPAccountAuthProvider(1, "customId", "Custom ID");
+        
+        // TODO: Not implemented yet on Specter -- Do not use.
+        public static readonly SPAccountAuthProvider Facebook = new SPAccountAuthProvider(2, "facebook", "Facebook");
+        public static readonly SPAccountAuthProvider Google = new SPAccountAuthProvider(3, "google", "Google");
+        public static readonly SPAccountAuthProvider Apple = new SPAccountAuthProvider(4, "apple", "Apple");
+        public static readonly SPAccountAuthProvider Steam = new SPAccountAuthProvider(5, "steam", "Steam");
+        public static readonly SPAccountAuthProvider EpicGames = new SPAccountAuthProvider(6, "eos", "Epic Games");
+        public static readonly SPAccountAuthProvider Xbox = new SPAccountAuthProvider(7, "xbox", "Xbox");
+        public static readonly SPAccountAuthProvider PlayStation = new SPAccountAuthProvider(8, "psn", "PlayStation");
+        public static readonly SPAccountAuthProvider Nintendo = new SPAccountAuthProvider(9, "nintendo", "Nintendo");
+        public static readonly SPAccountAuthProvider Discord = new SPAccountAuthProvider(10, "discord", "Discord");
+        
         
         private SPAccountAuthProvider(int id, string name, string displayName) : base(id, name, displayName) { }
     }

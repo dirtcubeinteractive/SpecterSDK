@@ -33,7 +33,7 @@ namespace SpecterSDK.API.v1.Rewards
     /// <seealso cref="SPRewardSourceType"/>
     /// </summary>
     [Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPRewardGrantInfo : ISpecterEventConfigurable
+    public class SPRewardGrantInfo
     {
         /// <summary>
         /// An instance of <see cref="SPRewardSourceInfo"/> to represent the source of the reward.
@@ -127,7 +127,7 @@ namespace SpecterSDK.API.v1.Rewards
     /// <see cref="SPRewardsToGrant"/>
     /// </summary>
     [Serializable]
-    public abstract class SPRewardedResourceInfoBase : ISpecterEventConfigurable
+    public abstract class SPRewardedResourceInfoBase
     {
         /// <summary>
         /// The dashboard specified ID of the resource.

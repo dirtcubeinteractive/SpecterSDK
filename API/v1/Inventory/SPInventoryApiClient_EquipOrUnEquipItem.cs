@@ -12,7 +12,7 @@ namespace SpecterSDK.API.v1.Inventory
     /// This includes the identification of the item and the action (equip/unequip) to be performed.
     /// </summary>
     [Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class SPEquipUnequipItemInfo : ISpecterEventConfigurable
+    public class SPEquipUnequipItemInfo
     {
         /// <summary>
         /// ID of the item as configured on the dashboard.

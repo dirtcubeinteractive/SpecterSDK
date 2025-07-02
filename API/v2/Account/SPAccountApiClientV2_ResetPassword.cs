@@ -21,7 +21,7 @@ namespace SpecterSDK.API.v2.Account
         /// <summary>
         /// Specifies if 'id' refers to an email or username.
         /// </summary>
-        public SPAccountAuthIdType type { get; set; }
+        public SPPasswordAccountIdType type { get; set; }
         
         /// <summary>
         /// The token provided to the user for resetting their password.
