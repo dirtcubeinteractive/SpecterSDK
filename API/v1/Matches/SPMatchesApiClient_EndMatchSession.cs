@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.APIModels.ClientModels.v1;
-using SpecterSDK.Shared.Networking.Models;
+using SpecterSDK.Shared.Http.Models;
 
 namespace SpecterSDK.API.v1.Matches
 {

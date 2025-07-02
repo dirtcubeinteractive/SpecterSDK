@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using SpecterSDK.Shared.Networking.Models;
+using SpecterSDK.Shared.Http.Models;
 
 namespace SpecterSDK.API.v2.App
 {

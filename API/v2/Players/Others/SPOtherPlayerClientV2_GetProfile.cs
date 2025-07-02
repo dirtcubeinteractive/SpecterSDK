@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SpecterSDK.API.v2.Players.Me;
 using SpecterSDK.ObjectModels.v2;
-using SpecterSDK.Shared.Networking.Models;
+using SpecterSDK.Shared.Http.Models;
 
 namespace SpecterSDK.API.v2.Players.Others
 {

@@ -1,6 +1,7 @@
 using System;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
-using SpecterSDK.Shared.Networking.Models;
+using SpecterSDK.Shared.Http.Models;
 
 namespace SpecterSDK.API.v2.Competitions
 {
@@ -25,5 +26,19 @@ namespace SpecterSDK.API.v2.Competitions
         /// The score to submit for the entry.
         /// </summary>
         public long score { get; set; }
+    }
+
+    public class SPPostScoreToTournamentResult : SpecterApiResultBase<SPPostScoreToTournamentResponse>
+    {
+        protected override void InitSpecterObjectsInternal() { }
+    }
+    
+    public partial class SPCompetitionsApiClientV2
+    {
+        public async Task<SPPostScoreToTournamentResult> PostScoreToTournamentAsync(SPPostScoreToTournamentRequest request)
+        {
+            var result = await PostAsync<SPPostScoreToTournamentResult, SPPostScoreToTournamentResponse>("/v2/client/competitions/post-score-to-tournament", AuthType, request);
+            return result;
+        }
     }
 }

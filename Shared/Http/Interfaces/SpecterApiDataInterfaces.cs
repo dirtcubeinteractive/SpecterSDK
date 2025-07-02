@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace SpecterSDK.Shared.Networking.Interfaces
+namespace SpecterSDK.Shared.Http.Interfaces
 {
     /// <summary>
     /// Interface that marks a class as a valid data structure for API responses.

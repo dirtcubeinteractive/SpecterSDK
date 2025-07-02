@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using SpecterSDK.Shared.Networking.Interfaces;
+using SpecterSDK.Shared.Http.Interfaces;
 
 namespace SpecterSDK.APIModels.ClientModels.v1
 {

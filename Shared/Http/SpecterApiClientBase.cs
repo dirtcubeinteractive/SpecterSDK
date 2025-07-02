@@ -4,11 +4,11 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using SpecterSDK.APIModels;
-using SpecterSDK.Shared.Networking.Interfaces;
-using SpecterSDK.Shared.Networking.Models;
+using SpecterSDK.Shared.Http.Interfaces;
+using SpecterSDK.Shared.Http.Models;
 using AuthenticationHeaderValue = System.Net.Http.Headers.AuthenticationHeaderValue;
 
-namespace SpecterSDK.Shared.Networking
+namespace SpecterSDK.Shared.Http
 {
     /// <summary>
     /// Enumeration representing the types of authentication used for API requests.
@@ -67,18 +67,6 @@ namespace SpecterSDK.Shared.Networking
             s_RateHandler ??= new SPApiRateHandler(config);
         }
 
-        // Ensures that the project ID is always set for requests that require it.
-        private void ConfigureProjectId(IProjectConfigurable request)
-        {
-            if (string.IsNullOrEmpty(request.projectId))
-            {
-                if (string.IsNullOrEmpty(m_Config?.ProjectId))
-                    throw new ArgumentException($"{request.GetType().Name}: Project Id cannot be null or empty");
-
-                request.projectId = m_Config.ProjectId;
-            }
-        }
-
         /// <summary>
         /// Core method to make API requests. It handles the entire lifecycle of a request, from constructing the URL to handling various response scenarios.
         /// </summary>
@@ -106,12 +94,6 @@ namespace SpecterSDK.Shared.Networking
             {
                 throw new OperationCanceledException("Specter was not initialized correctly. Please call Specter.Initialize or set Specter Config to AutoInit");
             }
-
-            if (requestParams is IProjectConfigurable paramProjConfig)
-                ConfigureProjectId(paramProjConfig);
-
-            if (requestBody is IProjectConfigurable bodyProjConfig)
-                ConfigureProjectId(bodyProjConfig);
 
             var uri = $"{baseUri}{endpoint}";
             if (requestParams != null)

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.Shared;
-using SpecterSDK.Shared.Networking.Interfaces;
-using SpecterSDK.Shared.Networking.Models;
+using SpecterSDK.Shared.Http.Interfaces;
+using SpecterSDK.Shared.Http.Models;
 
 namespace SpecterSDK.APIModels.AdminModels
 {

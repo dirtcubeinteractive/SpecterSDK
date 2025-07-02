@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using SpecterSDK.Shared.Networking.Models;
+using SpecterSDK.Shared.Http.Models;
 using SpecterSDK.Shared.v2;
 
 namespace SpecterSDK.API.v2.Account

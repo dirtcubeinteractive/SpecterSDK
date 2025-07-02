@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using SpecterSDK.Shared.Networking.Models;
+using SpecterSDK.Shared.Http.Models;
 
-namespace SpecterSDK.Shared.Networking.Interfaces
+namespace SpecterSDK.Shared.Http.Interfaces
 {
     /// <summary>
     /// Interface for request objects that require a project ID.

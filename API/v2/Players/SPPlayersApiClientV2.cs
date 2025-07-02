@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using SpecterSDK.API.v2.Players.Me;
 using SpecterSDK.API.v2.Players.Others;
 using SpecterSDK.Shared;
-using SpecterSDK.Shared.Networking;
+using SpecterSDK.Shared.Http;
 using SpecterSDK.Shared.SPEnum;
 
 namespace SpecterSDK.API.v2.Players

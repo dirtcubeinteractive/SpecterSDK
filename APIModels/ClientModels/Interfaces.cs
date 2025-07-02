@@ -4,7 +4,7 @@ using SpecterSDK.API.v2.App;
 using SpecterSDK.APIModels.ClientModels.v1;
 using SpecterSDK.APIModels.ClientModels.v2;
 using SpecterSDK.Shared;
-using SpecterSDK.Shared.Networking.Interfaces;
+using SpecterSDK.Shared.Http.Interfaces;
 using SpecterSDK.Shared.v2;
 using SPPrizeDistributionData = SpecterSDK.APIModels.ClientModels.v2.SPPrizeDistributionData;
 
@@ -256,5 +256,17 @@ namespace SpecterSDK.APIModels.ClientModels
     public interface ISpecterLiveOpsEntityData
     {
         public SPScheduleData schedule { get; set; }
+    }
+
+    public interface ISpecterLeaderboardRankData
+    {
+        public int rank { get; set; }
+        public long score { get; set; }
+        public SPCompetitorProfileData playerDetails { get; set; }
+    }
+
+    public interface ISpecterCompetitionRankData : ISpecterLeaderboardRankData
+    {
+        public string entryId { get; set; }
     }
 }

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using SpecterSDK.Shared;
-using SpecterSDK.Shared.Networking;
+using SpecterSDK.Shared.Http;
 
 namespace SpecterSDK.API.v2.Stores
 {

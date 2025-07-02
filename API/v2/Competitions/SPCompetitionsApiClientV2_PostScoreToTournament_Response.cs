@@ -1,7 +1,9 @@
+using System;
+using System.Collections.Generic;
+using SpecterSDK.Shared.Http.Interfaces;
+
 namespace SpecterSDK.API.v2.Competitions
 {
-    public class SPCompetitionsApiClientV2_PostScoreToTournament_Response
-    {
-        
-    }
+    [Serializable]
+    public class SPPostScoreToTournamentResponse : List<object>, ISpecterApiResponseData { }
 }

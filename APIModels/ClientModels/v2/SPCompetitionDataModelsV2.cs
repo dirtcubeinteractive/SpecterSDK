@@ -56,4 +56,13 @@ namespace SpecterSDK.APIModels.ClientModels.v2
         
         public List<SPCompetitionEntryDataV2> entryDetails { get; set; }
     }
+    
+    [Serializable]
+    public class SPCompetitionParticipantRankingData : ISpecterCompetitionRankData
+    {
+        public int rank { get; set; }
+        public long score { get; set; }
+        public string entryId { get; set; }
+        public SPCompetitorProfileData playerDetails { get; set; }
+    }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using SpecterSDK.APIModels.ClientModels;
 using SpecterSDK.APIModels.ClientModels.v1;
 using SpecterSDK.APIModels.ClientModels.v2;
-using SpecterSDK.Shared.Networking.Interfaces;
+using SpecterSDK.Shared.Http.Interfaces;
 using SpecterSDK.Shared.v2;
 using SPPrizeDistributionData = SpecterSDK.APIModels.ClientModels.v2.SPPrizeDistributionData;
 

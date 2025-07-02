@@ -5,9 +5,9 @@ using SpecterSDK.APIModels.ClientModels.v1;
 using SpecterSDK.ObjectModels;
 using SpecterSDK.ObjectModels.v1;
 using SpecterSDK.Shared;
-using SpecterSDK.Shared.Networking;
-using SpecterSDK.Shared.Networking.Interfaces;
-using SpecterSDK.Shared.Networking.Models;
+using SpecterSDK.Shared.Http;
+using SpecterSDK.Shared.Http.Interfaces;
+using SpecterSDK.Shared.Http.Models;
 
 namespace SpecterSDK.API.v1.Authentication
 {

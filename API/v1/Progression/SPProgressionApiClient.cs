@@ -1,5 +1,5 @@
 using SpecterSDK.Shared;
-using SpecterSDK.Shared.Networking;
+using SpecterSDK.Shared.Http;
 
 namespace SpecterSDK.API.v1.Progression
 {

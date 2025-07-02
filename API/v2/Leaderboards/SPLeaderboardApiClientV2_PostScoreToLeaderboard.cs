@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using SpecterSDK.Shared.Networking.Models;
+using SpecterSDK.Shared.Http.Models;
 
 namespace SpecterSDK.API.v2.Leaderboards
 {
@@ -21,15 +21,12 @@ namespace SpecterSDK.API.v2.Leaderboards
         /// <summary>
         /// The score to submit to the leaderboard(s).
         /// </summary>
-        public double score { get; set; }
+        public long score { get; set; }
     }
 
     public class SPPostScoreToLeaderboardResult : SpecterApiResultBase<SPPostScoreToLeaderboardResponse>
     {
-        protected override void InitSpecterObjectsInternal()
-        {
-            
-        }
+        protected override void InitSpecterObjectsInternal() { }
     }
 
     public partial class SPLeaderboardApiClientV2

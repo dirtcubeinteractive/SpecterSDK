@@ -4,7 +4,7 @@ using System.Linq;
 using SpecterSDK.ObjectModels;
 using SpecterSDK.Shared;
 using SpecterSDK.Shared.Attributes;
-using SpecterSDK.Shared.Networking;
+using SpecterSDK.Shared.Http;
 using SpecterSDK.Shared.Versions;
 using UnityEngine;
 

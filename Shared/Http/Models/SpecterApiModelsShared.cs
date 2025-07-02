@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using SpecterSDK.Shared.Networking.Interfaces;
+using SpecterSDK.Shared.Http.Interfaces;
 
-namespace SpecterSDK.Shared.Networking.Models
+namespace SpecterSDK.Shared.Http.Models
 {
     /// <summary>
     /// Represents the base structure for all API request data in the SDK.
@@ -66,6 +66,7 @@ namespace SpecterSDK.Shared.Networking.Models
         public const string Pending = "pending";
         public const string Incomplete = "incomplete";
         public const string UnprocessableEntity = "unprocessable_entity";
+        public const string MultiStatus = "multi-status";
     }
 
     /// <summary>

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using SpecterSDK.Shared.Networking;
-using SpecterSDK.Shared.Networking.Models;
+using SpecterSDK.Shared.Http;
+using SpecterSDK.Shared.Http.Models;
 
 namespace SpecterSDK.API.v1.App
 {
